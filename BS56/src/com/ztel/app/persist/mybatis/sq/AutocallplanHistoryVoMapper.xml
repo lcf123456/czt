@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.AutocallplanHistoryVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.AutocallplanHistoryVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="CASHIERID" property="cashierid" jdbcType="DECIMAL" />
+    <result column="PLANTIME" property="plantime" jdbcType="TIMESTAMP" />
+    <result column="CUSTID" property="custid" jdbcType="DECIMAL" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="ISCOMPLETED" property="iscompleted" jdbcType="VARCHAR" />
+    <result column="BAK" property="bak" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="OUTCOUNT" property="outcount" jdbcType="DECIMAL" />
+    <result column="YXJ" property="yxj" jdbcType="DECIMAL" />
+    <result column="CALLTIME" property="calltime" jdbcType="TIMESTAMP" />
+    <result column="ISSUCC" property="issucc" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROUTECODE, DRIVERID, CASHIERID, PLANTIME, CUSTID, PHONE, DELSTATUS, ISCOMPLETED, 
+    BAK, REMARKS, OUTCOUNT, YXJ, CALLTIME, ISSUCC
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_AUTOCALLPLAN_HISTORY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SQ_AUTOCALLPLAN_HISTORY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.AutocallplanHistoryVo" >
+    insert into T_SQ_AUTOCALLPLAN_HISTORY (ID, ROUTECODE, DRIVERID, 
+      CASHIERID, PLANTIME, CUSTID, 
+      PHONE, DELSTATUS, ISCOMPLETED, 
+      BAK, REMARKS, OUTCOUNT, 
+      YXJ, CALLTIME, ISSUCC
+      )
+    values (#{id,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, #{driverid,jdbcType=DECIMAL}, 
+      #{cashierid,jdbcType=DECIMAL}, #{plantime,jdbcType=TIMESTAMP}, #{custid,jdbcType=DECIMAL}, 
+      #{phone,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}, #{iscompleted,jdbcType=VARCHAR}, 
+      #{bak,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{outcount,jdbcType=DECIMAL}, 
+      #{yxj,jdbcType=DECIMAL}, #{calltime,jdbcType=TIMESTAMP}, #{issucc,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.AutocallplanHistoryVo" >
+    insert into T_SQ_AUTOCALLPLAN_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="driverid != null" >
+        DRIVERID,
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID,
+      </if>
+      <if test="plantime != null" >
+        PLANTIME,
+      </if>
+      <if test="custid != null" >
+        CUSTID,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="iscompleted != null" >
+        ISCOMPLETED,
+      </if>
+      <if test="bak != null" >
+        BAK,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="outcount != null" >
+        OUTCOUNT,
+      </if>
+      <if test="yxj != null" >
+        YXJ,
+      </if>
+      <if test="calltime != null" >
+        CALLTIME,
+      </if>
+      <if test="issucc != null" >
+        ISSUCC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="plantime != null" >
+        #{plantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custid != null" >
+        #{custid,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="iscompleted != null" >
+        #{iscompleted,jdbcType=VARCHAR},
+      </if>
+      <if test="bak != null" >
+        #{bak,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="outcount != null" >
+        #{outcount,jdbcType=DECIMAL},
+      </if>
+      <if test="yxj != null" >
+        #{yxj,jdbcType=DECIMAL},
+      </if>
+      <if test="calltime != null" >
+        #{calltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issucc != null" >
+        #{issucc,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.AutocallplanHistoryVo" >
+    update T_SQ_AUTOCALLPLAN_HISTORY
+    <set >
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        DRIVERID = #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="plantime != null" >
+        PLANTIME = #{plantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custid != null" >
+        CUSTID = #{custid,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="iscompleted != null" >
+        ISCOMPLETED = #{iscompleted,jdbcType=VARCHAR},
+      </if>
+      <if test="bak != null" >
+        BAK = #{bak,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="outcount != null" >
+        OUTCOUNT = #{outcount,jdbcType=DECIMAL},
+      </if>
+      <if test="yxj != null" >
+        YXJ = #{yxj,jdbcType=DECIMAL},
+      </if>
+      <if test="calltime != null" >
+        CALLTIME = #{calltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issucc != null" >
+        ISSUCC = #{issucc,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.AutocallplanHistoryVo" >
+    update T_SQ_AUTOCALLPLAN_HISTORY
+    set ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      DRIVERID = #{driverid,jdbcType=DECIMAL},
+      CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      PLANTIME = #{plantime,jdbcType=TIMESTAMP},
+      CUSTID = #{custid,jdbcType=DECIMAL},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      ISCOMPLETED = #{iscompleted,jdbcType=VARCHAR},
+      BAK = #{bak,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      OUTCOUNT = #{outcount,jdbcType=DECIMAL},
+      YXJ = #{yxj,jdbcType=DECIMAL},
+      CALLTIME = #{calltime,jdbcType=TIMESTAMP},
+      ISSUCC = #{issucc,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

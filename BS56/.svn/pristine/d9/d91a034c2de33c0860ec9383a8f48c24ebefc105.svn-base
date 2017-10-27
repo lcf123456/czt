@@ -1,0 +1,14 @@
+package com.ztel.app.service.wms;
+
+import java.util.List;
+
+import com.ztel.app.vo.account.OperateVo;
+import com.ztel.app.vo.wms.StorageAreaInOutVo;
+
+public interface StorageAreaInOutService {
+
+	public int doInsert(StorageAreaInOutVo storageAreaInOutVo);
+	
+	public void doRefund(List<Integer> operateIdList,List<String> ordernoList);
+	
+}

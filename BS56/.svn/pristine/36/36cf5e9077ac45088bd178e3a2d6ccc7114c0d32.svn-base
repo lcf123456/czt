@@ -1,0 +1,50 @@
+package com.ztel.app.web.ctrl.cost;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.cost.SPLApplyListService;
+import com.ztel.app.vo.cost.SPLApplyListVo;
+import com.ztel.app.vo.cost.SPLTypeInfoVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+@Controller
+@RequestMapping("/cost/SPLTypeInfo")
+public class SPLApplyListCtrl extends BaseCtrl  {
+	@Autowired
+	private SPLApplyListService sPLApplyListService = null;
+	
+	@RequestMapping("toSPLApplyList")
+	public String toSPLApplyList(HttpServletRequest request) {
+		
+		return "/cost/v_splapplylist";
+	}
+
+	/**
+	  * 根据系统模块名称获取栏目信息
+	  * @return
+	  */
+	 @RequestMapping(value="getSPLApplyList")
+	 @ResponseBody
+	 public  List<SPLApplyListVo> getSPLApplyList(SPLApplyListVo sPLApplyListVo,HttpServletRequest request)
+	 {
+		 Pagination<?> page = this.getPagination(request);
+		 Map<String, Object> result=new HashMap<String, Object>();  
+			
+		 if (sPLApplyListVo!=null) {
+			 page.setParam(sPLApplyListVo);
+		}
+		 //System.out.println("menuCtrl getSysMenuRight :sysid----"+sysid+",id----"+id);
+		 List<SPLApplyListVo> SPLTypeInfoList=sPLApplyListService.getApplyListList(page);
+		 return SPLTypeInfoList;
+	 }
+}

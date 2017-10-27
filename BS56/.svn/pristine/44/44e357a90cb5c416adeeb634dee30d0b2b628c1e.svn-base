@@ -1,0 +1,42 @@
+package com.ztel.app.persist.mybatis.account;
+
+import com.ztel.app.vo.account.TimebydmVo;
+import java.math.BigDecimal;
+
+public interface TimebydmVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-09-12
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-09-12
+     */
+    int insert(TimebydmVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-12
+     */
+    int insertSelective(TimebydmVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-12
+     */
+    TimebydmVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-09-12
+     */
+    int updateByPrimaryKeySelective(TimebydmVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-12
+     */
+    int updateByPrimaryKey(TimebydmVo record);
+}

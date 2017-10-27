@@ -1,0 +1,19 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.service;
+
+import java.util.List;
+
+import com.ztel.app.vo.Order;
+import com.ztel.framework.vo.Pagination;
+
+/**
+ * @author Administrator
+ * @since 2017年2月27日
+ */
+public interface OrderService {
+	
+	public List<Order> searchUserOrders(Pagination<?> page);
+
+}

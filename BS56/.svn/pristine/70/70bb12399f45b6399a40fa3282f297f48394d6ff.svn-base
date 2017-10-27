@@ -1,0 +1,47 @@
+package com.ztel.app.persist.mybatis.sys;
+
+import com.ztel.app.vo.sys.BasetypeInfoVo;
+import java.math.BigDecimal;
+import java.util.List;
+
+public interface BasetypeInfoVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int insert(BasetypeInfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int insertSelective(BasetypeInfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    BasetypeInfoVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int updateByPrimaryKeySelective(BasetypeInfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int updateByPrimaryKey(BasetypeInfoVo record);
+    
+    List<BasetypeInfoVo> getBaseTypeInfoList(String typecode);
+    
+    List<BasetypeInfoVo> getTypeList();
+}

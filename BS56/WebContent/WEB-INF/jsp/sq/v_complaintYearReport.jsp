@@ -1,0 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %><!doctype html>
+
+<html>
+<title><c:out value="${titleInfo}"/></title>
+<%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/pub/tableExport.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/js/jsp/pub/jquery.base64.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/js/jsp/sq/complaintYearReport.js"/>"></script>
+  <head>
+  </head>
+
+  <body>
+	
+	<!-- 查询-->
+	<div style="height:auto;border:1px solid #95B8E7" >
+	<div id="toolbar" style="padding:5px;height:auto;background-color: #F4F4F4;">
+	<form id="searchForm" style="margin:10;">
+		<div style="font-size:12px;" >
+		<tr align="center">
+            <td width="5%"  height="15" align="left"  nowrap >统计时间:</td>
+            <input type="text" name="starttime" id="starttime" class="easyui-datebox" />
+            <input type="text" name="endtime" id="endtime" class="easyui-datebox"/>
+			<input class="easyui-textbox"  name=cstarid id=cstarid  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchReport();}," style="width:50px;height:24px;">
+			<input class="easyui-textbox"  id=excelBtn name="toexcel" id="toexcel"  data-options="buttonText:'导出excel',buttonIcon:'icon-myto_excel',onClickButton:function(){exportxls();}," style="width:80px;height:24px;">
+		</div>
+		</form>
+	</div>
+  <div id="main">
+  <c:import url="v_complaintYearReportList.jsp"></c:import>
+  </div>
+  </div>
+
+  </body>
+</html>

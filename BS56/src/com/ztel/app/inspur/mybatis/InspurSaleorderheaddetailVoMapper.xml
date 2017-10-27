@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.inspur.mybatis.InspurSaleorderheaddetailVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.inspur.vo.InspurSaleorderheaddetailVo" >
+    <result column="co_num" property="coNum" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="qty_ord" property="qtyOrd" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="amt" property="amt" jdbcType="VARCHAR" />
+    <result column="qty_need" property="qtyNeed" jdbcType="VARCHAR" />
+  </resultMap>
+<!-- 获取营销接口中的订单明细数据 -->
+  <select id="selectInspursaleorderheaddetailList"  parameterType="java.lang.String" resultType="com.ztel.app.inspur.vo.InspurSaleorderheaddetailVo">
+    select line.co_num,item_id,line.qty_ord,line.price,line.amt,qty_need 
+    from db2inst2.V_SALE_ORDER_DETAIL line,db2inst2.V_SALE_ORDER_HEAD head  
+    where line.co_num=head.co_num and head.born_date=#{borndate}
+</select>
+
+</mapper>

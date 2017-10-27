@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.Sq6ScheckcontentVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.Sq6ScheckcontentVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ITEMID" property="itemid" jdbcType="DECIMAL" />
+    <result column="CHECKCONTENT" property="checkcontent" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ITEMID, CHECKCONTENT, REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_6SCHECKCONTENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_6SCHECKCONTENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.Sq6ScheckcontentVo" >
+    insert into T_SQ_6SCHECKCONTENT (ID, ITEMID, CHECKCONTENT, 
+      REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{itemid,jdbcType=DECIMAL}, #{checkcontent,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.Sq6ScheckcontentVo" >
+    insert into T_SQ_6SCHECKCONTENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="itemid != null" >
+        ITEMID,
+      </if>
+      <if test="checkcontent != null" >
+        CHECKCONTENT,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="itemid != null" >
+        #{itemid,jdbcType=DECIMAL},
+      </if>
+      <if test="checkcontent != null" >
+        #{checkcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.Sq6ScheckcontentVo" >
+    update T_SQ_6SCHECKCONTENT
+    <set >
+      <if test="itemid != null" >
+        ITEMID = #{itemid,jdbcType=DECIMAL},
+      </if>
+      <if test="checkcontent != null" >
+        CHECKCONTENT = #{checkcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.Sq6ScheckcontentVo" >
+    update T_SQ_6SCHECKCONTENT
+    set ITEMID = #{itemid,jdbcType=DECIMAL},
+      CHECKCONTENT = #{checkcontent,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

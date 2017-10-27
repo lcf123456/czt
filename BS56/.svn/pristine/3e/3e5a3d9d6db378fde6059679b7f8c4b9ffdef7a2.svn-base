@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.wms.CustomerVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.CustomerVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="DCNO" jdbcType="VARCHAR" property="dcno" />
+    <result column="SHIPPER_ID" jdbcType="DECIMAL" property="shipperId" />
+    <result column="CODE" jdbcType="OTHER" property="code" />
+    <result column="SHORTNAME" jdbcType="OTHER" property="shortname" />
+    <result column="NAME" jdbcType="OTHER" property="name" />
+    <result column="CUSTOMERLEVEL" jdbcType="OTHER" property="customerlevel" />
+    <result column="INDUSTRY" jdbcType="VARCHAR" property="industry" />
+    <result column="CONTACTADDRESS" jdbcType="OTHER" property="contactaddress" />
+    <result column="ZIPCODE" jdbcType="OTHER" property="zipcode" />
+    <result column="CONTACTPHONE" jdbcType="OTHER" property="contactphone" />
+    <result column="BAKPHONE" jdbcType="OTHER" property="bakphone" />
+    <result column="CONTACT" jdbcType="OTHER" property="contact" />
+    <result column="FAXNO" jdbcType="OTHER" property="faxno" />
+    <result column="WEBSITE" jdbcType="OTHER" property="website" />
+    <result column="EMAIL" jdbcType="OTHER" property="email" />
+    <result column="ACCOUNT" jdbcType="OTHER" property="account" />
+    <result column="REMARKS" jdbcType="OTHER" property="remarks" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="CREATEUSER" jdbcType="OTHER" property="createuser" />
+    <result column="MODIFYTIME" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="MODIFYUSER" jdbcType="OTHER" property="modifyuser" />
+    <result column="DELSTATUS" jdbcType="DECIMAL" property="delstatus" />
+    <result column="BILLTYPE" jdbcType="VARCHAR" property="billtype" />
+    <result column="ROUTECODE" jdbcType="VARCHAR" property="routecode" />
+    <result column="DELIVERYSEQ" jdbcType="DECIMAL" property="deliveryseq" />
+    <result column="BAKSEQ" jdbcType="DECIMAL" property="bakseq" />
+    <result column="MANAGERNAME" jdbcType="VARCHAR" property="managername" />
+    <result column="MANAGERTEL" jdbcType="VARCHAR" property="managertel" />
+    <result column="ADDRESSSEQ" jdbcType="DECIMAL" property="addressseq" />
+    <result column="LAT" jdbcType="VARCHAR" property="lat" />
+    <result column="LNG" jdbcType="VARCHAR" property="lng" />
+    <result column="IMG" jdbcType="VARCHAR" property="img" />
+    <result column="ORDERBATCH" jdbcType="VARCHAR" property="orderbatch" />
+    <result column="INVOICEFLAG" jdbcType="VARCHAR" property="invoiceflag" />
+    <result column="PREPAYFLAG" jdbcType="VARCHAR" property="prepayflag" />
+    <result column="PREPAYPARENTID" jdbcType="VARCHAR" property="prepayparentid" />
+    <result column="CUSTOMERTYPE" jdbcType="VARCHAR" property="customertype" />
+    <result column="DRAWSTATUS" jdbcType="VARCHAR" property="drawstatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DCNO, SHIPPER_ID, CODE, SHORTNAME, NAME, CUSTOMERLEVEL, INDUSTRY, CONTACTADDRESS, 
+    ZIPCODE, CONTACTPHONE, BAKPHONE, CONTACT, FAXNO, WEBSITE, EMAIL, ACCOUNT, REMARKS, 
+    CREATETIME, CREATEUSER, MODIFYTIME, MODIFYUSER, DELSTATUS, BILLTYPE, ROUTECODE, DELIVERYSEQ, 
+    BAKSEQ, MANAGERNAME, MANAGERTEL, ADDRESSSEQ, LAT, LNG, IMG, ORDERBATCH, INVOICEFLAG, 
+    PREPAYFLAG, PREPAYPARENTID, CUSTOMERTYPE, DRAWSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_CUSTOMER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 根据条件取零售户信息 -->
+    <select id="selectListByCond" parameterType="CustomerVo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_CUSTOMER
+     where delstatus = 10
+    <if test="routecode != null and routecode != ''">
+        AND routecode=#{routecode}
+    </if>
+   <if test="param != null and param != ''">
+        AND (id like '%'||#{param}||'%' or name like '%'||#{param}||'%' or contactphone like '%'||#{param}||'%'  or code like '%'||#{param}||'%')
+    </if>
+  </select>
+  
+  <select id="getCustomersPageList" resultMap="BaseResultMap" parameterType="Pagination" >
+	 select 
+    <include refid="Base_Column_List" />
+    from T_WMS_CUSTOMER
+     where delstatus = 10 and customertype='1'
+	     <if test="param != null and param.code != null and param.code != ''" >
+	        and (id like'%'||#{param.code}||'%' or name like'%'||#{param.code}||'%' or contact like'%'||#{param.code}||'%' or contactaddress like'%'||#{param.code}||'%')
+	        </if> 
+	         <if test="param != null and param.routecode!= null and param.routecode!= ''" >
+	        AND routecode= #{param.routecode}
+	        </if> 
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_CUSTOMER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.CustomerVo">
+    insert into T_WMS_CUSTOMER (ID, DCNO, SHIPPER_ID, 
+      CODE, SHORTNAME, NAME, CUSTOMERLEVEL, 
+      INDUSTRY, CONTACTADDRESS, ZIPCODE, 
+      CONTACTPHONE, BAKPHONE, CONTACT, 
+      FAXNO, WEBSITE, EMAIL, ACCOUNT, 
+      REMARKS, CREATETIME, CREATEUSER, 
+      MODIFYTIME, MODIFYUSER, DELSTATUS, 
+      BILLTYPE, ROUTECODE, DELIVERYSEQ, 
+      BAKSEQ, MANAGERNAME, MANAGERTEL, 
+      ADDRESSSEQ, LAT, LNG, 
+      IMG, ORDERBATCH, INVOICEFLAG, 
+      PREPAYFLAG, PREPAYPARENTID, CUSTOMERTYPE, 
+      DRAWSTATUS)
+    values (#{id,jdbcType=DECIMAL}, #{dcno,jdbcType=VARCHAR}, #{shipperId,jdbcType=DECIMAL}, 
+      #{code,jdbcType=OTHER}, #{shortname,jdbcType=OTHER}, #{name,jdbcType=OTHER}, #{customerlevel,jdbcType=OTHER}, 
+      #{industry,jdbcType=VARCHAR}, #{contactaddress,jdbcType=OTHER}, #{zipcode,jdbcType=OTHER}, 
+      #{contactphone,jdbcType=OTHER}, #{bakphone,jdbcType=OTHER}, #{contact,jdbcType=OTHER}, 
+      #{faxno,jdbcType=OTHER}, #{website,jdbcType=OTHER}, #{email,jdbcType=OTHER}, #{account,jdbcType=OTHER}, 
+      #{remarks,jdbcType=OTHER}, #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=OTHER}, 
+      #{modifytime,jdbcType=TIMESTAMP}, #{modifyuser,jdbcType=OTHER}, #{delstatus,jdbcType=DECIMAL}, 
+      #{billtype,jdbcType=VARCHAR}, #{routecode,jdbcType=VARCHAR}, #{deliveryseq,jdbcType=DECIMAL}, 
+      #{bakseq,jdbcType=DECIMAL}, #{managername,jdbcType=VARCHAR}, #{managertel,jdbcType=VARCHAR}, 
+      #{addressseq,jdbcType=DECIMAL}, #{lat,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{orderbatch,jdbcType=VARCHAR}, #{invoiceflag,jdbcType=VARCHAR}, 
+      #{prepayflag,jdbcType=VARCHAR}, #{prepayparentid,jdbcType=VARCHAR}, #{customertype,jdbcType=VARCHAR}, 
+      #{drawstatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.CustomerVo">
+    insert into T_WMS_CUSTOMER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="dcno != null">
+        DCNO,
+      </if>
+      <if test="shipperId != null">
+        SHIPPER_ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="shortname != null">
+        SHORTNAME,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="customerlevel != null">
+        CUSTOMERLEVEL,
+      </if>
+      <if test="industry != null">
+        INDUSTRY,
+      </if>
+      <if test="contactaddress != null">
+        CONTACTADDRESS,
+      </if>
+      <if test="zipcode != null">
+        ZIPCODE,
+      </if>
+      <if test="contactphone != null">
+        CONTACTPHONE,
+      </if>
+      <if test="bakphone != null">
+        BAKPHONE,
+      </if>
+      <if test="contact != null">
+        CONTACT,
+      </if>
+      <if test="faxno != null">
+        FAXNO,
+      </if>
+      <if test="website != null">
+        WEBSITE,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="account != null">
+        ACCOUNT,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="createuser != null">
+        CREATEUSER,
+      </if>
+      <if test="modifytime != null">
+        MODIFYTIME,
+      </if>
+      <if test="modifyuser != null">
+        MODIFYUSER,
+      </if>
+      <if test="delstatus != null">
+        DELSTATUS,
+      </if>
+      <if test="billtype != null">
+        BILLTYPE,
+      </if>
+      <if test="routecode != null">
+        ROUTECODE,
+      </if>
+      <if test="deliveryseq != null">
+        DELIVERYSEQ,
+      </if>
+      <if test="bakseq != null">
+        BAKSEQ,
+      </if>
+      <if test="managername != null">
+        MANAGERNAME,
+      </if>
+      <if test="managertel != null">
+        MANAGERTEL,
+      </if>
+      <if test="addressseq != null">
+        ADDRESSSEQ,
+      </if>
+      <if test="lat != null">
+        LAT,
+      </if>
+      <if test="lng != null">
+        LNG,
+      </if>
+      <if test="img != null">
+        IMG,
+      </if>
+      <if test="orderbatch != null">
+        ORDERBATCH,
+      </if>
+      <if test="invoiceflag != null">
+        INVOICEFLAG,
+      </if>
+      <if test="prepayflag != null">
+        PREPAYFLAG,
+      </if>
+      <if test="prepayparentid != null">
+        PREPAYPARENTID,
+      </if>
+      <if test="customertype != null">
+        CUSTOMERTYPE,
+      </if>
+      <if test="drawstatus != null">
+        DRAWSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="dcno != null">
+        #{dcno,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null">
+        #{shipperId,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=OTHER},
+      </if>
+      <if test="shortname != null">
+        #{shortname,jdbcType=OTHER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=OTHER},
+      </if>
+      <if test="customerlevel != null">
+        #{customerlevel,jdbcType=OTHER},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="contactaddress != null">
+        #{contactaddress,jdbcType=OTHER},
+      </if>
+      <if test="zipcode != null">
+        #{zipcode,jdbcType=OTHER},
+      </if>
+      <if test="contactphone != null">
+        #{contactphone,jdbcType=OTHER},
+      </if>
+      <if test="bakphone != null">
+        #{bakphone,jdbcType=OTHER},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=OTHER},
+      </if>
+      <if test="faxno != null">
+        #{faxno,jdbcType=OTHER},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=OTHER},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=OTHER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=OTHER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=OTHER},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuser != null">
+        #{modifyuser,jdbcType=OTHER},
+      </if>
+      <if test="delstatus != null">
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="billtype != null">
+        #{billtype,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null">
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryseq != null">
+        #{deliveryseq,jdbcType=DECIMAL},
+      </if>
+      <if test="bakseq != null">
+        #{bakseq,jdbcType=DECIMAL},
+      </if>
+      <if test="managername != null">
+        #{managername,jdbcType=VARCHAR},
+      </if>
+      <if test="managertel != null">
+        #{managertel,jdbcType=VARCHAR},
+      </if>
+      <if test="addressseq != null">
+        #{addressseq,jdbcType=DECIMAL},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="orderbatch != null">
+        #{orderbatch,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceflag != null">
+        #{invoiceflag,jdbcType=VARCHAR},
+      </if>
+      <if test="prepayflag != null">
+        #{prepayflag,jdbcType=VARCHAR},
+      </if>
+      <if test="prepayparentid != null">
+        #{prepayparentid,jdbcType=VARCHAR},
+      </if>
+      <if test="customertype != null">
+        #{customertype,jdbcType=VARCHAR},
+      </if>
+      <if test="drawstatus != null">
+        #{drawstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.CustomerVo">
+    update T_WMS_CUSTOMER
+    <set>
+      <if test="dcno != null">
+        DCNO = #{dcno,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null">
+        SHIPPER_ID = #{shipperId,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=OTHER},
+      </if>
+      <if test="shortname != null">
+        SHORTNAME = #{shortname,jdbcType=OTHER},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=OTHER},
+      </if>
+      <if test="customerlevel != null">
+        CUSTOMERLEVEL = #{customerlevel,jdbcType=OTHER},
+      </if>
+      <if test="industry != null">
+        INDUSTRY = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="contactaddress != null">
+        CONTACTADDRESS = #{contactaddress,jdbcType=OTHER},
+      </if>
+      <if test="zipcode != null">
+        ZIPCODE = #{zipcode,jdbcType=OTHER},
+      </if>
+      <if test="contactphone != null">
+        CONTACTPHONE = #{contactphone,jdbcType=OTHER},
+      </if>
+      <if test="bakphone != null">
+        BAKPHONE = #{bakphone,jdbcType=OTHER},
+      </if>
+      <if test="contact != null">
+        CONTACT = #{contact,jdbcType=OTHER},
+      </if>
+      <if test="faxno != null">
+        FAXNO = #{faxno,jdbcType=OTHER},
+      </if>
+      <if test="website != null">
+        WEBSITE = #{website,jdbcType=OTHER},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=OTHER},
+      </if>
+      <if test="account != null">
+        ACCOUNT = #{account,jdbcType=OTHER},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        CREATEUSER = #{createuser,jdbcType=OTHER},
+      </if>
+      <if test="modifytime != null">
+        MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuser != null">
+        MODIFYUSER = #{modifyuser,jdbcType=OTHER},
+      </if>
+      <if test="delstatus != null">
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="billtype != null">
+        BILLTYPE = #{billtype,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null">
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryseq != null">
+        DELIVERYSEQ = #{deliveryseq,jdbcType=DECIMAL},
+      </if>
+      <if test="bakseq != null">
+        BAKSEQ = #{bakseq,jdbcType=DECIMAL},
+      </if>
+      <if test="managername != null">
+        MANAGERNAME = #{managername,jdbcType=VARCHAR},
+      </if>
+      <if test="managertel != null">
+        MANAGERTEL = #{managertel,jdbcType=VARCHAR},
+      </if>
+      <if test="addressseq != null">
+        ADDRESSSEQ = #{addressseq,jdbcType=DECIMAL},
+      </if>
+      <if test="lat != null">
+        LAT = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        LNG = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        IMG = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="orderbatch != null">
+        ORDERBATCH = #{orderbatch,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceflag != null">
+        INVOICEFLAG = #{invoiceflag,jdbcType=VARCHAR},
+      </if>
+      <if test="prepayflag != null">
+        PREPAYFLAG = #{prepayflag,jdbcType=VARCHAR},
+      </if>
+      <if test="prepayparentid != null">
+        PREPAYPARENTID = #{prepayparentid,jdbcType=VARCHAR},
+      </if>
+      <if test="customertype != null">
+        CUSTOMERTYPE = #{customertype,jdbcType=VARCHAR},
+      </if>
+      <if test="drawstatus != null">
+        DRAWSTATUS = #{drawstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.CustomerVo">
+    update T_WMS_CUSTOMER
+    set DCNO = #{dcno,jdbcType=VARCHAR},
+      SHIPPER_ID = #{shipperId,jdbcType=DECIMAL},
+      CODE = #{code,jdbcType=OTHER},
+      SHORTNAME = #{shortname,jdbcType=OTHER},
+      NAME = #{name,jdbcType=OTHER},
+      CUSTOMERLEVEL = #{customerlevel,jdbcType=OTHER},
+      INDUSTRY = #{industry,jdbcType=VARCHAR},
+      CONTACTADDRESS = #{contactaddress,jdbcType=OTHER},
+      ZIPCODE = #{zipcode,jdbcType=OTHER},
+      CONTACTPHONE = #{contactphone,jdbcType=OTHER},
+      BAKPHONE = #{bakphone,jdbcType=OTHER},
+      CONTACT = #{contact,jdbcType=OTHER},
+      FAXNO = #{faxno,jdbcType=OTHER},
+      WEBSITE = #{website,jdbcType=OTHER},
+      EMAIL = #{email,jdbcType=OTHER},
+      ACCOUNT = #{account,jdbcType=OTHER},
+      REMARKS = #{remarks,jdbcType=OTHER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      CREATEUSER = #{createuser,jdbcType=OTHER},
+      MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      MODIFYUSER = #{modifyuser,jdbcType=OTHER},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      BILLTYPE = #{billtype,jdbcType=VARCHAR},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      DELIVERYSEQ = #{deliveryseq,jdbcType=DECIMAL},
+      BAKSEQ = #{bakseq,jdbcType=DECIMAL},
+      MANAGERNAME = #{managername,jdbcType=VARCHAR},
+      MANAGERTEL = #{managertel,jdbcType=VARCHAR},
+      ADDRESSSEQ = #{addressseq,jdbcType=DECIMAL},
+      LAT = #{lat,jdbcType=VARCHAR},
+      LNG = #{lng,jdbcType=VARCHAR},
+      IMG = #{img,jdbcType=VARCHAR},
+      ORDERBATCH = #{orderbatch,jdbcType=VARCHAR},
+      INVOICEFLAG = #{invoiceflag,jdbcType=VARCHAR},
+      PREPAYFLAG = #{prepayflag,jdbcType=VARCHAR},
+      PREPAYPARENTID = #{prepayparentid,jdbcType=VARCHAR},
+      CUSTOMERTYPE = #{customertype,jdbcType=VARCHAR},
+      DRAWSTATUS = #{drawstatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

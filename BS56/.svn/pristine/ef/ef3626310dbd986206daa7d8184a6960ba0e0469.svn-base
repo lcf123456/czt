@@ -1,0 +1,655 @@
+package com.ztel.app.vo.cost;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class SuppliesImpVo {
+    /**
+     * 标识ID
+     */
+    private Integer id;
+
+    /**
+     * 设备编号
+     */
+    private String code;
+
+    /**
+     * 设备名称
+     */
+    private String splname;
+
+    /**
+     * 设备品牌
+     */
+    private String splbrand;
+
+    /**
+     * 类别id
+     */
+    private Integer typeid;
+
+    /**
+     * 设备规格型号
+     */
+    private String spec;
+
+    /**
+     * 设备总价
+     */
+    private BigDecimal totalamount;
+
+    /**
+     * 设备单位
+     */
+    private String unitid;
+
+    /**
+     * 供应商id
+     */
+    private Integer supplierid;
+
+    /**
+     * 使用年限
+     */
+    private BigDecimal servicelife;
+
+    /**
+     * 折旧年限
+     */
+    private BigDecimal depreciationyear;
+
+    /**
+     * 设备状态
+     */
+    private BigDecimal splstatus;
+
+    /**
+     * 状态更新时间
+     */
+    private Date updatetime;
+
+    /**
+     * 设备单价
+     */
+    private BigDecimal price;
+
+    /**
+     * 剩余数量
+     */
+    private BigDecimal quantity;
+
+    /**
+     * 入库数量
+     */
+    private BigDecimal initqty;
+
+    /**
+     * 物资类别
+     */
+    private Integer ctype;
+
+    /**
+     * 入库时间
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date imptime;
+
+    /**
+     * 仓库号
+     */
+    private BigDecimal warehouseid;
+
+    /**
+     * 类型标志 1：库存 2：非库存
+     */
+    private BigDecimal stockstatus;
+
+    /**
+     * 结算标志 0：未结算  10：已结算
+     */
+    private String settlementflag;
+
+    /**
+     * 打印次数
+     */
+    private Integer printnum;
+
+    /**
+     * 结算日期
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date settledate;
+
+    /**
+     * 退库数量
+     */
+    private BigDecimal refundqty;
+
+    /**
+     * 退库日期
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date refunddate;
+
+    /**
+     * 记录人
+     */
+    private BigDecimal createid;
+
+    /**
+     * 记录日期
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date createdate;
+
+    /**
+     * 锁定数量  用于记录领料数量
+     */
+    private BigDecimal lockqty;
+    
+    private String suppliername;//供应商名称
+    private String typename;//物资类型名称
+    private String param;//查询字段
+    private String begdate;//查询字段
+    private String enddate;//查询字段
+    private String refundname;//退库人姓名
+
+    public String getRefundname() {
+		return refundname;
+	}
+
+	public void setRefundname(String refundname) {
+		this.refundname = refundname;
+	}
+
+	public String getBegdate() {
+		return begdate;
+	}
+
+	public void setBegdate(String begdate) {
+		this.begdate = begdate;
+	}
+
+	public String getEnddate() {
+		return enddate;
+	}
+
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
+
+	public String getSuppliername() {
+		return suppliername;
+	}
+
+	public void setSuppliername(String suppliername) {
+		this.suppliername = suppliername;
+	}
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+
+	public String getParam() {
+		return param;
+	}
+
+	public void setParam(String param) {
+		this.param = param;
+	}
+
+	/**
+     * 标识ID
+     * @return ID 标识ID
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 标识ID
+     * @param id 标识ID
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 设备编号
+     * @return CODE 设备编号
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * 设备编号
+     * @param code 设备编号
+     */
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    /**
+     * 设备名称
+     * @return SPLNAME 设备名称
+     */
+    public String getSplname() {
+        return splname;
+    }
+
+    /**
+     * 设备名称
+     * @param splname 设备名称
+     */
+    public void setSplname(String splname) {
+        this.splname = splname == null ? null : splname.trim();
+    }
+
+    /**
+     * 设备品牌
+     * @return SPLBRAND 设备品牌
+     */
+    public String getSplbrand() {
+        return splbrand;
+    }
+
+    /**
+     * 设备品牌
+     * @param splbrand 设备品牌
+     */
+    public void setSplbrand(String splbrand) {
+        this.splbrand = splbrand == null ? null : splbrand.trim();
+    }
+
+    /**
+     * 类别id
+     * @return TYPEID 类别id
+     */
+    public Integer getTypeid() {
+        return typeid;
+    }
+
+    /**
+     * 类别id
+     * @param typeid 类别id
+     */
+    public void setTypeid(Integer typeid) {
+        this.typeid = typeid;
+    }
+
+    /**
+     * 设备规格型号
+     * @return SPEC 设备规格型号
+     */
+    public String getSpec() {
+        return spec;
+    }
+
+    /**
+     * 设备规格型号
+     * @param spec 设备规格型号
+     */
+    public void setSpec(String spec) {
+        this.spec = spec == null ? null : spec.trim();
+    }
+
+    /**
+     * 设备总价
+     * @return TOTALAMOUNT 设备总价
+     */
+    public BigDecimal getTotalamount() {
+        return totalamount;
+    }
+
+    /**
+     * 设备总价
+     * @param totalamount 设备总价
+     */
+    public void setTotalamount(BigDecimal totalamount) {
+        this.totalamount = totalamount;
+    }
+
+    /**
+     * 设备单位
+     * @return UNITID 设备单位
+     */
+    public String getUnitid() {
+        return unitid;
+    }
+
+    /**
+     * 设备单位
+     * @param unitid 设备单位
+     */
+    public void setUnitid(String unitid) {
+        this.unitid = unitid == null ? null : unitid.trim();
+    }
+
+    /**
+     * 供应商id
+     * @return SUPPLIERID 供应商id
+     */
+    public Integer getSupplierid() {
+        return supplierid;
+    }
+
+    /**
+     * 供应商id
+     * @param supplierid 供应商id
+     */
+    public void setSupplierid(Integer supplierid) {
+        this.supplierid = supplierid;
+    }
+
+    /**
+     * 使用年限
+     * @return SERVICELIFE 使用年限
+     */
+    public BigDecimal getServicelife() {
+        return servicelife;
+    }
+
+    /**
+     * 使用年限
+     * @param servicelife 使用年限
+     */
+    public void setServicelife(BigDecimal servicelife) {
+        this.servicelife = servicelife;
+    }
+
+    /**
+     * 折旧年限
+     * @return DEPRECIATIONYEAR 折旧年限
+     */
+    public BigDecimal getDepreciationyear() {
+        return depreciationyear;
+    }
+
+    /**
+     * 折旧年限
+     * @param depreciationyear 折旧年限
+     */
+    public void setDepreciationyear(BigDecimal depreciationyear) {
+        this.depreciationyear = depreciationyear;
+    }
+
+    /**
+     * 设备状态
+     * @return SPLSTATUS 设备状态
+     */
+    public BigDecimal getSplstatus() {
+        return splstatus;
+    }
+
+    /**
+     * 设备状态
+     * @param splstatus 设备状态
+     */
+    public void setSplstatus(BigDecimal splstatus) {
+        this.splstatus = splstatus;
+    }
+
+    /**
+     * 状态更新时间
+     * @return UPDATETIME 状态更新时间
+     */
+    public Date getUpdatetime() {
+        return updatetime;
+    }
+
+    /**
+     * 状态更新时间
+     * @param updatetime 状态更新时间
+     */
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    /**
+     * 设备单价
+     * @return PRICE 设备单价
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * 设备单价
+     * @param price 设备单价
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    /**
+     * 剩余数量
+     * @return QUANTITY 剩余数量
+     */
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * 剩余数量
+     * @param quantity 剩余数量
+     */
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
+     * 入库数量
+     * @return INITQTY 入库数量
+     */
+    public BigDecimal getInitqty() {
+        return initqty;
+    }
+
+    /**
+     * 入库数量
+     * @param initqty 入库数量
+     */
+    public void setInitqty(BigDecimal initqty) {
+        this.initqty = initqty;
+    }
+
+    /**
+     * 物资类别
+     * @return CTYPE 物资类别
+     */
+    public Integer getCtype() {
+        return ctype;
+    }
+
+    /**
+     * 物资类别
+     * @param ctype 物资类别
+     */
+    public void setCtype(Integer ctype) {
+        this.ctype = ctype;
+    }
+
+    /**
+     * 入库时间
+     * @return IMPTIME 入库时间
+     */
+    public Date getImptime() {
+        return imptime;
+    }
+
+    /**
+     * 入库时间
+     * @param imptime 入库时间
+     */
+    public void setImptime(Date imptime) {
+        this.imptime = imptime;
+    }
+
+    /**
+     * 仓库号
+     * @return WAREHOUSEID 仓库号
+     */
+    public BigDecimal getWarehouseid() {
+        return warehouseid;
+    }
+
+    /**
+     * 仓库号
+     * @param warehouseid 仓库号
+     */
+    public void setWarehouseid(BigDecimal warehouseid) {
+        this.warehouseid = warehouseid;
+    }
+
+    /**
+     * 类型标志 1：库存 2：非库存
+     * @return STOCKSTATUS 类型标志 1：库存 2：非库存
+     */
+    public BigDecimal getStockstatus() {
+        return stockstatus;
+    }
+
+    /**
+     * 类型标志 1：库存 2：非库存
+     * @param stockstatus 类型标志 1：库存 2：非库存
+     */
+    public void setStockstatus(BigDecimal stockstatus) {
+        this.stockstatus = stockstatus;
+    }
+
+    /**
+     * 结算标志 0：未结算  10：已结算
+     * @return SETTLEMENTFLAG 结算标志 0：未结算  10：已结算
+     */
+    public String getSettlementflag() {
+        return settlementflag;
+    }
+
+    /**
+     * 结算标志 0：未结算  10：已结算
+     * @param settlementflag 结算标志 0：未结算  10：已结算
+     */
+    public void setSettlementflag(String settlementflag) {
+        this.settlementflag = settlementflag == null ? null : settlementflag.trim();
+    }
+
+    /**
+     * 打印次数
+     * @return PRINTNUM 打印次数
+     */
+    public Integer getPrintnum() {
+        return printnum;
+    }
+
+    /**
+     * 打印次数
+     * @param printnum 打印次数
+     */
+    public void setPrintnum(Integer printnum) {
+        this.printnum = printnum;
+    }
+
+    /**
+     * 结算日期
+     * @return SETTLEDATE 结算日期
+     */
+    public Date getSettledate() {
+        return settledate;
+    }
+
+    /**
+     * 结算日期
+     * @param settledate 结算日期
+     */
+    public void setSettledate(Date settledate) {
+        this.settledate = settledate;
+    }
+
+    /**
+     * 退库数量
+     * @return REFUNDQTY 退库数量
+     */
+    public BigDecimal getRefundqty() {
+        return refundqty;
+    }
+
+    /**
+     * 退库数量
+     * @param refundqty 退库数量
+     */
+    public void setRefundqty(BigDecimal refundqty) {
+        this.refundqty = refundqty;
+    }
+
+    /**
+     * 退库日期
+     * @return REFUNDDATE 退库日期
+     */
+    public Date getRefunddate() {
+        return refunddate;
+    }
+
+    /**
+     * 退库日期
+     * @param refunddate 退库日期
+     */
+    public void setRefunddate(Date refunddate) {
+        this.refunddate = refunddate;
+    }
+
+    /**
+     * 记录人
+     * @return CREATEID 记录人
+     */
+    public BigDecimal getCreateid() {
+        return createid;
+    }
+
+    /**
+     * 记录人
+     * @param createid 记录人
+     */
+    public void setCreateid(BigDecimal createid) {
+        this.createid = createid;
+    }
+
+    /**
+     * 记录日期
+     * @return CREATEDATE 记录日期
+     */
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    /**
+     * 记录日期
+     * @param createdate 记录日期
+     */
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    /**
+     * 锁定数量  用于记录领料数量
+     * @return LOCKQTY 锁定数量  用于记录领料数量
+     */
+    public BigDecimal getLockqty() {
+        return lockqty;
+    }
+
+    /**
+     * 锁定数量  用于记录领料数量
+     * @param lockqty 锁定数量  用于记录领料数量
+     */
+    public void setLockqty(BigDecimal lockqty) {
+        this.lockqty = lockqty;
+    }
+}

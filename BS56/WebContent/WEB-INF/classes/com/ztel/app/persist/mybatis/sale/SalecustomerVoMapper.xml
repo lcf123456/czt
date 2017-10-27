@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.sale.SalecustomerVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sale.SalecustomerVo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="DCNO" jdbcType="VARCHAR" property="dcno" />
+    <result column="SHIPPER_ID" jdbcType="DECIMAL" property="shipperId" />
+    <result column="CODE" jdbcType="OTHER" property="code" />
+    <result column="SHORTNAME" jdbcType="OTHER" property="shortname" />
+    <result column="NAME" jdbcType="OTHER" property="name" />
+    <result column="CUSTOMERLEVEL" jdbcType="OTHER" property="customerlevel" />
+    <result column="INDUSTRY" jdbcType="VARCHAR" property="industry" />
+    <result column="CONTACTADDRESS" jdbcType="OTHER" property="contactaddress" />
+    <result column="CONTACTPHONE" jdbcType="OTHER" property="contactphone" />
+    <result column="BAKPHONE" jdbcType="OTHER" property="bakphone" />
+    <result column="CONTACT" jdbcType="OTHER" property="contact" />
+    <result column="FAXNO" jdbcType="OTHER" property="faxno" />
+    <result column="WEBSITE" jdbcType="OTHER" property="website" />
+    <result column="EMAIL" jdbcType="OTHER" property="email" />
+    <result column="ACCOUNT" jdbcType="OTHER" property="account" />
+    <result column="REMARKS" jdbcType="OTHER" property="remarks" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="VALIDTIME" jdbcType="TIMESTAMP" property="validtime" />
+    <result column="DELSTATUS" jdbcType="DECIMAL" property="delstatus" />
+    <result column="BILLTYPE" jdbcType="VARCHAR" property="billtype" />
+    <result column="ROUTECODE" jdbcType="VARCHAR" property="routecode" />
+    <result column="DELIVERYSEQ" jdbcType="DECIMAL" property="deliveryseq" />
+    <result column="BAKSEQ" jdbcType="DECIMAL" property="bakseq" />
+    <result column="MANAGERNAME" jdbcType="VARCHAR" property="managername" />
+    <result column="MANAGERTEL" jdbcType="VARCHAR" property="managertel" />
+    <result column="ORDERBATCH" jdbcType="VARCHAR" property="orderbatch" />
+    <result column="LICENSECODE" jdbcType="VARCHAR" property="licensecode" />
+    <result column="MARKETTYPE" jdbcType="VARCHAR" property="markettype" />
+    <result column="ORDERWAY" jdbcType="VARCHAR" property="orderway" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DCNO, SHIPPER_ID, CODE, SHORTNAME, NAME, CUSTOMERLEVEL, INDUSTRY, CONTACTADDRESS, 
+    CONTACTPHONE, BAKPHONE, CONTACT, FAXNO, WEBSITE, EMAIL, ACCOUNT, REMARKS, CREATETIME, 
+    VALIDTIME, DELSTATUS, BILLTYPE, ROUTECODE, DELIVERYSEQ, BAKSEQ, MANAGERNAME, MANAGERTEL, 
+    ORDERBATCH, LICENSECODE, MARKETTYPE, ORDERWAY
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SALE_CUSTOMER
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SALE_CUSTOMER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 营销数据到插入之前先全部删除 -->
+  <delete id="deletecustomer" >
+    delete from T_SALE_CUSTOMER
+  </delete>
+  <!-- 营销数据到oracle中间表t_sale_customer -->
+    <insert id="insertcustomertoora" useGeneratedKeys="false" >
+    ${sqlstr}
+  </insert>
+  
+  <insert id="insert" parameterType="com.ztel.app.vo.sale.SalecustomerVo">
+    insert into T_SALE_CUSTOMER (ID, DCNO, SHIPPER_ID, 
+      CODE, SHORTNAME, NAME, CUSTOMERLEVEL, 
+      INDUSTRY, CONTACTADDRESS, CONTACTPHONE, 
+      BAKPHONE, CONTACT, FAXNO, 
+      WEBSITE, EMAIL, ACCOUNT, 
+      REMARKS, CREATETIME, VALIDTIME, 
+      DELSTATUS, BILLTYPE, ROUTECODE, 
+      DELIVERYSEQ, BAKSEQ, MANAGERNAME, 
+      MANAGERTEL, ORDERBATCH, LICENSECODE, 
+      MARKETTYPE, ORDERWAY)
+    values (#{id,jdbcType=VARCHAR}, #{dcno,jdbcType=VARCHAR}, #{shipperId,jdbcType=DECIMAL}, 
+      #{code,jdbcType=OTHER}, #{shortname,jdbcType=OTHER}, #{name,jdbcType=OTHER}, #{customerlevel,jdbcType=OTHER}, 
+      #{industry,jdbcType=VARCHAR}, #{contactaddress,jdbcType=OTHER}, #{contactphone,jdbcType=OTHER}, 
+      #{bakphone,jdbcType=OTHER}, #{contact,jdbcType=OTHER}, #{faxno,jdbcType=OTHER}, 
+      #{website,jdbcType=OTHER}, #{email,jdbcType=OTHER}, #{account,jdbcType=OTHER}, 
+      #{remarks,jdbcType=OTHER}, #{createtime,jdbcType=TIMESTAMP}, #{validtime,jdbcType=TIMESTAMP}, 
+      #{delstatus,jdbcType=DECIMAL}, #{billtype,jdbcType=VARCHAR}, #{routecode,jdbcType=VARCHAR}, 
+      #{deliveryseq,jdbcType=DECIMAL}, #{bakseq,jdbcType=DECIMAL}, #{managername,jdbcType=VARCHAR}, 
+      #{managertel,jdbcType=VARCHAR}, #{orderbatch,jdbcType=VARCHAR}, #{licensecode,jdbcType=VARCHAR}, 
+      #{markettype,jdbcType=VARCHAR}, #{orderway,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sale.SalecustomerVo">
+    insert into T_SALE_CUSTOMER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="dcno != null">
+        DCNO,
+      </if>
+      <if test="shipperId != null">
+        SHIPPER_ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="shortname != null">
+        SHORTNAME,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="customerlevel != null">
+        CUSTOMERLEVEL,
+      </if>
+      <if test="industry != null">
+        INDUSTRY,
+      </if>
+      <if test="contactaddress != null">
+        CONTACTADDRESS,
+      </if>
+      <if test="contactphone != null">
+        CONTACTPHONE,
+      </if>
+      <if test="bakphone != null">
+        BAKPHONE,
+      </if>
+      <if test="contact != null">
+        CONTACT,
+      </if>
+      <if test="faxno != null">
+        FAXNO,
+      </if>
+      <if test="website != null">
+        WEBSITE,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="account != null">
+        ACCOUNT,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="validtime != null">
+        VALIDTIME,
+      </if>
+      <if test="delstatus != null">
+        DELSTATUS,
+      </if>
+      <if test="billtype != null">
+        BILLTYPE,
+      </if>
+      <if test="routecode != null">
+        ROUTECODE,
+      </if>
+      <if test="deliveryseq != null">
+        DELIVERYSEQ,
+      </if>
+      <if test="bakseq != null">
+        BAKSEQ,
+      </if>
+      <if test="managername != null">
+        MANAGERNAME,
+      </if>
+      <if test="managertel != null">
+        MANAGERTEL,
+      </if>
+      <if test="orderbatch != null">
+        ORDERBATCH,
+      </if>
+      <if test="licensecode != null">
+        LICENSECODE,
+      </if>
+      <if test="markettype != null">
+        MARKETTYPE,
+      </if>
+      <if test="orderway != null">
+        ORDERWAY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dcno != null">
+        #{dcno,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null">
+        #{shipperId,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=OTHER},
+      </if>
+      <if test="shortname != null">
+        #{shortname,jdbcType=OTHER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=OTHER},
+      </if>
+      <if test="customerlevel != null">
+        #{customerlevel,jdbcType=OTHER},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="contactaddress != null">
+        #{contactaddress,jdbcType=OTHER},
+      </if>
+      <if test="contactphone != null">
+        #{contactphone,jdbcType=OTHER},
+      </if>
+      <if test="bakphone != null">
+        #{bakphone,jdbcType=OTHER},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=OTHER},
+      </if>
+      <if test="faxno != null">
+        #{faxno,jdbcType=OTHER},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=OTHER},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=OTHER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=OTHER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validtime != null">
+        #{validtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delstatus != null">
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="billtype != null">
+        #{billtype,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null">
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryseq != null">
+        #{deliveryseq,jdbcType=DECIMAL},
+      </if>
+      <if test="bakseq != null">
+        #{bakseq,jdbcType=DECIMAL},
+      </if>
+      <if test="managername != null">
+        #{managername,jdbcType=VARCHAR},
+      </if>
+      <if test="managertel != null">
+        #{managertel,jdbcType=VARCHAR},
+      </if>
+      <if test="orderbatch != null">
+        #{orderbatch,jdbcType=VARCHAR},
+      </if>
+      <if test="licensecode != null">
+        #{licensecode,jdbcType=VARCHAR},
+      </if>
+      <if test="markettype != null">
+        #{markettype,jdbcType=VARCHAR},
+      </if>
+      <if test="orderway != null">
+        #{orderway,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sale.SalecustomerVo">
+    update T_SALE_CUSTOMER
+    <set>
+      <if test="dcno != null">
+        DCNO = #{dcno,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null">
+        SHIPPER_ID = #{shipperId,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=OTHER},
+      </if>
+      <if test="shortname != null">
+        SHORTNAME = #{shortname,jdbcType=OTHER},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=OTHER},
+      </if>
+      <if test="customerlevel != null">
+        CUSTOMERLEVEL = #{customerlevel,jdbcType=OTHER},
+      </if>
+      <if test="industry != null">
+        INDUSTRY = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="contactaddress != null">
+        CONTACTADDRESS = #{contactaddress,jdbcType=OTHER},
+      </if>
+      <if test="contactphone != null">
+        CONTACTPHONE = #{contactphone,jdbcType=OTHER},
+      </if>
+      <if test="bakphone != null">
+        BAKPHONE = #{bakphone,jdbcType=OTHER},
+      </if>
+      <if test="contact != null">
+        CONTACT = #{contact,jdbcType=OTHER},
+      </if>
+      <if test="faxno != null">
+        FAXNO = #{faxno,jdbcType=OTHER},
+      </if>
+      <if test="website != null">
+        WEBSITE = #{website,jdbcType=OTHER},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=OTHER},
+      </if>
+      <if test="account != null">
+        ACCOUNT = #{account,jdbcType=OTHER},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validtime != null">
+        VALIDTIME = #{validtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delstatus != null">
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="billtype != null">
+        BILLTYPE = #{billtype,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null">
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryseq != null">
+        DELIVERYSEQ = #{deliveryseq,jdbcType=DECIMAL},
+      </if>
+      <if test="bakseq != null">
+        BAKSEQ = #{bakseq,jdbcType=DECIMAL},
+      </if>
+      <if test="managername != null">
+        MANAGERNAME = #{managername,jdbcType=VARCHAR},
+      </if>
+      <if test="managertel != null">
+        MANAGERTEL = #{managertel,jdbcType=VARCHAR},
+      </if>
+      <if test="orderbatch != null">
+        ORDERBATCH = #{orderbatch,jdbcType=VARCHAR},
+      </if>
+      <if test="licensecode != null">
+        LICENSECODE = #{licensecode,jdbcType=VARCHAR},
+      </if>
+      <if test="markettype != null">
+        MARKETTYPE = #{markettype,jdbcType=VARCHAR},
+      </if>
+      <if test="orderway != null">
+        ORDERWAY = #{orderway,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sale.SalecustomerVo">
+    update T_SALE_CUSTOMER
+    set DCNO = #{dcno,jdbcType=VARCHAR},
+      SHIPPER_ID = #{shipperId,jdbcType=DECIMAL},
+      CODE = #{code,jdbcType=OTHER},
+      SHORTNAME = #{shortname,jdbcType=OTHER},
+      NAME = #{name,jdbcType=OTHER},
+      CUSTOMERLEVEL = #{customerlevel,jdbcType=OTHER},
+      INDUSTRY = #{industry,jdbcType=VARCHAR},
+      CONTACTADDRESS = #{contactaddress,jdbcType=OTHER},
+      CONTACTPHONE = #{contactphone,jdbcType=OTHER},
+      BAKPHONE = #{bakphone,jdbcType=OTHER},
+      CONTACT = #{contact,jdbcType=OTHER},
+      FAXNO = #{faxno,jdbcType=OTHER},
+      WEBSITE = #{website,jdbcType=OTHER},
+      EMAIL = #{email,jdbcType=OTHER},
+      ACCOUNT = #{account,jdbcType=OTHER},
+      REMARKS = #{remarks,jdbcType=OTHER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      VALIDTIME = #{validtime,jdbcType=TIMESTAMP},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      BILLTYPE = #{billtype,jdbcType=VARCHAR},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      DELIVERYSEQ = #{deliveryseq,jdbcType=DECIMAL},
+      BAKSEQ = #{bakseq,jdbcType=DECIMAL},
+      MANAGERNAME = #{managername,jdbcType=VARCHAR},
+      MANAGERTEL = #{managertel,jdbcType=VARCHAR},
+      ORDERBATCH = #{orderbatch,jdbcType=VARCHAR},
+      LICENSECODE = #{licensecode,jdbcType=VARCHAR},
+      MARKETTYPE = #{markettype,jdbcType=VARCHAR},
+      ORDERWAY = #{orderway,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

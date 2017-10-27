@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.UserVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.UserVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USERCODE" property="usercode" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="ICCARDNO" property="iccardno" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="SEX" property="sex" jdbcType="DECIMAL" />
+    <result column="ISMARRIED" property="ismarried" jdbcType="DECIMAL" />
+    <result column="BIRTHDATE" property="birthdate" jdbcType="VARCHAR" />
+    <result column="NATIONALITY" property="nationality" jdbcType="DECIMAL" />
+    <result column="POLITICALSTATUS" property="politicalstatus" jdbcType="DECIMAL" />
+    <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+    <result column="IDREGISTER" property="idregister" jdbcType="VARCHAR" />
+    <result column="NATIVEPLACE" property="nativeplace" jdbcType="VARCHAR" />
+    <result column="SOCIALSECURITYID" property="socialsecurityid" jdbcType="VARCHAR" />
+    <result column="ADDR" property="addr" jdbcType="VARCHAR" />
+    <result column="TELNUM" property="telnum" jdbcType="VARCHAR" />
+    <result column="PHONENUM" property="phonenum" jdbcType="VARCHAR" />
+    <result column="OFFICENUM" property="officenum" jdbcType="VARCHAR" />
+    <result column="QQNUM" property="qqnum" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="SCHOOL" property="school" jdbcType="VARCHAR" />
+    <result column="MAJOR" property="major" jdbcType="VARCHAR" />
+    <result column="EDUBACKGROUND" property="edubackground" jdbcType="DECIMAL" />
+    <result column="BANKID" property="bankid" jdbcType="VARCHAR" />
+    <result column="BANKCARD" property="bankcard" jdbcType="VARCHAR" />
+    <result column="POSTID" property="postid" jdbcType="DECIMAL" />
+    <result column="POSE" property="pose" jdbcType="DECIMAL" />
+    <result column="TECHNICALTITLE" property="technicaltitle" jdbcType="VARCHAR" />
+    <result column="FOREIGNLANGUAGE" property="foreignlanguage" jdbcType="VARCHAR" />
+    <result column="FOREIGNLANGUAGELEVEL" property="foreignlanguagelevel" jdbcType="VARCHAR" />
+    <result column="COMPUTERLEVEL" property="computerlevel" jdbcType="VARCHAR" />
+    <result column="SPECIALTY" property="specialty" jdbcType="VARCHAR" />
+    <result column="JOINWORKDATE" property="joinworkdate" jdbcType="VARCHAR" />
+    <result column="JOINUNITDATE" property="joinunitdate" jdbcType="VARCHAR" />
+    <result column="BGBEGDATE" property="bgbegdate" jdbcType="VARCHAR" />
+    <result column="BGENDDATE" property="bgenddate" jdbcType="VARCHAR" />
+    <result column="DIMISSIONDATE" property="dimissiondate" jdbcType="VARCHAR" />
+    <result column="PHOTONAME" property="photoname" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="SYSREMARKS" property="sysremarks" jdbcType="VARCHAR" />
+    <result column="GROUPREMARKS" property="groupremarks" jdbcType="DECIMAL" />
+    <result column="USERTYPE" property="usertype" jdbcType="DECIMAL" />
+    <result column="COMPANYEMAIL" property="companyemail" jdbcType="VARCHAR" />
+    <result column="USERPSW" property="userpsw" jdbcType="VARCHAR" />
+    <result column="USERPOSTID" property="userpostid" jdbcType="DECIMAL" />
+    <result column="MAJORNAME" property="majorname" jdbcType="VARCHAR" />
+    <result column="WORKSTATUS" property="workstatus" jdbcType="VARCHAR" />
+    <result column="SHORTTELNUM" property="shorttelnum" jdbcType="DECIMAL" />
+    <result column="NATION" property="nation" jdbcType="VARCHAR" />
+    <result column="EDUCATION" property="education" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="SENIORITY" property="seniority" jdbcType="DECIMAL" />
+    <result column="LEAVEDATE" property="leavedate" jdbcType="VARCHAR" />
+    <result column="SELFSENIORITY" property="selfseniority" jdbcType="DECIMAL" />
+    <result column="SIGNATUREIMG" property="signatureimg" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="ROLENAME" property="rolename" jdbcType="VARCHAR" />
+    <result column="POSTNAME" property="postname" jdbcType="VARCHAR" />
+    <result column="WORKSOURCE" property="worksource" jdbcType="VARCHAR" />
+    <result column="ROLEID" property="roleid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USERCODE, USERNAME, ICCARDNO, DEPTID, SEX, ISMARRIED, BIRTHDATE, NATIONALITY, 
+    POLITICALSTATUS, IDNUM, IDREGISTER, NATIVEPLACE, SOCIALSECURITYID, ADDR, TELNUM, 
+    PHONENUM, OFFICENUM, QQNUM, EMAIL, SCHOOL, MAJOR, EDUBACKGROUND, BANKID, BANKCARD, 
+    POSTID, POSE, TECHNICALTITLE, FOREIGNLANGUAGE, FOREIGNLANGUAGELEVEL, COMPUTERLEVEL, 
+    SPECIALTY, JOINWORKDATE, JOINUNITDATE, BGBEGDATE, BGENDDATE, DIMISSIONDATE, PHOTONAME, 
+    CREATEID, CREATEDATE, SYSREMARKS, GROUPREMARKS, USERTYPE, COMPANYEMAIL, USERPSW, 
+    USERPOSTID, MAJORNAME, WORKSTATUS, SHORTTELNUM, NATION, EDUCATION, TITLE, SENIORITY, 
+    LEAVEDATE, SELFSENIORITY, SIGNATUREIMG, DELSTATUS,ROLEID 
+  </sql>
+  
+  <!-- 根据用户code，验证登录用户是否存在 -->
+  <select id="selectByCode" resultType="Integer" >
+    select 
+    count(*) as cnt
+    from T_SYS_USER
+    where USERCODE = #{usercode,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  <!-- 根据用户code及密码，验证登录用户是否存在 -->
+  <select id="selectByCodeAndPwd" resultType="UserVo" >
+    select  sysuser.ID, USERCODE, USERNAME, ICCARDNO, DEPTID, SEX, ADDR, TELNUM, PHONENUM,USERPSW ,DEPTNAME ,ROLEID 
+    from T_SYS_USER sysuser left outer join T_SYS_DEPT dept on sysuser.deptid=dept.id 
+    where USERCODE = #{usercode,jdbcType=VARCHAR} and sysuser.delstatus=10 
+    <if test="userpsw != null and userpsw != ''">
+        and USERPSW= #{userpsw,jdbcType=VARCHAR}
+    </if>
+    
+  </select>
+  
+  <!-- 根据部门id获取用户信息 -->
+  <select id="getUserListByDeptId" resultType="UserVo" parameterType="Integer">
+    select  ID, USERCODE, USERNAME, DEPTID  
+    from T_SYS_USER  
+    where DEPTID = #{deptid} and delstatus=10
+  </select>
+  
+  <!-- 根据角色id获取用户信息 -->
+  <select id="getUserListByRoleId" resultType="UserVo" parameterType="Integer">
+    select  ID, USERCODE, USERNAME, DEPTID  
+    from T_SYS_USER  
+    where ROLEID = #{roleid} 
+  </select>
+  
+  <!-- 根据用户code，取用户明细 -->
+  <select id="selectUserVoByCode" resultType="UserVo" >
+    select 
+    count(*) as cnt
+    from T_SYS_USER
+    where USERCODE = #{usercode,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 取用户列表信息 用户CODE 用户姓名 所属部门 手机号码 身份证号 所属角色 岗位-->
+  <select id="getUserPageList" parameterType="Pagination" resultType="com.ztel.app.vo.sys.UserVo">
+    select * from V_SYS_USER 
+    where DELSTATUS= '10'
+    <if test="param != null and param.usercode != null and param.usercode != ''" >
+        and (USERCODE like'%'||#{param.usercode}||'%' or USERNAME like'%'||#{param.usercode}||'%' or DEPTNAME like'%'||#{param.usercode}||'%' or POSTNAME like'%'||#{param.usercode}||'%' or ROLENAME like'%'||#{param.usercode}||'%')
+      </if>
+    <if test="param != null and param.workstatus != null" >
+        and workstatus= #{param.workstatus}
+      </if>
+    <if test="param.workstatus == null" >
+        	and workstatus= '10'
+      </if>
+ </select>
+ 
+ <update id="updateUserPsw" parameterType="java.lang.Integer" >
+    update T_SYS_USER set userpsw='6666' where id=#{id,jdbcType=DECIMAL}
+  </update>
+  
+   <!-- 重置角色为roleid的用户，将角色设置为默认角色 -->
+  <update id="resetRole" >
+    update T_SYS_USER set roleid=0 where roleid=#{roleid}
+  </update>
+  
+        <!-- 根据userid和roleid，检查记录是否存在 -->
+  <select id="checkGrant" resultType="Integer" >
+    select 
+    count(*) as cnt
+    from T_SYS_USER
+    where id = #{userid} and ROLEID = #{roleid}
+  </select>
+  
+   <!-- 获取角色已经授权的用户信息 -->
+  <select id="selectUserListByroleid" resultType="UserVo" >
+    select id,usercode,username 
+    from  t_sys_user 
+    where roleid=#{roleid}
+  </select>
+  
+  <!-- 工具自动生成 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_USER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SYS_USER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.UserVo" >
+    insert into T_SYS_USER (ID, USERCODE, USERNAME, 
+      ICCARDNO, DEPTID, SEX, 
+      ISMARRIED, BIRTHDATE, NATIONALITY, 
+      POLITICALSTATUS, IDNUM, IDREGISTER, 
+      NATIVEPLACE, SOCIALSECURITYID, ADDR, 
+      TELNUM, PHONENUM, OFFICENUM, 
+      QQNUM, EMAIL, SCHOOL, 
+      MAJOR, EDUBACKGROUND, BANKID, 
+      BANKCARD, POSTID, POSE, 
+      TECHNICALTITLE, FOREIGNLANGUAGE, FOREIGNLANGUAGELEVEL, 
+      COMPUTERLEVEL, SPECIALTY, JOINWORKDATE, 
+      JOINUNITDATE, BGBEGDATE, BGENDDATE, 
+      DIMISSIONDATE, PHOTONAME, CREATEID, 
+      CREATEDATE, SYSREMARKS, GROUPREMARKS, 
+      USERTYPE, COMPANYEMAIL, USERPSW, 
+      USERPOSTID, MAJORNAME, WORKSTATUS, 
+      SHORTTELNUM, NATION, EDUCATION, 
+      TITLE, SENIORITY, LEAVEDATE, 
+      SELFSENIORITY, SIGNATUREIMG, DELSTATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{usercode,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{iccardno,jdbcType=VARCHAR}, #{deptid,jdbcType=DECIMAL}, #{sex,jdbcType=DECIMAL}, 
+      #{ismarried,jdbcType=DECIMAL}, #{birthdate,jdbcType=VARCHAR}, #{nationality,jdbcType=DECIMAL}, 
+      #{politicalstatus,jdbcType=DECIMAL}, #{idnum,jdbcType=VARCHAR}, #{idregister,jdbcType=VARCHAR}, 
+      #{nativeplace,jdbcType=VARCHAR}, #{socialsecurityid,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
+      #{telnum,jdbcType=VARCHAR}, #{phonenum,jdbcType=VARCHAR}, #{officenum,jdbcType=VARCHAR}, 
+      #{qqnum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{edubackground,jdbcType=DECIMAL}, #{bankid,jdbcType=VARCHAR}, 
+      #{bankcard,jdbcType=VARCHAR}, #{postid,jdbcType=DECIMAL}, #{pose,jdbcType=DECIMAL}, 
+      #{technicaltitle,jdbcType=VARCHAR}, #{foreignlanguage,jdbcType=VARCHAR}, #{foreignlanguagelevel,jdbcType=VARCHAR}, 
+      #{computerlevel,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, #{joinworkdate,jdbcType=VARCHAR}, 
+      #{joinunitdate,jdbcType=VARCHAR}, #{bgbegdate,jdbcType=VARCHAR}, #{bgenddate,jdbcType=VARCHAR}, 
+      #{dimissiondate,jdbcType=VARCHAR}, #{photoname,jdbcType=VARCHAR}, #{createid,jdbcType=DECIMAL}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{sysremarks,jdbcType=VARCHAR}, #{groupremarks,jdbcType=DECIMAL}, 
+      #{usertype,jdbcType=DECIMAL}, #{companyemail,jdbcType=VARCHAR}, #{userpsw,jdbcType=VARCHAR}, 
+      #{userpostid,jdbcType=DECIMAL}, #{majorname,jdbcType=VARCHAR}, #{workstatus,jdbcType=VARCHAR}, 
+      #{shorttelnum,jdbcType=DECIMAL}, #{nation,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{seniority,jdbcType=DECIMAL}, #{leavedate,jdbcType=VARCHAR}, 
+      #{selfseniority,jdbcType=DECIMAL}, #{signatureimg,jdbcType=VARCHAR}, #{delstatus,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective"  useGeneratedKeys="false" parameterType="com.ztel.app.vo.sys.UserVo" >
+    insert into T_SYS_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="usercode != null" >
+        USERCODE,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="iccardno != null" >
+        ICCARDNO,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="ismarried != null" >
+        ISMARRIED,
+      </if>
+      <if test="birthdate != null" >
+        BIRTHDATE,
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY,
+      </if>
+      <if test="politicalstatus != null" >
+        POLITICALSTATUS,
+      </if>
+      <if test="idnum != null" >
+        IDNUM,
+      </if>
+      <if test="idregister != null" >
+        IDREGISTER,
+      </if>
+      <if test="nativeplace != null" >
+        NATIVEPLACE,
+      </if>
+      <if test="socialsecurityid != null" >
+        SOCIALSECURITYID,
+      </if>
+      <if test="addr != null" >
+        ADDR,
+      </if>
+      <if test="telnum != null" >
+        TELNUM,
+      </if>
+      <if test="phonenum != null" >
+        PHONENUM,
+      </if>
+      <if test="officenum != null" >
+        OFFICENUM,
+      </if>
+      <if test="qqnum != null" >
+        QQNUM,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="school != null" >
+        SCHOOL,
+      </if>
+      <if test="major != null" >
+        MAJOR,
+      </if>
+      <if test="edubackground != null" >
+        EDUBACKGROUND,
+      </if>
+      <if test="bankid != null" >
+        BANKID,
+      </if>
+      <if test="bankcard != null" >
+        BANKCARD,
+      </if>
+      <if test="postid != null" >
+        POSTID,
+      </if>
+      <if test="pose != null" >
+        POSE,
+      </if>
+      <if test="technicaltitle != null" >
+        TECHNICALTITLE,
+      </if>
+      <if test="foreignlanguage != null" >
+        FOREIGNLANGUAGE,
+      </if>
+      <if test="foreignlanguagelevel != null" >
+        FOREIGNLANGUAGELEVEL,
+      </if>
+      <if test="computerlevel != null" >
+        COMPUTERLEVEL,
+      </if>
+      <if test="specialty != null" >
+        SPECIALTY,
+      </if>
+      <if test="joinworkdate != null" >
+        JOINWORKDATE,
+      </if>
+      <if test="joinunitdate != null" >
+        JOINUNITDATE,
+      </if>
+      <if test="bgbegdate != null" >
+        BGBEGDATE,
+      </if>
+      <if test="bgenddate != null" >
+        BGENDDATE,
+      </if>
+      <if test="dimissiondate != null" >
+        DIMISSIONDATE,
+      </if>
+      <if test="photoname != null" >
+        PHOTONAME,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="sysremarks != null" >
+        SYSREMARKS,
+      </if>
+      <if test="groupremarks != null" >
+        GROUPREMARKS,
+      </if>
+      <if test="usertype != null" >
+        USERTYPE,
+      </if>
+      <if test="companyemail != null" >
+        COMPANYEMAIL,
+      </if>
+      <if test="userpsw != null" >
+        USERPSW,
+      </if>
+      <if test="userpostid != null" >
+        USERPOSTID,
+      </if>
+      <if test="majorname != null" >
+        MAJORNAME,
+      </if>
+      <if test="workstatus != null" >
+        WORKSTATUS,
+      </if>
+      <if test="shorttelnum != null" >
+        SHORTTELNUM,
+      </if>
+      <if test="nation != null" >
+        NATION,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="seniority != null" >
+        SENIORITY,
+      </if>
+      <if test="leavedate != null" >
+        LEAVEDATE,
+      </if>
+      <if test="selfseniority != null" >
+        SELFSENIORITY,
+      </if>
+      <if test="signatureimg != null" >
+        SIGNATUREIMG,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="worksource != null" >
+        WORKSOURCE,
+      </if>
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       s_sys_user.nextval,
+      <if test="usercode != null" >
+        #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="iccardno != null" >
+        #{iccardno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="ismarried != null" >
+        #{ismarried,jdbcType=DECIMAL},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=DECIMAL},
+      </if>
+      <if test="politicalstatus != null" >
+        #{politicalstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="idnum != null" >
+        #{idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="idregister != null" >
+        #{idregister,jdbcType=VARCHAR},
+      </if>
+      <if test="nativeplace != null" >
+        #{nativeplace,jdbcType=VARCHAR},
+      </if>
+      <if test="socialsecurityid != null" >
+        #{socialsecurityid,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null" >
+        #{telnum,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="officenum != null" >
+        #{officenum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqnum != null" >
+        #{qqnum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="edubackground != null" >
+        #{edubackground,jdbcType=DECIMAL},
+      </if>
+      <if test="bankid != null" >
+        #{bankid,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcard != null" >
+        #{bankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="postid != null" >
+        #{postid,jdbcType=DECIMAL},
+      </if>
+      <if test="pose != null" >
+        #{pose,jdbcType=DECIMAL},
+      </if>
+      <if test="technicaltitle != null" >
+        #{technicaltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignlanguage != null" >
+        #{foreignlanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignlanguagelevel != null" >
+        #{foreignlanguagelevel,jdbcType=VARCHAR},
+      </if>
+      <if test="computerlevel != null" >
+        #{computerlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="joinworkdate != null" >
+        #{joinworkdate,jdbcType=VARCHAR},
+      </if>
+      <if test="joinunitdate != null" >
+        #{joinunitdate,jdbcType=VARCHAR},
+      </if>
+      <if test="bgbegdate != null" >
+        #{bgbegdate,jdbcType=VARCHAR},
+      </if>
+      <if test="bgenddate != null" >
+        #{bgenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="dimissiondate != null" >
+        #{dimissiondate,jdbcType=VARCHAR},
+      </if>
+      <if test="photoname != null" >
+        #{photoname,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysremarks != null" >
+        #{sysremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="groupremarks != null" >
+        #{groupremarks,jdbcType=DECIMAL},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=DECIMAL},
+      </if>
+      <if test="companyemail != null" >
+        #{companyemail,jdbcType=VARCHAR},
+      </if>
+      <if test="userpsw != null" >
+        #{userpsw,jdbcType=VARCHAR},
+      </if>
+      <if test="userpostid != null" >
+        #{userpostid,jdbcType=DECIMAL},
+      </if>
+      <if test="majorname != null" >
+        #{majorname,jdbcType=VARCHAR},
+      </if>
+      <if test="workstatus != null" >
+        #{workstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="shorttelnum != null" >
+        #{shorttelnum,jdbcType=DECIMAL},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="seniority != null" >
+        #{seniority,jdbcType=DECIMAL},
+      </if>
+      <if test="leavedate != null" >
+        #{leavedate,jdbcType=VARCHAR},
+      </if>
+      <if test="selfseniority != null" >
+        #{selfseniority,jdbcType=DECIMAL},
+      </if>
+      <if test="signatureimg != null" >
+        #{signatureimg,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="worksource != null" >
+        #{worksource,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.UserVo" >
+    update T_SYS_USER
+    <set >
+      <if test="usercode != null" >
+        USERCODE = #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="iccardno != null" >
+        ICCARDNO = #{iccardno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="ismarried != null" >
+        ISMARRIED = #{ismarried,jdbcType=DECIMAL},
+      </if>
+      <if test="birthdate != null" >
+        BIRTHDATE = #{birthdate,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY = #{nationality,jdbcType=DECIMAL},
+      </if>
+      <if test="politicalstatus != null" >
+        POLITICALSTATUS = #{politicalstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="idnum != null" >
+        IDNUM = #{idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="idregister != null" >
+        IDREGISTER = #{idregister,jdbcType=VARCHAR},
+      </if>
+      <if test="nativeplace != null" >
+        NATIVEPLACE = #{nativeplace,jdbcType=VARCHAR},
+      </if>
+      <if test="socialsecurityid != null" >
+        SOCIALSECURITYID = #{socialsecurityid,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        ADDR = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null" >
+        TELNUM = #{telnum,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        PHONENUM = #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="officenum != null" >
+        OFFICENUM = #{officenum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqnum != null" >
+        QQNUM = #{qqnum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        SCHOOL = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        MAJOR = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="edubackground != null" >
+        EDUBACKGROUND = #{edubackground,jdbcType=DECIMAL},
+      </if>
+      <if test="bankid != null" >
+        BANKID = #{bankid,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcard != null" >
+        BANKCARD = #{bankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="postid != null" >
+        POSTID = #{postid,jdbcType=DECIMAL},
+      </if>
+      <if test="pose != null" >
+        POSE = #{pose,jdbcType=DECIMAL},
+      </if>
+      <if test="technicaltitle != null" >
+        TECHNICALTITLE = #{technicaltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignlanguage != null" >
+        FOREIGNLANGUAGE = #{foreignlanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignlanguagelevel != null" >
+        FOREIGNLANGUAGELEVEL = #{foreignlanguagelevel,jdbcType=VARCHAR},
+      </if>
+      <if test="computerlevel != null" >
+        COMPUTERLEVEL = #{computerlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        SPECIALTY = #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="joinworkdate != null" >
+        JOINWORKDATE = #{joinworkdate,jdbcType=VARCHAR},
+      </if>
+      <if test="joinunitdate != null" >
+        JOINUNITDATE = #{joinunitdate,jdbcType=VARCHAR},
+      </if>
+      <if test="bgbegdate != null" >
+        BGBEGDATE = #{bgbegdate,jdbcType=VARCHAR},
+      </if>
+      <if test="bgenddate != null" >
+        BGENDDATE = #{bgenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="dimissiondate != null" >
+        DIMISSIONDATE = #{dimissiondate,jdbcType=VARCHAR},
+      </if>
+      <if test="photoname != null" >
+        PHOTONAME = #{photoname,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysremarks != null" >
+        SYSREMARKS = #{sysremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="groupremarks != null" >
+        GROUPREMARKS = #{groupremarks,jdbcType=DECIMAL},
+      </if>
+      <if test="usertype != null" >
+        USERTYPE = #{usertype,jdbcType=DECIMAL},
+      </if>
+      <if test="companyemail != null" >
+        COMPANYEMAIL = #{companyemail,jdbcType=VARCHAR},
+      </if>
+      <if test="userpsw != null" >
+        USERPSW = #{userpsw,jdbcType=VARCHAR},
+      </if>
+      <if test="userpostid != null" >
+        USERPOSTID = #{userpostid,jdbcType=DECIMAL},
+      </if>
+      <if test="majorname != null" >
+        MAJORNAME = #{majorname,jdbcType=VARCHAR},
+      </if>
+      <if test="workstatus != null" >
+        WORKSTATUS = #{workstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="shorttelnum != null" >
+        SHORTTELNUM = #{shorttelnum,jdbcType=DECIMAL},
+      </if>
+      <if test="nation != null" >
+        NATION = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="seniority != null" >
+        SENIORITY = #{seniority,jdbcType=DECIMAL},
+      </if>
+      <if test="leavedate != null" >
+        LEAVEDATE = #{leavedate,jdbcType=VARCHAR},
+      </if>
+      <if test="selfseniority != null" >
+        SELFSENIORITY = #{selfseniority,jdbcType=DECIMAL},
+      </if>
+      <if test="signatureimg != null" >
+        SIGNATUREIMG = #{signatureimg,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="worksource != null" >
+        worksource = #{worksource,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        roleid = #{roleid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.UserVo" >
+    update T_SYS_USER
+    set USERCODE = #{usercode,jdbcType=VARCHAR},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      ICCARDNO = #{iccardno,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      SEX = #{sex,jdbcType=DECIMAL},
+      ISMARRIED = #{ismarried,jdbcType=DECIMAL},
+      BIRTHDATE = #{birthdate,jdbcType=VARCHAR},
+      NATIONALITY = #{nationality,jdbcType=DECIMAL},
+      POLITICALSTATUS = #{politicalstatus,jdbcType=DECIMAL},
+      IDNUM = #{idnum,jdbcType=VARCHAR},
+      IDREGISTER = #{idregister,jdbcType=VARCHAR},
+      NATIVEPLACE = #{nativeplace,jdbcType=VARCHAR},
+      SOCIALSECURITYID = #{socialsecurityid,jdbcType=VARCHAR},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      TELNUM = #{telnum,jdbcType=VARCHAR},
+      PHONENUM = #{phonenum,jdbcType=VARCHAR},
+      OFFICENUM = #{officenum,jdbcType=VARCHAR},
+      QQNUM = #{qqnum,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      SCHOOL = #{school,jdbcType=VARCHAR},
+      MAJOR = #{major,jdbcType=VARCHAR},
+      EDUBACKGROUND = #{edubackground,jdbcType=DECIMAL},
+      BANKID = #{bankid,jdbcType=VARCHAR},
+      BANKCARD = #{bankcard,jdbcType=VARCHAR},
+      POSTID = #{postid,jdbcType=DECIMAL},
+      POSE = #{pose,jdbcType=DECIMAL},
+      TECHNICALTITLE = #{technicaltitle,jdbcType=VARCHAR},
+      FOREIGNLANGUAGE = #{foreignlanguage,jdbcType=VARCHAR},
+      FOREIGNLANGUAGELEVEL = #{foreignlanguagelevel,jdbcType=VARCHAR},
+      COMPUTERLEVEL = #{computerlevel,jdbcType=VARCHAR},
+      SPECIALTY = #{specialty,jdbcType=VARCHAR},
+      JOINWORKDATE = #{joinworkdate,jdbcType=VARCHAR},
+      JOINUNITDATE = #{joinunitdate,jdbcType=VARCHAR},
+      BGBEGDATE = #{bgbegdate,jdbcType=VARCHAR},
+      BGENDDATE = #{bgenddate,jdbcType=VARCHAR},
+      DIMISSIONDATE = #{dimissiondate,jdbcType=VARCHAR},
+      PHOTONAME = #{photoname,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      SYSREMARKS = #{sysremarks,jdbcType=VARCHAR},
+      GROUPREMARKS = #{groupremarks,jdbcType=DECIMAL},
+      USERTYPE = #{usertype,jdbcType=DECIMAL},
+      COMPANYEMAIL = #{companyemail,jdbcType=VARCHAR},
+      USERPSW = #{userpsw,jdbcType=VARCHAR},
+      USERPOSTID = #{userpostid,jdbcType=DECIMAL},
+      MAJORNAME = #{majorname,jdbcType=VARCHAR},
+      WORKSTATUS = #{workstatus,jdbcType=VARCHAR},
+      SHORTTELNUM = #{shorttelnum,jdbcType=DECIMAL},
+      NATION = #{nation,jdbcType=VARCHAR},
+      EDUCATION = #{education,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      SENIORITY = #{seniority,jdbcType=DECIMAL},
+      LEAVEDATE = #{leavedate,jdbcType=VARCHAR},
+      SELFSENIORITY = #{selfseniority,jdbcType=DECIMAL},
+      SIGNATUREIMG = #{signatureimg,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

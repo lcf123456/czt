@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.BasetypeInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.BasetypeInfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TYPECODE" property="typecode" jdbcType="VARCHAR" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+    <result column="CONTENTLIST" property="contentlist" jdbcType="VARCHAR" />
+    <result column="BAK1" property="bak1" jdbcType="VARCHAR" />
+    <result column="BAK2" property="bak2" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="TYPEFLAG" property="typeflag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TYPECODE, TYPENAME, CONTENTLIST, BAK1, BAK2, REMARKS, TYPEFLAG
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_BASETYPEINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 取基础类型信息下拉框  传入基础类型CODE -->
+  <select id="getBaseTypeInfoList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_BASETYPEINFO
+    where bak1='10' and TYPECODE = #{typecode} order by id
+  </select>
+  
+  <!-- 取基础类型列表 -->
+  <select id="getTypeList" resultMap="BaseResultMap" >
+    select  distinct typecode,typename from t_sys_basetypeinfo where typeflag=10 and bak1='10'
+    order by typename
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update T_SYS_BASETYPEINFO set bak1='0'
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.BasetypeInfoVo" >
+    insert into T_SYS_BASETYPEINFO (ID, TYPECODE, TYPENAME, 
+      CONTENTLIST, BAK1, BAK2, 
+      REMARKS, TYPEFLAG)
+    values (#{id,jdbcType=DECIMAL}, #{typecode,jdbcType=DECIMAL}, #{typename,jdbcType=VARCHAR}, 
+      #{contentlist,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{typeflag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.sys.BasetypeInfoVo" >
+    insert into T_SYS_BASETYPEINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="typecode != null" >
+        TYPECODE,
+      </if>
+      <if test="typename != null" >
+        TYPENAME,
+      </if>
+      <if test="contentlist != null" >
+        CONTENTLIST,
+      </if>
+      <if test="bak1 != null" >
+        BAK1,
+      </if>
+      <if test="bak2 != null" >
+        BAK2,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="typeflag != null" >
+        TYPEFLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_SYS_BASETYPEINFO.nextval,
+      <if test="typecode != null" >
+        #{typecode,jdbcType=DECIMAL},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="contentlist != null" >
+        #{contentlist,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="typeflag != null" >
+        #{typeflag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.BasetypeInfoVo" >
+    update T_SYS_BASETYPEINFO
+    <set >
+      <if test="typecode != null" >
+        TYPECODE = #{typecode,jdbcType=DECIMAL},
+      </if>
+      <if test="typename != null" >
+        TYPENAME = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="contentlist != null" >
+        CONTENTLIST = #{contentlist,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        BAK1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        BAK2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="typeflag != null" >
+        TYPEFLAG = #{typeflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.BasetypeInfoVo" >
+    update T_SYS_BASETYPEINFO
+    set TYPECODE = #{typecode,jdbcType=DECIMAL},
+      TYPENAME = #{typename,jdbcType=VARCHAR},
+      CONTENTLIST = #{contentlist,jdbcType=VARCHAR},
+      BAK1 = #{bak1,jdbcType=VARCHAR},
+      BAK2 = #{bak2,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      TYPEFLAG = #{typeflag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

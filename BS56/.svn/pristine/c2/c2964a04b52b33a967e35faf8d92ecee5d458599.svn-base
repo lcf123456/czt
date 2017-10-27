@@ -1,0 +1,203 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.cost;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.ztel.app.service.cost.SPLTypeServcie;
+import com.ztel.app.service.cost.SupplierInfoVoService;
+import com.ztel.app.service.cost.SuppliesImpVoService;
+import com.ztel.app.service.sys.OperationlogService;
+import com.ztel.app.vo.cost.SPLTypeInfoVo;
+import com.ztel.app.vo.cost.SupplierInfoVo;
+import com.ztel.app.vo.cost.SuppliesImpVo;
+import com.ztel.app.vo.sys.UserVo;
+import com.ztel.framework.util.DateUtil;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author NJ
+ * @since 2017年6月26日 */
+@Controller
+@RequestMapping("/cost/suppliesimp")
+public class SuppliesImpCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(SuppliesImpCtrl.class);
+	
+	@Autowired
+	private SuppliesImpVoService suppliesImpVoService = null;
+	
+	@Autowired
+	private SupplierInfoVoService supplierInfoVoService = null;
+	
+	@Autowired
+	private SPLTypeServcie splTypeServcie = null;
+	
+	@Autowired
+	private OperationlogService operationlogService = null;
+	
+	@RequestMapping("toSuppliesImp")
+	public String index(HttpServletRequest request) {
+		return "/cost/v_splimp";
+	}
+	
+	/**
+	  * 物资入库信息列表
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping("getSuppliesImpPageList")
+	 @ResponseBody
+	 public  Map<String, Object> getSuppliesImpPageList(SuppliesImpVo suppliesImpVo,HttpServletRequest request) throws Exception {
+		 Pagination<?> page = this.getPagination(request);
+
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		
+		 if (suppliesImpVo!=null) {
+			 page.setParam(suppliesImpVo);
+		}
+		 
+		 List<SuppliesImpVo> paras = suppliesImpVoService.getSuppliesImpPageList(page);
+		 //System.out.println(paras.size());
+		 //System.out.println(paras.get(0).getParanameE());
+		 result.put("rows",paras);  
+		 result.put("total",page.getTotalCount());  
+
+		 return result;
+	 }
+	 
+	 /**
+      * 获取物资供应商下拉列表
+      * @return
+      * @throws Exception
+      */
+     @RequestMapping("getSuppliersCombobox")
+     @ResponseBody
+     public List<HashMap<String, String>> getSuppliersCombobox(@RequestParam("ctype") String ctype,HttpServletRequest request) {
+    	 // TODO Auto-generated method stub
+    	 SupplierInfoVo supplierInfoVo=new SupplierInfoVo();
+    	 if(ctype!=null&&!"".equals(ctype))supplierInfoVo.setCtype(ctype);
+    	 List<HashMap<String, String>> boxList=new ArrayList<>();
+		 boxList=supplierInfoVoService.getSuppliersCombobox(supplierInfoVo);
+    	 return boxList;
+     }
+     
+     /**
+      * 获取物资类别下拉列表
+      * @return
+      * @throws Exception
+      */
+     @RequestMapping("getSPLTypesCombobox")
+     @ResponseBody
+     public List<HashMap<String, String>> getSPLTypesCombobox(@RequestParam("clevel") int clevel,@RequestParam("fid") int fid,HttpServletRequest request) {
+    	 // TODO Auto-generated method stub
+    	 SPLTypeInfoVo splTypeInfoVo=new SPLTypeInfoVo();
+    	 splTypeInfoVo.setClevel(clevel);
+    	 splTypeInfoVo.setFid(fid);
+    	 List<HashMap<String, String>> boxList=new ArrayList<>();
+    	 boxList=splTypeServcie.getSPLTypeInfoCombobox(splTypeInfoVo);
+    	 return boxList;
+     }
+	 	
+	 /**
+	  * 物资入库信息新增
+	  * @param request
+	  * @return
+	  */
+	 @RequestMapping("doInsertSuppliesImp")
+	 @ResponseBody
+	 public  void doInsertSuppliesImp(SuppliesImpVo suppliesImpVo,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+		 
+		 try {
+			 
+			 suppliesImpVo.setQuantity(suppliesImpVo.getInitqty());
+			 //取到物资code----------------------------------------------
+			 int index=1;
+			 String dateStr=DateUtil.getyyyymmdd();
+			 String maxCode=suppliesImpVoService.getMaxSuppliesCode(dateStr);
+			  if(maxCode==null||"".equals(maxCode)||"null".equals(maxCode))index=1;
+			  else index=java.lang.Integer.parseInt(maxCode)+1;
+			  maxCode="00"+index;
+			  maxCode=dateStr+maxCode.substring(maxCode.length()-3);
+			  suppliesImpVo.setCode(maxCode);
+			  //-----------------------------------------------------------------------------
+			 
+			  //插入物资表
+			 suppliesImpVoService.doInsertSuppliesImp(suppliesImpVo);
+			 
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/cost/suppliesimp/doInsertSuppliesImp", "物资管理", "新增", "");
+			 map.put("msg", "成功");
+			 total=1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 
+		 //直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);  
+	 }
+	 
+	 /**
+	  * 物资管理--退库
+	  * @return
+	  * @throws Exception
+	  */                                    
+	 @RequestMapping(value="doRefundSupplies",method=RequestMethod.POST)
+	 // @ResponseBody
+	 public   void doRefundSupplies(SuppliesImpVo suppliesImpVo,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+		 
+		 try {
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/cost/suppliesimp/doRefundSupplies", "物资管理", "退库", "");
+			 
+			 //设置退货总金额
+			 String refundamount=request.getParameter("refundamount");
+			 //System.out.println("refundamount=="+refundamount);
+			 suppliesImpVo.setTotalamount(new BigDecimal(refundamount));
+			 //设置退库操作人
+			 suppliesImpVo.setCreateid(new BigDecimal(userVo.getId()));
+			 //退库
+			 suppliesImpVoService.doRefundSupplies(suppliesImpVo);
+			 map.put("msg", "成功");
+			 total=1;
+		 } catch (Exception e) {
+			 // TODO: handle exception
+			 e.printStackTrace();  
+			 map.put("msg", "失败");
+		 }
+		 map.put("total", total);
+		 
+		 //直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);  
+	 }
+}

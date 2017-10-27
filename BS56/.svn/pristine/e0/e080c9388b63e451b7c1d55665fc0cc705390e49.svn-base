@@ -1,0 +1,45 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.InventoryVoMapper;
+import com.ztel.app.service.wms.InventoryVoService;
+import com.ztel.app.vo.wms.InventoryVo;
+import com.ztel.framework.vo.Pagination;
+@Service
+public class InventoryVoServiceImpl implements InventoryVoService {
+
+	@Autowired
+	private InventoryVoMapper inventoryVoMapper = null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+		
+		public InventoryVoServiceImpl() {
+			//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+//			sortKeyMapping.put(key, value)
+			sortKeyMapping.put("createtime", "createtime");
+		}
+		
+	@Override
+	public List<InventoryVo> selectInventoryPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		return inventoryVoMapper.selectInventoryPageList(page);
+	}
+
+	@Override
+	public int doInventoryAdd(InventoryVo inventoryVo) {
+		// TODO Auto-generated method stub
+		return inventoryVoMapper.insertSelective(inventoryVo);
+	}
+
+	@Override
+	public int doInventoryUpdate(InventoryVo inventoryVo) {
+		// TODO Auto-generated method stub
+		return inventoryVoMapper.updateByPrimaryKeySelective(inventoryVo);
+	}
+}

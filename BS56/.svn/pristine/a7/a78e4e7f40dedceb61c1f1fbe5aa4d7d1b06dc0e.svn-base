@@ -1,0 +1,282 @@
+package com.ztel.app.vo.cost;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class SPLConsumeVo {
+    /**
+     * id序号
+     */
+    private BigDecimal id;
+
+    /**
+     * 物资id
+     */
+    private Integer splid;
+
+    /**
+     * 物资类别id
+     */
+    private BigDecimal typeid;
+
+    /**
+     * 设备数量
+     */
+    private BigDecimal quantity;
+
+    /**
+     * 剩余数量
+     */
+    private BigDecimal surplusqty;
+
+    /**
+     * 部门id
+     */
+    private Integer deptid;
+
+    /**
+     * 申请id
+     */
+    private BigDecimal applyid;
+
+    /**
+     * 发料日期
+     */
+    private Date issuedate;
+
+    /**
+     * 申请人id
+     */
+    private Long applyuserid;
+
+    /**
+     * 设备单价
+     */
+    private BigDecimal price;
+    /**
+     * 物品名称、部门名称、类别名称、开始时间、结束时间、单位、总价之和
+     */
+    private String splname;
+    public BigDecimal getTotalamount() {
+		return totalamount;
+	}
+
+	public void setTotalamount(BigDecimal totalamount) {
+		this.totalamount = totalamount;
+	}
+
+	public String getSplname() {
+		return splname;
+	}
+
+	public void setSplname(String splname) {
+		this.splname = splname;
+	}
+
+	public String getDeptname() {
+		return deptname;
+	}
+
+	public void setDeptname(String deptname) {
+		this.deptname = deptname;
+	}
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+
+	private String deptname;
+    private String typename;
+    private String begdate;
+    private String enddate;
+    private String unitid;
+    private BigDecimal totalamount;
+    
+	public String getUnitid() {
+		return unitid;
+	}
+
+	public void setUnitid(String unitid) {
+		this.unitid = unitid;
+	}
+
+	public String getBegdate() {
+		return begdate;
+	}
+
+	public void setBegdate(String begdate) {
+		this.begdate = begdate;
+	}
+
+	public String getEnddate() {
+		return enddate;
+	}
+
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
+
+	/**
+     * id序号
+     * @return ID id序号
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * id序号
+     * @param id id序号
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 物资id
+     * @return SPLID 物资id
+     */
+    public Integer getSplid() {
+        return splid;
+    }
+
+    /**
+     * 物资id
+     * @param splid 物资id
+     */
+    public void setSplid(Integer splid) {
+        this.splid = splid;
+    }
+
+    /**
+     * 物资类别id
+     * @return TYPEID 物资类别id
+     */
+    public BigDecimal getTypeid() {
+        return typeid;
+    }
+
+    /**
+     * 物资类别id
+     * @param typeid 物资类别id
+     */
+    public void setTypeid(BigDecimal typeid) {
+        this.typeid = typeid;
+    }
+
+    /**
+     * 设备数量
+     * @return QUANTITY 设备数量
+     */
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * 设备数量
+     * @param quantity 设备数量
+     */
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
+     * 剩余数量
+     * @return SURPLUSQTY 剩余数量
+     */
+    public BigDecimal getSurplusqty() {
+        return surplusqty;
+    }
+
+    /**
+     * 剩余数量
+     * @param surplusqty 剩余数量
+     */
+    public void setSurplusqty(BigDecimal surplusqty) {
+        this.surplusqty = surplusqty;
+    }
+
+    /**
+     * 部门id
+     * @return DEPTID 部门id
+     */
+    public Integer getDeptid() {
+        return deptid;
+    }
+
+    /**
+     * 部门id
+     * @param deptid 部门id
+     */
+    public void setDeptid(Integer deptid) {
+        this.deptid = deptid;
+    }
+
+    /**
+     * 申请id
+     * @return APPLYID 申请id
+     */
+    public BigDecimal getApplyid() {
+        return applyid;
+    }
+
+    /**
+     * 申请id
+     * @param applyid 申请id
+     */
+    public void setApplyid(BigDecimal applyid) {
+        this.applyid = applyid;
+    }
+
+    /**
+     * 发料日期
+     * @return ISSUEDATE 发料日期
+     */
+    public Date getIssuedate() {
+        return issuedate;
+    }
+
+    /**
+     * 发料日期
+     * @param issuedate 发料日期
+     */
+    public void setIssuedate(Date issuedate) {
+        this.issuedate = issuedate;
+    }
+
+    /**
+     * 申请人id
+     * @return APPLYUSERID 申请人id
+     */
+    public Long getApplyuserid() {
+        return applyuserid;
+    }
+
+    /**
+     * 申请人id
+     * @param applyuserid 申请人id
+     */
+    public void setApplyuserid(Long applyuserid) {
+        this.applyuserid = applyuserid;
+    }
+
+    /**
+     * 设备单价
+     * @return PRICE 设备单价
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * 设备单价
+     * @param price 设备单价
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+}

@@ -1,0 +1,42 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.StorageAreaVo;
+import java.math.BigDecimal;
+
+public interface StorageAreaVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insert(StorageAreaVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insertSelective(StorageAreaVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    StorageAreaVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKeySelective(StorageAreaVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKey(StorageAreaVo record);
+}

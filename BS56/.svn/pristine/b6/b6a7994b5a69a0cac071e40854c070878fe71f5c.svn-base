@@ -1,0 +1,114 @@
+package com.ztel.app.service.sq.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.sq.RoutescoreVoMapper;
+import com.ztel.app.service.sq.RoutescoreVoService;
+import com.ztel.app.vo.sq.RoutescoreVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class RoutescoreVoServiceImpl implements RoutescoreVoService{
+
+@Autowired
+    private RoutescoreVoMapper routescoreVoMapper =null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public RoutescoreVoServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+        //sortKeyMapping.put(key, value)
+		sortKeyMapping.put("id", "id");
+		sortKeyMapping.put("routecode", "routecode");
+		sortKeyMapping.put("scoringtime", "scoringtime");
+	}
+	
+	//@Override
+	public List<RoutescoreVo> getRoutescorePageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.routescoreVoMapper.getRoutescorePageList(page);
+	//	return null;
+	}
+
+	//删除主表记录
+	@Override
+	public int delRoutescore(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		if(ids != null && ids.size() > 0) {
+			for (Integer id : ids) {
+				this.routescoreVoMapper.deleteByPrimaryKey(id);
+			}
+			return ids.size();
+		}
+		return 0;
+	}
+//删除从表FID对应主表ID记录
+	@Override
+	public int delRoutescoreline(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		if(ids != null && ids.size() > 0) {
+			for (Integer id : ids) {
+				this.routescoreVoMapper.deleteLineKey(id);
+			}
+			return ids.size();
+		}
+		return 0;
+	}
+	
+	
+	@Override
+	public int viewRoutescore(RoutescoreVo routescoreVo) {
+		// TODO 自动生成的方法存根
+		return 0;
+	}
+
+	
+	//@Override
+	public List<RoutescoreVo> getViewRoutescoreList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.routescoreVoMapper.getViewRoutescorePageList(page);
+	//	return null;
+	}
+
+	@Override
+	public List<RoutescoreVo> getViewRoutescorePageList(Pagination<?> page) {
+		// TODO 自动生成的方法存根
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.routescoreVoMapper.getViewRoutescorePageList(page);
+	}
+
+	@Override
+	public List<RoutescoreVo> getRoutescoreMarketPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.routescoreVoMapper.getRoutescoreMarketPageList(page);
+	}
+
+	@Override
+	public long getRouteScoreId() {
+		// TODO Auto-generated method stub
+		return this.routescoreVoMapper.getRouteScoreId();
+	}
+
+	@Override
+	public void insertSummarySelective(RoutescoreVo routescoreVo) {
+		// TODO Auto-generated method stub
+		routescoreVoMapper.insertSummarySelective(routescoreVo);
+	}
+
+	@Override
+	public void insertLineSelective(RoutescoreVo routescoreVo) {
+		// TODO Auto-generated method stub
+		routescoreVoMapper.insertLineSelective(routescoreVo);
+	}
+
+		 
+	}
+	

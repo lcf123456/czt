@@ -1,0 +1,52 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.ztel.app.vo.wms.OutBoundLineVo;
+import com.ztel.app.vo.wms.OutBoundVo;
+
+public interface OutBoundLineVoMapper {
+	
+	/**
+	 * 根据车组编码routecode和订单日期orderdate 获取订单明细汇总，汇总根据品牌进行
+	 * @param outBoundVo
+	 * @return
+	 */
+	List<OutBoundLineVo> selectOrderLineList(OutBoundVo outBoundVo);
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insert(OutBoundLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insertSelective(OutBoundLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    OutBoundLineVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKeySelective(OutBoundLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKey(OutBoundLineVo record);
+}

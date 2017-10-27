@@ -1,0 +1,17 @@
+package com.ztel.app.persist.mybatis.cost;
+
+import com.ztel.app.vo.cost.SPLConsumeVo;
+
+public interface SPLConsumeVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insert(SPLConsumeVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insertSelective(SPLConsumeVo record);
+}

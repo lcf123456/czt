@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.StorageAreaVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.StorageAreaVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="AREANAME" property="areaname" jdbcType="OTHER" />
+    <result column="AREACODE" property="areacode" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="OTHER" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, AREANAME, AREACODE, REMARKS, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_STORAGEAREA
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_STORAGEAREA
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.StorageAreaVo" >
+    insert into T_WMS_STORAGEAREA (ID, AREANAME, AREACODE, 
+      REMARKS, STATUS)
+    values (#{id,jdbcType=DECIMAL}, #{areaname,jdbcType=OTHER}, #{areacode,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=OTHER}, #{status,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.StorageAreaVo" >
+    insert into T_WMS_STORAGEAREA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="areaname != null" >
+        AREANAME,
+      </if>
+      <if test="areacode != null" >
+        AREACODE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=OTHER},
+      </if>
+      <if test="areacode != null" >
+        #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.StorageAreaVo" >
+    update T_WMS_STORAGEAREA
+    <set >
+      <if test="areaname != null" >
+        AREANAME = #{areaname,jdbcType=OTHER},
+      </if>
+      <if test="areacode != null" >
+        AREACODE = #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.StorageAreaVo" >
+    update T_WMS_STORAGEAREA
+    set AREANAME = #{areaname,jdbcType=OTHER},
+      AREACODE = #{areacode,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

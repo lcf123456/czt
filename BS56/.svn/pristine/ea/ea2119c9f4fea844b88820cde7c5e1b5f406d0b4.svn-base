@@ -1,0 +1,177 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.wms;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.ztel.app.service.PubService;
+import com.ztel.app.service.sys.OperationlogService;
+import com.ztel.app.service.wms.InventoryVoService;
+import com.ztel.app.vo.sys.UserVo;
+import com.ztel.app.vo.wms.InventoryVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @since 2017年2月26日
+ *盘点信息
+ */
+@Controller
+@RequestMapping("/wms/inventory")
+public class InventoryCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(InventoryCtrl.class);
+
+	@Autowired
+	private OperationlogService operationlogService = null;
+	
+	@Autowired
+	private InventoryVoService inventoryVoService = null;
+	
+	@Autowired
+	private PubService  pubService = null;
+	
+	@RequestMapping("toInventory")
+	public String index(HttpServletRequest request) {
+		return "/wms/v_inventory";
+	}
+	
+	/**
+	 * 获取盘点列表 带翻页信息
+	 * @param inBoundVo
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="getInventoryPageList")
+	 @ResponseBody
+	 public Map<String, Object> getInventoryPageList(InventoryVo inventoryVo, HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		Pagination<?> page = this.getPagination(request);
+		if (inventoryVo!=null) {
+			 page.setParam(inventoryVo);
+		}
+		List<InventoryVo> inventoryVoList = new ArrayList<InventoryVo>();
+		inventoryVoList = inventoryVoService.selectInventoryPageList(page);
+		
+		 result.put("rows",inventoryVoList);  
+		 result.put("total",page.getTotalCount());  
+		 
+		return result;
+	}
+	
+	/**
+	 * 新增盘点主表
+	 * @param idLst
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="doInventoryAdd",method=RequestMethod.POST)
+	 // @ResponseBody
+	 public  void doInventoryAdd(InventoryVo inventoryVo,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+		 //System.out.println(idLst.size());
+		 try {
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/inventory/doInventoryAdd", "盘点信息主表新增", "新增", "");
+			 
+			 inventoryVo.setCreatename(userVo.getUsername());
+			 inventoryVo.setCreateid(new BigDecimal(userVo.getId()));
+			 
+			 inventoryVoService.doInventoryAdd(inventoryVo);
+			 
+			 map.put("msg", "成功");
+			 total=1;
+		 } catch (Exception e) {
+			 // TODO: handle exception
+			 e.printStackTrace();  
+			 map.put("msg", "失败");
+		 }
+		 map.put("total", total);
+		 
+		 //直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);  
+	 }
+	
+//	/**
+//	 * 保存入库单以及入库明细
+//	 * @param request
+//	 * @return
+//	 */
+//	 @RequestMapping(value="doAddInboundAndLine")
+//	 @ResponseBody
+//	 public  Map<String, Object> doAddInboundAndLine(HttpServletRequest request)
+//	 {
+//		 Map<String, Object> map=new HashMap<String, Object>();
+//		 String status=request.getParameter("status");
+//		 //组装InBoundVo数据
+//		 InBoundVo inBoundVo=new InBoundVo();
+//		 String inboundid = request.getParameter("inboundid");
+//		 String addType="0";
+//		 //若无入库单id,则生成入库单id
+//		 if("-1".equals(inboundid)){
+//			 inboundid=pubService.getSequence("S_WMS_INOUTBOUND")+"";
+//			 addType="1";
+//		 }
+//		 inBoundVo.setInboundid(new BigDecimal(inboundid));
+//		 inBoundVo.setNavicert(request.getParameter("navicert"));
+//		 inBoundVo.setContractno(request.getParameter("contractno"));
+//		 inBoundVo.setQty(new BigDecimal(request.getParameter("qty")));
+//		 inBoundVo.setIntype(new BigDecimal(request.getParameter("intype")));
+//		 inBoundVo.setStatus(status);
+//		 inBoundVo.setRemarks(request.getParameter("remarks"));
+//		 
+//		 //组装InBoundLineVo数据
+//		 String itemval=request.getParameter("cigarettecode");
+//		 String cigarettecode=itemval.split("-")[0];
+//		 String barcode=itemval.split("-")[1];
+//		 InBoundLineVo inBoundLineVo=new InBoundLineVo();
+//		 inBoundLineVo.setInboundid(new BigDecimal(inboundid));
+//		 inBoundLineVo.setInbounddetailid(new BigDecimal(pubService.getSequence("S_WMS_INOUTBOUND_LINE")+""));
+//		 inBoundLineVo.setCigarettecode(cigarettecode);
+//		 inBoundLineVo.setCigarettename(request.getParameter("cigarettename"));
+//		 inBoundLineVo.setItemqty(new BigDecimal(request.getParameter("itemqty")));
+//		 inBoundLineVo.setStatus(status);
+//		 inBoundLineVo.setBarcode(barcode);
+//		 
+//		 try{
+//			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+//			 operationlogService.insertLog(userVo, "/wms/inbound/doAddInboundAndLine", "罚没烟入库单新增", "新增", "");
+//			 inBoundService.doAddInboundAndLine(inBoundVo, inBoundLineVo,addType);
+//			 
+//			 map.put("inboundid", inboundid);
+//			 map.put("status", status);
+//			 map.put("msg", "成功");
+//		 }catch(Exception e){
+//			 map.put("inboundid", -1);
+//			 map.put("msg", "失败");
+//			 e.printStackTrace();
+//		 }
+//		 map.put("total", "1");
+//		 return map;
+//	 }
+}
+	
+    

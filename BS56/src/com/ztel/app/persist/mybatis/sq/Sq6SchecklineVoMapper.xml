@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.Sq6SchecklineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.Sq6SchecklineVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="ASSESSDATE" property="assessdate" jdbcType="TIMESTAMP" />
+    <result column="CHECKNOTE" property="checknote" jdbcType="VARCHAR" />
+    <result column="SCORE" property="score" jdbcType="DECIMAL" />
+    <result column="VEHICLEID" property="vehicleid" jdbcType="DECIMAL" />
+    <result column="CASHIERID" property="cashierid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FID, ROUTECODE, DRIVERID, ASSESSDATE, CHECKNOTE, SCORE, VEHICLEID, CASHIERID, 
+    REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_6SCHECKLINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_6SCHECKLINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.Sq6SchecklineVo" >
+    insert into T_SQ_6SCHECKLINE (ID, FID, ROUTECODE, 
+      DRIVERID, ASSESSDATE, CHECKNOTE, 
+      SCORE, VEHICLEID, CASHIERID, 
+      REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{fid,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, 
+      #{driverid,jdbcType=DECIMAL}, #{assessdate,jdbcType=TIMESTAMP}, #{checknote,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DECIMAL}, #{vehicleid,jdbcType=DECIMAL}, #{cashierid,jdbcType=DECIMAL}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.Sq6SchecklineVo" >
+    insert into T_SQ_6SCHECKLINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="driverid != null" >
+        DRIVERID,
+      </if>
+      <if test="assessdate != null" >
+        ASSESSDATE,
+      </if>
+      <if test="checknote != null" >
+        CHECKNOTE,
+      </if>
+      <if test="score != null" >
+        SCORE,
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID,
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="assessdate != null" >
+        #{assessdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checknote != null" >
+        #{checknote,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.Sq6SchecklineVo" >
+    update T_SQ_6SCHECKLINE
+    <set >
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        DRIVERID = #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="assessdate != null" >
+        ASSESSDATE = #{assessdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checknote != null" >
+        CHECKNOTE = #{checknote,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.Sq6SchecklineVo" >
+    update T_SQ_6SCHECKLINE
+    set FID = #{fid,jdbcType=DECIMAL},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      DRIVERID = #{driverid,jdbcType=DECIMAL},
+      ASSESSDATE = #{assessdate,jdbcType=TIMESTAMP},
+      CHECKNOTE = #{checknote,jdbcType=VARCHAR},
+      SCORE = #{score,jdbcType=DECIMAL},
+      VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

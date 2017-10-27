@@ -1,0 +1,101 @@
+package com.ztel.app.web.ctrl.cost;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.PubService;
+import com.ztel.app.service.cost.SPLApplyListService;
+import com.ztel.app.service.cost.SPLTypeServcie;
+import com.ztel.app.vo.cost.SPLApplyListLineVo;
+import com.ztel.app.vo.cost.SPLApplyListVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+@Controller
+@RequestMapping("/cost/SPLApplyList")
+public class SPLApplyListCtrl extends BaseCtrl  {
+	@Autowired
+	private SPLApplyListService sPLApplyListService = null;
+	
+	@Autowired
+	SPLTypeServcie sPLTypeServcie = null;
+	@Autowired
+	PubService pubService = null;
+	
+	@RequestMapping("toSPLApplyList")
+	public String toSPLApplyList(HttpServletRequest request) {
+		return "/cost/v_splapplylist";
+	}
+
+	/**
+	  * 根据系统模块名称获取栏目信息
+	  * @return
+	  */
+	 @RequestMapping(value="getSPLApplyList")
+	 @ResponseBody
+	 public  Map<String, Object> getSPLApplyList(SPLApplyListVo sPLApplyListVo,HttpServletRequest request)
+	 {
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 Pagination<?> page = this.getPagination(request);
+			
+		 if (sPLApplyListVo!=null) {
+			 page.setParam(sPLApplyListVo);
+		}
+		 //System.out.println("menuCtrl getSysMenuRight :sysid----"+sysid+",id----"+id);
+		 List<SPLApplyListVo> SPLTypeInfoList=sPLApplyListService.getApplyListList(page);
+		 result.put("rows",SPLTypeInfoList);  
+		 result.put("total",page.getTotalCount());  
+
+		 return result;
+	 }
+	 
+	 /**
+	  * 新增领料申请
+	  * @return
+	  */
+	 @RequestMapping(value="doSave")
+	 @ResponseBody
+	 public  Map<String, Object> doSave(HttpServletRequest request)
+	 {
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 String applyuserid= request.getParameter("applyid");
+		 String deptid= request.getParameter("deptid");
+		 String typeid= request.getParameter("typeid");
+		 String purpose= request.getParameter("purpose");
+		 String surplusqty= request.getParameter("surplusqty");//可用数量/剩余库存
+		 String applyqty= request.getParameter("applyqty");//申请数量
+		 String listtype = "10";  //10：一般领料   20：生产领料
+		 String applytype = "10";//10:申请领用，20：申请退库
+		 
+		 SPLApplyListVo sPLApplyListVo = new SPLApplyListVo();
+		 
+		 Long appid = pubService.getSequence("S_COST_SPLAPPLYLIST");
+		 sPLApplyListVo.setId(new BigDecimal(appid));
+		 sPLApplyListVo.setApplyid(Long.parseLong(applyuserid));
+		 sPLApplyListVo.setPurpose(purpose);
+		 sPLApplyListVo.setDeptid(Integer.parseInt(deptid));
+		 sPLApplyListVo.setListtype(listtype);
+		 sPLApplyListVo.setApplytype(applytype);
+		 
+		 SPLApplyListLineVo sPLApplyListLineVo = new SPLApplyListLineVo();
+		 sPLApplyListLineVo.setApplyqty(new BigDecimal(applyqty));
+		 sPLApplyListLineVo.setTypeid(new BigDecimal(typeid));
+		 sPLApplyListLineVo.setPreapplyqty(new BigDecimal(surplusqty));
+		//menuinfoService.doAddMenu(menuInfo);
+		 //先取序列S_COST_SPLAPPLYLIST值
+		 
+		 map.put("total", "1");
+		 map.put("msg", "新增成功");
+		 return map;
+	 }
+	
+}

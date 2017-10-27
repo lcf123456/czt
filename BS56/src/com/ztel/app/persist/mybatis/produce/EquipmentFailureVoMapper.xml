@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.produce.EquipmentFailureVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.produce.EquipmentFailureVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EQUIPMENTCODE" property="equipmentcode" jdbcType="VARCHAR" />
+    <result column="EQUIPMENTNAME" property="equipmentname" jdbcType="VARCHAR" />
+    <result column="FAILUREDATE" property="failuredate" jdbcType="TIMESTAMP" />
+    <result column="FAILUREPART" property="failurepart" jdbcType="VARCHAR" />
+    <result column="FAILUREREASON" property="failurereason" jdbcType="VARCHAR" />
+    <result column="SOLUTIONDESC" property="solutiondesc" jdbcType="VARCHAR" />
+    <result column="REPAIRDATE" property="repairdate" jdbcType="TIMESTAMP" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, EQUIPMENTCODE, EQUIPMENTNAME, FAILUREDATE, FAILUREPART, FAILUREREASON, SOLUTIONDESC, 
+    REPAIRDATE, CREATEID, CREATETIME,CREATENAME
+  </sql>
+  <select id="getEquipmentFailureVoPageList" resultType="com.ztel.app.vo.produce.EquipmentFailureVo" parameterType="Pagination" >
+    select 
+    a.ID, EQUIPMENTCODE, EQUIPMENTNAME, FAILUREDATE, FAILUREPART, FAILUREREASON, SOLUTIONDESC, 
+    REPAIRDATE, a.CREATEID, CREATETIME,b.username as CREATENAME
+    from T_PRODUCE_EQUIPMENTFAILURE a,t_sys_user b
+    where a.createid=b.id 
+    <if test="param != null and param.param != null and param.param != ''" >
+        and (a.EQUIPMENTCODE like'%'||#{param.param}||'%' or a.EQUIPMENTNAME like'%'||#{param.param}||'%' or a.FAILUREPART like'%'||#{param.param}||'%' or a.FAILUREREASON like'%'||#{param.param}||'%' or a.SOLUTIONDESC like'%'||#{param.param}||'%'  )
+      </if>
+       <if test="param != null and param.begdate != null " >
+        and a.FAILUREDATE>=to_date(#{param.begdate},'yyyy-MM-dd')
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and a.FAILUREDATE &lt;= to_date(#{param.enddate},'yyyy-MM-dd') 
+      </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PRODUCE_EQUIPMENTFAILURE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_PRODUCE_EQUIPMENTFAILURE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.produce.EquipmentFailureVo" >
+    insert into T_PRODUCE_EQUIPMENTFAILURE (ID, EQUIPMENTCODE, EQUIPMENTNAME, 
+      FAILUREDATE, FAILUREPART, FAILUREREASON, 
+      SOLUTION, REPAIRDATE, CREATEID, 
+      CREATETIME)
+    values (#{id,jdbcType=DECIMAL}, #{equipmentcode,jdbcType=VARCHAR}, #{equipmentname,jdbcType=VARCHAR}, 
+      #{failuredate,jdbcType=TIMESTAMP}, #{failurepart,jdbcType=VARCHAR}, #{failurereason,jdbcType=VARCHAR}, 
+      #{solution,jdbcType=VARCHAR}, #{repairdate,jdbcType=TIMESTAMP}, #{createid,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.produce.EquipmentFailureVo" >
+    insert into T_PRODUCE_EQUIPMENTFAILURE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="equipmentcode != null" >
+        EQUIPMENTCODE,
+      </if>
+      <if test="equipmentname != null" >
+        EQUIPMENTNAME,
+      </if>
+      <if test="failuredate != null" >
+        FAILUREDATE,
+      </if>
+      <if test="failurepart != null" >
+        FAILUREPART,
+      </if>
+      <if test="failurereason != null" >
+        FAILUREREASON,
+      </if>
+      <if test="solution != null" >
+        SOLUTION,
+      </if>
+      <if test="repairdate != null" >
+        REPAIRDATE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="equipmentcode != null" >
+        #{equipmentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentname != null" >
+        #{equipmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="failuredate != null" >
+        #{failuredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failurepart != null" >
+        #{failurepart,jdbcType=VARCHAR},
+      </if>
+      <if test="failurereason != null" >
+        #{failurereason,jdbcType=VARCHAR},
+      </if>
+      <if test="solution != null" >
+        #{solution,jdbcType=VARCHAR},
+      </if>
+      <if test="repairdate != null" >
+        #{repairdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.produce.EquipmentFailureVo" >
+    update T_PRODUCE_EQUIPMENTFAILURE
+    <set >
+      <if test="equipmentcode != null" >
+        EQUIPMENTCODE = #{equipmentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentname != null" >
+        EQUIPMENTNAME = #{equipmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="failuredate != null" >
+        FAILUREDATE = #{failuredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failurepart != null" >
+        FAILUREPART = #{failurepart,jdbcType=VARCHAR},
+      </if>
+      <if test="failurereason != null" >
+        FAILUREREASON = #{failurereason,jdbcType=VARCHAR},
+      </if>
+      <if test="solution != null" >
+        SOLUTION = #{solution,jdbcType=VARCHAR},
+      </if>
+      <if test="repairdate != null" >
+        REPAIRDATE = #{repairdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.produce.EquipmentFailureVo" >
+    update T_PRODUCE_EQUIPMENTFAILURE
+    set EQUIPMENTCODE = #{equipmentcode,jdbcType=VARCHAR},
+      EQUIPMENTNAME = #{equipmentname,jdbcType=VARCHAR},
+      FAILUREDATE = #{failuredate,jdbcType=TIMESTAMP},
+      FAILUREPART = #{failurepart,jdbcType=VARCHAR},
+      FAILUREREASON = #{failurereason,jdbcType=VARCHAR},
+      SOLUTION = #{solution,jdbcType=VARCHAR},
+      REPAIRDATE = #{repairdate,jdbcType=TIMESTAMP},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

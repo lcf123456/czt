@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.ItemstockLineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ItemstockLineVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PARENTID" property="parentid" jdbcType="DECIMAL" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="OTHER" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="VARCHAR" />
+    <result column="BOXQTY" property="boxqty" jdbcType="DECIMAL" />
+    <result column="ITEMQTY" property="itemqty" jdbcType="DECIMAL" />
+    <result column="INBOXQTY" property="inboxqty" jdbcType="DECIMAL" />
+    <result column="INITEMQTY" property="initemqty" jdbcType="DECIMAL" />
+    <result column="OUTBOXQTY" property="outboxqty" jdbcType="DECIMAL" />
+    <result column="OUTITEMQTY" property="outitemqty" jdbcType="DECIMAL" />
+    <result column="CONSIGNSOR" property="consignsor" jdbcType="OTHER" />
+  </resultMap>
+  
+  <!-- 根据父id取列表明细 -->
+  <select id="selectDetailListByParentid" resultType="com.ztel.app.vo.wms.ItemstockLineVo" parameterType="java.math.BigDecimal" >
+    select    ID, PARENTID, CIGARETTENAME, 
+      CIGARETTECODE, BOXQTY, ITEMQTY, 
+      INBOXQTY, INITEMQTY, OUTBOXQTY, 
+      OUTITEMQTY, CONSIGNSOR
+    from T_WMS_ITEMSTOCK_LINE
+    where PARENTID = #{parentid,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 根据父id获取列表明细汇总 -->
+  <select id="selectSumListByParentid" resultType="com.ztel.app.vo.wms.ItemstockLineVo" parameterType="com.ztel.app.vo.wms.ItemstockLineVo" >
+     select   CONSIGNSOR, CIGARETTECODE,sum(ITEMQTY) as ITEMQTY, sum(BOXQTY) as BOXQTY,
+      sum(INBOXQTY) as INBOXQTY, sum(INITEMQTY) as INITEMQTY, sum(OUTBOXQTY) as OUTBOXQTY, 
+      sum(OUTITEMQTY) as OUTITEMQTY
+    from T_WMS_ITEMSTOCK_LINE 
+    where PARENTID = #{parentid,jdbcType=DECIMAL}
+    <if test="consignsor != null and consignsor != ''">
+        AND CONSIGNSOR = #{consignsor}
+    </if>
+    group by CONSIGNSOR,CIGARETTECODE 
+    order by CONSIGNSOR
+  </select>
+  
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ItemstockLineVo" >
+    insert into T_WMS_ITEMSTOCK_LINE (ID, PARENTID, CIGARETTENAME, 
+      CIGARETTECODE, BOXQTY, ITEMQTY, 
+      INBOXQTY, INITEMQTY, OUTBOXQTY, 
+      OUTITEMQTY, CONSIGNSOR)
+    values (#{id,jdbcType=DECIMAL}, #{parentid,jdbcType=DECIMAL}, #{cigarettename,jdbcType=OTHER}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{boxqty,jdbcType=DECIMAL}, #{itemqty,jdbcType=DECIMAL}, 
+      #{inboxqty,jdbcType=DECIMAL}, #{initemqty,jdbcType=DECIMAL}, #{outboxqty,jdbcType=DECIMAL}, 
+      #{outitemqty,jdbcType=DECIMAL}, #{consignsor,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.wms.ItemstockLineVo" >
+    insert into T_WMS_ITEMSTOCK_LINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME,
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE,
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY,
+      </if>
+      <if test="itemqty != null" >
+        ITEMQTY,
+      </if>
+      <if test="inboxqty != null" >
+        INBOXQTY,
+      </if>
+      <if test="initemqty != null" >
+        INITEMQTY,
+      </if>
+      <if test="outboxqty != null" >
+        OUTBOXQTY,
+      </if>
+      <if test="outitemqty != null" >
+        OUTITEMQTY,
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_WMS_ITEMSTOCK.NEXTVAL,
+      <if test="parentid != null" >
+        #{parentid,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettename != null" >
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemqty != null" >
+        #{itemqty,jdbcType=DECIMAL},
+      </if>
+      <if test="inboxqty != null" >
+        #{inboxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="initemqty != null" >
+        #{initemqty,jdbcType=DECIMAL},
+      </if>
+      <if test="outboxqty != null" >
+        #{outboxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="outitemqty != null" >
+        #{outitemqty,jdbcType=DECIMAL},
+      </if>
+      <if test="consignsor != null" >
+        #{consignsor,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,45 @@
+package com.ztel.app.vo.sys;
+
+public class BusinessRoleRelativeVo {
+    /**
+     * 员工ID
+     */
+    private Long userid;
+
+    /**
+     * 业务角色ID
+     */
+    private Integer roleid;
+
+    /**
+     * 员工ID
+     * @return USERID 员工ID
+     */
+    public Long getUserid() {
+        return userid;
+    }
+
+    /**
+     * 员工ID
+     * @param userid 员工ID
+     */
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
+
+    /**
+     * 业务角色ID
+     * @return ROLEID 业务角色ID
+     */
+    public Integer getRoleid() {
+        return roleid;
+    }
+
+    /**
+     * 业务角色ID
+     * @param roleid 业务角色ID
+     */
+    public void setRoleid(Integer roleid) {
+        this.roleid = roleid;
+    }
+}

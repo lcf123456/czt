@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.BusinessRoleVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.BusinessRoleVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ROLENAME" property="rolename" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROLENAME, REMARKS, DELSTATUS
+  </sql>
+  
+  <select id="getBusinessRolePageList"  parameterType="Pagination" resultType="BusinessRoleVo">
+    select  
+    <include refid="Base_Column_List" />
+     from T_SYS_BUSINESSROLE  where delstatus=10 
+    <if test="param != null and param.rolename != null and param.rolename != ''">
+        and (rolename like '%'||#{rolename}||'%')
+    </if>
+      order by id desc
+</select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_BUSINESSROLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update T_SYS_BUSINESSROLE set delstatus=0 
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.BusinessRoleVo" >
+    insert into T_SYS_BUSINESSROLE (ID, ROLENAME, REMARKS, 
+      DELSTATUS)
+    values (#{id,jdbcType=DECIMAL}, #{rolename,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{delstatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.sys.BusinessRoleVo" >
+    insert into T_SYS_BUSINESSROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="rolename != null" >
+        ROLENAME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        s_sys_businessrole.nextval,
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.BusinessRoleVo" >
+    update T_SYS_BUSINESSROLE
+    <set >
+      <if test="rolename != null" >
+        ROLENAME = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.BusinessRoleVo" >
+    update T_SYS_BUSINESSROLE
+    set ROLENAME = #{rolename,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

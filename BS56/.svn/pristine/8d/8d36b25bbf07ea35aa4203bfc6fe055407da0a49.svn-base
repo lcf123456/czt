@@ -1,0 +1,174 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.wms.CigarettedamagedLineVoMapper;
+import com.ztel.app.persist.mybatis.wms.CigarettedamagedVoMapper;
+import com.ztel.app.persist.mybatis.wms.InBoundLineVoMapper;
+import com.ztel.app.persist.mybatis.wms.ItemVoMapper;
+import com.ztel.app.persist.mybatis.wms.StorageAreaInOutVoMapper;
+import com.ztel.app.service.wms.CigarettedamagedService;
+import com.ztel.app.vo.wms.CigarettedamagedLineVo;
+import com.ztel.app.vo.wms.CigarettedamagedVo;
+import com.ztel.app.vo.wms.InBoundLineVo;
+import com.ztel.app.vo.wms.ItemVo;
+import com.ztel.app.vo.wms.StorageAreaInOutVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class CigarettedamagedServiceImpl implements CigarettedamagedService {
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	@Autowired
+	private CigarettedamagedVoMapper cigarettedamagedVoMapper = null;
+	
+	@Autowired
+	private CigarettedamagedLineVoMapper cigarettedamagedLineVoMapper = null;
+	
+	@Autowired
+	private InBoundLineVoMapper inBoundLineVoMapper = null;
+	
+	@Autowired 
+	private StorageAreaInOutVoMapper storageAreaInOutVoMapper = null;
+	
+	@Autowired 
+	private  ItemVoMapper itemVoMapper = null;
+	
+	public CigarettedamagedServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+//		sortKeyMapping.put(key, value)
+		sortKeyMapping.put("createtime", "createtime");
+		sortKeyMapping.put("id", "id");
+		sortKeyMapping.put("inboundid", "inboundid");
+	}
+	@Override
+	public List<CigarettedamagedVo> selectCigarettedamagedPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		page.sortKeyToColumn(sortKeyMapping);
+		return cigarettedamagedVoMapper.selectCigarettedamagedPageList(page);
+	}
+	
+	/**
+	 * 破损录入
+	 * @param cigarettedamagedLineVo
+	 * @param cigarettedamagedVo 
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public void insertCigarettedamaged(CigarettedamagedLineVo cigarettedamagedLineVo,CigarettedamagedVo cigarettedamagedVo){
+		
+		BigDecimal inboundid = cigarettedamagedLineVo.getInboundid();
+		BigDecimal inbounddetailid = cigarettedamagedLineVo.getInbounddetailid();
+		//判断入库单号为inboundid的破损主记录是否已经入库，如果已经入了则不处理，没入则需要在破损主表t_wms_cigarettedamaged插入一条记录
+		boolean checkHasDone = checkHasDone(inboundid);
+		
+		//取件条比例和件码
+		String barcode = "100000";//缺省
+		BigDecimal jtSize = new BigDecimal("50");//默认1件50条
+		ItemVo itemVo = new ItemVo();
+		itemVo.setItemno(cigarettedamagedLineVo.getCigarettecode());
+		List<ItemVo> itemVoList = itemVoMapper.selectListByCond(itemVo);
+		if(itemVoList!=null && itemVoList.size()>0){
+			for(int j=0;j<itemVoList.size();j++){
+				ItemVo itemVo2 = itemVoList.get(j);
+				barcode = itemVo2.getBigboxBar();
+				jtSize = itemVo2.getJtSize();
+			}
+		}
+		BigDecimal tsize = cigarettedamagedLineVo.getDamagedqty().multiply(jtSize);//件转条
+	cigarettedamagedLineVo.setBarcode(barcode);
+	cigarettedamagedLineVo.setDamagedqty(tsize);//件转条,入散烟区都为条
+	
+	cigarettedamagedVo.setQty(tsize);//件转条,入散烟区都为条
+	
+		if(!checkHasDone){
+			//在破损主表t_wms_cigarettedamaged插入一条记录
+			cigarettedamagedVoMapper.insertSelective(cigarettedamagedVo);
+			cigarettedamagedLineVoMapper.insertSelective(cigarettedamagedLineVo);
+		}
+		else
+		{
+		//插入从表
+		cigarettedamagedLineVoMapper.insertSelective(cigarettedamagedLineVo);
+		
+		//同时更新主表数量，进行累加
+		CigarettedamagedVo cigarettedamagedVo2 =new CigarettedamagedVo();
+		cigarettedamagedVo2.setInboundid(inboundid);
+		cigarettedamagedVoMapper.updateByInboundidSelective(cigarettedamagedVo2);
+		}
+		
+	}
+	
+	/**
+	 * 判断入库单号为inboundid的破损主记录是否已经入库，是则true,否则false
+	 * @param inboundid
+	 * @return
+	 */
+	private boolean checkHasDone(BigDecimal inboundid){
+		boolean retVal = false;
+		CigarettedamagedVo cigarettedamagedVo = new CigarettedamagedVo();
+		cigarettedamagedVo.setInboundid(inboundid);
+		List<CigarettedamagedVo> cigarettedamagedVoList = cigarettedamagedVoMapper.selectListByCond(cigarettedamagedVo);
+		if(cigarettedamagedVoList!=null&&cigarettedamagedVoList.size()>0&&cigarettedamagedVoList.get(0).getId()!=null){
+			retVal=true;
+		}
+		return retVal;
+	}
+	
+	/**
+	 * 审核
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public void doAudit(CigarettedamagedVo cigarettedamagedVo){
+		//更新破损主表
+		this.cigarettedamagedVoMapper.updateByInboundidSelective(cigarettedamagedVo);
+		//更新入库单的散烟区入库数量
+		//1、获取破损明细列表：取破损数量和入库单明细id
+		String checkflag = cigarettedamagedVo.getCheckflag();
+		if(checkflag.equals("20"))//审核通过
+		{
+			//更新入库单散烟区数量
+			BigDecimal inboundid = cigarettedamagedVo.getInboundid();
+			CigarettedamagedLineVo cigarettedamagedLineVo = new CigarettedamagedLineVo();
+			cigarettedamagedLineVo.setInboundid(inboundid);
+			List<CigarettedamagedLineVo> cigarettedamagedLineVoList = this.cigarettedamagedLineVoMapper.selectListByCond(cigarettedamagedLineVo);
+			if(cigarettedamagedLineVoList!=null&&cigarettedamagedLineVoList.size()>0){
+				for(int i=0;i<cigarettedamagedLineVoList.size();i++){
+					CigarettedamagedLineVo cigarettedamagedLineVo2 = cigarettedamagedLineVoList.get(i);
+					BigDecimal inbounddetailid = cigarettedamagedLineVo2.getInbounddetailid();//入库单明细id
+					BigDecimal dqty = cigarettedamagedLineVo2.getDamagedqty();//破损数量
+					
+					//更新入库单散烟区数量
+					InBoundLineVo inBoundLineVo = new InBoundLineVo();
+					inBoundLineVo.setInbounddetailid(inbounddetailid);
+					inBoundLineVo.setOtherqty(dqty);
+					inBoundLineVoMapper.updateByPrimaryKeySelective(inBoundLineVo);
+					
+					//入区域调拨明细表
+					StorageAreaInOutVo storageAreaInOutVo= new StorageAreaInOutVo();
+					storageAreaInOutVo.setAreaid(new BigDecimal("4"));//散烟区
+					storageAreaInOutVo.setQty(dqty);
+					storageAreaInOutVo.setInouttype(new BigDecimal("20"));
+					storageAreaInOutVo.setCigarettecode(cigarettedamagedLineVo2.getCigarettecode());
+					storageAreaInOutVo.setCigarettename(cigarettedamagedLineVo2.getCigarettename());
+					storageAreaInOutVo.setCigarattetype(new BigDecimal("10"));//10 来烟破损  20 机损烟（针对散烟区）30 退货
+					storageAreaInOutVo.setCreatetime(new Date());
+					storageAreaInOutVo.setStatus(new BigDecimal("20"));//用于自动补货的标志，此处都用20表示完成
+					storageAreaInOutVo.setBarcode(cigarettedamagedLineVo2.getBarcode());//件码
+					storageAreaInOutVoMapper.insertSelective(storageAreaInOutVo);
+				}
+			}
+			
+			
+		}
+		
+	}
+
+}

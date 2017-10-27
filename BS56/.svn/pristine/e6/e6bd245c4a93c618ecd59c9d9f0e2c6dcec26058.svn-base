@@ -1,0 +1,327 @@
+<%@page import="com.ztel.framework.util.DateUtil"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %><!doctype html>
+
+<html>
+<title><c:out value="${titleInfo}"/></title>
+<%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/sq/routescore_market.js"/>"></script>
+  </head>
+  <script type="text/javascript">
+	var sourceid="${sourceid}";
+	</script>
+  <body>
+	
+	
+	<!-- datagrid页面列表数据 -->
+	<div style="padding:10" id="tabdiv">
+		<table id="dataTable"></table>
+	</div>
+	
+<form  id="qform" method="post" action=""   >
+<input type=hidden name="param" id="param">
+	</form>
+	<!-- 查询-->
+	<div id="toolbar" style="padding:5px;height:auto;border-top:1px solid #95B8E7">
+	<form id="queryForm" style="margin:10;">
+		<div style="margin-bottom:5px">
+			<a href="#" id="viewBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="openView()">查看</a>
+			<a href="#" id= "newBtn"  class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openNew()">增加</a>
+			<a href="#"  id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
+			时间:<input id=begdate name=begdate class="easyui-datebox" style="width:100px;" value="<%=DateUtil.getyyyy_mm()+"-01"%>" >到<input id=enddate name=enddate class="easyui-datebox" style="width:100px;" value="<%=DateUtil.getyyyy_mm_dd()%>">
+			<input class="easyui-textbox"  name="keywd"  id=keywd data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchRoutescore();},prompt:'请输入车组/车组人员/记录人...'" style="width:250px;height:24px;">
+			
+			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
+		</div>
+		</form>
+	</div>
+	
+	<!-- 1、新增对话框 --------------------------------------------------------------------------------------->
+	<div id="add-dlg" class="easyui-dialog" style="width:1000px;height:420px;padding:5px 10px;align:center;"
+			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<form  id="add-fm" method="post" action=""   >
+		<input id="custid" name="custid" type="hidden" />
+		<input id="driverid" name="driverid" type="hidden" />
+		<input id="cashierid" name="cashierid" type="hidden" />
+		<input id="createid" name="createid" type="hidden" />
+		<input id="routescore" name="routescore" type="hidden" value="20"/>
+		<input id="sourceid" name="sourceid" type="hidden" value="3"/>
+			<div >
+			<tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
+               <tr><td colspan="6"  class="style2"><font color="blue">市场督查回访零售户选择</font></td></tr>
+               </table></td>
+           </tr>  
+           <tr>
+           <td height="120px">
+           <div style="WIDTH: 100%; HEIGHT: 120px; BACKGROUND-COLOR: transparent; OVERFLOW: scroll; scrollbar-face-color:#c1d9f5; scrollbar-arrow-color:#ffffff; scrollbar-highlight-color:#ffffff; scrollbar-3dlight-color:#70807d; scrollbar-shadow-color:#ffffff; scrollbar-darkshadow-color:#70807d; scrollbar-track-color:#ffffff">
+          <table width="100%" class="gridtable">
+          <tr>
+			  <td colspan="5">
+                     <input class="easyui-textbox"  name="condname" id="condname" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchCustomer();},prompt:'请输入专卖证、店面或电话...'" style="width:450px;height:24px;">
+                     </td>
+            </tr>
+          </table>
+           </div>
+           </td>
+           </tr>
+           <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="2"  class="">
+               <tr><td colspan="6"  class="style2"><font color="blue">市场督查考核对象</font></td></tr>
+               </table></td>
+           </tr>   
+           <tr>
+	    	<td >
+		  	 <table width="100%" border="0" cellpadding="2" cellspacing="2" >
+		  	 	<tr>
+	           	<td width="5%"  height="20" align="left" nowrap>考核车组CODE：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="routecode" id="routecode" value="" readonly="true" class="easyui-validatebox tb" style="width:100px" data-options="validType:'length[0,40]'" />
+		           </td> 
+		           <td width="5%"  height="20" align="left" nowrap>驾驶员姓名：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="drivername" id="drivername" value="" readonly="true"class="easyui-validatebox tb" style="width:100px" data-options="validType:'length[0,100]'" style="ime-mode:Disabled"/>
+		           </td> 
+		           <td width="5%"  height="20" align="left" nowrap>收款员姓名：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="cashiername" id="cashiername" class="easyui-validatebox tb" readonly="true" value="" style="width:100px" style="ime-mode:Disabled"/>
+		           </td>
+	           </tr>
+		  	  <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>客户代码：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		                <input name="licensecode" id="licensecode"readonly="true" class="easyui-validatebox tb" style="width:100px"  data-options="validType:'length[1,30]'"><strong><font color="red" >*</font></strong>
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>店名：</td>
+		           	<td width="13%" height="20" align="left" nowrap colspan=3>
+		               <input name="custname" id="custname" value="" readonly="true"class="easyui-validatebox tb" style="width:440px" data-options="validType:'length[1,80]'" style="ime-mode:Disabled" />
+		           </td>  
+	           </tr>
+	           
+	           </table>
+				</td>
+			  </tr>
+			 <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="2"  class="">
+               <tr><td colspan="6"  class="style2"><font color="blue">市场督查调查表</font></td></tr>
+               </table></td>
+           </tr>            
+			     <tr>
+			    <td >
+				  <table width="100%" border="0" cellpadding="2" cellspacing="2" class="">
+				  
+				      <tr align="left" >
+						<td colspan="6">
+							<strong>1、您预定的烟，是否按时送到您的店中？（4分）</strong>
+							<input id="evalitemid1" name="evalitemid1" value="80" type="hidden" />
+							<input id="assessweight1" name="assessweight1" value="0.4" type="hidden" />
+							<input id="evalitemid2" name="evalitemid2" value="81" type="hidden" />
+							<input id="assessweight2" name="assessweight2" value="0.2" type="hidden" />
+							<input id="evalitemid3" name="evalitemid3" value="82" type="hidden" />
+							<input id="assessweight3" name="assessweight3" value="0.2" type="hidden" />
+							<input id="evalitemid4" name="evalitemid4" value="5" type="hidden" />
+							<input id="assessweight4" name="assessweight4" value="0.1" type="hidden" />
+							<input id="evalitemid5" name="evalitemid5" value="83" type="hidden" />
+							<input id="assessweight5" name="assessweight5" value="0.4" type="hidden" />
+							<input id="evalitemid6" name="evalitemid6" value="84" type="hidden" />
+							<input id="assessweight6" name="assessweight6" value="0.4" type="hidden" />
+						</td>
+					</tr>
+			  <tr>
+					<td><input name="che1"  type="radio" value="4" readonly=""  onClick="js()" checked>已经送到（不扣分）</td>
+					<td colspan="5"><input name="che1" type="radio" value="0" readonly=""  onClick="js()">车组原因未送到（-4分）</td>
+			  </tr>	
+			  	<tr align="left" >
+						<td colspan="6">
+							<strong>2、近四次送货中，司机是否要求您到车边取货？（2分）</strong>
+						</td>
+					</tr>
+			  <tr>
+					<td><input name="che2"  type="radio" value="1.8" readonly=""  onClick="js()">有一次（-0.2分）</td>
+					<td ><input name="che2" type="radio" value="1.7" readonly=""  onClick="js()">有两次（-0.3分）</td>
+					<td ><input name="che2" type="radio" value="0.5" readonly=""  onClick="js()">有三次（-1.5分）</td>
+					<td ><input name="che2" type="radio" value="0" readonly=""  onClick="js()">有四次（-2.0分）</td>
+					<td  colspan="2"><input name="che2" type="radio" value="2" readonly=""  onClick="js()" checked>每次都送到店中（不扣分）</td>
+			  </tr>	
+			  	<tr align="left" >
+						<td colspan="6">
+							<strong>3、近四次送货中，收款员是否进行了清点或签收？（2分）</strong>
+						</td>
+					</tr>
+			  <tr>
+					<td><input name="che3"  type="radio" value="1.8" readonly=""  onClick="js()">一次未清点或签收（-0.2分）</td>
+					<td ><input name="che3" type="radio" value="1.7" readonly=""  onClick="js()">两次未清点或签收（-0.3分）</td>
+					<td ><input name="che3" type="radio" value="0.5" readonly=""  onClick="js()">三次未清点或签收（-1.5分）</td>
+					<td ><input name="che3" type="radio" value="0" readonly=""  onClick="js()">四次未清点或签收（-2.0分）</td>
+					<td  colspan="2"><input name="che3" type="radio" value="2" readonly=""  onClick="js()" checked>每次都清点或签收（不扣分）</td>
+			  </tr>
+			  <tr align="left" >
+						<td colspan="6">
+							<strong>4、货物是否有差错和损坏？（1分）</strong>
+						</td>
+					</tr>
+			  <tr> 
+					<td><input name="che4"  type="radio" value="10" readonly=""  onClick="js()" checked>没有（不扣分）</td>
+					<td ><input name="che4" type="radio" value="9" readonly=""  onClick="js()">偶尔出现损坏或差错（-1分）</td>
+					<td   colspan="4"><input name="che4" type="radio" value="0" readonly=""  onClick="js()">经常出现（-10分）</td>
+			  </tr>		
+			   <tr align="left" >
+						<td colspan="6">
+							<strong>5、您对司机的服务态度是否满意：（4分）</strong>
+						</td>
+					</tr>
+			  <tr>
+			  
+					<td><input name="che5"  type="radio" value="4" readonly="" onClick="js()" checked >非常满意（不扣分）</td>
+					<td ><input name="che5" type="radio" value="3.7" readonly="" onClick="js()" >满意（-0.3分）</td>
+					<td ><input name="che5" type="radio" value="3.3" readonly=""  onClick="js()">一般（-0.7分）</td>
+					<td ><input name="che5" type="radio" value="1" readonly=""  onClick="js()">不满意（-3.0分）</td>
+					<td  ><input name="che5" type="radio" value="0" readonly=""  onClick="js()">非常不满意（-4.0分）</td>
+					<td><strong>(司机)</strong></td>
+			  </tr>	
+			   <tr>
+			  
+					<td><input name="che6"  type="radio" value="4" readonly=""  onClick="js()" checked>非常满意（不扣分）</td>
+					<td ><input name="che6" type="radio" value="3.7" readonly="" onClick="js()" >满意（-0.3分）</td>
+					<td ><input name="che6" type="radio" value="3.3" readonly=""  onClick="js()">一般（-0.7分）</td>
+					<td ><input name="che6" type="radio" value="1" readonly=""  onClick="js()">不满意（-3.0分）</td>
+					<td  ><input name="che6" type="radio" value="0" readonly=""  onClick="js()">非常不满意（-4.0分）</td>
+					<td><strong>(收款员)</strong></td>
+			  </tr>	
+			  </table>
+			  </td>
+			  </tr>
+			  <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="2"  class="">
+               <tr><td colspan="6"  class="style2"><font color="blue">市场督查得分情况</font></td></tr>
+               </table></td>
+           </tr>
+			  <table>
+			<tr align="center" >
+				  <td width="5%" height="20" align="left" nowrap >
+				  司机得分：
+				  <input id="dscore"  name="dscore" value="10" readonly="true"  type="text" size="10" maxlength="10" border="0">
+				  </td>
+				  <td width="5%" height="20" align="left" nowrap >收款员得分：
+				  <input id="cscore"  name="cscore" value="10" readonly="true"  type="text" size="10" maxlength="10">
+				  </td>
+				  <td width="55%" height="20" align="left" nowrap >评分时间：
+				  <input class="easyui-datetimebox"name="scoringtime1" id="scoringtime1" data-options="required:true" value="<%=DateUtil.getGMT_8()%>"  style="width:auto;cursor:hand;" >
+				  </td>
+			  </tr>
+			  <tr align="center" >
+				  <td width="5%" height="20" align="left"  colspan=3 nowrap >备注信息：
+				  <textarea  name="remarks" cols="74.8" rows="3" ></textarea>
+				  </td>
+			  </tr>
+		     </table>
+	</td>
+  </tr>
+			</div>
+			<br>
+		</form>
+	</div>
+	</table></td></tr></table></tr></div></form></div>
+	<div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveAdd()">保存</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#add-dlg').dialog('close');">取消</a>
+	</div>
+
+    <!-- end 1、新增对话框 -->
+	
+	
+	<!-- 查看对话框 -->
+	<div id="view-dlg" class="easyui-dialog" style="width:650px;height:420px;padding:10px 20px;align:center;"  data-options="modal:true,draggable:false"
+			 closed="true" buttons="#view-dlg-buttons">
+		<div class="ftitle"></div>
+		<form id="view-fm" method="post" action="" novalidate  >
+			<div class="fitem">
+				<table width="100%" border="0" cellpadding="0" cellspacing="6">
+            <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
+              <tr><td colspan="4"  class="style2"><font color="blue">零售户信息</font></td></tr>
+               </table></td>
+           </tr>           
+	  <table width="100%" border="0" cellpadding="" cellspacing="2" class="">
+	   <tr align="left" >
+           <td width="1%" height="20" align="left" nowrap>专卖证号:</td>
+           <td id="v-custid"  width="2%" height="20" align="left" nowrap>
+           </td>
+           <td width="1%" height="20" align="left" id="" nowrap >联系信息:</td>
+            <td id="contactinfo"   width="2%" height="20" align="left" nowrap>
+           </td>
+       </tr>
+	  <tr align="left" >
+           <td width="1%" height="20" align="left" id="" nowrap>店名：</td>
+            <td id="v-custname"  width="14%" height="20" align="left"colspan="3" nowrap>
+            </td> 
+       </tr>
+	  <tr align="left" >
+           <td width="1%" height="20" align="left" id="" nowrap>地址：</td>
+            <td id="custaddr"  width="14%" height="20" align="left"colspan="3" nowrap>
+            </td> 
+       </tr>
+       </table>
+       </div>
+       <div class="fitem">
+       <table width="100%" border="0" cellpadding="0" cellspacing="6">
+            <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
+              <tr><td colspan="4"  class="style2"><font color="blue">回访车组信息</font></td></tr>
+               </table></td>
+           </tr> 
+         <table width="100%" border="0" cellpadding="0" cellspacing="2" class="">
+        <tr align="center" >
+           <td width="5%" height="20" align="left" nowrap>车组CODE:</td>
+           <td id="v-routecode"class="formtd" font  width="14%" height="20" align="left" nowrap>
+           </td>
+           <td width="5%" height="20" align="left" id="v-dname" nowrap >得分:</td>
+            <td id="v-dscore"class="formtd" font  width="14%" height="20" align="left" nowrap>
+           </td>
+           <td width="5%" height="20" align="left" id="v-cname" nowrap>得分：</td>
+            <td id="v-cscore"class="formtd" font  width="14%" height="20" align="left" nowrap>
+            </td> 
+       </tr>
+       <tr align="center" >
+            <td width="5%" height="20" align="left" id="v-dname" nowrap >得分时间:</td>
+            <td id="v-scoringtime"class="formtd" font style=" width="14%" height="20" align="left" nowrap>
+           </td>
+           <td width="5%" height="20" align="left" id="v-cname" nowrap>记录人姓名：</td>
+            <td id="v-createname"class="formtd" font style=" width="14%" height="20" align="left" nowrap colspan='3'>
+                
+            </td>
+       </tr>
+            <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>备注信息：</td>
+           <td width="13%" height="20" align="left"   id="v-remarks" colspan=5 nowrap>
+           </td>
+       </tr>
+    </table>
+  
+  <div class="fitem">
+				<table width="100%" border="0" cellpadding="0" cellspacing="6">
+            <tr>
+  <td> <table width="100%" border="0" cellpadding="0" cellspacing="2"  class="">
+  <tr><td colspan="4"  class="style2"><font color="blue">单项考核得分信息</font></td></tr>
+                 </table></td>
+           </tr>         
+				<div style="padding:0" id="tabdiv1">
+		<table id="dataTable1" ShowHeader="false"></table>
+	</div>
+		</form>
+	</div>		
+	<div id="view-dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#view-dlg').dialog('close')">关闭</a>
+	</div>
+	
+	<!-- 进度条，建议对于耗时长的操作才启用
+	<div id="loading">
+		<div class="inputdiv" >
+			<img  src="/BS56/img/loading.gif" style="padding-top: 20px; padding-left:72px;"/><br>
+			<h3 style="padding-left: 35px;">&nbsp;&nbsp;&nbsp;&nbsp;数据上传中,请稍候......</h3>
+		</div>
+	 </div>-->
+	
+<c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=RoutescoreMarket"></c:import>	
+  </body>
+</html>

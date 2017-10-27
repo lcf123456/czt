@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.VehicleVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.VehicleVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="VEHICLES" property="vehicles" jdbcType="VARCHAR" />
+    <result column="VEHICLENO" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="VEHICLETYPE" property="vehicletype" jdbcType="VARCHAR" />
+    <result column="FUELTYPE" property="fueltype" jdbcType="VARCHAR" />
+    <result column="REGIONTYPE" property="regiontype" jdbcType="VARCHAR" />
+    <result column="BAK" property="bak" jdbcType="VARCHAR" />
+    <result column="BUYDATE" property="buydate" jdbcType="TIMESTAMP" />
+    <result column="ENGINENUM" property="enginenum" jdbcType="VARCHAR" />
+    <result column="DEPTMANAGER" property="deptmanager" jdbcType="DECIMAL" />
+    <result column="REGISTER" property="register" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+    <result column="GPSCODE" property="gpscode" jdbcType="VARCHAR" />
+    <result column="MAXLOADNUM" property="maxloadnum" jdbcType="DECIMAL" />
+    <result column="MAXORDERNUM" property="maxordernum" jdbcType="DECIMAL" />
+    <result column="VINNO" property="vinno" jdbcType="VARCHAR" />
+    <result column="REGLOAD" property="regload" jdbcType="DECIMAL" />
+    <result column="MAINTAINMILEAGE" property="maintainmileage" jdbcType="DECIMAL" />
+    <result column="VEHICLEIMG" property="vehicleimg" jdbcType="VARCHAR" />
+    <result column="TYRENUM" property="tyrenum" jdbcType="DECIMAL" />
+    <result column="KEYWD" property="keywd" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATEID, CREATEDATE, REMARKS, VEHICLES, VEHICLENO, VEHICLETYPE, FUELTYPE, REGIONTYPE, 
+    BAK, BUYDATE, ENGINENUM, DEPTMANAGER, REGISTER, DELSTATUS, GPSCODE, MAXLOADNUM, MAXORDERNUM, 
+    VINNO, REGLOAD, MAINTAINMILEAGE, VEHICLEIMG, TYRENUM
+  </sql>
+    <select id="getVehicleVoList"  parameterType="Pagination"  resultType="com.ztel.app.vo.sys.VehicleVo" >
+   
+  select 
+ID, CREATEID, CREATEDATE, REMARKS, decode(VEHICLES,10,'配送车',20,'干线车',30,'公务用车',40,'备用车')as vehiclescn,VEHICLES,VEHICLENO, VEHICLETYPE,decode（FUELTYPE,0,'柴油',1,'93#汽油',2,'97#汽油')as fueltypecn,FUELTYPE, REGIONTYPE, 
+    BAK, BUYDATE, ENGINENUM, DEPTMANAGER, REGISTER,decode(DELSTATUS,0,'报废',10,'在用')as delstatuscontent,DELSTATUS,GPSCODE, MAXLOADNUM, MAXORDERNUM, 
+    VINNO, REGLOAD, MAINTAINMILEAGE, VEHICLEIMG, TYRENUM
+  from T_SYS_VEHICLE where 1=1
+      <if test="vehicles!= null and vehicles != ''" >
+        and vehicles= #{vehicles,jdbcType=VARCHAR}
+      </if>
+      <if test="vehicleno!= null and vehicleno != ''" >
+        and (vehicleno like'%'||#{vehicleno,jdbcType=VARCHAR}||'%' )
+       </if>
+	  order by DELSTATUS desc ,VEHICLENO 
+   </select>
+       <select id="getVehicleVoPageList"  parameterType="Pagination"  resultType="com.ztel.app.vo.sys.VehicleVo" >
+   
+  select 
+ID, CREATEID, CREATEDATE, REMARKS, decode(VEHICLES,10,'配送车',20,'干线车',30,'公务用车',40,'备用车')as vehiclescn,VEHICLES,VEHICLENO, VEHICLETYPE,decode（FUELTYPE,0,'柴油',1,'93#汽油',2,'97#汽油')as fueltypecn,FUELTYPE, REGIONTYPE, 
+    BAK, BUYDATE, ENGINENUM, DEPTMANAGER, REGISTER,decode(DELSTATUS,0,'报废',10,'在用')as delstatuscontent,DELSTATUS,GPSCODE, MAXLOADNUM, MAXORDERNUM, 
+    VINNO, REGLOAD, MAINTAINMILEAGE, VEHICLEIMG, TYRENUM
+  from T_SYS_VEHICLE where 1=1
+	  order by DELSTATUS,VEHICLENO desc
+   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_VEHICLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update T_SYS_VEHICLE 
+    set delstatus=0 
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.VehicleVo" >
+    insert into T_SYS_VEHICLE (ID, CREATEID, CREATEDATE, 
+      REMARKS, VEHICLES, VEHICLENO, VEHICLETYPE, 
+      FUELTYPE, REGIONTYPE, BAK, 
+      BUYDATE, ENGINENUM, DEPTMANAGER, 
+      REGISTER, DELSTATUS, GPSCODE, 
+      MAXLOADNUM, MAXORDERNUM, VINNO, 
+      REGLOAD, MAINTAINMILEAGE, VEHICLEIMG, 
+      TYRENUM)
+    values (#{id,jdbcType=DECIMAL}, #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{vehicles,jdbcType=VARCHAR}, #{vehicleno,jdbcType=VARCHAR},
+      #{vehicletype,jdbcType=VARCHAR}, #{fueltype,jdbcType=VARCHAR}, #{regiontype,jdbcType=VARCHAR}, 
+      #{bak,jdbcType=VARCHAR},#{buydate,jdbcType=TIMESTAMP}, #{enginenum,jdbcType=VARCHAR}, 
+      #{deptmanager,jdbcType=DECIMAL}, #{register,jdbcType=VARCHAR}, #{delstatus,jdbcType=DECIMAL}, 
+      #{gpscode,jdbcType=VARCHAR}, #{maxloadnum,jdbcType=DECIMAL}, #{maxordernum,jdbcType=DECIMAL}, 
+      #{vinno,jdbcType=VARCHAR}, #{regload,jdbcType=DECIMAL}, #{maintainmileage,jdbcType=DECIMAL}, 
+      #{vehicleimg,jdbcType=VARCHAR}, #{tyrenum,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective"  parameterType="com.ztel.app.vo.sys.VehicleVo" >
+    insert into T_SYS_VEHICLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,  CREATEID, CREATEDATE,
+      <if test="remarks != null" >    
+        REMARKS,
+      </if>
+       <if test="vehicles != null" >
+        VEHICLES,
+      </if>
+      <if test="vehicleno != null" >
+        VEHICLENO,
+      </if>
+      <if test="vehicletype != null" >
+        VEHICLETYPE,
+      </if>
+      <if test="fueltype != null" >
+        FUELTYPE,
+      </if>
+      <if test="regiontype != null" >
+        REGIONTYPE,
+      </if>
+      <if test="bak != null" >
+        BAK,
+      </if>
+      <if test="enginenum != null" >
+        ENGINENUM,
+      </if>
+      <if test="deptmanager != null" >
+        DEPTMANAGER,
+      </if>
+      <if test="register != null" >
+        REGISTER,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="gpscode != null" >
+        GPSCODE,
+      </if>
+      <if test="maxloadnum != null" >
+        MAXLOADNUM,
+      </if>
+      <if test="maxordernum != null" >
+        MAXORDERNUM,
+      </if>
+      <if test="vinno != null" >
+        VINNO,
+      </if>
+      <if test="regload != null" >
+        REGLOAD,
+      </if>
+      <if test="maintainmileage != null" >
+        MAINTAINMILEAGE,
+      </if>
+      <if test="vehicleimg != null" >
+        VEHICLEIMG,
+      </if>
+      <if test="tyrenum != null" >
+        TYRENUM,
+      </if>
+      <if test="buydate != null" >
+        BUYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+          s_sys_vehicle.nextval, 1, sysdate,
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicles != null" >
+        #{vehicles,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleno != null" >
+        #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicletype != null" >
+        #{vehicletype,jdbcType=VARCHAR},
+      </if>
+      <if test="fueltype != null" >
+        #{fueltype,jdbcType=VARCHAR},
+      </if>
+      <if test="regiontype != null" >
+        #{regiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="bak != null" >
+        #{bak,jdbcType=VARCHAR},
+      </if>
+      <if test="enginenum != null" >
+        #{enginenum,jdbcType=VARCHAR},
+      </if>
+      <if test="deptmanager != null" >
+        #{deptmanager,jdbcType=DECIMAL},
+      </if>
+      <if test="register != null" >
+        #{register,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="gpscode != null" >
+        #{gpscode,jdbcType=VARCHAR},
+      </if>
+      <if test="maxloadnum != null" >
+        #{maxloadnum,jdbcType=DECIMAL},
+      </if>
+      <if test="maxordernum != null" >
+        #{maxordernum,jdbcType=DECIMAL},
+      </if>
+      <if test="vinno != null" >
+        #{vinno,jdbcType=VARCHAR},
+      </if>
+      <if test="regload != null" >
+        #{regload,jdbcType=DECIMAL},
+      </if>
+      <if test="maintainmileage != null" >
+        #{maintainmileage,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleimg != null" >
+        #{vehicleimg,jdbcType=VARCHAR},
+      </if>
+      <if test="tyrenum != null" >
+        #{tyrenum,jdbcType=DECIMAL},
+      </if>
+      <if test="buydate != null" >
+        #{buydate,jdbcType=TIMESTAMP},
+      </if>
+   </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.VehicleVo" >
+    update T_SYS_VEHICLE
+    <set >
+
+        CREATEID = 1,
+
+        CREATEDATE = sysdate,
+
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicles != null" >
+        VEHICLES = #{vehicles,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleno != null" >
+        VEHICLENO = #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicletype != null" >
+        VEHICLETYPE = #{vehicletype,jdbcType=VARCHAR},
+      </if>
+      <if test="fueltype != null" >
+        FUELTYPE = #{fueltype,jdbcType=VARCHAR},
+      </if>
+      <if test="regiontype != null" >
+        REGIONTYPE = #{regiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="bak != null" >
+        BAK = #{bak,jdbcType=VARCHAR},
+      </if>
+      <if test="buydate != null" >
+        BUYDATE = #{buydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enginenum != null" >
+        ENGINENUM = #{enginenum,jdbcType=VARCHAR},
+      </if>
+      <if test="deptmanager != null" >
+        DEPTMANAGER = #{deptmanager,jdbcType=DECIMAL},
+      </if>
+      <if test="register != null" >
+        REGISTER = #{register,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="gpscode != null" >
+        GPSCODE = #{gpscode,jdbcType=VARCHAR},
+      </if>
+      <if test="maxloadnum != null" >
+        MAXLOADNUM = #{maxloadnum,jdbcType=DECIMAL},
+      </if>
+      <if test="maxordernum != null" >
+        MAXORDERNUM = #{maxordernum,jdbcType=DECIMAL},
+      </if>
+      <if test="vinno != null" >
+        VINNO = #{vinno,jdbcType=VARCHAR},
+      </if>
+      <if test="regload != null" >
+        REGLOAD = #{regload,jdbcType=DECIMAL},
+      </if>
+      <if test="maintainmileage != null" >
+        MAINTAINMILEAGE = #{maintainmileage,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleimg != null" >
+        VEHICLEIMG = #{vehicleimg,jdbcType=VARCHAR},
+      </if>
+      <if test="tyrenum != null" >
+        TYRENUM = #{tyrenum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.VehicleVo" >
+    update T_SYS_VEHICLE
+    set CREATEID = 1,
+      CREATEDATE = sysdate,
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      VEHICLES = #{vehicles,jdbcType=VARCHAR},
+      VEHICLENO = #{vehicleno,jdbcType=VARCHAR},
+      VEHICLETYPE = #{vehicletype,jdbcType=VARCHAR},
+      FUELTYPE = #{fueltype,jdbcType=VARCHAR},
+      REGIONTYPE = #{regiontype,jdbcType=VARCHAR},
+      BAK = #{bak,jdbcType=VARCHAR},
+      BUYDATE = #{buydate,jdbcType=TIMESTAMP},
+      ENGINENUM = #{enginenum,jdbcType=VARCHAR},
+      DEPTMANAGER = #{deptmanager,jdbcType=DECIMAL},
+      REGISTER = #{register,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      GPSCODE = #{gpscode,jdbcType=VARCHAR},
+      MAXLOADNUM = #{maxloadnum,jdbcType=DECIMAL},
+      MAXORDERNUM = #{maxordernum,jdbcType=DECIMAL},
+      VINNO = #{vinno,jdbcType=VARCHAR},
+      REGLOAD = #{regload,jdbcType=DECIMAL},
+      MAINTAINMILEAGE = #{maintainmileage,jdbcType=DECIMAL},
+      VEHICLEIMG = #{vehicleimg,jdbcType=VARCHAR},
+      TYRENUM = #{tyrenum,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.PhonetypenumberVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.PhonetypenumberVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EVALITEMID" property="evalitemid" jdbcType="DECIMAL" />
+    <result column="INPUTNUMBER" property="inputnumber" jdbcType="VARCHAR" />
+    <result column="SCORES" property="scores" jdbcType="DECIMAL" />
+    <result column="ASSESSTYPE" property="assesstype" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, EVALITEMID, INPUTNUMBER, SCORES, ASSESSTYPE, DELSTATUS, CREATETIME, CREATEID, 
+    REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_PHONETYPENUMBER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SQ_PHONETYPENUMBER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.PhonetypenumberVo" >
+    insert into T_SQ_PHONETYPENUMBER (ID, EVALITEMID, INPUTNUMBER, 
+      SCORES, ASSESSTYPE, DELSTATUS, 
+      CREATETIME, CREATEID, REMARKS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{evalitemid,jdbcType=DECIMAL}, #{inputnumber,jdbcType=VARCHAR}, 
+      #{scores,jdbcType=DECIMAL}, #{assesstype,jdbcType=DECIMAL}, #{delstatus,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createid,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.PhonetypenumberVo" >
+    insert into T_SQ_PHONETYPENUMBER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="evalitemid != null" >
+        EVALITEMID,
+      </if>
+      <if test="inputnumber != null" >
+        INPUTNUMBER,
+      </if>
+      <if test="scores != null" >
+        SCORES,
+      </if>
+      <if test="assesstype != null" >
+        ASSESSTYPE,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="evalitemid != null" >
+        #{evalitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="inputnumber != null" >
+        #{inputnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="scores != null" >
+        #{scores,jdbcType=DECIMAL},
+      </if>
+      <if test="assesstype != null" >
+        #{assesstype,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.PhonetypenumberVo" >
+    update T_SQ_PHONETYPENUMBER
+    <set >
+      <if test="evalitemid != null" >
+        EVALITEMID = #{evalitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="inputnumber != null" >
+        INPUTNUMBER = #{inputnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="scores != null" >
+        SCORES = #{scores,jdbcType=DECIMAL},
+      </if>
+      <if test="assesstype != null" >
+        ASSESSTYPE = #{assesstype,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.PhonetypenumberVo" >
+    update T_SQ_PHONETYPENUMBER
+    set EVALITEMID = #{evalitemid,jdbcType=DECIMAL},
+      INPUTNUMBER = #{inputnumber,jdbcType=VARCHAR},
+      SCORES = #{scores,jdbcType=DECIMAL},
+      ASSESSTYPE = #{assesstype,jdbcType=DECIMAL},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

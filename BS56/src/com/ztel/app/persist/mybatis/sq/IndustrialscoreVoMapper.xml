@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.IndustrialscoreVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.IndustrialscoreVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CLEVEL" property="clevel" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="HANDLEDEPT" property="handledept" jdbcType="DECIMAL" />
+    <result column="HANDLERESULT" property="handleresult" jdbcType="VARCHAR" />
+    <result column="HANDLEID" property="handleid" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="HANDLEFLAG" property="handleflag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CONTENT, CLEVEL, CREATEID, CREATEDATE, HANDLEDEPT, HANDLERESULT, HANDLEID, DELSTATUS, 
+    REMARKS, HANDLEFLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_INDUSTRIALSCORE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SQ_INDUSTRIALSCORE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.IndustrialscoreVo" >
+    insert into T_SQ_INDUSTRIALSCORE (ID, CONTENT, CLEVEL, 
+      CREATEID, CREATEDATE, HANDLEDEPT, 
+      HANDLERESULT, HANDLEID, DELSTATUS, 
+      REMARKS, HANDLEFLAG)
+    values (#{id,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{clevel,jdbcType=VARCHAR}, 
+      #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, #{handledept,jdbcType=DECIMAL}, 
+      #{handleresult,jdbcType=VARCHAR}, #{handleid,jdbcType=DECIMAL}, #{delstatus,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{handleflag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.IndustrialscoreVo" >
+    insert into T_SQ_INDUSTRIALSCORE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="clevel != null" >
+        CLEVEL,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="handledept != null" >
+        HANDLEDEPT,
+      </if>
+      <if test="handleresult != null" >
+        HANDLERESULT,
+      </if>
+      <if test="handleid != null" >
+        HANDLEID,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="handleflag != null" >
+        HANDLEFLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="clevel != null" >
+        #{clevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handledept != null" >
+        #{handledept,jdbcType=DECIMAL},
+      </if>
+      <if test="handleresult != null" >
+        #{handleresult,jdbcType=VARCHAR},
+      </if>
+      <if test="handleid != null" >
+        #{handleid,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="handleflag != null" >
+        #{handleflag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.IndustrialscoreVo" >
+    update T_SQ_INDUSTRIALSCORE
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="clevel != null" >
+        CLEVEL = #{clevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handledept != null" >
+        HANDLEDEPT = #{handledept,jdbcType=DECIMAL},
+      </if>
+      <if test="handleresult != null" >
+        HANDLERESULT = #{handleresult,jdbcType=VARCHAR},
+      </if>
+      <if test="handleid != null" >
+        HANDLEID = #{handleid,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="handleflag != null" >
+        HANDLEFLAG = #{handleflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.IndustrialscoreVo" >
+    update T_SQ_INDUSTRIALSCORE
+    set CONTENT = #{content,jdbcType=VARCHAR},
+      CLEVEL = #{clevel,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      HANDLEDEPT = #{handledept,jdbcType=DECIMAL},
+      HANDLERESULT = #{handleresult,jdbcType=VARCHAR},
+      HANDLEID = #{handleid,jdbcType=DECIMAL},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      HANDLEFLAG = #{handleflag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

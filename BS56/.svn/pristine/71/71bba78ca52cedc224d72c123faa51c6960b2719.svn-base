@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.wms.LanewayVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.LanewayVo">
+    <id column="LANEWAYNO" jdbcType="VARCHAR" property="lanewayno" />
+    <result column="LANEWAYNAME" jdbcType="OTHER" property="lanewayname" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LANEWAYNO, LANEWAYNAME, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_LANEWAY
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_WMS_LANEWAY
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    insert into T_WMS_LANEWAY (LANEWAYNO, LANEWAYNAME, STATUS
+      )
+    values (#{lanewayno,jdbcType=VARCHAR}, #{lanewayname,jdbcType=OTHER}, #{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    insert into T_WMS_LANEWAY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lanewayno != null">
+        LANEWAYNO,
+      </if>
+      <if test="lanewayname != null">
+        LANEWAYNAME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lanewayno != null">
+        #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="lanewayname != null">
+        #{lanewayname,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    update T_WMS_LANEWAY
+    <set>
+      <if test="lanewayname != null">
+        LANEWAYNAME = #{lanewayname,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    update T_WMS_LANEWAY
+    set LANEWAYNAME = #{lanewayname,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.LanewayVo">
+    <id column="LANEWAYNO" jdbcType="VARCHAR" property="lanewayno" />
+    <result column="LANEWAYNAME" jdbcType="OTHER" property="lanewayname" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LANEWAYNO, LANEWAYNAME, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_LANEWAY
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_WMS_LANEWAY
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    insert into T_WMS_LANEWAY (LANEWAYNO, LANEWAYNAME, STATUS
+      )
+    values (#{lanewayno,jdbcType=VARCHAR}, #{lanewayname,jdbcType=OTHER}, #{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    insert into T_WMS_LANEWAY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lanewayno != null">
+        LANEWAYNO,
+      </if>
+      <if test="lanewayname != null">
+        LANEWAYNAME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lanewayno != null">
+        #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="lanewayname != null">
+        #{lanewayname,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    update T_WMS_LANEWAY
+    <set>
+      <if test="lanewayname != null">
+        LANEWAYNAME = #{lanewayname,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    update T_WMS_LANEWAY
+    set LANEWAYNAME = #{lanewayname,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.LanewayVo">
+    <id column="LANEWAYNO" jdbcType="VARCHAR" property="lanewayno" />
+    <result column="LANEWAYNAME" jdbcType="OTHER" property="lanewayname" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LANEWAYNO, LANEWAYNAME, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_LANEWAY
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_WMS_LANEWAY
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    insert into T_WMS_LANEWAY (LANEWAYNO, LANEWAYNAME, STATUS
+      )
+    values (#{lanewayno,jdbcType=VARCHAR}, #{lanewayname,jdbcType=OTHER}, #{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    insert into T_WMS_LANEWAY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lanewayno != null">
+        LANEWAYNO,
+      </if>
+      <if test="lanewayname != null">
+        LANEWAYNAME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lanewayno != null">
+        #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="lanewayname != null">
+        #{lanewayname,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    update T_WMS_LANEWAY
+    <set>
+      <if test="lanewayname != null">
+        LANEWAYNAME = #{lanewayname,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    update T_WMS_LANEWAY
+    set LANEWAYNAME = #{lanewayname,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.LanewayVo">
+    <id column="LANEWAYNO" jdbcType="VARCHAR" property="lanewayno" />
+    <result column="LANEWAYNAME" jdbcType="OTHER" property="lanewayname" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LANEWAYNO, LANEWAYNAME, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_LANEWAY
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_WMS_LANEWAY
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    insert into T_WMS_LANEWAY (LANEWAYNO, LANEWAYNAME, STATUS
+      )
+    values (#{lanewayno,jdbcType=VARCHAR}, #{lanewayname,jdbcType=OTHER}, #{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    insert into T_WMS_LANEWAY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lanewayno != null">
+        LANEWAYNO,
+      </if>
+      <if test="lanewayname != null">
+        LANEWAYNAME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lanewayno != null">
+        #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="lanewayname != null">
+        #{lanewayname,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    update T_WMS_LANEWAY
+    <set>
+      <if test="lanewayname != null">
+        LANEWAYNAME = #{lanewayname,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.LanewayVo">
+    update T_WMS_LANEWAY
+    set LANEWAYNAME = #{lanewayname,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where LANEWAYNO = #{lanewayno,jdbcType=VARCHAR}
+  </update>
+</mapper>

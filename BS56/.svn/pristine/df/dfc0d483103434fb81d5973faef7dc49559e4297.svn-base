@@ -1,0 +1,17 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.ItemstockVo;
+
+public interface ItemstockVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-09-25
+     */
+    int insert(ItemstockVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-25
+     */
+    int insertSelective(ItemstockVo record);
+}

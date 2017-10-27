@@ -1,0 +1,208 @@
+package com.ztel.app.vo.sys;
+
+import java.util.Date;
+
+public class DeptVo {
+    /**
+     * 部门ID
+     */
+    private Integer id;
+
+    /**
+     * 部门code
+     */
+    private String deptcode;
+
+    /**
+     * 部门名称
+     */
+    private String deptname;
+
+    /**
+     * 部门类型
+     */
+    private Long depttype;
+
+    /**
+     * 记录人
+     */
+    private Long createid;
+
+    /**
+     * 记录时间
+     */
+    private Date createdate;
+
+    /**
+     * syc标志(部门级次)
+     */
+    private Short deptlevel;
+
+    /**
+     * sys备注信息
+     */
+    private String sysremarks;
+
+    /**
+     * sync标志(上级部门id)
+     */
+    private Integer fid;
+    
+    
+    /**
+     * user姓名(USER表)
+     */
+    private String username;
+
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+     * 部门ID
+     * @return ID 部门ID
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 部门ID
+     * @param id 部门ID
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 部门code
+     * @return DEPTCODE 部门code
+     */
+    public String getDeptcode() {
+        return deptcode;
+    }
+
+    /**
+     * 部门code
+     * @param deptcode 部门code
+     */
+    public void setDeptcode(String deptcode) {
+        this.deptcode = deptcode == null ? null : deptcode.trim();
+    }
+
+    /**
+     * 部门名称
+     * @return DEPTNAME 部门名称
+     */
+    public String getDeptname() {
+        return deptname;
+    }
+
+    /**
+     * 部门名称
+     * @param deptname 部门名称
+     */
+    public void setDeptname(String deptname) {
+        this.deptname = deptname == null ? null : deptname.trim();
+    }
+
+    /**
+     * 部门类型
+     * @return DEPTTYPE 部门类型
+     */
+    public Long getDepttype() {
+        return depttype;
+    }
+
+    /**
+     * 部门类型
+     * @param depttype 部门类型
+     */
+    public void setDepttype(Long depttype) {
+        this.depttype = depttype;
+    }
+
+    /**
+     * 记录人
+     * @return CREATEID 记录人
+     */
+    public Long getCreateid() {
+        return createid;
+    }
+
+    /**
+     * 记录人
+     * @param createid 记录人
+     */
+    public void setCreateid(Long createid) {
+        this.createid = createid;
+    }
+
+    /**
+     * 记录时间
+     * @return CREATEDATE 记录时间
+     */
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    /**
+     * 记录时间
+     * @param createdate 记录时间
+     */
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    /**
+     * syc标志(部门级次)
+     * @return DEPTLEVEL syc标志(部门级次)
+     */
+    public Short getDeptlevel() {
+        return deptlevel;
+    }
+
+    /**
+     * syc标志(部门级次)
+     * @param deptlevel syc标志(部门级次)
+     */
+    public void setDeptlevel(Short deptlevel) {
+        this.deptlevel = deptlevel;
+    }
+
+    /**
+     * sys备注信息
+     * @return SYSREMARKS sys备注信息
+     */
+    public String getSysremarks() {
+        return sysremarks;
+    }
+
+    /**
+     * sys备注信息
+     * @param sysremarks sys备注信息
+     */
+    public void setSysremarks(String sysremarks) {
+        this.sysremarks = sysremarks == null ? null : sysremarks.trim();
+    }
+
+    /**
+     * sync标志(上级部门id)
+     * @return FID sync标志(上级部门id)
+     */
+    public Integer getFid() {
+        return fid;
+    }
+
+    /**
+     * sync标志(上级部门id)
+     * @param fid sync标志(上级部门id)
+     */
+    public void setFid(Integer fid) {
+        this.fid = fid;
+    }
+}

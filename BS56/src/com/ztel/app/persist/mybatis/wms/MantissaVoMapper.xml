@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.MantissaVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.MantissaVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="OTHER" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="OTHER" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="AREAID" property="areaid" jdbcType="DECIMAL" />
+    <result column="CREATEUSERID" property="createuserid" jdbcType="DECIMAL" />
+    <result column="CREATEUSERNAME" property="createusername" jdbcType="OTHER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CIGARETTECODE, CIGARETTENAME, QTY, CREATEDATE, AREAID, CREATEUSERID, CREATEUSERNAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_MANTISSA
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="getMantissa" resultMap="BaseResultMap"  parameterType="com.ztel.app.vo.wms.MantissaVo" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_MANTISSA
+    where cigarettecode=#{cigarettecode} and to_char(createdate,'yyyy-mm-dd')=to_char(#{createdate},'yyyy-mm-dd') and areaid=#{areaid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_MANTISSA
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.MantissaVo" >
+    insert into T_WMS_MANTISSA (ID, CIGARETTECODE, CIGARETTENAME, 
+      QTY, CREATEDATE, AREAID, 
+      CREATEUSERID, CREATEUSERNAME)
+    values (#{id,jdbcType=DECIMAL}, #{cigarettecode,jdbcType=OTHER}, #{cigarettename,jdbcType=OTHER}, 
+      #{qty,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, #{areaid,jdbcType=DECIMAL}, 
+      #{createuserid,jdbcType=DECIMAL}, #{createusername,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.MantissaVo" >
+    insert into T_WMS_MANTISSA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME,
+      </if>
+      <if test="qty != null" >
+        QTY,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="areaid != null" >
+        AREAID,
+      </if>
+      <if test="createuserid != null" >
+        CREATEUSERID,
+      </if>
+      <if test="createusername != null" >
+        CREATEUSERNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null" >
+        #{cigarettecode,jdbcType=OTHER},
+      </if>
+      <if test="cigarettename != null" >
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=DECIMAL},
+      </if>
+      <if test="createusername != null" >
+        #{createusername,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.MantissaVo" >
+    update T_WMS_MANTISSA
+    <set >
+      <if test="cigarettecode != null" >
+        CIGARETTECODE = #{cigarettecode,jdbcType=OTHER},
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="qty != null" >
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaid != null" >
+        AREAID = #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="createuserid != null" >
+        CREATEUSERID = #{createuserid,jdbcType=DECIMAL},
+      </if>
+      <if test="createusername != null" >
+        CREATEUSERNAME = #{createusername,jdbcType=OTHER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.MantissaVo" >
+    update T_WMS_MANTISSA
+    set CIGARETTECODE = #{cigarettecode,jdbcType=OTHER},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      QTY = #{qty,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      AREAID = #{areaid,jdbcType=DECIMAL},
+      CREATEUSERID = #{createuserid,jdbcType=DECIMAL},
+      CREATEUSERNAME = #{createusername,jdbcType=OTHER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

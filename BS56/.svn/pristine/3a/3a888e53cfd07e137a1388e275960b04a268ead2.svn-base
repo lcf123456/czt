@@ -1,0 +1,211 @@
+package com.ztel.app.vo.wms;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class ShipOrderVo {
+	private String orderno;
+    private String orgCode;
+    private String shiporderno;
+    private BigDecimal businesstypeId;
+    private BigDecimal shipperId;
+    private String customerId;
+	private BigDecimal warehouseid;
+    private String realshipaddress;
+    private String realaddresscontact;
+    private String realshipaddressphone;
+    private BigDecimal orderlines;
+    private BigDecimal totalamount;
+    private Date orderdate;
+    private Date expectedshipdate;
+    private BigDecimal isrush;
+    private BigDecimal orderstatus;
+    private Date createtime;
+    private String createuser;
+    private Date deliverytime;
+    private BigDecimal delstatus;
+    private String remarks;
+    private BigDecimal paymentflag;
+    private String routecode;
+    private BigDecimal deliveryseq;
+    private BigDecimal totalqty;
+    private BigDecimal batch;
+    private String schedulestatus;
+    private String customername;
+    private String bakphone;
+	public String getOrderno() {
+		return orderno;
+	}
+	public void setOrderno(String orderno) {
+		this.orderno = orderno;
+	}
+	public String getOrgCode() {
+		return orgCode;
+	}
+	public void setOrgCode(String orgCode) {
+		this.orgCode = orgCode;
+	}
+	public String getShiporderno() {
+		return shiporderno;
+	}
+	public void setShiporderno(String shiporderno) {
+		this.shiporderno = shiporderno;
+	}
+	public BigDecimal getBusinesstypeId() {
+		return businesstypeId;
+	}
+	public void setBusinesstypeId(BigDecimal businesstypeId) {
+		this.businesstypeId = businesstypeId;
+	}
+	public BigDecimal getShipperId() {
+		return shipperId;
+	}
+	public void setShipperId(BigDecimal shipperId) {
+		this.shipperId = shipperId;
+	}
+	public String getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+	public BigDecimal getWarehouseid() {
+		return warehouseid;
+	}
+	public void setWarehouseid(BigDecimal warehouseid) {
+		this.warehouseid = warehouseid;
+	}
+	public String getRealshipaddress() {
+		return realshipaddress;
+	}
+	public void setRealshipaddress(String realshipaddress) {
+		this.realshipaddress = realshipaddress;
+	}
+	public String getRealaddresscontact() {
+		return realaddresscontact;
+	}
+	public void setRealaddresscontact(String realaddresscontact) {
+		this.realaddresscontact = realaddresscontact;
+	}
+	public String getRealshipaddressphone() {
+		return realshipaddressphone;
+	}
+	public void setRealshipaddressphone(String realshipaddressphone) {
+		this.realshipaddressphone = realshipaddressphone;
+	}
+	public BigDecimal getOrderlines() {
+		return orderlines;
+	}
+	public void setOrderlines(BigDecimal orderlines) {
+		this.orderlines = orderlines;
+	}
+	public BigDecimal getTotalamount() {
+		return totalamount;
+	}
+	public void setTotalamount(BigDecimal totalamount) {
+		this.totalamount = totalamount;
+	}
+	public Date getOrderdate() {
+		return orderdate;
+	}
+	public void setOrderdate(Date orderdate) {
+		this.orderdate = orderdate;
+	}
+	public Date getExpectedshipdate() {
+		return expectedshipdate;
+	}
+	public void setExpectedshipdate(Date expectedshipdate) {
+		this.expectedshipdate = expectedshipdate;
+	}
+	public BigDecimal getIsrush() {
+		return isrush;
+	}
+	public void setIsrush(BigDecimal isrush) {
+		this.isrush = isrush;
+	}
+	public BigDecimal getOrderstatus() {
+		return orderstatus;
+	}
+	public void setOrderstatus(BigDecimal orderstatus) {
+		this.orderstatus = orderstatus;
+	}
+	public Date getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
+	public String getCreateuser() {
+		return createuser;
+	}
+	public void setCreateuser(String createuser) {
+		this.createuser = createuser;
+	}
+	public Date getDeliverytime() {
+		return deliverytime;
+	}
+	public void setDeliverytime(Date deliverytime) {
+		this.deliverytime = deliverytime;
+	}
+	public BigDecimal getDelstatus() {
+		return delstatus;
+	}
+	public void setDelstatus(BigDecimal delstatus) {
+		this.delstatus = delstatus;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public BigDecimal getPaymentflag() {
+		return paymentflag;
+	}
+	public void setPaymentflag(BigDecimal paymentflag) {
+		this.paymentflag = paymentflag;
+	}
+	public String getRoutecode() {
+		return routecode;
+	}
+	public void setRoutecode(String routecode) {
+		this.routecode = routecode;
+	}
+	public BigDecimal getDeliveryseq() {
+		return deliveryseq;
+	}
+	public void setDeliveryseq(BigDecimal deliveryseq) {
+		this.deliveryseq = deliveryseq;
+	}
+	public BigDecimal getTotalqty() {
+		return totalqty;
+	}
+	public void setTotalqty(BigDecimal totalqty) {
+		this.totalqty = totalqty;
+	}
+	public BigDecimal getBatch() {
+		return batch;
+	}
+	public void setBatch(BigDecimal batch) {
+		this.batch = batch;
+	}
+	public String getSchedulestatus() {
+		return schedulestatus;
+	}
+	public void setSchedulestatus(String schedulestatus) {
+		this.schedulestatus = schedulestatus;
+	}
+	public String getCustomername() {
+		return customername;
+	}
+	public void setCustomername(String customername) {
+		this.customername = customername;
+	}
+	public String getBakphone() {
+		return bakphone;
+	}
+	public void setBakphone(String bakphone) {
+		this.bakphone = bakphone;
+	}
+    
+}

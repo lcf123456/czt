@@ -1,0 +1,24 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.OutBoundVoMapper;
+import com.ztel.app.service.wms.OutBoundService;
+import com.ztel.app.vo.wms.OutBoundVo;
+
+@Service
+public class OutBoundServiceImpl implements OutBoundService {
+
+	@Autowired
+	private OutBoundVoMapper outBoundVoMapper = null;
+	@Override
+	public List<OutBoundVo> selectOutoundList(OutBoundVo outBoundVo) {
+		// TODO Auto-generated method stub
+		outBoundVoMapper.selectOutoundList(outBoundVo);
+		return null;
+	}
+
+}

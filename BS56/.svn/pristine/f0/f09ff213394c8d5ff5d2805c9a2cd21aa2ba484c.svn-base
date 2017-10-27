@@ -1,0 +1,27 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.service.cost;
+
+import java.util.List;
+
+import com.ztel.app.vo.cost.SuppliesImpVo;
+import com.ztel.framework.vo.Pagination;
+
+/**
+ * @author NJ
+ * @since 2017年6月26日
+ */
+public interface SuppliesImpVoService {
+	
+    List<SuppliesImpVo> getSuppliesImpPageList(Pagination<?> page);
+    
+    /**
+     * 退库
+     * @param suppliesImpVo
+     * @return
+     */
+	public int doRefundSupplies(SuppliesImpVo suppliesImpVo);
+
+    public int doInsertSuppliesImp(SuppliesImpVo suppliesImpVo);
+}

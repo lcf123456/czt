@@ -1,0 +1,15 @@
+package com.ztel.app.service.wms;
+
+import java.util.List;
+
+import com.ztel.app.vo.wms.ATSCellInfoDetailVo;
+import com.ztel.app.vo.wms.InventoryLineVo;
+
+public interface InventoryLineVoService {
+
+	public int doInventoryLineAdd(InventoryLineVo inventoryLineVo);
+	
+	public void doInventoryComplete(String inventoryId,List<ATSCellInfoDetailVo> atsCellList);
+
+	public List<InventoryLineVo> getLastInventoryInfoByCond(InventoryLineVo inventoryLineVo);
+}

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.InterfaceKpimonthVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.InterfaceKpimonthVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="KPINAME" property="kpiname" jdbcType="VARCHAR" />
+    <result column="TARGETVAL" property="targetval" jdbcType="DECIMAL" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="ACTUALVAL" property="actualval" jdbcType="DECIMAL" />
+    <result column="DIFF" property="diff" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, KPINAME, TARGETVAL, UNIT, ACTUALVAL, DIFF, FLAG, URL, CTYPE, SEQ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_INTERFACE_KPIMONTH
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_INTERFACE_KPIMONTH
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.InterfaceKpimonthVo" >
+    insert into T_SYS_INTERFACE_KPIMONTH (ID, KPINAME, TARGETVAL, 
+      UNIT, ACTUALVAL, DIFF, 
+      FLAG, URL, CTYPE, SEQ
+      )
+    values (#{id,jdbcType=DECIMAL}, #{kpiname,jdbcType=VARCHAR}, #{targetval,jdbcType=DECIMAL}, 
+      #{unit,jdbcType=VARCHAR}, #{actualval,jdbcType=DECIMAL}, #{diff,jdbcType=DECIMAL}, 
+      #{flag,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{ctype,jdbcType=VARCHAR}, #{seq,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.InterfaceKpimonthVo" >
+    insert into T_SYS_INTERFACE_KPIMONTH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="kpiname != null" >
+        KPINAME,
+      </if>
+      <if test="targetval != null" >
+        TARGETVAL,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="actualval != null" >
+        ACTUALVAL,
+      </if>
+      <if test="diff != null" >
+        DIFF,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiname != null" >
+        #{kpiname,jdbcType=VARCHAR},
+      </if>
+      <if test="targetval != null" >
+        #{targetval,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="actualval != null" >
+        #{actualval,jdbcType=DECIMAL},
+      </if>
+      <if test="diff != null" >
+        #{diff,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.InterfaceKpimonthVo" >
+    update T_SYS_INTERFACE_KPIMONTH
+    <set >
+      <if test="kpiname != null" >
+        KPINAME = #{kpiname,jdbcType=VARCHAR},
+      </if>
+      <if test="targetval != null" >
+        TARGETVAL = #{targetval,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="actualval != null" >
+        ACTUALVAL = #{actualval,jdbcType=DECIMAL},
+      </if>
+      <if test="diff != null" >
+        DIFF = #{diff,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.InterfaceKpimonthVo" >
+    update T_SYS_INTERFACE_KPIMONTH
+    set KPINAME = #{kpiname,jdbcType=VARCHAR},
+      TARGETVAL = #{targetval,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      ACTUALVAL = #{actualval,jdbcType=DECIMAL},
+      DIFF = #{diff,jdbcType=DECIMAL},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      CTYPE = #{ctype,jdbcType=VARCHAR},
+      SEQ = #{seq,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,362 @@
+package com.ztel.app.vo.safe;
+
+import java.util.Date;
+
+public class HiddendangerVo {
+    /**
+     * 序号ID
+     */
+    private Integer id;
+
+    /**
+     * 创建人
+     */
+    private Long createid;
+
+    /**
+     * 隐患日期
+     */
+    private Date dangerdate;
+
+    /**
+     * 隐患类别
+     */
+    private Integer dangertype;
+
+    /**
+     * 隐患内容
+     */
+    private String dangercontent;
+
+    /**
+     * 核实内容
+     */
+    private String verifycontent;
+
+    /**
+     * 排除标识（10:已排除  0:未排除）
+     */
+    private String status;
+
+    /**
+     * 隐患标识（10：有效隐患  20：无效隐患）
+     */
+    private String dangerstatus;
+
+    /**
+     * 核实人员
+     */
+    private Long verifymen;
+
+    /**
+     * 整改情况
+     */
+    private String rectifynote;
+
+    /**
+     * 整改记录人
+     */
+    private Long rectifyid;
+
+    /**
+     * 处理标识 （10：提交 20：整改下发  30：整改完成）
+     */
+    private String handlestatus;
+
+    /**
+     * 部门ID
+     */
+    private Integer deptid;
+
+    /**
+     * 核实日期
+     */
+    private Date verifydate;
+
+    /**
+     * 检查人员
+     */
+    private String checkid;
+
+    /**
+     * 整改项目要求及期限
+     */
+    private String demands;
+    /**
+     * 隐患记录人
+     */
+    private String createname;
+    private String ctype;
+
+    public String getCtype() {
+		return ctype;
+	}
+
+	public void setCtype(String ctype) {
+		this.ctype = ctype;
+	}
+
+	public String getCreatename() {
+		return createname;
+	}
+
+	public void setCreatename(String createname) {
+		this.createname = createname;
+	}
+
+	/**
+     * 序号ID
+     * @return ID 序号ID
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 序号ID
+     * @param id 序号ID
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 创建人
+     * @return CREATEID 创建人
+     */
+    public Long getCreateid() {
+        return createid;
+    }
+
+    /**
+     * 创建人
+     * @param createid 创建人
+     */
+    public void setCreateid(Long createid) {
+        this.createid = createid;
+    }
+
+    /**
+     * 隐患日期
+     * @return DANGERDATE 隐患日期
+     */
+    public Date getDangerdate() {
+        return dangerdate;
+    }
+
+    /**
+     * 隐患日期
+     * @param dangerdate 隐患日期
+     */
+    public void setDangerdate(Date dangerdate) {
+        this.dangerdate = dangerdate;
+    }
+
+    /**
+     * 隐患类别
+     * @return DANGERTYPE 隐患类别
+     */
+    public Integer getDangertype() {
+        return dangertype;
+    }
+
+    /**
+     * 隐患类别
+     * @param dangertype 隐患类别
+     */
+    public void setDangertype(Integer dangertype) {
+        this.dangertype = dangertype;
+    }
+
+    /**
+     * 隐患内容
+     * @return DANGERCONTENT 隐患内容
+     */
+    public String getDangercontent() {
+        return dangercontent;
+    }
+
+    /**
+     * 隐患内容
+     * @param dangercontent 隐患内容
+     */
+    public void setDangercontent(String dangercontent) {
+        this.dangercontent = dangercontent == null ? null : dangercontent.trim();
+    }
+
+    /**
+     * 核实内容
+     * @return VERIFYCONTENT 核实内容
+     */
+    public String getVerifycontent() {
+        return verifycontent;
+    }
+
+    /**
+     * 核实内容
+     * @param verifycontent 核实内容
+     */
+    public void setVerifycontent(String verifycontent) {
+        this.verifycontent = verifycontent == null ? null : verifycontent.trim();
+    }
+
+    /**
+     * 排除标识（10:已排除  0:未排除）
+     * @return STATUS 排除标识（10:已排除  0:未排除）
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * 排除标识（10:已排除  0:未排除）
+     * @param status 排除标识（10:已排除  0:未排除）
+     */
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    /**
+     * 隐患标识（10：有效隐患  20：无效隐患）
+     * @return DANGERSTATUS 隐患标识（10：有效隐患  20：无效隐患）
+     */
+    public String getDangerstatus() {
+        return dangerstatus;
+    }
+
+    /**
+     * 隐患标识（10：有效隐患  20：无效隐患）
+     * @param dangerstatus 隐患标识（10：有效隐患  20：无效隐患）
+     */
+    public void setDangerstatus(String dangerstatus) {
+        this.dangerstatus = dangerstatus == null ? null : dangerstatus.trim();
+    }
+
+    /**
+     * 核实人员
+     * @return VERIFYMEN 核实人员
+     */
+    public Long getVerifymen() {
+        return verifymen;
+    }
+
+    /**
+     * 核实人员
+     * @param verifymen 核实人员
+     */
+    public void setVerifymen(Long verifymen) {
+        this.verifymen = verifymen;
+    }
+
+    /**
+     * 整改情况
+     * @return RECTIFYNOTE 整改情况
+     */
+    public String getRectifynote() {
+        return rectifynote;
+    }
+
+    /**
+     * 整改情况
+     * @param rectifynote 整改情况
+     */
+    public void setRectifynote(String rectifynote) {
+        this.rectifynote = rectifynote == null ? null : rectifynote.trim();
+    }
+
+    /**
+     * 整改记录人
+     * @return RECTIFYID 整改记录人
+     */
+    public Long getRectifyid() {
+        return rectifyid;
+    }
+
+    /**
+     * 整改记录人
+     * @param rectifyid 整改记录人
+     */
+    public void setRectifyid(Long rectifyid) {
+        this.rectifyid = rectifyid;
+    }
+
+    /**
+     * 处理标识 （10：提交 20：整改下发  30：整改完成）
+     * @return HANDLESTATUS 处理标识 （10：提交 20：整改下发  30：整改完成）
+     */
+    public String getHandlestatus() {
+        return handlestatus;
+    }
+
+    /**
+     * 处理标识 （10：提交 20：整改下发  30：整改完成）
+     * @param handlestatus 处理标识 （10：提交 20：整改下发  30：整改完成）
+     */
+    public void setHandlestatus(String handlestatus) {
+        this.handlestatus = handlestatus == null ? null : handlestatus.trim();
+    }
+
+    /**
+     * 部门ID
+     * @return DEPTID 部门ID
+     */
+    public Integer getDeptid() {
+        return deptid;
+    }
+
+    /**
+     * 部门ID
+     * @param deptid 部门ID
+     */
+    public void setDeptid(Integer deptid) {
+        this.deptid = deptid;
+    }
+
+    /**
+     * 核实日期
+     * @return VERIFYDATE 核实日期
+     */
+    public Date getVerifydate() {
+        return verifydate;
+    }
+
+    /**
+     * 核实日期
+     * @param verifydate 核实日期
+     */
+    public void setVerifydate(Date verifydate) {
+        this.verifydate = verifydate;
+    }
+
+    /**
+     * 检查人员
+     * @return CHECKID 检查人员
+     */
+    public String getCheckid() {
+        return checkid;
+    }
+
+    /**
+     * 检查人员
+     * @param checkid 检查人员
+     */
+    public void setCheckid(String checkid) {
+        this.checkid = checkid == null ? null : checkid.trim();
+    }
+
+    /**
+     * 整改项目要求及期限
+     * @return DEMANDS 整改项目要求及期限
+     */
+    public String getDemands() {
+        return demands;
+    }
+
+    /**
+     * 整改项目要求及期限
+     * @param demands 整改项目要求及期限
+     */
+    public void setDemands(String demands) {
+        this.demands = demands == null ? null : demands.trim();
+    }
+}

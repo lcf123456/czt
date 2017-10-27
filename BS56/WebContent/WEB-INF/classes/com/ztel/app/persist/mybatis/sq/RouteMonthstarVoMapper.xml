@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.RouteMonthstarVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.RouteMonthstarVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="RSTARID" property="rstarid" jdbcType="DECIMAL" />
+    <result column="RTOTALSCORE" property="rtotalscore" jdbcType="DECIMAL" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="DSTARID" property="dstarid" jdbcType="DECIMAL" />
+    <result column="DTOTALSCORE" property="dtotalscore" jdbcType="DECIMAL" />
+    <result column="CASHIERID" property="cashierid" jdbcType="DECIMAL" />
+    <result column="CSTARID" property="cstarid" jdbcType="DECIMAL" />
+    <result column="CTOTALSCORE" property="ctotalscore" jdbcType="DECIMAL" />
+    <result column="ASSESSTIME" property="assesstime" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DCARDINFO" property="dcardinfo" jdbcType="VARCHAR" />
+    <result column="DCARDFLAG" property="dcardflag" jdbcType="VARCHAR" />
+    <result column="CCARDINFO" property="ccardinfo" jdbcType="VARCHAR" />
+    <result column="CCARDFLAG" property="ccardflag" jdbcType="VARCHAR" />
+  <result column="DRIVERNAME" property="drivername" jdbcType="VARCHAR" />
+     <result column="DSTARNAME" property="dstarname" jdbcType="VARCHAR" />
+     <result column="CSTARNAME" property="cstarname" jdbcType="VARCHAR" />
+	<result column="CASHIERNAME" property="cashiername" jdbcType="VARCHAR" />
+	<result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+	<result column="STARID" property="starid" jdbcType="DECIMAL" />
+	<result column="STARNAME" property="starname" jdbcType="VARCHAR" />
+   <result column="DRIVERNUM" property="drivernum" jdbcType="DECIMAL" />
+   <result column="CASHIERNUM" property="cashiernum" jdbcType="DECIMAL" />
+      <result column="PEOPLE" property="people" jdbcType="DECIMAL" />
+      <result column="PEOPLESUM" property="peoplesum" jdbcType="DECIMAL" /> 
+      <result column="PROPORTION" property="proportion" jdbcType="VARCHAR" /> 
+           
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROUTECODE, RSTARID, RTOTALSCORE, DRIVERID, DSTARID, DTOTALSCORE, CASHIERID, CSTARID, 
+    CTOTALSCORE, ASSESSTIME, REMARKS, DCARDINFO, DCARDFLAG, CCARDINFO, CCARDFLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_ROUTE_MONTHSTAR
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getRouteMonthstarPageList" resultMap="BaseResultMap" parameterType="Pagination" >
+select a.id as starid,  c.starname as dstarname ,b.username as  drivername,d.username as cashiername,e.starname as cstarname, assesstime,ROUTECODE 
+ from T_SQ_ROUTE_MONTHSTAR a,t_sys_user b,t_sq_starinfo c ,t_sys_user d,t_sq_starinfo e
+ where a.driverid=b.id  and a.cashierid=d.id and a.DSTARID=c.id and a.cstarid=e.id
+     <if test="param != null and param.drivername != null and param.drivername != '' and param.ctype=='10'" >
+        and (b.username like'%'||#{param.drivername}||'%' or routecode like'%'||#{param.drivername}||'%' )
+        </if>
+        <if test="param != null and param.drivername != null and param.drivername != '' and param.ctype=='20'" >
+        and (d.username like'%'||#{param.drivername}||'%' or routecode like'%'||#{param.drivername}||'%' )
+        </if>
+         <if test="param != null and param.assesstime != null and param.assesstime != ''" >
+        and assesstime = #{param.assesstime}
+        </if> 
+      
+        order by routecode 
+  </select>
+    <select id="getRouteMonthstarsumPageList" resultMap="BaseResultMap"
+	parameterType="Pagination">
+	select a.id,a.starname,decode(b.cashiernum,'',0,b.cashiernum) as
+	cashiernum,decode(c.drivernum,'',0,c.drivernum)as drivernum,
+	d.total as
+	peoplesum,decode(b.cashiernum,'',0,b.cashiernum)+decode(c.drivernum,'',0,c.drivernum)
+	as people,
+	decode(d.total,0,0,round((decode(b.cashiernum,'',0,b.cashiernum)+decode(c.drivernum,'',0,c.drivernum))/total*100,2))||'%'
+	as proportion
+	from t_sq_starinfo a left outer join (
+	select cstarid as starid,count(cstarid) as cashiernum from
+	t_sq_route_monthstar
+	where cstarid in ('1','2','3','4','5')
+	<if
+		test="param != null and param.assesstime != null and param.assesstime != ''">
+		and assesstime = #{param.assesstime}
+	</if>
+	group by cstarid) b
+	on a.id=b.starid left outer join
+	(select dstarid as starid,count(dstarid) as drivernum from
+	t_sq_route_monthstar
+	where dstarid in ('1','2','3','4','5')
+	<if
+		test="param != null and param.assesstime != null and param.assesstime != ''">
+		and assesstime = #{param.assesstime}
+	</if>
+	group by dstarid)c
+	on a.id=c.starid left outer join
+	(select count(id)*2 as total from t_sq_route_monthstar where 1=1
+	<if test="param != null and param.assesstime != null and param.assesstime != ''">
+		and assesstime = #{param.assesstime}
+	</if>
+	)d on 1=1 where a.delstatus=10 order by a.id
+</select>
+	<select id="getRoutestarbymonthPageList" resultMap="BaseResultMap"
+		parameterType="Pagination">
+
+		select routecode ,a.dstarid,a.cstarid,duser.username as drivername , ds.starname as
+		dstarname ,dtotalscore , cuser.username as cashiername , cs.starname
+		as cstarname , ctotalscore, assesstime
+		from t_sq_route_monthstar a, t_sq_starinfo cs, t_sys_user cuser,
+		t_sq_starinfo ds,t_sys_user duser
+		where a.driverid=duser.id and a.cashierid=cuser.id and a.dstarid=ds.id and
+		a.cstarid=cs.id
+		<if test="param != null and param.assesstime != null and param.assesstime != ''">
+			and assesstime = #{param.assesstime}
+		</if>
+		  <if test="param != null and param.drivername != null and param.drivername != ''and param.ctype=='30'">
+			and (routecode like'%'||#{param.drivername}||'%' or cuser.username like'%'||#{param.drivername}||'%' or duser.username like'%'||#{param.drivername}||'%')
+		</if>
+		order by ROUTECODE
+	</select>    
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SQ_ROUTE_MONTHSTAR
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.RouteMonthstarVo" >
+    insert into T_SQ_ROUTE_MONTHSTAR (ID, ROUTECODE, RSTARID, 
+      RTOTALSCORE, DRIVERID, DSTARID, 
+      DTOTALSCORE, CASHIERID, CSTARID, 
+      CTOTALSCORE, ASSESSTIME, REMARKS, 
+      DCARDINFO, DCARDFLAG, CCARDINFO, 
+      CCARDFLAG)
+    values (#{id,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, #{rstarid,jdbcType=DECIMAL}, 
+      #{rtotalscore,jdbcType=DECIMAL}, #{driverid,jdbcType=DECIMAL}, #{dstarid,jdbcType=DECIMAL}, 
+      #{dtotalscore,jdbcType=DECIMAL}, #{cashierid,jdbcType=DECIMAL}, #{cstarid,jdbcType=DECIMAL}, 
+      #{ctotalscore,jdbcType=DECIMAL}, #{assesstime,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{dcardinfo,jdbcType=VARCHAR}, #{dcardflag,jdbcType=VARCHAR}, #{ccardinfo,jdbcType=VARCHAR}, 
+      #{ccardflag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.RouteMonthstarVo" >
+    insert into T_SQ_ROUTE_MONTHSTAR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     
+        ID,
+      
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="rstarid != null" >
+        RSTARID,
+      </if>
+      <if test="rtotalscore != null" >
+        RTOTALSCORE,
+      </if>
+      <if test="driverid != null" >
+        DRIVERID,
+      </if>
+      <if test="dstarid != null" >
+        DSTARID,
+      </if>
+      <if test="dtotalscore != null" >
+        DTOTALSCORE,
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID,
+      </if>
+      <if test="cstarid != null" >
+        CSTARID,
+      </if>
+      <if test="ctotalscore != null" >
+        CTOTALSCORE,
+      </if>
+      <if test="assesstime != null" >
+        ASSESSTIME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="dcardinfo != null" >
+        DCARDINFO,
+      </if>
+      <if test="dcardflag != null" >
+        DCARDFLAG,
+      </if>
+      <if test="ccardinfo != null" >
+        CCARDINFO,
+      </if>
+      <if test="ccardflag != null" >
+        CCARDFLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     S_SQ_CZXJ.nextval,
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="rstarid != null" >
+        #{rstarid,jdbcType=DECIMAL},
+      </if>
+      <if test="rtotalscore != null" >
+        #{rtotalscore,jdbcType=DECIMAL},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="dstarid != null" >
+        #{dstarid,jdbcType=DECIMAL},
+      </if>
+      <if test="dtotalscore != null" >
+        #{dtotalscore,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="cstarid != null" >
+        #{cstarid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctotalscore != null" >
+        #{ctotalscore,jdbcType=DECIMAL},
+      </if>
+      <if test="assesstime != null" >
+        #{assesstime,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="dcardinfo != null" >
+        #{dcardinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="dcardflag != null" >
+        #{dcardflag,jdbcType=VARCHAR},
+      </if>
+      <if test="ccardinfo != null" >
+        #{ccardinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="ccardflag != null" >
+        #{ccardflag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.RouteMonthstarVo" >
+    update T_SQ_ROUTE_MONTHSTAR
+    <set >
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="rstarid != null" >
+        RSTARID = #{rstarid,jdbcType=DECIMAL},
+      </if>
+      <if test="rtotalscore != null" >
+        RTOTALSCORE = #{rtotalscore,jdbcType=DECIMAL},
+      </if>
+      <if test="driverid != null" >
+        DRIVERID = #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="dstarid != null" >
+        DSTARID = #{dstarid,jdbcType=DECIMAL},
+      </if>
+      <if test="dtotalscore != null" >
+        DTOTALSCORE = #{dtotalscore,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="cstarid != null" >
+        CSTARID = #{cstarid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctotalscore != null" >
+        CTOTALSCORE = #{ctotalscore,jdbcType=DECIMAL},
+      </if>
+      <if test="assesstime != null" >
+        ASSESSTIME = #{assesstime,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="dcardinfo != null" >
+        DCARDINFO = #{dcardinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="dcardflag != null" >
+        DCARDFLAG = #{dcardflag,jdbcType=VARCHAR},
+      </if>
+      <if test="ccardinfo != null" >
+        CCARDINFO = #{ccardinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="ccardflag != null" >
+        CCARDFLAG = #{ccardflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.RouteMonthstarVo" >
+    update T_SQ_ROUTE_MONTHSTAR
+    set ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      RSTARID = #{rstarid,jdbcType=DECIMAL},
+      RTOTALSCORE = #{rtotalscore,jdbcType=DECIMAL},
+      DRIVERID = #{driverid,jdbcType=DECIMAL},
+      DSTARID = #{dstarid,jdbcType=DECIMAL},
+      DTOTALSCORE = #{dtotalscore,jdbcType=DECIMAL},
+      CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      CSTARID = #{cstarid,jdbcType=DECIMAL},
+      CTOTALSCORE = #{ctotalscore,jdbcType=DECIMAL},
+      ASSESSTIME = #{assesstime,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DCARDINFO = #{dcardinfo,jdbcType=VARCHAR},
+      DCARDFLAG = #{dcardflag,jdbcType=VARCHAR},
+      CCARDINFO = #{ccardinfo,jdbcType=VARCHAR},
+      CCARDFLAG = #{ccardflag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

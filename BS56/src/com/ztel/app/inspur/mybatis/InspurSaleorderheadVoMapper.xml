@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.inspur.mybatis.InspurSaleorderheadVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.inspur.vo.InspurSaleorderheadVo" >
+    <result column="co_num" property="coNum" jdbcType="VARCHAR" />
+    <result column="born_date" property="bornDate" jdbcType="VARCHAR" />
+    <result column="arr_date" property="arrDate" jdbcType="VARCHAR" />
+    <result column="cust_id" property="custId" jdbcType="VARCHAR" />
+    <result column="amt_sum" property="amtSum" jdbcType="VARCHAR" />
+    <result column="qty_sum" property="qtySum" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<!-- 获取营销接口中的订单头数据 -->
+  <select id="selectInspursaleorderheadList"  resultType="com.ztel.app.inspur.vo.InspurSaleorderheadVo">
+    ${sqlstr}
+</select>
+
+</mapper>

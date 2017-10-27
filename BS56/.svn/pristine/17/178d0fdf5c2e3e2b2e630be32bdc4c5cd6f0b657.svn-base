@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.VehicleAccidentVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.VehicleAccidentVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="VEHICLEID" property="vehicleid" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="HAPPENDATE" property="happendate" jdbcType="TIMESTAMP" />
+    <result column="HAPPENTIME" property="happentime" jdbcType="DECIMAL" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="LOCALEID" property="localeid" jdbcType="DECIMAL" />
+    <result column="WEATHERID" property="weatherid" jdbcType="DECIMAL" />
+    <result column="INJURYNUM" property="injurynum" jdbcType="DECIMAL" />
+    <result column="DEADNUM" property="deadnum" jdbcType="DECIMAL" />
+    <result column="DAMAGENOTE" property="damagenote" jdbcType="VARCHAR" />
+    <result column="EMOTION" property="emotion" jdbcType="VARCHAR" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="ANALY" property="analy" jdbcType="VARCHAR" />
+    <result column="ANALYST" property="analyst" jdbcType="DECIMAL" />
+    <result column="RECTIFY" property="rectify" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="DECIMAL" />
+    <result column="SPEED" property="speed" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REGISTER" property="register" jdbcType="VARCHAR" />
+    <result column="LIABLE" property="liable" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DRIVERID, VEHICLEID, ROUTECODE, HAPPENDATE, HAPPENTIME, AMOUNT, LOCALEID, WEATHERID, 
+    INJURYNUM, DEADNUM, DAMAGENOTE, EMOTION, NOTE, CREATEID, CREATETIME, ANALY, ANALYST, 
+    RECTIFY, RECORDER, SPEED, STATUS, REGISTER, LIABLE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_DRIVER_VEHICLEACCIDENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SAFE_DRIVER_VEHICLEACCIDENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.VehicleAccidentVo" >
+    insert into T_SAFE_DRIVER_VEHICLEACCIDENT (ID, DRIVERID, VEHICLEID, 
+      ROUTECODE, HAPPENDATE, HAPPENTIME, 
+      AMOUNT, LOCALEID, WEATHERID, 
+      INJURYNUM, DEADNUM, DAMAGENOTE, 
+      EMOTION, NOTE, CREATEID, 
+      CREATETIME, ANALY, ANALYST, 
+      RECTIFY, RECORDER, SPEED, 
+      STATUS, REGISTER, LIABLE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{driverid,jdbcType=DECIMAL}, #{vehicleid,jdbcType=DECIMAL}, 
+      #{routecode,jdbcType=VARCHAR}, #{happendate,jdbcType=TIMESTAMP}, #{happentime,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DECIMAL}, #{localeid,jdbcType=DECIMAL}, #{weatherid,jdbcType=DECIMAL}, 
+      #{injurynum,jdbcType=DECIMAL}, #{deadnum,jdbcType=DECIMAL}, #{damagenote,jdbcType=VARCHAR}, 
+      #{emotion,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{createid,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{analy,jdbcType=VARCHAR}, #{analyst,jdbcType=DECIMAL}, 
+      #{rectify,jdbcType=VARCHAR}, #{recorder,jdbcType=DECIMAL}, #{speed,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{register,jdbcType=VARCHAR}, #{liable,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.VehicleAccidentVo" >
+    insert into T_SAFE_DRIVER_VEHICLEACCIDENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="driverid != null" >
+        DRIVERID,
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="happendate != null" >
+        HAPPENDATE,
+      </if>
+      <if test="happentime != null" >
+        HAPPENTIME,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="localeid != null" >
+        LOCALEID,
+      </if>
+      <if test="weatherid != null" >
+        WEATHERID,
+      </if>
+      <if test="injurynum != null" >
+        INJURYNUM,
+      </if>
+      <if test="deadnum != null" >
+        DEADNUM,
+      </if>
+      <if test="damagenote != null" >
+        DAMAGENOTE,
+      </if>
+      <if test="emotion != null" >
+        EMOTION,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="analy != null" >
+        ANALY,
+      </if>
+      <if test="analyst != null" >
+        ANALYST,
+      </if>
+      <if test="rectify != null" >
+        RECTIFY,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="speed != null" >
+        SPEED,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="register != null" >
+        REGISTER,
+      </if>
+      <if test="liable != null" >
+        LIABLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="happendate != null" >
+        #{happendate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="happentime != null" >
+        #{happentime,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="localeid != null" >
+        #{localeid,jdbcType=DECIMAL},
+      </if>
+      <if test="weatherid != null" >
+        #{weatherid,jdbcType=DECIMAL},
+      </if>
+      <if test="injurynum != null" >
+        #{injurynum,jdbcType=DECIMAL},
+      </if>
+      <if test="deadnum != null" >
+        #{deadnum,jdbcType=DECIMAL},
+      </if>
+      <if test="damagenote != null" >
+        #{damagenote,jdbcType=VARCHAR},
+      </if>
+      <if test="emotion != null" >
+        #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="analy != null" >
+        #{analy,jdbcType=VARCHAR},
+      </if>
+      <if test="analyst != null" >
+        #{analyst,jdbcType=DECIMAL},
+      </if>
+      <if test="rectify != null" >
+        #{rectify,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=DECIMAL},
+      </if>
+      <if test="speed != null" >
+        #{speed,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="register != null" >
+        #{register,jdbcType=VARCHAR},
+      </if>
+      <if test="liable != null" >
+        #{liable,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.VehicleAccidentVo" >
+    update T_SAFE_DRIVER_VEHICLEACCIDENT
+    <set >
+      <if test="driverid != null" >
+        DRIVERID = #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="happendate != null" >
+        HAPPENDATE = #{happendate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="happentime != null" >
+        HAPPENTIME = #{happentime,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="localeid != null" >
+        LOCALEID = #{localeid,jdbcType=DECIMAL},
+      </if>
+      <if test="weatherid != null" >
+        WEATHERID = #{weatherid,jdbcType=DECIMAL},
+      </if>
+      <if test="injurynum != null" >
+        INJURYNUM = #{injurynum,jdbcType=DECIMAL},
+      </if>
+      <if test="deadnum != null" >
+        DEADNUM = #{deadnum,jdbcType=DECIMAL},
+      </if>
+      <if test="damagenote != null" >
+        DAMAGENOTE = #{damagenote,jdbcType=VARCHAR},
+      </if>
+      <if test="emotion != null" >
+        EMOTION = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="analy != null" >
+        ANALY = #{analy,jdbcType=VARCHAR},
+      </if>
+      <if test="analyst != null" >
+        ANALYST = #{analyst,jdbcType=DECIMAL},
+      </if>
+      <if test="rectify != null" >
+        RECTIFY = #{rectify,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        RECORDER = #{recorder,jdbcType=DECIMAL},
+      </if>
+      <if test="speed != null" >
+        SPEED = #{speed,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="register != null" >
+        REGISTER = #{register,jdbcType=VARCHAR},
+      </if>
+      <if test="liable != null" >
+        LIABLE = #{liable,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.VehicleAccidentVo" >
+    update T_SAFE_DRIVER_VEHICLEACCIDENT
+    set DRIVERID = #{driverid,jdbcType=DECIMAL},
+      VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      HAPPENDATE = #{happendate,jdbcType=TIMESTAMP},
+      HAPPENTIME = #{happentime,jdbcType=DECIMAL},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      LOCALEID = #{localeid,jdbcType=DECIMAL},
+      WEATHERID = #{weatherid,jdbcType=DECIMAL},
+      INJURYNUM = #{injurynum,jdbcType=DECIMAL},
+      DEADNUM = #{deadnum,jdbcType=DECIMAL},
+      DAMAGENOTE = #{damagenote,jdbcType=VARCHAR},
+      EMOTION = #{emotion,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      ANALY = #{analy,jdbcType=VARCHAR},
+      ANALYST = #{analyst,jdbcType=DECIMAL},
+      RECTIFY = #{rectify,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=DECIMAL},
+      SPEED = #{speed,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      REGISTER = #{register,jdbcType=VARCHAR},
+      LIABLE = #{liable,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

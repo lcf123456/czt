@@ -1,0 +1,481 @@
+package com.ztel.app.vo.sq;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class RoutescoreVo {
+    /**
+     * 序号ID
+     */
+    private Long id;
+
+    /**
+     * 零售户ID
+     */
+    private BigDecimal custid;
+
+    /**
+     * 车组CODE
+     */
+    private String routecode;
+
+    /**
+     * 创建人
+     */
+    private Long createid;
+
+    /**
+     * 车组得分
+     */
+    private BigDecimal routescore;
+
+    /**
+     * 司机得分
+     */
+    private BigDecimal dscore;
+
+    /**
+     * 收款员得分
+     */
+    private BigDecimal cscore;
+
+    /**
+     * 来源ID（10：领导一票否决 20：话务考核 30：领导考核 40：市场考核 50:自动语音）
+     */
+    private Integer sourceid;
+
+    /**
+     * 得分时间
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date scoringtime;
+
+    /**
+     * 计划ID
+     */
+    private BigDecimal planid;
+
+    /**
+     * 备注
+     */
+    private String remarks;
+
+    /**
+     * 司机ID
+     */
+    private Long driverid;
+
+    /**
+     * 收款员ID
+     */
+    private Long cashierid;
+
+    /**
+     * 公司得分
+     */
+    private double companycore;
+
+    /**
+     * 录音文件
+     */
+    private String record;
+    /**
+     * 搜索框字段
+     */
+    private String keywd;
+    private String begdate;
+    private String enddate;
+    public String getBegdate() {
+		return begdate;
+	}
+
+	public void setBegdate(String begdate) {
+		this.begdate = begdate;
+	}
+
+	public String getEnddate() {
+		return enddate;
+	}
+
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
+
+	/**
+     * 关联表字段
+     */
+    private double assessweight;
+    private double actualscore;
+    private Integer evalitemid;
+    private Integer fid;
+    
+    /**
+     * 零售户相关字段
+     * @return
+     */
+    private String custcode;
+    private String custname;
+    private String custaddr;
+    private String contact;
+    private String telnum;
+    private String license;
+    public String getLicense() {
+		return license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
+	}
+
+	public String getCustcode() {
+		return custcode;
+	}
+
+	public void setCustcode(String custcode) {
+		this.custcode = custcode;
+	}
+
+	public String getCustname() {
+		return custname;
+	}
+
+	public void setCustname(String custname) {
+		this.custname = custname;
+	}
+
+	public String getCustaddr() {
+		return custaddr;
+	}
+
+	public void setCustaddr(String custaddr) {
+		this.custaddr = custaddr;
+	}
+
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	public String getTelnum() {
+		return telnum;
+	}
+
+	public void setTelnum(String telnum) {
+		this.telnum = telnum;
+	}
+
+	public Integer getFid() {
+		return fid;
+	}
+
+	public void setFid(Integer fid) {
+		this.fid = fid;
+	}
+
+	public double getAssessweight() {
+		return assessweight;
+	}
+
+	public void setAssessweight(double assessweight) {
+		this.assessweight = assessweight;
+	}
+
+	public double getActualscore() {
+		return actualscore;
+	}
+
+	public void setActualscore(double actualscore) {
+		this.actualscore = actualscore;
+	}
+
+	public Integer getEvalitemid() {
+		return evalitemid;
+	}
+
+	public void setEvalitemid(Integer evalitemid) {
+		this.evalitemid = evalitemid;
+	}
+
+	private String contentshort;
+
+	public String getContentshort() {
+		return contentshort;
+	}
+
+	public void setContentshort(String contentshort) {
+		this.contentshort = contentshort;
+	}
+
+	private String createname;
+    private String cname;
+    private String dname;
+    public String getCreatename() {
+		return createname;
+	}
+
+	public void setCreatename(String createname) {
+		this.createname = createname;
+	}
+
+	public String getCname() {
+		return cname;
+	}
+
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
+
+	public String getDname() {
+		return dname;
+	}
+
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
+
+	public String getKeywd() {
+		return keywd;
+	}
+
+	public void setKeywd(String keywd) {
+		this.keywd = keywd;
+	}
+
+	/**
+     * 序号ID
+     * @return ID 序号ID
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * 序号ID
+     * @param id 序号ID
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * 零售户ID
+     * @return CUSTID 零售户ID
+     */
+    public BigDecimal getCustid() {
+        return custid;
+    }
+
+    /**
+     * 零售户ID
+     * @param custid 零售户ID
+     */
+    public void setCustid(BigDecimal custid) {
+        this.custid = custid;
+    }
+
+    /**
+     * 车组CODE
+     * @return ROUTECODE 车组CODE
+     */
+    public String getRoutecode() {
+        return routecode;
+    }
+
+    /**
+     * 车组CODE
+     * @param routecode 车组CODE
+     */
+    public void setRoutecode(String routecode) {
+        this.routecode = routecode == null ? null : routecode.trim();
+    }
+
+    /**
+     * 创建人
+     * @return CREATEID 创建人
+     */
+    public Long getCreateid() {
+        return createid;
+    }
+
+    /**
+     * 创建人
+     * @param createid 创建人
+     */
+    public void setCreateid(Long createid) {
+        this.createid = createid;
+    }
+
+    /**
+     * 车组得分
+     * @return ROUTESCORE 车组得分
+     */
+    public BigDecimal getRoutescore() {
+        return routescore;
+    }
+
+    /**
+     * 车组得分
+     * @param routescore 车组得分
+     */
+    public void setRoutescore(BigDecimal routescore) {
+        this.routescore = routescore;
+    }
+
+    /**
+     * 司机得分
+     * @return DSCORE 司机得分
+     */
+    public BigDecimal getDscore() {
+        return dscore;
+    }
+
+    /**
+     * 司机得分
+     * @param dscore 司机得分
+     */
+    public void setDscore(BigDecimal dscore) {
+        this.dscore = dscore;
+    }
+
+    /**
+     * 收款员得分
+     * @return CSCORE 收款员得分
+     */
+    public BigDecimal getCscore() {
+        return cscore;
+    }
+
+    /**
+     * 收款员得分
+     * @param cscore 收款员得分
+     */
+    public void setCscore(BigDecimal cscore) {
+        this.cscore = cscore;
+    }
+
+    /**
+     * 来源ID（10：领导一票否决 20：话务考核 30：领导考核 40：市场考核 50:自动语音）
+     * @return SOURCEID 来源ID（10：领导一票否决 20：话务考核 30：领导考核 40：市场考核 50:自动语音）
+     */
+    public Integer getSourceid() {
+        return sourceid;
+    }
+
+    /**
+     * 来源ID（10：领导一票否决 20：话务考核 30：领导考核 40：市场考核 50:自动语音）
+     * @param sourceid 来源ID（10：领导一票否决 20：话务考核 30：领导考核 40：市场考核 50:自动语音）
+     */
+    public void setSourceid(Integer sourceid) {
+        this.sourceid = sourceid;
+    }
+
+    /**
+     * 得分时间
+     * @return SCORINGTIME 得分时间
+     */
+    public Date getScoringtime() {
+        return scoringtime;
+    }
+
+    /**
+     * 得分时间
+     * @param scoringtime 得分时间
+     */
+    public void setScoringtime(Date scoringtime) {
+        this.scoringtime = scoringtime;
+    }
+
+    /**
+     * 计划ID
+     * @return PLANID 计划ID
+     */
+    public BigDecimal getPlanid() {
+        return planid;
+    }
+
+    /**
+     * 计划ID
+     * @param planid 计划ID
+     */
+    public void setPlanid(BigDecimal planid) {
+        this.planid = planid;
+    }
+
+    /**
+     * 备注
+     * @return REMARKS 备注
+     */
+    public String getRemarks() {
+        return remarks;
+    }
+
+    /**
+     * 备注
+     * @param remarks 备注
+     */
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
+    }
+
+    /**
+     * 司机ID
+     * @return DRIVERID 司机ID
+     */
+    public Long getDriverid() {
+        return driverid;
+    }
+
+    /**
+     * 司机ID
+     * @param driverid 司机ID
+     */
+    public void setDriverid(Long driverid) {
+        this.driverid = driverid;
+    }
+
+    /**
+     * 收款员ID
+     * @return CASHIERID 收款员ID
+     */
+    public Long getCashierid() {
+        return cashierid;
+    }
+
+    /**
+     * 收款员ID
+     * @param cashierid 收款员ID
+     */
+    public void setCashierid(Long cashierid) {
+        this.cashierid = cashierid;
+    }
+
+
+    public double getCompanycore() {
+		return companycore;
+	}
+
+	public void setCompanycore(double companycore) {
+		this.companycore = companycore;
+	}
+
+	/**
+     * 录音文件
+     * @return RECORD 录音文件
+     */
+    public String getRecord() {
+        return record;
+    }
+
+    /**
+     * 录音文件
+     * @param record 录音文件
+     */
+    public void setRecord(String record) {
+        this.record = record == null ? null : record.trim();
+    }
+}

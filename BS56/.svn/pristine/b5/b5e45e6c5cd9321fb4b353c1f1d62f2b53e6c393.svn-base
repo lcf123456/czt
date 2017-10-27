@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.AssessweightVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.AssessweightVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LEEDWEIGHT" property="leedweight" jdbcType="DECIMAL" />
+    <result column="MARKETWEIGHT" property="marketweight" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="UPTIME" property="uptime" jdbcType="TIMESTAMP" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="AUTOWEIGHT" property="autoweight" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LEEDWEIGHT, MARKETWEIGHT, CREATETIME, UPTIME, DELSTATUS, REMARKS, AUTOWEIGHT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_ASSESSWEIGHT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_ASSESSWEIGHT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.AssessweightVo" >
+    insert into T_SQ_ASSESSWEIGHT (ID, LEEDWEIGHT, MARKETWEIGHT, 
+      CREATETIME, UPTIME, DELSTATUS, 
+      REMARKS, AUTOWEIGHT)
+    values (#{id,jdbcType=DECIMAL}, #{leedweight,jdbcType=DECIMAL}, #{marketweight,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{uptime,jdbcType=TIMESTAMP}, #{delstatus,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{autoweight,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.AssessweightVo" >
+    insert into T_SQ_ASSESSWEIGHT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="leedweight != null" >
+        LEEDWEIGHT,
+      </if>
+      <if test="marketweight != null" >
+        MARKETWEIGHT,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="uptime != null" >
+        UPTIME,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="autoweight != null" >
+        AUTOWEIGHT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="leedweight != null" >
+        #{leedweight,jdbcType=DECIMAL},
+      </if>
+      <if test="marketweight != null" >
+        #{marketweight,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptime != null" >
+        #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="autoweight != null" >
+        #{autoweight,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.AssessweightVo" >
+    update T_SQ_ASSESSWEIGHT
+    <set >
+      <if test="leedweight != null" >
+        LEEDWEIGHT = #{leedweight,jdbcType=DECIMAL},
+      </if>
+      <if test="marketweight != null" >
+        MARKETWEIGHT = #{marketweight,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptime != null" >
+        UPTIME = #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="autoweight != null" >
+        AUTOWEIGHT = #{autoweight,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.AssessweightVo" >
+    update T_SQ_ASSESSWEIGHT
+    set LEEDWEIGHT = #{leedweight,jdbcType=DECIMAL},
+      MARKETWEIGHT = #{marketweight,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      UPTIME = #{uptime,jdbcType=TIMESTAMP},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      AUTOWEIGHT = #{autoweight,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

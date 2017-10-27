@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.BlockcustomerVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.BlockcustomerVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CUSTID" property="custid" jdbcType="DECIMAL" />
+    <result column="CUSTCODE" property="custcode" jdbcType="VARCHAR" />
+    <result column="CONTACTER" property="contacter" jdbcType="VARCHAR" />
+    <result column="TELNUM" property="telnum" jdbcType="VARCHAR" />
+    <result column="CUSTNAME" property="custname" jdbcType="VARCHAR" />
+    <result column="DELIVERYADDR" property="deliveryaddr" jdbcType="VARCHAR" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="BLOCKREASON" property="blockreason" jdbcType="VARCHAR" />
+    <result column="BLOCKTIMERANGE" property="blocktimerange" jdbcType="VARCHAR" />
+    <result column="BLOCKTYPE" property="blocktype" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="REASONID" property="reasonid" jdbcType="DECIMAL" />
+    <result column="SOURCEID" property="sourceid" jdbcType="VARCHAR" />
+    <result column="ACTUALSITU" property="actualsitu" jdbcType="VARCHAR" />
+    <result column="HANDLESITU" property="handlesitu" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="HANDLEUSER" property="handleuser" jdbcType="DECIMAL" />
+    <result column="HANDLEDATE" property="handledate" jdbcType="TIMESTAMP" />
+    <result column="HANDLEFLAG" property="handleflag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUSTID, CUSTCODE, CONTACTER, TELNUM, CUSTNAME, DELIVERYADDR, ROUTECODE, BLOCKREASON, 
+    BLOCKTIMERANGE, BLOCKTYPE, CREATEDATE, REMARKS, REASONID, SOURCEID, ACTUALSITU, HANDLESITU, 
+    CREATEID, HANDLEUSER, HANDLEDATE, HANDLEFLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_BLOCKCUSTOMER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SYS_BLOCKCUSTOMER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.BlockcustomerVo" >
+    insert into T_SYS_BLOCKCUSTOMER (ID, CUSTID, CUSTCODE, 
+      CONTACTER, TELNUM, CUSTNAME, 
+      DELIVERYADDR, ROUTECODE, BLOCKREASON, 
+      BLOCKTIMERANGE, BLOCKTYPE, CREATEDATE, 
+      REMARKS, REASONID, SOURCEID, 
+      ACTUALSITU, HANDLESITU, CREATEID, 
+      HANDLEUSER, HANDLEDATE, HANDLEFLAG
+      )
+    values (#{id,jdbcType=DECIMAL}, #{custid,jdbcType=DECIMAL}, #{custcode,jdbcType=VARCHAR}, 
+      #{contacter,jdbcType=VARCHAR}, #{telnum,jdbcType=VARCHAR}, #{custname,jdbcType=VARCHAR}, 
+      #{deliveryaddr,jdbcType=VARCHAR}, #{routecode,jdbcType=VARCHAR}, #{blockreason,jdbcType=VARCHAR}, 
+      #{blocktimerange,jdbcType=VARCHAR}, #{blocktype,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{reasonid,jdbcType=DECIMAL}, #{sourceid,jdbcType=VARCHAR}, 
+      #{actualsitu,jdbcType=VARCHAR}, #{handlesitu,jdbcType=VARCHAR}, #{createid,jdbcType=DECIMAL}, 
+      #{handleuser,jdbcType=DECIMAL}, #{handledate,jdbcType=TIMESTAMP}, #{handleflag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.BlockcustomerVo" >
+    insert into T_SYS_BLOCKCUSTOMER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="custid != null" >
+        CUSTID,
+      </if>
+      <if test="custcode != null" >
+        CUSTCODE,
+      </if>
+      <if test="contacter != null" >
+        CONTACTER,
+      </if>
+      <if test="telnum != null" >
+        TELNUM,
+      </if>
+      <if test="custname != null" >
+        CUSTNAME,
+      </if>
+      <if test="deliveryaddr != null" >
+        DELIVERYADDR,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="blockreason != null" >
+        BLOCKREASON,
+      </if>
+      <if test="blocktimerange != null" >
+        BLOCKTIMERANGE,
+      </if>
+      <if test="blocktype != null" >
+        BLOCKTYPE,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="reasonid != null" >
+        REASONID,
+      </if>
+      <if test="sourceid != null" >
+        SOURCEID,
+      </if>
+      <if test="actualsitu != null" >
+        ACTUALSITU,
+      </if>
+      <if test="handlesitu != null" >
+        HANDLESITU,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="handleuser != null" >
+        HANDLEUSER,
+      </if>
+      <if test="handledate != null" >
+        HANDLEDATE,
+      </if>
+      <if test="handleflag != null" >
+        HANDLEFLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="custid != null" >
+        #{custid,jdbcType=DECIMAL},
+      </if>
+      <if test="custcode != null" >
+        #{custcode,jdbcType=VARCHAR},
+      </if>
+      <if test="contacter != null" >
+        #{contacter,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null" >
+        #{telnum,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryaddr != null" >
+        #{deliveryaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="blockreason != null" >
+        #{blockreason,jdbcType=VARCHAR},
+      </if>
+      <if test="blocktimerange != null" >
+        #{blocktimerange,jdbcType=VARCHAR},
+      </if>
+      <if test="blocktype != null" >
+        #{blocktype,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonid != null" >
+        #{reasonid,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceid != null" >
+        #{sourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="actualsitu != null" >
+        #{actualsitu,jdbcType=VARCHAR},
+      </if>
+      <if test="handlesitu != null" >
+        #{handlesitu,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="handleuser != null" >
+        #{handleuser,jdbcType=DECIMAL},
+      </if>
+      <if test="handledate != null" >
+        #{handledate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleflag != null" >
+        #{handleflag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.BlockcustomerVo" >
+    update T_SYS_BLOCKCUSTOMER
+    <set >
+      <if test="custid != null" >
+        CUSTID = #{custid,jdbcType=DECIMAL},
+      </if>
+      <if test="custcode != null" >
+        CUSTCODE = #{custcode,jdbcType=VARCHAR},
+      </if>
+      <if test="contacter != null" >
+        CONTACTER = #{contacter,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null" >
+        TELNUM = #{telnum,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        CUSTNAME = #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryaddr != null" >
+        DELIVERYADDR = #{deliveryaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="blockreason != null" >
+        BLOCKREASON = #{blockreason,jdbcType=VARCHAR},
+      </if>
+      <if test="blocktimerange != null" >
+        BLOCKTIMERANGE = #{blocktimerange,jdbcType=VARCHAR},
+      </if>
+      <if test="blocktype != null" >
+        BLOCKTYPE = #{blocktype,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonid != null" >
+        REASONID = #{reasonid,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceid != null" >
+        SOURCEID = #{sourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="actualsitu != null" >
+        ACTUALSITU = #{actualsitu,jdbcType=VARCHAR},
+      </if>
+      <if test="handlesitu != null" >
+        HANDLESITU = #{handlesitu,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="handleuser != null" >
+        HANDLEUSER = #{handleuser,jdbcType=DECIMAL},
+      </if>
+      <if test="handledate != null" >
+        HANDLEDATE = #{handledate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleflag != null" >
+        HANDLEFLAG = #{handleflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.BlockcustomerVo" >
+    update T_SYS_BLOCKCUSTOMER
+    set CUSTID = #{custid,jdbcType=DECIMAL},
+      CUSTCODE = #{custcode,jdbcType=VARCHAR},
+      CONTACTER = #{contacter,jdbcType=VARCHAR},
+      TELNUM = #{telnum,jdbcType=VARCHAR},
+      CUSTNAME = #{custname,jdbcType=VARCHAR},
+      DELIVERYADDR = #{deliveryaddr,jdbcType=VARCHAR},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      BLOCKREASON = #{blockreason,jdbcType=VARCHAR},
+      BLOCKTIMERANGE = #{blocktimerange,jdbcType=VARCHAR},
+      BLOCKTYPE = #{blocktype,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      REASONID = #{reasonid,jdbcType=DECIMAL},
+      SOURCEID = #{sourceid,jdbcType=VARCHAR},
+      ACTUALSITU = #{actualsitu,jdbcType=VARCHAR},
+      HANDLESITU = #{handlesitu,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      HANDLEUSER = #{handleuser,jdbcType=DECIMAL},
+      HANDLEDATE = #{handledate,jdbcType=TIMESTAMP},
+      HANDLEFLAG = #{handleflag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

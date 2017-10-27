@@ -1,0 +1,480 @@
+package com.ztel.app.vo.perform;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class DeptmonthsumVo {
+    /**
+     * 序号ID
+     */
+    private Long id;
+
+    /**
+     * 得分月份
+     */
+    private String scoremonth;
+
+    /**
+     * 创建时间
+     */
+    private Date createtime;
+
+    /**
+     * 自评分
+     */
+    private BigDecimal selfscore;
+
+    /**
+     * 自评人ID
+     */
+    private Long selfid;
+
+    /**
+     * 部长评分
+     */
+    private BigDecimal deptmngscore;
+
+    /**
+     * 部长评级
+     */
+    private String deptmngrating;
+
+    /**
+     * 部长ID
+     */
+    private Long deptmngid;
+
+    /**
+     * 总经理评分
+     */
+    private BigDecimal genmngscore;
+
+    /**
+     * 总经理评级
+     */
+    private String genmngrating;
+
+    /**
+     * 总经理ID
+     */
+    private BigDecimal genmngid;
+
+    /**
+     * 领导考核类型：10:副部长考核   20 部长考核
+     */
+    private Short ctype;
+
+    /**
+     * 当前状态  10,自评未完成  20,自评完成   30:部长评分完成  40,总经理评分完成
+     */
+    private Short status;
+
+    /**
+     * 归属部门
+     */
+    private Long belongdept;
+
+    /**
+     * 部长评分时间
+     */
+    private Date mngdate;
+
+    /**
+     * 总经理评分时间
+     */
+    private Date genmngdate;
+
+    /**
+     * 需注意工作事项
+     */
+    private String matter;
+
+    /**
+     * 未完成工作事项
+     */
+    private String unfinished;
+
+    /**
+     * 总经理总结
+     */
+    private String summary;
+    
+    private Date begintime;//搜索开始时间
+    private Date endtime;//搜索结束时间
+    private String selfuser;//自评人姓名
+    private String deptmnguser;//部长姓名
+    private String genmnguser;//总经理姓名
+    private String statusname;//状态名称
+    private String belongdeptname;//归属部门名称
+    private String useridstr;//所管辖用户的所有id串
+
+    /**
+     * 序号ID
+     * @return ID 序号ID
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * 序号ID
+     * @param id 序号ID
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * 得分月份
+     * @return SCOREMONTH 得分月份
+     */
+    public String getScoremonth() {
+        return scoremonth;
+    }
+
+    /**
+     * 得分月份
+     * @param scoremonth 得分月份
+     */
+    public void setScoremonth(String scoremonth) {
+        this.scoremonth = scoremonth == null ? null : scoremonth.trim();
+    }
+
+    /**
+     * 创建时间
+     * @return CREATETIME 创建时间
+     */
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    /**
+     * 创建时间
+     * @param createtime 创建时间
+     */
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    /**
+     * 自评分
+     * @return SELFSCORE 自评分
+     */
+    public BigDecimal getSelfscore() {
+        return selfscore;
+    }
+
+    /**
+     * 自评分
+     * @param selfscore 自评分
+     */
+    public void setSelfscore(BigDecimal selfscore) {
+        this.selfscore = selfscore;
+    }
+
+    /**
+     * 自评人ID
+     * @return SELFID 自评人ID
+     */
+    public Long getSelfid() {
+        return selfid;
+    }
+
+    /**
+     * 自评人ID
+     * @param selfid 自评人ID
+     */
+    public void setSelfid(Long selfid) {
+        this.selfid = selfid;
+    }
+
+    /**
+     * 部长评分
+     * @return DEPTMNGSCORE 部长评分
+     */
+    public BigDecimal getDeptmngscore() {
+        return deptmngscore;
+    }
+
+    /**
+     * 部长评分
+     * @param deptmngscore 部长评分
+     */
+    public void setDeptmngscore(BigDecimal deptmngscore) {
+        this.deptmngscore = deptmngscore;
+    }
+
+    /**
+     * 部长评级
+     * @return DEPTMNGRATING 部长评级
+     */
+    public String getDeptmngrating() {
+        return deptmngrating;
+    }
+
+    /**
+     * 部长评级
+     * @param deptmngrating 部长评级
+     */
+    public void setDeptmngrating(String deptmngrating) {
+        this.deptmngrating = deptmngrating == null ? null : deptmngrating.trim();
+    }
+
+    /**
+     * 部长ID
+     * @return DEPTMNGID 部长ID
+     */
+    public Long getDeptmngid() {
+        return deptmngid;
+    }
+
+    /**
+     * 部长ID
+     * @param deptmngid 部长ID
+     */
+    public void setDeptmngid(Long deptmngid) {
+        this.deptmngid = deptmngid;
+    }
+
+    /**
+     * 总经理评分
+     * @return GENMNGSCORE 总经理评分
+     */
+    public BigDecimal getGenmngscore() {
+        return genmngscore;
+    }
+
+    /**
+     * 总经理评分
+     * @param genmngscore 总经理评分
+     */
+    public void setGenmngscore(BigDecimal genmngscore) {
+        this.genmngscore = genmngscore;
+    }
+
+    /**
+     * 总经理评级
+     * @return GENMNGRATING 总经理评级
+     */
+    public String getGenmngrating() {
+        return genmngrating;
+    }
+
+    /**
+     * 总经理评级
+     * @param genmngrating 总经理评级
+     */
+    public void setGenmngrating(String genmngrating) {
+        this.genmngrating = genmngrating == null ? null : genmngrating.trim();
+    }
+
+    /**
+     * 总经理ID
+     * @return GENMNGID 总经理ID
+     */
+    public BigDecimal getGenmngid() {
+        return genmngid;
+    }
+
+    /**
+     * 总经理ID
+     * @param genmngid 总经理ID
+     */
+    public void setGenmngid(BigDecimal genmngid) {
+        this.genmngid = genmngid;
+    }
+
+    /**
+     * 领导考核类型：10:副部长考核   20 部长考核
+     * @return CTYPE 领导考核类型：10:副部长考核   20 部长考核
+     */
+    public Short getCtype() {
+        return ctype;
+    }
+
+    /**
+     * 领导考核类型：10:副部长考核   20 部长考核
+     * @param ctype 领导考核类型：10:副部长考核   20 部长考核
+     */
+    public void setCtype(Short ctype) {
+        this.ctype = ctype;
+    }
+
+    /**
+     * 当前状态  10,自评未完成  20,自评完成   30:部长评分完成  40,总经理评分完成
+     * @return STATUS 当前状态  10,自评未完成  20,自评完成   30:部长评分完成  40,总经理评分完成
+     */
+    public Short getStatus() {
+        return status;
+    }
+
+    /**
+     * 当前状态  10,自评未完成  20,自评完成   30:部长评分完成  40,总经理评分完成
+     * @param status 当前状态  10,自评未完成  20,自评完成   30:部长评分完成  40,总经理评分完成
+     */
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    /**
+     * 归属部门
+     * @return BELONGDEPT 归属部门
+     */
+    public Long getBelongdept() {
+        return belongdept;
+    }
+
+    /**
+     * 归属部门
+     * @param belongdept 归属部门
+     */
+    public void setBelongdept(Long belongdept) {
+        this.belongdept = belongdept;
+    }
+
+    /**
+     * 部长评分时间
+     * @return MNGDATE 部长评分时间
+     */
+    public Date getMngdate() {
+        return mngdate;
+    }
+
+    /**
+     * 部长评分时间
+     * @param mngdate 部长评分时间
+     */
+    public void setMngdate(Date mngdate) {
+        this.mngdate = mngdate;
+    }
+
+    /**
+     * 总经理评分时间
+     * @return GENMNGDATE 总经理评分时间
+     */
+    public Date getGenmngdate() {
+        return genmngdate;
+    }
+
+    /**
+     * 总经理评分时间
+     * @param genmngdate 总经理评分时间
+     */
+    public void setGenmngdate(Date genmngdate) {
+        this.genmngdate = genmngdate;
+    }
+
+    /**
+     * 需注意工作事项
+     * @return MATTER 需注意工作事项
+     */
+    public String getMatter() {
+        return matter;
+    }
+
+    /**
+     * 需注意工作事项
+     * @param matter 需注意工作事项
+     */
+    public void setMatter(String matter) {
+        this.matter = matter == null ? null : matter.trim();
+    }
+
+    /**
+     * 未完成工作事项
+     * @return UNFINISHED 未完成工作事项
+     */
+    public String getUnfinished() {
+        return unfinished;
+    }
+
+    /**
+     * 未完成工作事项
+     * @param unfinished 未完成工作事项
+     */
+    public void setUnfinished(String unfinished) {
+        this.unfinished = unfinished == null ? null : unfinished.trim();
+    }
+
+    /**
+     * 总经理总结
+     * @return SUMMARY 总经理总结
+     */
+    public String getSummary() {
+        return summary;
+    }
+
+    /**
+     * 总经理总结
+     * @param summary 总经理总结
+     */
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
+    }
+
+	public Date getBegintime() {
+		return begintime;
+	}
+
+	public void setBegintime(Date begintime) {
+		this.begintime = begintime;
+	}
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+
+	public String getSelfuser() {
+		return selfuser;
+	}
+
+	public void setSelfuser(String selfuser) {
+		this.selfuser = selfuser;
+	}
+
+	public String getDeptmnguser() {
+		return deptmnguser;
+	}
+
+	public void setDeptmnguser(String deptmnguser) {
+		this.deptmnguser = deptmnguser;
+	}
+
+	public String getGenmnguser() {
+		return genmnguser;
+	}
+
+	public void setGenmnguser(String genmnguser) {
+		this.genmnguser = genmnguser;
+	}
+
+	public String getStatusname() {
+		return statusname;
+	}
+
+	public void setStatusname(String statusname) {
+		this.statusname = statusname;
+	}
+
+	public String getBelongdeptname() {
+		return belongdeptname;
+	}
+
+	public void setBelongdeptname(String belongdeptname) {
+		this.belongdeptname = belongdeptname;
+	}
+
+	public String getUseridstr() {
+		return useridstr;
+	}
+
+	public void setUseridstr(String useridstr) {
+		this.useridstr = useridstr;
+	}
+    
+    
+}

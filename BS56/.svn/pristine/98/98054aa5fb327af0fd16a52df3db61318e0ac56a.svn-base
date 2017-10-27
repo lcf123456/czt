@@ -1,0 +1,41 @@
+package com.ztel.app.persist.mybatis.sys;
+
+import com.ztel.app.vo.sys.OperationlogVo;
+
+public interface OperationlogVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int deleteByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int insert(OperationlogVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int insertSelective(OperationlogVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    OperationlogVo selectByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int updateByPrimaryKeySelective(OperationlogVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int updateByPrimaryKey(OperationlogVo record);
+}

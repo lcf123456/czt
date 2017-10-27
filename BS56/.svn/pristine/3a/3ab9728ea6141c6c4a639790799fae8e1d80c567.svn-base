@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.perform.WorkcontentVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.perform.WorkcontentVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MATTERS" property="matters" jdbcType="VARCHAR" />
+    <result column="STANDARD" property="standard" jdbcType="VARCHAR" />
+    <result column="PROPERTY" property="property" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="WORKDATE" property="workdate" jdbcType="TIMESTAMP" />
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+    <result column="CREATEUSERNAME" property="createusername" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="PROPERTYNAME" property="propertyname" jdbcType="VARCHAR" />
+    <result column="WORKDATESTR" property="workdatestr" jdbcType="VARCHAR" />
+    <result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MATTERS, STANDARD, PROPERTY, CREATEID, CREATEDATE, DEPTID, USERID, WORKDATE, 
+    WEIGHT
+  </sql>
+  
+      <!-- 根据输入条件获取列表 -->
+  <select id="selectListByCond" resultType="com.ztel.app.vo.perform.WorkcontentVo" parameterType="com.ztel.app.vo.perform.WorkcontentVo" >
+    select 
+     w.ID, w.MATTERS, w.STANDARD, w.PROPERTY, w.CREATEID, w.CREATEDATE, w.DEPTID, w.USERID, w.WORKDATE, 
+    w.WEIGHT,decode(w.PROPERTY,'1','关键隐患控制','2','日常工作','3','临时性工作','4','日工作','5','周工作','6','月工作') as propertyname,
+    to_char(w.WORKDATE,'yyyy-mm-dd') as workdatestr,u1.username as createusername,u2.username as username,d.deptname 
+      from T_PERFORM_WORKCONTENT w
+      left outer join t_sys_user u1 on w.CREATEID=u1.id 
+      left outer join t_sys_user u2 on w.USERID=u2.id 
+      left outer join t_sys_dept d on w.DEPTID = d.id
+    where 1=1 
+    <if test="keyword != null and keyword != '' ">
+        AND  (w.createusername like '%'||#{keyword,jdbcType=VARCHAR}||'%' or w.username like '%'||#{keyword,jdbcType=VARCHAR}
+        or w.MATTERS like '%'||#{keyword,jdbcType=VARCHAR}||'%' or w.STANDARD like '%'||#{keyword,jdbcType=VARCHAR}||'%')
+    </if>
+    <if test="property != null ">
+        AND  w.PROPERTY = #{property,jdbcType=VARCHAR}
+    </if>
+    <if test="workdatestr != null ">
+        AND  to_char(w.WORKDATE,'yyyy-mm') = #{workdatestr,jdbcType=VARCHAR}
+    </if>
+    <if test="deptid != null ">
+        AND  w.DEPTID = #{deptid,jdbcType=DECIMAL}
+    </if>
+    order by PROPERTY,id desc
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PERFORM_WORKCONTENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_PERFORM_WORKCONTENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.perform.WorkcontentVo" >
+    insert into T_PERFORM_WORKCONTENT (ID, MATTERS, STANDARD, 
+      PROPERTY, CREATEID, CREATEDATE, 
+      DEPTID, USERID, WORKDATE, 
+      WEIGHT)
+    values (#{id,jdbcType=DECIMAL}, #{matters,jdbcType=VARCHAR}, #{standard,jdbcType=VARCHAR}, 
+      #{property,jdbcType=VARCHAR}, #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{deptid,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, #{workdate,jdbcType=TIMESTAMP}, 
+      #{weight,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.perform.WorkcontentVo" >
+    insert into T_PERFORM_WORKCONTENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="matters != null" >
+        MATTERS,
+      </if>
+      <if test="standard != null" >
+        STANDARD,
+      </if>
+      <if test="property != null" >
+        PROPERTY,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="workdate != null" >
+        WORKDATE,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       S_PERFORM_KEYWORK.nextval,
+      <if test="matters != null" >
+        #{matters,jdbcType=VARCHAR},
+      </if>
+      <if test="standard != null" >
+        #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="property != null" >
+        #{property,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="workdate != null" >
+        #{workdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.perform.WorkcontentVo" >
+    update T_PERFORM_WORKCONTENT
+    <set >
+      <if test="matters != null" >
+        MATTERS = #{matters,jdbcType=VARCHAR},
+      </if>
+      <if test="standard != null" >
+        STANDARD = #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="property != null" >
+        PROPERTY = #{property,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="workdate != null" >
+        WORKDATE = #{workdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.perform.WorkcontentVo" >
+    update T_PERFORM_WORKCONTENT
+    set MATTERS = #{matters,jdbcType=VARCHAR},
+      STANDARD = #{standard,jdbcType=VARCHAR},
+      PROPERTY = #{property,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      USERID = #{userid,jdbcType=DECIMAL},
+      WORKDATE = #{workdate,jdbcType=TIMESTAMP},
+      WEIGHT = #{weight,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

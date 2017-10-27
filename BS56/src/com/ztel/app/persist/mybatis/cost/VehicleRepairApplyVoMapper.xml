@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.VehicleRepairApplyVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.VehicleRepairApplyVo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="VEHICLEID" property="vehicleid" jdbcType="DECIMAL" />
+    <result column="UNITID" property="unitid" jdbcType="DECIMAL" />
+    <result column="APPLYDATE" property="applydate" jdbcType="TIMESTAMP" />
+    <result column="MAINITEM" property="mainitem" jdbcType="VARCHAR" />
+    <result column="SAFESUGGESTION" property="safesuggestion" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="ISREPLY" property="isreply" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="PRINTFLAG" property="printflag" jdbcType="VARCHAR" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="VEHICLECTRID" property="vehiclectrid" jdbcType="DECIMAL" />
+    <result column="VEHICLEMAINITEM" property="vehiclemainitem" jdbcType="VARCHAR" />
+    <result column="LEADERID" property="leaderid" jdbcType="DECIMAL" />
+    <result column="LEADERSUGGESTION" property="leadersuggestion" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="REPAIRTYPE" property="repairtype" jdbcType="VARCHAR" />
+    <result column="ISREPEAT" property="isrepeat" jdbcType="DECIMAL" />
+    <result column="ESTIMATECOST" property="estimatecost" jdbcType="DECIMAL" />
+    <result column="REPAIRINFOID" property="repairinfoid" jdbcType="DECIMAL" />
+    <result column="TOTALCOST" property="totalcost" jdbcType="DECIMAL" />
+    <result column="VEHICLENO" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="UNITNAME" property="unitname" jdbcType="VARCHAR" />
+    <result column="STATUSNAME" property="statusname" jdbcType="VARCHAR" />
+    <result column="REPAIRCONTENT" property="repaircontent" jdbcType="VARCHAR" />
+    <result column="REPAIRINFO" property="repairinfo" jdbcType="VARCHAR" />
+    <result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CODE, VEHICLEID, UNITID, APPLYDATE, MAINITEM, SAFESUGGESTION, REMARKS, ISREPLY, 
+    CREATEID, PRINTFLAG, ROUTECODE, VEHICLECTRID, VEHICLEMAINITEM, LEADERID, LEADERSUGGESTION, 
+    STATUS, DRIVERID, REPAIRTYPE, ISREPEAT, ESTIMATECOST,REPAIRINFOID,REPAIRINFO
+  </sql>
+  
+  <!-- 取车辆维修列表 -->
+   <select id="getVehicleRepairPageList" parameterType="Pagination"  resultType="com.ztel.app.vo.cost.VehicleRepairApplyVo" >
+   select a.ID, CODE, a.VEHICLEID, a.UNITID, APPLYDATE, MAINITEM, SAFESUGGESTION, a.REMARKS, ISREPLY, 
+		      a.CREATEID, PRINTFLAG, a.ROUTECODE, VEHICLECTRID, VEHICLEMAINITEM, LEADERID, LEADERSUGGESTION, 
+		      a.STATUS, DRIVERID, REPAIRTYPE, ISREPEAT, ESTIMATECOST,REPAIRINFOID,REPAIRINFO,e.username as createname,d.username as drivername,
+		      b.totalcost,c.vehicleno,c.vehicletype,decode(a.status,'10','未审核','20','车管员审核通过','30','车管员审核驳回','40','分部主任通过','50','分部主任驳回')as statusname,
+		      f.username as vehiclectrname,g.username as leadername,h.contentlist as unitname,b.rdate,c.buydate,c.enginenum,b.mileage
+   from T_COST_VEHICLEREPAIRAPPLY a left outer join T_COST_VEHICLEREPAIRCOST b on a.id=b.did
+   			left outer join t_sys_vehicle c on a.vehicleid=c.id left outer join t_sys_user e on a.createid=e.id
+   			left outer join t_sys_user d on a.driverid=d.id left outer join t_sys_user f on a.vehiclectrid=f.id
+   			left outer join t_sys_user g on a.leaderid=g.id left outer join t_sys_basetypeinfo h on a.unitid=h.id
+	where  1=1
+      <if test="param != null and param.begdate != null " >
+        and a.APPLYDATE>=to_date(#{param.begdate},'yyyy-MM-dd') 
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and a.APPLYDATE &lt; to_date(#{param.enddate},'yyyy-MM-dd') +1
+      </if>
+      <if test="param != null and param.param != null and param.param != ''" >
+	        and (e.username like'%'||#{param.param}||'%' or a.routecode like'%'||#{param.param}||'%' or c.vehicleno like'%'||#{param.param}||'%'  )
+	   </if>
+	order by applydate desc
+    </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select a.ID, CODE, a.VEHICLEID, a.UNITID, APPLYDATE, MAINITEM, SAFESUGGESTION, a.REMARKS, ISREPLY, 
+		      a.CREATEID, PRINTFLAG, a.ROUTECODE, VEHICLECTRID, VEHICLEMAINITEM, LEADERID, LEADERSUGGESTION, 
+		      a.STATUS, DRIVERID, REPAIRTYPE, ISREPEAT, ESTIMATECOST,REPAIRINFOID,REPAIRINFO,e.username as createname,d.username as drivername,
+		      b.totalcost,c.vehicleno,c.vehicletype,decode(a.status,'10','未审核','20','车管员审核通过','30','车管员审核驳回','40','分部主任通过','50','分部主任驳回')as statusname,
+		      f.username as vehiclectrname,g.username as leadername,h.contentlist as unitname,b.rdate,c.buydate,c.enginenum,b.mileage
+   from T_COST_VEHICLEREPAIRAPPLY a left outer join T_COST_VEHICLEREPAIRCOST b on a.id=b.did
+   			left outer join t_sys_vehicle c on a.vehicleid=c.id left outer join t_sys_user e on a.createid=e.id
+   			left outer join t_sys_user d on a.driverid=d.id left outer join t_sys_user f on a.vehiclectrid=f.id
+   			left outer join t_sys_user g on a.leaderid=g.id left outer join t_sys_basetypeinfo h on a.unitid=h.id
+    where a.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_COST_VEHICLEREPAIRAPPLY
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.VehicleRepairApplyVo" useGeneratedKeys="false" >
+    insert into T_COST_VEHICLEREPAIRAPPLY (ID, CODE, VEHICLEID, 
+      UNITID, APPLYDATE, MAINITEM, 
+      SAFESUGGESTION, REMARKS, ISREPLY, 
+      CREATEID, PRINTFLAG, ROUTECODE, 
+      VEHICLECTRID, VEHICLEMAINITEM, LEADERID, 
+      LEADERSUGGESTION, STATUS, DRIVERID, 
+      REPAIRTYPE, ISREPEAT, ESTIMATECOST
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{vehicleid,jdbcType=DECIMAL}, 
+      #{unitid,jdbcType=DECIMAL}, #{applydate,jdbcType=TIMESTAMP}, #{mainitem,jdbcType=VARCHAR}, 
+      #{safesuggestion,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{isreply,jdbcType=VARCHAR}, 
+      #{createid,jdbcType=DECIMAL}, #{printflag,jdbcType=VARCHAR}, #{routecode,jdbcType=VARCHAR}, 
+      #{vehiclectrid,jdbcType=DECIMAL}, #{vehiclemainitem,jdbcType=VARCHAR}, #{leaderid,jdbcType=DECIMAL}, 
+      #{leadersuggestion,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{driverid,jdbcType=DECIMAL}, 
+      #{repairtype,jdbcType=VARCHAR}, #{isrepeat,jdbcType=DECIMAL}, #{estimatecost,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.VehicleRepairApplyVo" useGeneratedKeys="false" >
+    insert into T_COST_VEHICLEREPAIRAPPLY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID,
+      </if>
+      <if test="unitid != null" >
+        UNITID,
+      </if>
+      <if test="applydate != null" >
+        APPLYDATE,
+      </if>
+      <if test="mainitem != null" >
+        MAINITEM,
+      </if>
+      <if test="safesuggestion != null" >
+        SAFESUGGESTION,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isreply != null" >
+        ISREPLY,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="printflag != null" >
+        PRINTFLAG,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="vehiclectrid != null" >
+        VEHICLECTRID,
+      </if>
+      <if test="vehiclemainitem != null" >
+        VEHICLEMAINITEM,
+      </if>
+      <if test="leaderid != null" >
+        LEADERID,
+      </if>
+      <if test="leadersuggestion != null" >
+        LEADERSUGGESTION,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="driverid != null" >
+        DRIVERID,
+      </if>
+      <if test="repairtype != null" >
+        REPAIRTYPE,
+      </if>
+      <if test="isrepeat != null" >
+        ISREPEAT,
+      </if>
+      <if test="estimatecost != null" >
+        ESTIMATECOST,
+      </if>
+      <if test="repairinfoid != null" >
+        REPAIRINFOID,
+      </if>
+      <if test="repairinfo != null" >
+        REPAIRINFO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="unitid != null" >
+        #{unitid,jdbcType=DECIMAL},
+      </if>
+      <if test="applydate != null" >
+        #{applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mainitem != null" >
+        #{mainitem,jdbcType=VARCHAR},
+      </if>
+      <if test="safesuggestion != null" >
+        #{safesuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isreply != null" >
+        #{isreply,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="printflag != null" >
+        #{printflag,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclectrid != null" >
+        #{vehiclectrid,jdbcType=DECIMAL},
+      </if>
+      <if test="vehiclemainitem != null" >
+        #{vehiclemainitem,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderid != null" >
+        #{leaderid,jdbcType=DECIMAL},
+      </if>
+      <if test="leadersuggestion != null" >
+        #{leadersuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="repairtype != null" >
+        #{repairtype,jdbcType=VARCHAR},
+      </if>
+      <if test="isrepeat != null" >
+        #{isrepeat,jdbcType=DECIMAL},
+      </if>
+      <if test="estimatecost != null" >
+        #{estimatecost,jdbcType=DECIMAL},
+      </if>
+      <if test="repairinfoid != null" >
+        #{repairinfoid,jdbcType=DECIMAL},
+      </if>
+      <if test="repairinfo != null" >
+        #{repairinfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.VehicleRepairApplyVo" >
+    update T_COST_VEHICLEREPAIRAPPLY
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="unitid != null" >
+        UNITID = #{unitid,jdbcType=DECIMAL},
+      </if>
+      <if test="applydate != null" >
+        APPLYDATE = #{applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mainitem != null" >
+        MAINITEM = #{mainitem,jdbcType=VARCHAR},
+      </if>
+      <if test="safesuggestion != null" >
+        SAFESUGGESTION = #{safesuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isreply != null" >
+        ISREPLY = #{isreply,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="printflag != null" >
+        PRINTFLAG = #{printflag,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclectrid != null" >
+        VEHICLECTRID = #{vehiclectrid,jdbcType=DECIMAL},
+      </if>
+      <if test="vehiclemainitem != null" >
+        VEHICLEMAINITEM = #{vehiclemainitem,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderid != null" >
+        LEADERID = #{leaderid,jdbcType=DECIMAL},
+      </if>
+      <if test="leadersuggestion != null" >
+        LEADERSUGGESTION = #{leadersuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        DRIVERID = #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="repairtype != null" >
+        REPAIRTYPE = #{repairtype,jdbcType=VARCHAR},
+      </if>
+      <if test="isrepeat != null" >
+        ISREPEAT = #{isrepeat,jdbcType=DECIMAL},
+      </if>
+      <if test="estimatecost != null" >
+        ESTIMATECOST = #{estimatecost,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.VehicleRepairApplyVo" >
+    update T_COST_VEHICLEREPAIRAPPLY
+    set CODE = #{code,jdbcType=VARCHAR},
+      VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      UNITID = #{unitid,jdbcType=DECIMAL},
+      APPLYDATE = #{applydate,jdbcType=TIMESTAMP},
+      MAINITEM = #{mainitem,jdbcType=VARCHAR},
+      SAFESUGGESTION = #{safesuggestion,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      ISREPLY = #{isreply,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      PRINTFLAG = #{printflag,jdbcType=VARCHAR},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      VEHICLECTRID = #{vehiclectrid,jdbcType=DECIMAL},
+      VEHICLEMAINITEM = #{vehiclemainitem,jdbcType=VARCHAR},
+      LEADERID = #{leaderid,jdbcType=DECIMAL},
+      LEADERSUGGESTION = #{leadersuggestion,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      DRIVERID = #{driverid,jdbcType=DECIMAL},
+      REPAIRTYPE = #{repairtype,jdbcType=VARCHAR},
+      ISREPEAT = #{isrepeat,jdbcType=DECIMAL},
+      ESTIMATECOST = #{estimatecost,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

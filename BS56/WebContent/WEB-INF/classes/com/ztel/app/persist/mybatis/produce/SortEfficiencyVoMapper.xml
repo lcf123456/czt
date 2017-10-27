@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.produce.SortEfficiencyVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.produce.SortEfficiencyVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LINEID" property="lineid" jdbcType="DECIMAL" />
+    <result column="LINECODE" property="linecode" jdbcType="VARCHAR" />
+    <result column="BEGTIME" property="begtime" jdbcType="TIMESTAMP" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="ORDERDATE" property="orderdate" jdbcType="TIMESTAMP" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" />
+    <result column="LENGTH" property="length" jdbcType="DECIMAL" />
+    <result column="SORTTIME" property="sorttime" jdbcType="DECIMAL" />
+    <result column="ACTSORTTIME" property="actsorttime" jdbcType="DECIMAL" />
+    <result column="EFFICIENCY" property="efficiency" jdbcType="DECIMAL" />
+    <result column="ACTEFFICIENCY" property="actefficiency" jdbcType="DECIMAL" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LINEID, LINECODE, BEGTIME, ENDTIME, CREATETIME, ORDERDATE, QUANTITY, UNIT, LENGTH
+  </sql>
+  <select id="getSortEfficiencyPageList" resultType="com.ztel.app.vo.produce.SortEfficiencyVo" parameterType="Pagination" >
+    select 
+    ((endtime-begtime)*24) as sorttime,((endtime-begtime)*24-length/60) as actsorttime,quantity/((endtime-begtime)*24) as efficiency,
+	quantity/((endtime-begtime)*24-length/60) as actefficiency,linecode,quantity,unit,begtime,endtime,a.length
+    from T_PRODUCE_SORTEFFICIENCY a
+    where 1=1
+    <if test="param != null and param.param != null and param.param != ''" >
+        and a.LINECODE like'%'||#{param.param}||'%' 
+      </if>
+       <if test="param != null and param.begdate != null " >
+        and a.ORDERDATE>=to_date(#{param.begdate},'yyyy-MM-dd')
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and a.ORDERDATE &lt;= to_date(#{param.enddate},'yyyy-MM-dd') 
+      </if>
+      order by a.id desc 
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PRODUCE_SORTEFFICIENCY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_PRODUCE_SORTEFFICIENCY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.produce.SortEfficiencyVo" >
+    insert into T_PRODUCE_SORTEFFICIENCY (ID, LINEID, LINECODE, 
+      BEGTIME, ENDTIME, CREATETIME, 
+      ORDERDATE, QUANTITY, UNIT, 
+      LENGTH)
+    values (#{id,jdbcType=DECIMAL}, #{lineid,jdbcType=DECIMAL}, #{linecode,jdbcType=VARCHAR}, 
+      #{begtime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{orderdate,jdbcType=TIMESTAMP}, #{quantity,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
+      #{length,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.produce.SortEfficiencyVo" >
+    insert into T_PRODUCE_SORTEFFICIENCY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="lineid != null" >
+        LINEID,
+      </if>
+      <if test="linecode != null" >
+        LINECODE,
+      </if>
+      <if test="begtime != null" >
+        BEGTIME,
+      </if>
+      <if test="endtime != null" >
+        ENDTIME,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="length != null" >
+        LENGTH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="lineid != null" >
+        #{lineid,jdbcType=DECIMAL},
+      </if>
+      <if test="linecode != null" >
+        #{linecode,jdbcType=VARCHAR},
+      </if>
+      <if test="begtime != null" >
+        #{begtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.produce.SortEfficiencyVo" >
+    update T_PRODUCE_SORTEFFICIENCY
+    <set >
+      <if test="lineid != null" >
+        LINEID = #{lineid,jdbcType=DECIMAL},
+      </if>
+      <if test="linecode != null" >
+        LINECODE = #{linecode,jdbcType=VARCHAR},
+      </if>
+      <if test="begtime != null" >
+        BEGTIME = #{begtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        ENDTIME = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        LENGTH = #{length,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.produce.SortEfficiencyVo" >
+    update T_PRODUCE_SORTEFFICIENCY
+    set LINEID = #{lineid,jdbcType=DECIMAL},
+      LINECODE = #{linecode,jdbcType=VARCHAR},
+      BEGTIME = #{begtime,jdbcType=TIMESTAMP},
+      ENDTIME = #{endtime,jdbcType=TIMESTAMP},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      LENGTH = #{length,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

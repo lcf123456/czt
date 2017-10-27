@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.wms.ShipOrderVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ShipOrderVo">
+    <id column="ORDERNO" jdbcType="VARCHAR" property="orderno" />
+    <result column="ORG_CODE" jdbcType="OTHER" property="orgCode" />
+    <result column="SHIPORDERNO" jdbcType="VARCHAR" property="shiporderno" />
+    <result column="BUSINESSTYPE_ID" jdbcType="DECIMAL" property="businesstypeId" />
+    <result column="SHIPPER_ID" jdbcType="DECIMAL" property="shipperId" />
+    <result column="CUSTOMER_ID" jdbcType="VARCHAR" property="customerId" />
+    <result column="WAREHOUSEID" jdbcType="DECIMAL" property="warehouseid" />
+    <result column="REALSHIPADDRESS" jdbcType="OTHER" property="realshipaddress" />
+    <result column="REALADDRESSCONTACT" jdbcType="OTHER" property="realaddresscontact" />
+    <result column="REALSHIPADDRESSPHONE" jdbcType="OTHER" property="realshipaddressphone" />
+    <result column="ORDERLINES" jdbcType="DECIMAL" property="orderlines" />
+    <result column="TOTALAMOUNT" jdbcType="DECIMAL" property="totalamount" />
+    <result column="ORDERDATE" jdbcType="TIMESTAMP" property="orderdate" />
+    <result column="EXPECTEDSHIPDATE" jdbcType="TIMESTAMP" property="expectedshipdate" />
+    <result column="ISRUSH" jdbcType="DECIMAL" property="isrush" />
+    <result column="ORDERSTATUS" jdbcType="DECIMAL" property="orderstatus" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="CREATEUSER" jdbcType="OTHER" property="createuser" />
+    <result column="DELIVERYTIME" jdbcType="TIMESTAMP" property="deliverytime" />
+    <result column="DELSTATUS" jdbcType="DECIMAL" property="delstatus" />
+    <result column="REMARKS" jdbcType="OTHER" property="remarks" />
+    <result column="PAYMENTFLAG" jdbcType="DECIMAL" property="paymentflag" />
+    <result column="ROUTECODE" jdbcType="VARCHAR" property="routecode" />
+    <result column="DELIVERYSEQ" jdbcType="DECIMAL" property="deliveryseq" />
+    <result column="TOTALQTY" jdbcType="DECIMAL" property="totalqty" />
+    <result column="BATCH" jdbcType="DECIMAL" property="batch" />
+    <result column="SCHEDULESTATUS" jdbcType="VARCHAR" property="schedulestatus" />
+    <result column="CUSTOMERNAME" jdbcType="VARCHAR" property="customername" />
+    <result column="BAKPHONE" jdbcType="OTHER" property="bakphone" />
+    <result column="CALCID" jdbcType="DECIMAL" property="calcid" />
+    <result column="CALCNAME" jdbcType="VARCHAR" property="calcname" />
+    <result column="DEPTID" jdbcType="DECIMAL" property="deptid" />
+    <result column="ORDERDATESTR" jdbcType="VARCHAR" property="orderdatestr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ORDERNO, ORG_CODE, SHIPORDERNO, BUSINESSTYPE_ID, SHIPPER_ID, CUSTOMER_ID, WAREHOUSEID, 
+    REALSHIPADDRESS, REALADDRESSCONTACT, REALSHIPADDRESSPHONE, ORDERLINES, TOTALAMOUNT, 
+    ORDERDATE, EXPECTEDSHIPDATE, ISRUSH, ORDERSTATUS, CREATETIME, CREATEUSER, DELIVERYTIME, 
+    DELSTATUS, REMARKS, PAYMENTFLAG, ROUTECODE, DELIVERYSEQ, TOTALQTY, BATCH, SCHEDULESTATUS, 
+    CUSTOMERNAME, BAKPHONE
+  </sql>
+  
+  <!-- 根据订单日期获取配送车组code列表 -->
+  <select id="selectRoutecodeList" parameterType="com.ztel.app.vo.wms.ShipOrderVo" resultType="com.ztel.app.vo.wms.ShipOrderVo">
+    select 
+    distinct ROUTECODE,sum(totalqty) as totalqty,ORG_CODE as orgCode
+    from T_WMS_SHIPORDER
+    where 1=1  
+    <if test="orderdate != null">
+	        AND ORDERDATE = #{orderdate,jdbcType=TIMESTAMP}
+	</if>
+    <if test="orgCode != null and orgCode != '' ">
+	        AND ORG_CODE = #{orgCode}
+	</if>
+	group by ROUTECODE,ORG_CODE
+	order by ROUTECODE
+  </select>
+  
+  <!-- 取预付款客户订单 ,用于货款核算预付款客户车组查看-->
+  <select id="selectShiporderPerpayList" parameterType="com.ztel.app.vo.wms.ShipOrderVo" resultType="com.ztel.app.vo.wms.ShipOrderVo">
+    select shiporder.customername,shiporder.totalamount,shiporder.totalqty,shiporder.routecode,shiporder.orderdate,to_char(shiporder.orderdate,'yyyy-mm-dd') as orderdatestr ,calcinfo.calcid,calcinfo.calcname,calcinfo.deptid
+	from t_wms_shiporder shiporder  
+	left outer join (select * from t_wms_customer where delstatus=10) customer on shiporder.customer_id=customer.id
+	left outer join (select sysuser.username as calcname,calcid,rinfo.routecode,rinfo.deptid  from T_SYS_ROUTEINFO rinfo,t_sys_user sysuser where rinfo.delstatus=10 and rinfo.calcid=sysuser.id)  calcinfo on shiporder.routecode=calcinfo.routecode
+	where trunc(orderdate) = #{orderdate,jdbcType=TIMESTAMP}  and shiporder.delstatus=10 and customer.prepayflag='1' 
+	<if test="deptid != null and deptid != '' ">
+	        AND calcinfo.DEPTID = #{deptid}
+	</if>
+	<if test="calcid != null ">
+	        AND calcinfo.CALCID = #{calcid}
+	</if>
+	order by shiporder.routecode
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_SHIPORDER
+    where ORDERNO = #{orderno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_WMS_SHIPORDER
+    where ORDERNO = #{orderno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ShipOrderVo">
+    insert into T_WMS_SHIPORDER (ORDERNO, ORG_CODE, SHIPORDERNO, 
+      BUSINESSTYPE_ID, SHIPPER_ID, CUSTOMER_ID, 
+      WAREHOUSEID, REALSHIPADDRESS, REALADDRESSCONTACT, 
+      REALSHIPADDRESSPHONE, ORDERLINES, TOTALAMOUNT, 
+      ORDERDATE, EXPECTEDSHIPDATE, ISRUSH, 
+      ORDERSTATUS, CREATETIME, CREATEUSER, 
+      DELIVERYTIME, DELSTATUS, REMARKS, 
+      PAYMENTFLAG, ROUTECODE, DELIVERYSEQ, 
+      TOTALQTY, BATCH, SCHEDULESTATUS, 
+      CUSTOMERNAME, BAKPHONE)
+    values (#{orderno,jdbcType=VARCHAR}, #{orgCode,jdbcType=OTHER}, #{shiporderno,jdbcType=VARCHAR}, 
+      #{businesstypeId,jdbcType=DECIMAL}, #{shipperId,jdbcType=DECIMAL}, #{customerId,jdbcType=VARCHAR}, 
+      #{warehouseid,jdbcType=DECIMAL}, #{realshipaddress,jdbcType=OTHER}, #{realaddresscontact,jdbcType=OTHER}, 
+      #{realshipaddressphone,jdbcType=OTHER}, #{orderlines,jdbcType=DECIMAL}, #{totalamount,jdbcType=DECIMAL}, 
+      #{orderdate,jdbcType=TIMESTAMP}, #{expectedshipdate,jdbcType=TIMESTAMP}, #{isrush,jdbcType=DECIMAL}, 
+      #{orderstatus,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=OTHER}, 
+      #{deliverytime,jdbcType=TIMESTAMP}, #{delstatus,jdbcType=DECIMAL}, #{remarks,jdbcType=OTHER}, 
+      #{paymentflag,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, #{deliveryseq,jdbcType=DECIMAL}, 
+      #{totalqty,jdbcType=DECIMAL}, #{batch,jdbcType=DECIMAL}, #{schedulestatus,jdbcType=VARCHAR}, 
+      #{customername,jdbcType=VARCHAR}, #{bakphone,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ShipOrderVo">
+    insert into T_WMS_SHIPORDER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderno != null">
+        ORDERNO,
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE,
+      </if>
+      <if test="shiporderno != null">
+        SHIPORDERNO,
+      </if>
+      <if test="businesstypeId != null">
+        BUSINESSTYPE_ID,
+      </if>
+      <if test="shipperId != null">
+        SHIPPER_ID,
+      </if>
+      <if test="customerId != null">
+        CUSTOMER_ID,
+      </if>
+      <if test="warehouseid != null">
+        WAREHOUSEID,
+      </if>
+      <if test="realshipaddress != null">
+        REALSHIPADDRESS,
+      </if>
+      <if test="realaddresscontact != null">
+        REALADDRESSCONTACT,
+      </if>
+      <if test="realshipaddressphone != null">
+        REALSHIPADDRESSPHONE,
+      </if>
+      <if test="orderlines != null">
+        ORDERLINES,
+      </if>
+      <if test="totalamount != null">
+        TOTALAMOUNT,
+      </if>
+      <if test="orderdate != null">
+        ORDERDATE,
+      </if>
+      <if test="expectedshipdate != null">
+        EXPECTEDSHIPDATE,
+      </if>
+      <if test="isrush != null">
+        ISRUSH,
+      </if>
+      <if test="orderstatus != null">
+        ORDERSTATUS,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="createuser != null">
+        CREATEUSER,
+      </if>
+      <if test="deliverytime != null">
+        DELIVERYTIME,
+      </if>
+      <if test="delstatus != null">
+        DELSTATUS,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="paymentflag != null">
+        PAYMENTFLAG,
+      </if>
+      <if test="routecode != null">
+        ROUTECODE,
+      </if>
+      <if test="deliveryseq != null">
+        DELIVERYSEQ,
+      </if>
+      <if test="totalqty != null">
+        TOTALQTY,
+      </if>
+      <if test="batch != null">
+        BATCH,
+      </if>
+      <if test="schedulestatus != null">
+        SCHEDULESTATUS,
+      </if>
+      <if test="customername != null">
+        CUSTOMERNAME,
+      </if>
+      <if test="bakphone != null">
+        BAKPHONE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=OTHER},
+      </if>
+      <if test="shiporderno != null">
+        #{shiporderno,jdbcType=VARCHAR},
+      </if>
+      <if test="businesstypeId != null">
+        #{businesstypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="shipperId != null">
+        #{shipperId,jdbcType=DECIMAL},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseid != null">
+        #{warehouseid,jdbcType=DECIMAL},
+      </if>
+      <if test="realshipaddress != null">
+        #{realshipaddress,jdbcType=OTHER},
+      </if>
+      <if test="realaddresscontact != null">
+        #{realaddresscontact,jdbcType=OTHER},
+      </if>
+      <if test="realshipaddressphone != null">
+        #{realshipaddressphone,jdbcType=OTHER},
+      </if>
+      <if test="orderlines != null">
+        #{orderlines,jdbcType=DECIMAL},
+      </if>
+      <if test="totalamount != null">
+        #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderdate != null">
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectedshipdate != null">
+        #{expectedshipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isrush != null">
+        #{isrush,jdbcType=DECIMAL},
+      </if>
+      <if test="orderstatus != null">
+        #{orderstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=OTHER},
+      </if>
+      <if test="deliverytime != null">
+        #{deliverytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delstatus != null">
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="paymentflag != null">
+        #{paymentflag,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null">
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryseq != null">
+        #{deliveryseq,jdbcType=DECIMAL},
+      </if>
+      <if test="totalqty != null">
+        #{totalqty,jdbcType=DECIMAL},
+      </if>
+      <if test="batch != null">
+        #{batch,jdbcType=DECIMAL},
+      </if>
+      <if test="schedulestatus != null">
+        #{schedulestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null">
+        #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="bakphone != null">
+        #{bakphone,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ShipOrderVo">
+    update T_WMS_SHIPORDER
+    <set>
+      <if test="orgCode != null">
+        ORG_CODE = #{orgCode,jdbcType=OTHER},
+      </if>
+      <if test="shiporderno != null">
+        SHIPORDERNO = #{shiporderno,jdbcType=VARCHAR},
+      </if>
+      <if test="businesstypeId != null">
+        BUSINESSTYPE_ID = #{businesstypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="shipperId != null">
+        SHIPPER_ID = #{shipperId,jdbcType=DECIMAL},
+      </if>
+      <if test="customerId != null">
+        CUSTOMER_ID = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseid != null">
+        WAREHOUSEID = #{warehouseid,jdbcType=DECIMAL},
+      </if>
+      <if test="realshipaddress != null">
+        REALSHIPADDRESS = #{realshipaddress,jdbcType=OTHER},
+      </if>
+      <if test="realaddresscontact != null">
+        REALADDRESSCONTACT = #{realaddresscontact,jdbcType=OTHER},
+      </if>
+      <if test="realshipaddressphone != null">
+        REALSHIPADDRESSPHONE = #{realshipaddressphone,jdbcType=OTHER},
+      </if>
+      <if test="orderlines != null">
+        ORDERLINES = #{orderlines,jdbcType=DECIMAL},
+      </if>
+      <if test="totalamount != null">
+        TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderdate != null">
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectedshipdate != null">
+        EXPECTEDSHIPDATE = #{expectedshipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isrush != null">
+        ISRUSH = #{isrush,jdbcType=DECIMAL},
+      </if>
+      <if test="orderstatus != null">
+        ORDERSTATUS = #{orderstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        CREATEUSER = #{createuser,jdbcType=OTHER},
+      </if>
+      <if test="deliverytime != null">
+        DELIVERYTIME = #{deliverytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delstatus != null">
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="paymentflag != null">
+        PAYMENTFLAG = #{paymentflag,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null">
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryseq != null">
+        DELIVERYSEQ = #{deliveryseq,jdbcType=DECIMAL},
+      </if>
+      <if test="totalqty != null">
+        TOTALQTY = #{totalqty,jdbcType=DECIMAL},
+      </if>
+      <if test="batch != null">
+        BATCH = #{batch,jdbcType=DECIMAL},
+      </if>
+      <if test="schedulestatus != null">
+        SCHEDULESTATUS = #{schedulestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null">
+        CUSTOMERNAME = #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="bakphone != null">
+        BAKPHONE = #{bakphone,jdbcType=OTHER},
+      </if>
+    </set>
+    where ORDERNO = #{orderno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ShipOrderVo">
+    update T_WMS_SHIPORDER
+    set ORG_CODE = #{orgCode,jdbcType=OTHER},
+      SHIPORDERNO = #{shiporderno,jdbcType=VARCHAR},
+      BUSINESSTYPE_ID = #{businesstypeId,jdbcType=DECIMAL},
+      SHIPPER_ID = #{shipperId,jdbcType=DECIMAL},
+      CUSTOMER_ID = #{customerId,jdbcType=VARCHAR},
+      WAREHOUSEID = #{warehouseid,jdbcType=DECIMAL},
+      REALSHIPADDRESS = #{realshipaddress,jdbcType=OTHER},
+      REALADDRESSCONTACT = #{realaddresscontact,jdbcType=OTHER},
+      REALSHIPADDRESSPHONE = #{realshipaddressphone,jdbcType=OTHER},
+      ORDERLINES = #{orderlines,jdbcType=DECIMAL},
+      TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      EXPECTEDSHIPDATE = #{expectedshipdate,jdbcType=TIMESTAMP},
+      ISRUSH = #{isrush,jdbcType=DECIMAL},
+      ORDERSTATUS = #{orderstatus,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      CREATEUSER = #{createuser,jdbcType=OTHER},
+      DELIVERYTIME = #{deliverytime,jdbcType=TIMESTAMP},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=OTHER},
+      PAYMENTFLAG = #{paymentflag,jdbcType=DECIMAL},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      DELIVERYSEQ = #{deliveryseq,jdbcType=DECIMAL},
+      TOTALQTY = #{totalqty,jdbcType=DECIMAL},
+      BATCH = #{batch,jdbcType=DECIMAL},
+      SCHEDULESTATUS = #{schedulestatus,jdbcType=VARCHAR},
+      CUSTOMERNAME = #{customername,jdbcType=VARCHAR},
+      BAKPHONE = #{bakphone,jdbcType=OTHER}
+    where ORDERNO = #{orderno,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.MoveareastockLineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.MoveareastockLineVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PARENTID" property="parentid" jdbcType="DECIMAL" />
+    <result column="TROUGHNUM" property="troughnum" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="VARCHAR" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="VARCHAR" />
+    <result column="BOXQTY" property="boxqty" jdbcType="DECIMAL" />
+    <result column="BARQTY" property="barqty" jdbcType="DECIMAL" />
+  </resultMap>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.MoveareastockLineVo" >
+    insert into T_WMS_MOVEAREASTOCK_LINE (ID, PARENTID, TROUGHNUM, 
+      BARCODE, CIGARETTENAME, CIGARETTECODE, 
+      BOXQTY, BARQTY)
+    values (#{id,jdbcType=DECIMAL}, #{parentid,jdbcType=DECIMAL}, #{troughnum,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=VARCHAR}, #{cigarettecode,jdbcType=VARCHAR}, 
+      #{boxqty,jdbcType=DECIMAL}, #{barqty,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.MoveareastockLineVo" >
+    insert into T_WMS_MOVEAREASTOCK_LINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="troughnum != null" >
+        TROUGHNUM,
+      </if>
+      <if test="barcode != null" >
+        BARCODE,
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME,
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE,
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY,
+      </if>
+      <if test="barqty != null" >
+        BARQTY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=DECIMAL},
+      </if>
+      <if test="troughnum != null" >
+        #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null" >
+        #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null" >
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="barqty != null" >
+        #{barqty,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

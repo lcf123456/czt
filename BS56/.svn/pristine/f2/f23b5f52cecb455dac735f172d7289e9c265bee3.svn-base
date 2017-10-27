@@ -1,0 +1,43 @@
+package com.ztel.app.service.wms;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.ztel.app.vo.wms.CigarettedamagedLineVo;
+import com.ztel.app.vo.wms.CigarettedamagedVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface CigarettedamagedService {
+
+	public List<CigarettedamagedVo>  selectCigarettedamagedPageList(Pagination<?> page);
+	
+	/**
+	 * 破损录入
+	 * @param cigarettedamagedLineVo
+	 * @param cigarettedamagedVo
+	 */
+	public void insertCigarettedamaged(CigarettedamagedLineVo cigarettedamagedLineVo,CigarettedamagedVo cigarettedamagedVo);
+	
+	
+	/**
+	 * 审核
+	 * @param cigarettedamagedVo
+	 */
+	public void doAudit(CigarettedamagedVo cigarettedamagedVo);
+	
+	/**
+	 * 更新，比如：删除
+	 * @param cigarettedamagedVo
+	 */
+	public void doUpdate(CigarettedamagedVo cigarettedamagedVo);
+	
+	/**
+	 * 删除
+	 * @param inboundid 入库单id
+	 */
+	public void doDel(BigDecimal inboundid);
+	
+	public CigarettedamagedVo selectByInboundid(BigDecimal inboundid);
+	
+	public void doAuditabnormal(CigarettedamagedVo cigarettedamagedVo);
+}

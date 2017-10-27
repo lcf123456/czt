@@ -1,0 +1,80 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.wms;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.wms.ShipOrderLineService;
+import com.ztel.app.service.wms.ShipOrderService;
+import com.ztel.app.vo.wms.ShipOrderLineVo;
+import com.ztel.app.vo.wms.ShipOrderVo;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author Zeal
+ * @since 2017年2月26日
+ *入库单
+ */
+@Controller
+@RequestMapping("/wms/shiporder")
+public class ShipOrderCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(ShipOrderCtrl.class);
+	
+	
+	@Autowired
+	private ShipOrderService shipOrderService = null;
+	
+	@Autowired
+	private ShipOrderLineService shipOrderLineService = null;
+	 
+
+	
+	//@Autowired
+	//private OutBoundLineService  inBoundLineService = null;
+	
+
+	/**
+	 * 获取主键获取主订单
+	 * @param outBoundVo 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="getShiporderByNo")
+	 @ResponseBody
+	 public ShipOrderVo getShiporderByNo(HttpServletRequest request) throws Exception{
+		 String orderNo = request.getParameter("orderNo");//订单号
+		 ShipOrderVo result = shipOrderService.getShipOrderByOrderNo(orderNo);
+		return result;
+	}
+	
+	 
+		 /**
+			 * 获取订单明细列表
+			 * @param outBoundVo 
+			 * @param request
+			 * @return
+			 * @throws Exception
+			 */
+			@RequestMapping(value="getShiporderlineByNo")
+			 @ResponseBody
+			 public List<ShipOrderLineVo> getShiporderline(HttpServletRequest request) throws Exception{
+				 List<ShipOrderLineVo> result=new ArrayList<ShipOrderLineVo>(); 
+				 String orderNo = request.getParameter("orderNo");//订单号
+				// shipOrderVo.setOrderdate(orderdate);
+				 result = shipOrderLineService.getShipOrderLineByOrderNo(orderNo);
+				return result;
+			}
+}

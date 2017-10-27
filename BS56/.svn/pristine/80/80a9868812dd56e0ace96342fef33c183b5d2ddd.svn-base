@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.DeptVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.DeptVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DEPTCODE" property="deptcode" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="DEPTTYPE" property="depttype" jdbcType="DECIMAL" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="DEPTLEVEL" property="deptlevel" jdbcType="DECIMAL" />
+    <result column="SYSREMARKS" property="sysremarks" jdbcType="VARCHAR" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DEPTCODE, DEPTNAME, DEPTTYPE, CREATEID, CREATEDATE, DEPTLEVEL, SYSREMARKS, FID
+  </sql>
+  
+    <select id="getDeptTree"  resultType="DeptTreeVo">
+		select ID,DEPTNAME as text from T_SYS_DEPT 
+		where 1=1 
+	<if test="parentId != null and parentId != null and parentId != ''">
+        AND FID = #{parentId} 
+	</if>
+	order by seq 
+</select>
+
+<!-- 
+  <select id="getDeptinfoList" resultType="com.ztel.app.vo.sys.DeptVo" parameterType="com.ztel.app.vo.sys.DeptVo">
+  select ID, DEPTCODE, DEPTNAME, DEPTLEVEL,  DEPTTYPE,FID
+  from T_SYS_DEPT   where deptlevel!=0
+	<if test="keywd != null and keywd != ''">
+	  and (deptcode like'%'||#{keywd,jdbcType=VARCHAR}||'%' or deptname like'%'||#{keywd,jdbcType=VARCHAR}||'%')
+    </if> 
+	  order by deptcode
+  
+  </select>
+   -->
+   
+    <select id="getDeptinfoList" resultType="com.ztel.app.vo.sys.DeptVo" parameterType="com.ztel.app.vo.sys.DeptVo">
+  select ID, DEPTCODE, DEPTNAME, DEPTLEVEL,  DEPTTYPE,FID
+  from T_SYS_DEPT   where deptlevel!=0
+	<if test="keywd != null and keywd != ''">
+	  and (deptcode like'%'||#{keywd,jdbcType=VARCHAR}||'%' or deptname like'%'||#{keywd,jdbcType=VARCHAR}||'%')
+    </if>
+    <if test="deptlevel != null and deptlevel != ''">
+	  and deptlevel=#{deptlevel}
+    </if>  
+    <if test="fid != null and fid != ''">
+	  and fid=#{fid}
+    </if>  
+	  order by seq
+  
+  </select>
+  
+  <!-- 获取部门信息，用于投诉年报表取车组归宿部门信息 -->
+    <select id="getDeptinfoForReport" resultMap="BaseResultMap">
+   select  r.deptid as id,d.deptname from t_sys_routeinfo r,t_sys_dept d where r.deptid=d.id group by r.deptid,d.deptname order by r.deptid
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_DEPT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_DEPT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.DeptVo" >
+    insert into T_SYS_DEPT (ID, DEPTCODE, DEPTNAME, 
+      DEPTTYPE, CREATEID, CREATEDATE, 
+      DEPTLEVEL, SYSREMARKS, FID
+      )
+    values (#{id,jdbcType=DECIMAL}, #{deptcode,jdbcType=VARCHAR}, #{deptname,jdbcType=VARCHAR}, 
+      #{depttype,jdbcType=DECIMAL}, #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{deptlevel,jdbcType=DECIMAL}, #{sysremarks,jdbcType=VARCHAR}, #{fid,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.DeptVo" >
+    insert into T_SYS_DEPT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+       ID,     DEPTTYPE,  CREATEID,  CREATEDATE,
+      <if test="deptcode != null" >
+        DEPTCODE,
+      </if>
+      <if test="deptname != null" >
+        DEPTNAME,
+      </if>
+      <if test="deptlevel != null" >
+        DEPTLEVEL,
+      </if>
+      <if test="sysremarks != null" >
+        SYSREMARKS,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       s_sys_dept.nextval, 10, 1, sysdate,
+      <if test="deptcode != null" >
+        #{deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="depttype != null" >
+        #{depttype,jdbcType=DECIMAL},
+      </if>
+      <if test="deptlevel != null" >
+        #{deptlevel,jdbcType=DECIMAL},
+      </if>
+      <if test="sysremarks != null" >
+        #{sysremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.DeptVo" >
+    update T_SYS_DEPT
+    <set >
+      <if test="deptcode != null" >
+        DEPTCODE = #{deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        DEPTNAME = #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="depttype != null" >
+        DEPTTYPE = #{depttype,jdbcType=DECIMAL},
+      </if>
+      
+        CREATEID = 1,
+      
+        CREATEDATE = sysdate,
+    
+      <if test="deptlevel != null" >
+        DEPTLEVEL = #{deptlevel,jdbcType=DECIMAL},
+      </if>
+      <if test="sysremarks != null" >
+        SYSREMARKS = #{sysremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.DeptVo" >
+    update T_SYS_DEPT
+    set DEPTCODE = #{deptcode,jdbcType=VARCHAR},
+      DEPTNAME = #{deptname,jdbcType=VARCHAR},
+      DEPTTYPE = #{depttype,jdbcType=DECIMAL},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      DEPTLEVEL = #{deptlevel,jdbcType=DECIMAL},
+      SYSREMARKS = #{sysremarks,jdbcType=VARCHAR},
+      FID = #{fid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+  
+  
+</mapper>

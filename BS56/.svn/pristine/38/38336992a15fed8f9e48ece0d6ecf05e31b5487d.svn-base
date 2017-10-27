@@ -1,0 +1,196 @@
+package com.ztel.app.vo.wms;
+
+import java.math.BigDecimal;
+
+public class CigarettedamagedLineVo {
+    /**
+     * null
+     */
+    private BigDecimal id;
+
+    /**
+     * 入库单id
+     */
+    private BigDecimal inboundid;
+
+    /**
+     * 入库单明细id
+     */
+    private BigDecimal inbounddetailid;
+
+    /**
+     * 卷烟名称
+     */
+    private Object cigarettename;
+
+    /**
+     * 编码
+     */
+    private String cigarettecode;
+
+    /**
+     * 件烟数量
+     */
+    private BigDecimal boxqty;
+
+    /**
+     * 破损数量
+     */
+    private BigDecimal damagedqty;
+    
+    /**
+     * 实际破损数量(条)
+     */
+    private BigDecimal actualqty;
+    
+    /**
+     * 件码
+     */
+    private String barcode;
+
+    /**
+     * null
+     * @return ID null
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * null
+     * @param id null
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 入库单id
+     * @return INBOUNDID 入库单id
+     */
+    public BigDecimal getInboundid() {
+        return inboundid;
+    }
+
+    /**
+     * 入库单id
+     * @param inboundid 入库单id
+     */
+    public void setInboundid(BigDecimal inboundid) {
+        this.inboundid = inboundid;
+    }
+
+    /**
+     * 入库单明细id
+     * @return INBOUNDDETAILID 入库单明细id
+     */
+    public BigDecimal getInbounddetailid() {
+        return inbounddetailid;
+    }
+
+    /**
+     * 入库单明细id
+     * @param inbounddetailid 入库单明细id
+     */
+    public void setInbounddetailid(BigDecimal inbounddetailid) {
+        this.inbounddetailid = inbounddetailid;
+    }
+
+    /**
+     * 卷烟名称
+     * @return CIGARETTENAME 卷烟名称
+     */
+    public Object getCigarettename() {
+        return cigarettename;
+    }
+
+    /**
+     * 卷烟名称
+     * @param cigarettename 卷烟名称
+     */
+    public void setCigarettename(Object cigarettename) {
+        this.cigarettename = cigarettename;
+    }
+
+    /**
+     * 编码
+     * @return CIGARETTECODE 编码
+     */
+    public String getCigarettecode() {
+        return cigarettecode;
+    }
+
+    /**
+     * 编码
+     * @param cigarettecode 编码
+     */
+    public void setCigarettecode(String cigarettecode) {
+        this.cigarettecode = cigarettecode == null ? null : cigarettecode.trim();
+    }
+
+    /**
+     * 件烟数量
+     * @return BOXQTY 件烟数量
+     */
+    public BigDecimal getBoxqty() {
+        return boxqty;
+    }
+
+    /**
+     * 件烟数量
+     * @param boxqty 件烟数量
+     */
+    public void setBoxqty(BigDecimal boxqty) {
+        this.boxqty = boxqty;
+    }
+
+    /**
+     * 破损数量
+     * @return DAMAGEDQTY 破损数量
+     */
+    public BigDecimal getDamagedqty() {
+        return damagedqty;
+    }
+
+    /**
+     * 破损数量
+     * @param damagedqty 破损数量
+     */
+    public void setDamagedqty(BigDecimal damagedqty) {
+        this.damagedqty = damagedqty;
+    }
+
+    /**
+     * 件码
+     * @return
+     */
+	public String getBarcode() {
+		return barcode;
+	}
+
+	/**
+	 * 件码
+	 * @param barcode 件码
+	 */
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	/**
+	 * 实际破损数量(条)
+	 * @return 实际破损数量(条)
+	 */
+	public BigDecimal getActualqty() {
+		return actualqty;
+	}
+
+	/**
+	 * 实际破损数量(条)
+	 * @param actualqty 实际破损数量(条)
+	 */
+	public void setActualqty(BigDecimal actualqty) {
+		this.actualqty = actualqty;
+	}
+    
+    
+}

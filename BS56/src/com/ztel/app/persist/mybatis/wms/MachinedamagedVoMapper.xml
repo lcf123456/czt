@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.MachinedamagedVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.MachinedamagedVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CREATEUSER" property="createuser" jdbcType="DECIMAL" />
+    <result column="DAMAGEDDESCRIBE" property="damageddescribe" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CHECKUSER" property="checkuser" jdbcType="DECIMAL" />
+    <result column="CHECKDESCRIBE" property="checkdescribe" jdbcType="VARCHAR" />
+    <result column="CHECKTIME" property="checktime" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="CHECKFLAG" property="checkflag" jdbcType="VARCHAR" />
+     <result column="CREATEUSERNAME" property="createusername" jdbcType="VARCHAR" />
+    <result column="CHECKUSERNAME" property="checkusername" jdbcType="VARCHAR" />
+    <result column="CHECKFLAGNAME" property="checkflagname" jdbcType="VARCHAR" />
+    <result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATEUSER, DAMAGEDDESCRIBE, CREATETIME, CHECKUSER, CHECKDESCRIBE, CHECKTIME, 
+    REMARKS, DELSTATUS, QTY, CHECKFLAG
+  </sql>
+  
+    <select id="selectCigarettedamagedPageList" parameterType="Pagination" resultType="com.ztel.app.vo.wms.MachinedamagedVo">
+	    select c.ID, c.CREATEUSER, c.DAMAGEDDESCRIBE, c.CREATETIME, c.CHECKUSER, c.CHECKDESCRIBE, c.CHECKTIME, 
+	    c.REMARKS, c.DELSTATUS, c.QTY, c.CHECKFLAG,decode(c.checkflag,'10','新增','20','审核通过','30','审核驳回','新增') as checkflagname,
+	    u1.username as createusername,u2.username as checkusername 
+	    from T_WMS_MACHINEDAMAGED c left outer join t_sys_user u1 on c.createuser=u1.id
+	    left outer join t_sys_user u2 on c.checkuser=u2.id
+	     where c.DELSTATUS='10'
+	  	 <if test="param != null and param.keyword != null and param.keyword != ''">
+	        AND (u1.username like '%'||#{param.keyword}||'%' or u2.username like '%'||#{param.keyword}||'%')
+	     </if>
+	</select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_MACHINEDAMAGED
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_MACHINEDAMAGED
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.MachinedamagedVo" >
+    insert into T_WMS_MACHINEDAMAGED (ID, CREATEUSER, DAMAGEDDESCRIBE, 
+      CREATETIME, CHECKUSER, CHECKDESCRIBE, 
+      CHECKTIME, REMARKS, DELSTATUS, 
+      QTY, CHECKFLAG)
+    values (#{id,jdbcType=DECIMAL}, #{createuser,jdbcType=DECIMAL}, #{damageddescribe,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{checkuser,jdbcType=DECIMAL}, #{checkdescribe,jdbcType=VARCHAR}, 
+      #{checktime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}, 
+      #{qty,jdbcType=DECIMAL}, #{checkflag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.wms.MachinedamagedVo" >
+    insert into T_WMS_MACHINEDAMAGED
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+        ID,
+      </if>
+      <if test="createuser != null" >
+        CREATEUSER,
+      </if>
+      <if test="damageddescribe != null" >
+        DAMAGEDDESCRIBE,
+      </if>
+        CREATETIME,
+      <if test="checkuser != null" >
+        CHECKUSER,
+      </if>
+      <if test="checkdescribe != null" >
+        CHECKDESCRIBE,
+      </if>
+      <if test="checktime != null" >
+        CHECKTIME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+        DELSTATUS,
+      <if test="qty != null" >
+        QTY,
+      </if>
+        CHECKFLAG,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=DECIMAL},
+      </if>
+      <if test="damageddescribe != null" >
+        #{damageddescribe,jdbcType=VARCHAR},
+      </if>
+        sysdate,
+      <if test="checkuser != null" >
+        #{checkuser,jdbcType=DECIMAL},
+      </if>
+      <if test="checkdescribe != null" >
+        #{checkdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+        '10',
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+        '10',
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.MachinedamagedVo" >
+    update T_WMS_MACHINEDAMAGED
+    <set >
+      <if test="createuser != null" >
+        CREATEUSER = #{createuser,jdbcType=DECIMAL},
+      </if>
+      <if test="damageddescribe != null" >
+        DAMAGEDDESCRIBE = #{damageddescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkuser != null" >
+        CHECKUSER = #{checkuser,jdbcType=DECIMAL},
+      </if>
+      <if test="checkdescribe != null" >
+        CHECKDESCRIBE = #{checkdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null" >
+        CHECKTIME = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null" >
+        QTY = QTY + #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="checkflag != null" >
+        CHECKFLAG = #{checkflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.MachinedamagedVo" >
+    update T_WMS_MACHINEDAMAGED
+    set CREATEUSER = #{createuser,jdbcType=DECIMAL},
+      DAMAGEDDESCRIBE = #{damageddescribe,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      CHECKUSER = #{checkuser,jdbcType=DECIMAL},
+      CHECKDESCRIBE = #{checkdescribe,jdbcType=VARCHAR},
+      CHECKTIME = #{checktime,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      QTY = #{qty,jdbcType=DECIMAL},
+      CHECKFLAG = #{checkflag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

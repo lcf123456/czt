@@ -1,0 +1,12 @@
+package com.ztel.app.service.account;
+
+public interface TimebydmVoService {
+
+	/**
+	 * 根据访配模式取日期
+	 * @param date 订单日期或送货日期 
+	 * @param type 0:取订单日期     1：取送货日期
+	 * @return
+	 */
+	public String getTimebydm(String date,String type);
+}

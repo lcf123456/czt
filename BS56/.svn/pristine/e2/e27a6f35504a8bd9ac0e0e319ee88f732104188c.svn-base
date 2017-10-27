@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.FireSystemnoteVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.FireSystemnoteVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="SYSTEMID" property="systemid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FID, SYSTEMID, REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_FIRE_SYSTEMNOTE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SAFE_FIRE_SYSTEMNOTE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.FireSystemnoteVo" >
+    insert into T_SAFE_FIRE_SYSTEMNOTE (ID, FID, SYSTEMID, 
+      REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{fid,jdbcType=DECIMAL}, #{systemid,jdbcType=DECIMAL}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.FireSystemnoteVo" >
+    insert into T_SAFE_FIRE_SYSTEMNOTE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="systemid != null" >
+        SYSTEMID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="systemid != null" >
+        #{systemid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.FireSystemnoteVo" >
+    update T_SAFE_FIRE_SYSTEMNOTE
+    <set >
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="systemid != null" >
+        SYSTEMID = #{systemid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.FireSystemnoteVo" >
+    update T_SAFE_FIRE_SYSTEMNOTE
+    set FID = #{fid,jdbcType=DECIMAL},
+      SYSTEMID = #{systemid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

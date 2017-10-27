@@ -1,0 +1,552 @@
+package com.ztel.app.vo.perform;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class TransverseAssessVo {
+	 /**
+     * 考核日期
+     */
+    private String assessdatestr;
+    /**
+     * 考核日期
+     */
+    private Date assessdate;
+    /**
+     * 检查部门名称
+     */
+    private String checkdeptname;
+    
+    /**
+     * 检查项目类别名称
+     */
+    private String checktypename;
+
+    /**
+     * 被考核部门名称
+     */
+    private String checkeddeptname;
+
+    /**
+     * 考核内容
+     */
+    private String content;
+    
+    /**
+     * 考核金额
+     */
+    private BigDecimal amount;
+    /**
+     * 考核类别：10：考核 20：奖励
+     */
+    private String ctypename;
+    
+    /**
+     * 考核标志：10：提交 20：考核完成 30：部门分配完成
+     */
+    private String flagname;
+    
+    /**
+     * 序号ID
+     */
+    private BigDecimal id;
+
+    /**
+     * 检查部门ID
+     */
+    private Integer checkdeptid;
+
+
+    /**
+     * 被考核部门ID
+     */
+    private Integer checkeddeptid;
+    
+
+    /**
+     * 检查项目类别
+     */
+    private Integer checktype;
+
+    /**
+     * 备注说明
+     */
+    private String remarks;
+
+    /**
+     * 考核人员ID
+     */
+    private Long assessid;
+
+    /**
+     * 考核意见
+     */
+    private String suggestion;
+
+    /**
+     * 创建人
+     */
+    private Long createid;
+
+    /**
+     * 创建时间
+     */
+    private Date createtime;
+
+    /**
+     * 考核类别：10：考核 20：奖励
+     */
+    private String ctype;
+
+    /**
+     * 考核标志：10：提交 20：考核完成 30：部门分配完成
+     */
+    private String flag;
+
+    /**
+     * 审核人员ID
+     */
+    private Long auditid;
+
+    /**
+     * 考核人员姓名
+     */
+    private String assessname;
+
+    /**
+     * 创建人姓名
+     */
+    private String createname;
+
+    /**
+     * 审核人员姓名
+     */
+    private String auditname;
+    
+    private String keyword;
+    private Date begintime;
+    private Date endtime;
+    
+    /**
+     * 排序字段
+     */
+    private String sortParam;
+
+    /**
+     * 序号ID
+     * @return ID 序号ID
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * 序号ID
+     * @param id 序号ID
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 检查部门ID
+     * @return CHECKDEPTID 检查部门ID
+     */
+    public Integer getCheckdeptid() {
+        return checkdeptid;
+    }
+
+    /**
+     * 检查部门ID
+     * @param checkdeptid 检查部门ID
+     */
+    public void setCheckdeptid(Integer checkdeptid) {
+        this.checkdeptid = checkdeptid;
+    }
+
+    /**
+     * 被考核部门ID
+     * @return CHECKEDDEPTID 被考核部门ID
+     */
+    public Integer getCheckeddeptid() {
+        return checkeddeptid;
+    }
+
+    /**
+     * 被考核部门ID
+     * @param checkeddeptid 被考核部门ID
+     */
+    public void setCheckeddeptid(Integer checkeddeptid) {
+        this.checkeddeptid = checkeddeptid;
+    }
+
+    /**
+     * 检查项目类别
+     * @return CHECKTYPE 检查项目类别
+     */
+    public Integer getChecktype() {
+        return checktype;
+    }
+
+    /**
+     * 检查项目类别
+     * @param checktype 检查项目类别
+     */
+    public void setChecktype(Integer checktype) {
+        this.checktype = checktype;
+    }
+
+    /**
+     * 考核内容
+     * @return CONTENT 考核内容
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * 考核内容
+     * @param content 考核内容
+     */
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
+    /**
+     * 备注说明
+     * @return REMARKS 备注说明
+     */
+    public String getRemarks() {
+        return remarks;
+    }
+
+    /**
+     * 备注说明
+     * @param remarks 备注说明
+     */
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
+    }
+
+    /**
+     * 考核金额
+     * @return AMOUNT 考核金额
+     */
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    /**
+     * 考核金额
+     * @param amount 考核金额
+     */
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * 考核人员ID
+     * @return ASSESSID 考核人员ID
+     */
+    public Long getAssessid() {
+        return assessid;
+    }
+
+    /**
+     * 考核人员ID
+     * @param assessid 考核人员ID
+     */
+    public void setAssessid(Long assessid) {
+        this.assessid = assessid;
+    }
+
+    /**
+     * 考核意见
+     * @return SUGGESTION 考核意见
+     */
+    public String getSuggestion() {
+        return suggestion;
+    }
+
+    /**
+     * 考核意见
+     * @param suggestion 考核意见
+     */
+    public void setSuggestion(String suggestion) {
+        this.suggestion = suggestion == null ? null : suggestion.trim();
+    }
+
+    /**
+     * 创建人
+     * @return CREATEID 创建人
+     */
+    public Long getCreateid() {
+        return createid;
+    }
+
+    /**
+     * 创建人
+     * @param createid 创建人
+     */
+    public void setCreateid(Long createid) {
+        this.createid = createid;
+    }
+
+    /**
+     * 创建时间
+     * @return CREATETIME 创建时间
+     */
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    /**
+     * 创建时间
+     * @param createtime 创建时间
+     */
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    /**
+     * 考核日期
+     * @return ASSESSDATE 考核日期
+     */
+    public Date getAssessdate() {
+        return assessdate;
+    }
+
+    /**
+     * 考核日期
+     * @param assessdate 考核日期
+     */
+    public void setAssessdate(Date assessdate) {
+        this.assessdate = assessdate;
+    }
+
+    /**
+     * 考核类别：10：考核 20：奖励
+     * @return CTYPE 考核类别：10：考核 20：奖励
+     */
+    public String getCtype() {
+        return ctype;
+    }
+
+    /**
+     * 考核类别：10：考核 20：奖励
+     * @param ctype 考核类别：10：考核 20：奖励
+     */
+    public void setCtype(String ctype) {
+        this.ctype = ctype == null ? null : ctype.trim();
+    }
+
+    /**
+     * 考核标志：10：提交 20：考核完成 30：部门分配完成
+     * @return FLAG 考核标志：10：提交 20：考核完成 30：部门分配完成
+     */
+    public String getFlag() {
+        return flag;
+    }
+
+    /**
+     * 考核标志：10：提交 20：考核完成 30：部门分配完成
+     * @param flag 考核标志：10：提交 20：考核完成 30：部门分配完成
+     */
+    public void setFlag(String flag) {
+        this.flag = flag == null ? null : flag.trim();
+    }
+
+    /**
+     * 审核人员ID
+     * @return AUDITID 审核人员ID
+     */
+    public Long getAuditid() {
+        return auditid;
+    }
+
+    /**
+     * 审核人员ID
+     * @param auditid 审核人员ID
+     */
+    public void setAuditid(Long auditid) {
+        this.auditid = auditid;
+    }
+
+    /**
+     * 考核人员姓名
+     * @return ASSESSNAME 考核人员姓名
+     */
+    public String getAssessname() {
+        return assessname;
+    }
+
+    /**
+     * 考核人员姓名
+     * @param assessname 考核人员姓名
+     */
+    public void setAssessname(String assessname) {
+        this.assessname = assessname == null ? null : assessname.trim();
+    }
+
+    /**
+     * 创建人姓名
+     * @return CREATENAME 创建人姓名
+     */
+    public String getCreatename() {
+        return createname;
+    }
+
+    /**
+     * 创建人姓名
+     * @param createname 创建人姓名
+     */
+    public void setCreatename(String createname) {
+        this.createname = createname == null ? null : createname.trim();
+    }
+
+    /**
+     * 审核人员姓名
+     * @return AUDITNAME 审核人员姓名
+     */
+    public String getAuditname() {
+        return auditname;
+    }
+
+    /**
+     * 审核人员姓名
+     * @param auditname 审核人员姓名
+     */
+    public void setAuditname(String auditname) {
+        this.auditname = auditname == null ? null : auditname.trim();
+    }
+
+    /**
+     * 检查部门名称
+     * @return 检查部门名称
+     */
+	public String getCheckdeptname() {
+		return checkdeptname;
+	}
+
+	/**
+	 * 检查部门名称
+	 * @param checkdeptname 检查部门名称
+	 */
+	public void setCheckdeptname(String checkdeptname) {
+		this.checkdeptname = checkdeptname;
+	}
+
+	/**
+	 * 被考核部门名称
+	 * @return 被考核部门名称
+	 */
+	public String getCheckeddeptname() {
+		return checkeddeptname;
+	}
+
+	/**
+	 * 被考核部门名称
+	 * @param checkeddeptname 被考核部门名称
+	 */
+	public void setCheckeddeptname(String checkeddeptname) {
+		this.checkeddeptname = checkeddeptname;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public Date getBegintime() {
+		return begintime;
+	}
+
+	public void setBegintime(Date begintime) {
+		this.begintime = begintime;
+	}
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+
+	/**
+	 * 考核类别：10：考核 20：奖励
+	 * @return 考核类别：10：考核 20：奖励
+	 */
+	public String getCtypename() {
+		return ctypename;
+	}
+
+	/**
+	 * 考核类别：10：考核 20：奖励
+	 * @param ctypename 考核类别：10：考核 20：奖励
+	 */
+	public void setCtypename(String ctypename) {
+		this.ctypename = ctypename;
+	}
+
+	/**
+	 * 考核标志：10：提交 20：考核完成 30：部门分配完成
+	 * @return  考核标志：10：提交 20：考核完成 30：部门分配完成
+	 */
+	public String getFlagname() {
+		return flagname;
+	}
+
+	/**
+	 * 考核标志：10：提交 20：考核完成 30：部门分配完成
+	 * @param flagname 考核标志：10：提交 20：考核完成 30：部门分配完成
+	 */
+	public void setFlagname(String flagname) {
+		this.flagname = flagname;
+	}
+
+	/**
+	 * 检查项目类别名称
+	 * @return 检查项目类别名称
+	 */
+	public String getChecktypename() {
+		return checktypename;
+	}
+
+	/**
+	 * 检查项目类别名称
+	 * @param checktypename 检查项目类别名称
+	 */
+	public void setChecktypename(String checktypename) {
+		this.checktypename = checktypename;
+	}
+
+	/**
+	 * 排序字段
+	 * @return
+	 */
+	public String getSortParam() {
+		return sortParam;
+	}
+
+	/**
+	 * 排序字段
+	 * @param sortParam 排序字段
+	 */
+	public void setSortParam(String sortParam) {
+		this.sortParam = sortParam;
+	}
+
+	public String getAssessdatestr() {
+		return assessdatestr;
+	}
+
+	public void setAssessdatestr(String assessdatestr) {
+		this.assessdatestr = assessdatestr;
+	}
+
+    
+}

@@ -1,0 +1,203 @@
+/*
+ * Copyright (c) 2016, All rights reserved.
+ */
+package com.ztel.framework.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.SimpleCacheManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import com.ztel.framework.config.Environment;
+import com.ztel.framework.util.StringUtils;
+import com.ztel.framework.vo.Constants;
+import com.ztel.framework.vo.Pagination;
+
+/**
+ * 浪潮营销中心db2数据库
+ * Extract some default settings for service layer
+ * @author Zeal
+ * @since 2016年4月27日
+ */
+public abstract class InspurServiceConfigSupport {
+	
+	public static  String PROPERTY_JBBC_URL = "inspur.jdbc.url";
+	
+	public static  String PROPERTY_JDBC_USERNAME = "inspur.jdbc.username";
+	
+	public static  String PROPERTY_JDBC_PASSWORD = "inspur.jdbc.password";
+	
+	
+	/**
+	 * Global application envrionment, bean name gxEnvironment should be unique at most of the time
+	 * @return
+	 */
+	@Bean(name = "inspurxgxtEnvironment")
+	public Environment envrionment() {
+		Environment env = new Environment();
+		String[] values = initializeEnvironment();
+		if (values != null && values.length >= 2) {
+			if (StringUtils.isNotBlank(values[0])) {
+				env.setSysConfigDirName(values[0]);
+			}	
+			if (StringUtils.isNotBlank(values[1])) {
+				env.setConfigFileName(values[1]);
+			}
+		}
+		return env;
+	}
+	
+	/**
+	 * Need system enviroment name of config dir and config file name to initialize envrionment
+	 * @return First one is system environment of config dir, secnod one is config file name
+	 */
+	public abstract String[] initializeEnvironment();
+	
+	/**
+	 * Use druid data source by default
+	 * @return
+	 */
+	@Bean(name = "inspurDataSource")
+	public DataSource dataSource() {
+		DruidDataSource ds = new DruidDataSource();
+		Environment env = envrionment();
+//		ds.setUrl(env.getProperty(PROPERTY_JBBC_URL));
+//		ds.setUsername(env.getProperty(PROPERTY_JDBC_USERNAME));
+//		ds.setPassword(env.getProperty(PROPERTY_JDBC_PASSWORD));
+		ds.setUrl("jdbc:db2://10.72.0.19:60000/v6db");
+		ds.setUsername("bswl");
+		ds.setPassword("bswl");
+		ds.setMaxActive(200);
+		ds.setMinIdle(2);
+		ds.setMaxWait(120000L);
+		ds.setRemoveAbandoned(true);
+		ds.setRemoveAbandonedTimeout(180);
+		ds.setTestOnBorrow(true);
+		ds.setDriverClassName("com.ibm.db2.jcc.DB2Driver");
+		ds.setValidationQuery("select 1 from sysibm.sysdummy1 ");
+		initializeDataSource(ds);
+		return ds;
+	}
+	
+	/**
+	 * Override data source settings callback
+	 * @param dataSource
+	 */
+    protected void initializeDataSource(DruidDataSource dataSource) {
+    }
+	
+	/**
+	 * Default data source transaction manager
+	 * @return
+	 */
+	@Bean(name="inspurtransactionManager")
+	@Lazy(value=false)
+	public DataSourceTransactionManager datasourceTransactionManager() {
+		return new DataSourceTransactionManager(dataSource());
+	}
+	
+	/**
+	 * Predefine jdbc template
+	 * @return
+	 */
+	@Bean(name="inspurjdbcTemplate")
+	@Primary
+	@Lazy(value=false)
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(dataSource());
+	}
+	
+	/**
+	 * Predefine named jdbc template
+	 * @return
+	 */
+	@Bean(name="inspurnamedParameterJdbcTemplate")
+	@Lazy(value=false)
+	public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
+		return new NamedParameterJdbcTemplate(dataSource());
+	}
+	
+	/**
+	 * Default 
+	 * @param ctx
+	 * @return
+	 */
+	@Bean(name="inspursqlSessionFactory")
+	public SqlSessionFactory sqlSessionFactory() throws Exception {
+		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+		bean.setDataSource(dataSource());
+		//TODO we can use mybatis-config.xml or configurate mybatis settings by coding
+		//Default type alias array
+		bean.setTypeAliases(new Class[] {Pagination.class});
+		//mybatis-spring only support xml file
+		bean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
+		initializeSqlSesssionFactory(bean);
+		return bean.getObject();
+	}
+	
+	/**
+	 * Set SqlSessionFactoryBean setTypeAliasesPackage or config location 
+	 * @param bean
+	 */
+	protected void initializeSqlSesssionFactory(SqlSessionFactoryBean bean) {
+	}
+	
+	/**
+	 * Default mybatis sql session template
+	 * @param factory
+	 * @return
+	 * @throws Exception
+	 */
+	@Bean(name="inspursqlSession")
+	public SqlSession sqlSession(SqlSessionFactory factory/*SqlSessionFactoryBean factory*/) throws Exception {
+		//SqlSessionFactoryBean factory = sqlSessionFactoryBean();
+		return new SqlSessionTemplate(factory);//factory.getObject());
+	}
+	
+	/**
+	 * Sometime we need sql session template to support executing batch of sql
+	 * @param factory
+	 * @return
+	 * @throws Exception
+	 */
+	@Bean(name="inspurbatchSqlSession")
+	public SqlSession batchSqlSession(SqlSessionFactory factory/*SqlSessionFactoryBean factory*/) throws Exception {
+		//SqlSessionFactoryBean factory = sqlSessionFactoryBean();
+		return new SqlSessionTemplate(factory, ExecutorType.BATCH);
+	}
+	
+	/**
+	 * Create local cache by default, if we want to use other cache implementation, override this method
+	 * and never add @Bean in front of the method
+	 * @return
+	 */
+	@Bean(name="inspurcacheManager")
+	public CacheManager cacheManager(){
+		SimpleCacheManager manager = new SimpleCacheManager();
+		List<Cache> caches = new ArrayList<>(1);
+		ConcurrentMapCache cache = new ConcurrentMapCache(Constants.SYSTEM_CACHE);
+		caches.add(cache);
+		manager.setCaches(caches);
+		return manager;
+	}
+
+
+}

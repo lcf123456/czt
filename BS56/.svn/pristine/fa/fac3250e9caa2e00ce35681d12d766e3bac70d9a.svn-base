@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.perform.UserperformlevelVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.perform.UserperformlevelVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="LEVELNAME" property="levelname" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CHECKDATE" property="checkdate" jdbcType="TIMESTAMP" />
+    <result column="APPRAISER" property="appraiser" jdbcType="DECIMAL" />
+    <result column="APPRAISERNAME" property="appraisername" jdbcType="VARCHAR" />
+    <result column="CHECKDATESTR" property="checkdatestr" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="USERIDSTR" property="useridstr" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="SCORE" property="score" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USERID, LEVELNAME, REMARKS, CHECKDATE, APPRAISER,SCORE
+  </sql>
+  
+  <select id="selectUserperformlevelPageList" parameterType="Pagination" resultType="com.ztel.app.vo.perform.UserperformlevelVo">
+    select upl.ID, upl.USERID, upl.LEVELNAME, upl.REMARKS, upl.CHECKDATE, upl.APPRAISER,upl.SCORE,
+    to_char(upl.CHECKDATE,'yyyy-mm') as checkdatestr,us.username as appraisername ,us2.deptid,us2.username as username,dept.deptname
+    from T_PERFORM_USERPERFORMLEVEL upl
+    left outer join (select id,username,deptid from t_sys_user where delstatus=10) us on upl.APPRAISER=us.id
+    left outer join (select id,username,deptid from t_sys_user where delstatus=10) us2 on upl.USERID=us2.id
+    left outer join t_sys_dept dept on us2.deptid=dept.id
+    where 1=1 
+    <if test="param != null and param.checkdatestr != null and param.checkdatestr != ''">
+        AND to_char(upl.CHECKDATE,'yyyy-mm') = #{param.checkdatestr}
+    </if>
+    <if test="param != null and param.deptid != null ">
+        AND us.deptid = #{param.deptid}
+    </if>
+    <if test="param != null and param.useridstr != null and param.useridstr != '' ">
+        AND upl.USERID in ${param.useridstr}
+    </if>
+    order by upl.id desc
+</select>
+
+<select id="selectUserperformlevelListByCond" parameterType="com.ztel.app.vo.perform.UserperformlevelVo" resultType="com.ztel.app.vo.perform.UserperformlevelVo">
+    select upl.ID, upl.USERID, upl.LEVELNAME, upl.REMARKS, upl.CHECKDATE, upl.APPRAISER,upl.SCORE,
+    to_char(upl.CHECKDATE,'yyyy-mm') as checkdatestr,us.username as appraisername ,us2.deptid,us2.username as username,dept.deptname
+    from T_PERFORM_USERPERFORMLEVEL upl
+    left outer join (select id,username,deptid from t_sys_user where delstatus=10) us on upl.APPRAISER=us.id
+    left outer join (select id,username,deptid from t_sys_user where delstatus=10) us2 on upl.USERID=us2.id
+    left outer join t_sys_dept dept on us2.deptid=dept.id
+    where 1=1 
+    <if test="checkdatestr != null and checkdatestr != ''">
+        AND to_char(upl.CHECKDATE,'yyyy-mm') = #{checkdatestr}
+    </if>
+    <if test="userid != null ">
+        AND upl.userid = #{userid}
+    </if>
+    <if test="deptid != null ">
+        AND us.deptid = #{deptid}
+    </if>
+    order by upl.id desc
+</select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PERFORM_USERPERFORMLEVEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_PERFORM_USERPERFORMLEVEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.perform.UserperformlevelVo" >
+    insert into T_PERFORM_USERPERFORMLEVEL (ID, USERID, LEVELNAME, 
+      REMARKS, CHECKDATE, APPRAISER,SCORE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, #{levelname,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{checkdate,jdbcType=TIMESTAMP}, #{appraiser,jdbcType=DECIMAL}, #{score,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.perform.UserperformlevelVo" >
+    insert into T_PERFORM_USERPERFORMLEVEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="levelname != null" >
+        LEVELNAME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="checkdate != null" >
+        CHECKDATE,
+      </if>
+      <if test="appraiser != null" >
+        APPRAISER,
+      </if>
+      <if test="score != null" >
+        SCORE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_PERFORM_USERPERFORMLEVEL.nextval,
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="levelname != null" >
+        #{levelname,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appraiser != null" >
+        #{appraiser,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.perform.UserperformlevelVo" >
+    update T_PERFORM_USERPERFORMLEVEL
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="levelname != null" >
+        LEVELNAME = #{levelname,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        CHECKDATE = #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appraiser != null" >
+        APPRAISER = #{appraiser,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null" >
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.perform.UserperformlevelVo" >
+    update T_PERFORM_USERPERFORMLEVEL
+    set USERID = #{userid,jdbcType=DECIMAL},
+      LEVELNAME = #{levelname,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CHECKDATE = #{checkdate,jdbcType=TIMESTAMP},
+      APPRAISER = #{appraiser,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.OutBoundVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.OutBoundVo" >
+    <id column="OUTBOUNDID" property="outboundid" jdbcType="DECIMAL" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="OUTBOUNDTYPE" property="outboundtype" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="OTHER" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+    <result column="VEHICLENO" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="CONSIGNSOR" property="consignsor" jdbcType="OTHER" />
+    <result column="ORDERDATE" property="orderdate" jdbcType="TIMESTAMP" />
+    <result column="OUTTIME" property="outtime" jdbcType="TIMESTAMP" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+    <result column="CREATEUSERNAME" property="createusername" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, DELSTATUS, VEHICLENO, CONSIGNSOR,ORDERDATE,OUTTIME
+  </sql>
+  
+  <select id="selectOutoundPageList" resultType="com.ztel.app.vo.wms.OutBoundVo" parameterType="Pagination" >
+    select 
+    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, ob.DELSTATUS, VEHICLENO, CONSIGNSOR,
+    ORDERDATE,OUTTIME,ur.username as createusername
+    from T_WMS_OUTBOUND ob,t_sys_user ur
+    where ob.delstatus='10' and ob.userid=ur.id
+    <if test="param != null and param.orderdate != null">
+	        AND ORDERDATE between #{param.orderdate} and #{param.endtime}
+	</if>
+	<if test="param != null and param.outtime != null">
+	        AND OUTTIME between #{param.outtime} and #{param.endtime}
+	</if>
+	<if test="param != null and param.keyword != null and param.keyword != ''">
+	        AND VEHICLENO like '%'||#{param.keyword}||'%'
+	</if>
+	<if test="param != null and param.outboundtype != null and param.outboundtype != ''">
+	        AND OUTBOUNDTYPE = #{param.outboundtype}
+	</if>
+	order by vehicleno
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_OUTBOUND
+    where OUTBOUNDID = #{outboundid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_OUTBOUND
+    where OUTBOUNDID = #{outboundid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.OutBoundVo" >
+    insert into T_WMS_OUTBOUND (OUTBOUNDID, QTY, CREATETIME, 
+      OUTBOUNDTYPE, USERID, REMARKS, 
+      DELSTATUS, VEHICLENO, CONSIGNSOR,ORDERDATE,OUTTIME
+      )
+    values (#{outboundid,jdbcType=DECIMAL}, #{qty,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{outboundtype,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, #{remarks,jdbcType=OTHER}, #{delstatus,jdbcType=DECIMAL},
+       #{vehicleno,jdbcType=VARCHAR}, #{consignsor,jdbcType=OTHER}, #{orderdate,jdbcType=TIMESTAMP}, #{outtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.wms.OutBoundVo" >
+    insert into T_WMS_OUTBOUND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="outboundid != null" >
+        OUTBOUNDID,
+      </if>
+      <if test="qty != null" >
+        QTY,
+      </if>
+        CREATETIME,
+      <if test="outboundtype != null" >
+        OUTBOUNDTYPE,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+        DELSTATUS,
+      <if test="vehicleno != null" >
+        VEHICLENO,
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR,
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE,
+      </if>
+      <if test="outtime != null" >
+        OUTTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="outboundid != null" >
+        #{outboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+       sysdate,
+      <if test="outboundtype != null" >
+        #{outboundtype,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=OTHER},
+      </if>
+        10,
+      <if test="vehicleno != null" >
+        #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="consignsor != null" >
+        #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null" >
+        #{outtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.OutBoundVo" >
+    update T_WMS_OUTBOUND
+    <set >
+      <if test="qty != null" >
+        QTY = qty+#{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outboundtype != null" >
+        OUTBOUNDTYPE = #{outboundtype,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleno != null" >
+        VEHICLENO = #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      </if>      
+      <if test="outtime != null" >
+        OUTTIME = #{outtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where OUTBOUNDID = #{outboundid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.OutBoundVo" >
+    update T_WMS_OUTBOUND
+    set QTY = #{qty,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      OUTBOUNDTYPE = #{outboundtype,jdbcType=DECIMAL},
+      USERID = #{userid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=OTHER},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      VEHICLENO = #{vehicleno,jdbcType=VARCHAR},
+      CONSIGNSOR = #{consignsor,jdbcType=OTHER}
+    where OUTBOUNDID = #{outboundid,jdbcType=DECIMAL}
+  </update>
+</mapper>

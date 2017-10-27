@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.gis.TruckinfoVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.gis.TruckinfoVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+    <result column="LOCK_NO" jdbcType="VARCHAR" property="lockNo" />
+    <result column="TRUCK_NUM" jdbcType="VARCHAR" property="truckNum" />
+    <result column="ORG_ORG_CODE" jdbcType="VARCHAR" property="orgOrgCode" />
+    <result column="ORG_ORG_NAME" jdbcType="VARCHAR" property="orgOrgName" />
+    <result column="OUT_DATE" jdbcType="VARCHAR" property="outDate" />
+    <result column="TRAN_ORG_CODE" jdbcType="VARCHAR" property="tranOrgCode" />
+    <result column="TRAN_ORG_NAME" jdbcType="VARCHAR" property="tranOrgName" />
+    <result column="DRIVER_NAME" jdbcType="VARCHAR" property="driverName" />
+    <result column="TRANS_MODE" jdbcType="VARCHAR" property="transMode" />
+    <result column="IS_UNBIND" jdbcType="CHAR" property="isUnbind" />
+    <result column="MOBILE_TEL" jdbcType="VARCHAR" property="mobileTel" />
+    <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="ROWSTATUS" jdbcType="VARCHAR" property="rowstatus" />
+    <result column="ITIME" jdbcType="TIMESTAMP" property="itime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BATCH_ID, LOCK_NO, TRUCK_NUM, ORG_ORG_CODE, ORG_ORG_NAME, OUT_DATE, TRAN_ORG_CODE, 
+    TRAN_ORG_NAME, DRIVER_NAME, TRANS_MODE, IS_UNBIND, MOBILE_TEL, UPDATETIME, ROWSTATUS, 
+    ITIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GIS_TRUCKINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_GIS_TRUCKINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.gis.TruckinfoVo">
+    insert into T_GIS_TRUCKINFO (ID, BATCH_ID, LOCK_NO, 
+      TRUCK_NUM, ORG_ORG_CODE, ORG_ORG_NAME, 
+      OUT_DATE, TRAN_ORG_CODE, TRAN_ORG_NAME, 
+      DRIVER_NAME, TRANS_MODE, IS_UNBIND, 
+      MOBILE_TEL, UPDATETIME, ROWSTATUS, 
+      ITIME)
+    values (#{id,jdbcType=DECIMAL}, #{batchId,jdbcType=VARCHAR}, #{lockNo,jdbcType=VARCHAR}, 
+      #{truckNum,jdbcType=VARCHAR}, #{orgOrgCode,jdbcType=VARCHAR}, #{orgOrgName,jdbcType=VARCHAR}, 
+      #{outDate,jdbcType=VARCHAR}, #{tranOrgCode,jdbcType=VARCHAR}, #{tranOrgName,jdbcType=VARCHAR}, 
+      #{driverName,jdbcType=VARCHAR}, #{transMode,jdbcType=VARCHAR}, #{isUnbind,jdbcType=CHAR}, 
+      #{mobileTel,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{rowstatus,jdbcType=VARCHAR}, 
+      #{itime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.gis.TruckinfoVo">
+    insert into T_GIS_TRUCKINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="batchId != null">
+        BATCH_ID,
+      </if>
+      <if test="lockNo != null">
+        LOCK_NO,
+      </if>
+      <if test="truckNum != null">
+        TRUCK_NUM,
+      </if>
+      <if test="orgOrgCode != null">
+        ORG_ORG_CODE,
+      </if>
+      <if test="orgOrgName != null">
+        ORG_ORG_NAME,
+      </if>
+      <if test="outDate != null">
+        OUT_DATE,
+      </if>
+      <if test="tranOrgCode != null">
+        TRAN_ORG_CODE,
+      </if>
+      <if test="tranOrgName != null">
+        TRAN_ORG_NAME,
+      </if>
+      <if test="driverName != null">
+        DRIVER_NAME,
+      </if>
+      <if test="transMode != null">
+        TRANS_MODE,
+      </if>
+      <if test="isUnbind != null">
+        IS_UNBIND,
+      </if>
+      <if test="mobileTel != null">
+        MOBILE_TEL,
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME,
+      </if>
+      <if test="rowstatus != null">
+        ROWSTATUS,
+      </if>
+      <if test="itime != null">
+        ITIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="lockNo != null">
+        #{lockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="truckNum != null">
+        #{truckNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orgOrgCode != null">
+        #{orgOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgOrgName != null">
+        #{orgOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="outDate != null">
+        #{outDate,jdbcType=VARCHAR},
+      </if>
+      <if test="tranOrgCode != null">
+        #{tranOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tranOrgName != null">
+        #{tranOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverName != null">
+        #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="transMode != null">
+        #{transMode,jdbcType=VARCHAR},
+      </if>
+      <if test="isUnbind != null">
+        #{isUnbind,jdbcType=CHAR},
+      </if>
+      <if test="mobileTel != null">
+        #{mobileTel,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rowstatus != null">
+        #{rowstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="itime != null">
+        #{itime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.gis.TruckinfoVo">
+    update T_GIS_TRUCKINFO
+    <set>
+      <if test="batchId != null">
+        BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="lockNo != null">
+        LOCK_NO = #{lockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="truckNum != null">
+        TRUCK_NUM = #{truckNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orgOrgCode != null">
+        ORG_ORG_CODE = #{orgOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgOrgName != null">
+        ORG_ORG_NAME = #{orgOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="outDate != null">
+        OUT_DATE = #{outDate,jdbcType=VARCHAR},
+      </if>
+      <if test="tranOrgCode != null">
+        TRAN_ORG_CODE = #{tranOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tranOrgName != null">
+        TRAN_ORG_NAME = #{tranOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverName != null">
+        DRIVER_NAME = #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="transMode != null">
+        TRANS_MODE = #{transMode,jdbcType=VARCHAR},
+      </if>
+      <if test="isUnbind != null">
+        IS_UNBIND = #{isUnbind,jdbcType=CHAR},
+      </if>
+      <if test="mobileTel != null">
+        MOBILE_TEL = #{mobileTel,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rowstatus != null">
+        ROWSTATUS = #{rowstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="itime != null">
+        ITIME = #{itime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.gis.TruckinfoVo">
+    update T_GIS_TRUCKINFO
+    set BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      LOCK_NO = #{lockNo,jdbcType=VARCHAR},
+      TRUCK_NUM = #{truckNum,jdbcType=VARCHAR},
+      ORG_ORG_CODE = #{orgOrgCode,jdbcType=VARCHAR},
+      ORG_ORG_NAME = #{orgOrgName,jdbcType=VARCHAR},
+      OUT_DATE = #{outDate,jdbcType=VARCHAR},
+      TRAN_ORG_CODE = #{tranOrgCode,jdbcType=VARCHAR},
+      TRAN_ORG_NAME = #{tranOrgName,jdbcType=VARCHAR},
+      DRIVER_NAME = #{driverName,jdbcType=VARCHAR},
+      TRANS_MODE = #{transMode,jdbcType=VARCHAR},
+      IS_UNBIND = #{isUnbind,jdbcType=CHAR},
+      MOBILE_TEL = #{mobileTel,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      ROWSTATUS = #{rowstatus,jdbcType=VARCHAR},
+      ITIME = #{itime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

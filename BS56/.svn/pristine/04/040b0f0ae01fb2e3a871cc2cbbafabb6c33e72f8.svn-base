@@ -1,0 +1,93 @@
+package com.ztel.app.service.cost.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.cost.SuppliesImpVoMapper;
+import com.ztel.app.service.cost.SPLTypeStockVoService;
+import com.ztel.app.service.cost.SuppliesImpVoService;
+import com.ztel.app.vo.cost.SPLTypeStockVo;
+import com.ztel.app.vo.cost.SuppliesImpVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class SuppliesImpVoServiceImpl implements SuppliesImpVoService{
+
+    @Autowired
+    private SuppliesImpVoMapper suppliesImpVoMapper =null;
+    @Autowired
+    private SPLTypeStockVoService splTypeStockVoService =null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public SuppliesImpVoServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+        //sortKeyMapping.put(key, value)
+		sortKeyMapping.put("imptime", "imptime");
+		sortKeyMapping.put("typename", "typename");
+		sortKeyMapping.put("splname", "splname");
+		sortKeyMapping.put("suppliername", "suppliername");
+	}
+
+	@Override
+	public List<SuppliesImpVo> getSuppliesImpPageList(Pagination<?> page) {
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.suppliesImpVoMapper.getSuppliesImpPageList(page);
+	}
+
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void doRefundSupplies(SuppliesImpVo suppliesImpVo) {
+		//新建SPLTypeStock对象,用来更新库存表信息
+		SPLTypeStockVo splTypeStockVo=new SPLTypeStockVo();
+		splTypeStockVo.setTypeid(suppliesImpVo.getTypeid());
+		splTypeStockVo.setQuantity(suppliesImpVo.getRefundqty().negate());
+		splTypeStockVo.setTotalamount(suppliesImpVo.getTotalamount().negate());
+		
+		// 物资退库
+		this.suppliesImpVoMapper.doSuppliesRefund(suppliesImpVo);
+		//更新物资类别库存与金额
+		splTypeStockVoService.updateTypeStockByImpOrRefund(splTypeStockVo);
+	}
+
+	@Transactional(rollbackFor=Exception.class)
+	public void doInsertSuppliesImp(SuppliesImpVo suppliesImpVo) {
+		//新建SPLTypeStock对象,用来更新库存表信息
+		SPLTypeStockVo splTypeStockVo=new SPLTypeStockVo();
+		splTypeStockVo.setTypeid(suppliesImpVo.getTypeid());
+		splTypeStockVo.setQuantity(suppliesImpVo.getInitqty());
+		splTypeStockVo.setTotalamount(suppliesImpVo.getTotalamount());
+		
+		//插入物资信息
+		this.suppliesImpVoMapper.insertSelective(suppliesImpVo);
+		//更新物资类别库存与金额
+		splTypeStockVoService.updateTypeStockByImpOrRefund(splTypeStockVo);
+	}
+
+	@Override
+	public String getMaxSuppliesCode(String dateStr) {
+		// TODO Auto-generated method stub
+		return this.suppliesImpVoMapper.getMaxSuppliesCode(dateStr);
+	}
+
+	@Override
+	public List<SuppliesImpVo> getSuppliesRefundPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		Map<String, String> sortKeyMap = new HashMap<>();
+		sortKeyMap.put("refunddate", "refunddate");
+		sortKeyMap.put("typename", "typename");
+		sortKeyMap.put("splname", "splname");
+		sortKeyMap.put("suppliername", "suppliername");
+		sortKeyMap.put("refundname", "refundname");
+		page.sortKeyToColumn(sortKeyMap);
+		return this.suppliesImpVoMapper.getSuppliesRefundPageList(page);
+	}
+
+		 
+	}
+	

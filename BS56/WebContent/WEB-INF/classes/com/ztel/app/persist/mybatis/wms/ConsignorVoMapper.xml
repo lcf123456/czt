@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.ConsignorVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ConsignorVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="COMAPANY" property="comapany" jdbcType="OTHER" />
+    <result column="CONTACT" property="contact" jdbcType="OTHER" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CODE, COMAPANY, CONTACT, PHONE
+  </sql>
+    <select id="getConsignorList" resultType="com.ztel.app.vo.wms.ConsignorVo">
+	 select 
+    <include refid="Base_Column_List" />
+    from T_WMS_CONSIGNOR
+     order by id
+
+  </select>
+      <select id="getConsignorPageList" resultMap="BaseResultMap" parameterType="Pagination" >
+	 select 
+    <include refid="Base_Column_List" />
+    from T_WMS_CONSIGNOR
+     order by id
+
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_CONSIGNOR
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_CONSIGNOR
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ConsignorVo" >
+    insert into T_WMS_CONSIGNOR (ID, CODE, COMAPANY, 
+      CONTACT, PHONE)
+    values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{comapany,jdbcType=OTHER}, 
+      #{contact,jdbcType=OTHER}, #{phone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ConsignorVo" >
+    insert into T_WMS_CONSIGNOR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="comapany != null" >
+        COMAPANY,
+      </if>
+      <if test="contact != null" >
+        CONTACT,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="comapany != null" >
+        #{comapany,jdbcType=OTHER},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=OTHER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ConsignorVo" >
+    update T_WMS_CONSIGNOR
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="comapany != null" >
+        COMAPANY = #{comapany,jdbcType=OTHER},
+      </if>
+      <if test="contact != null" >
+        CONTACT = #{contact,jdbcType=OTHER},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ConsignorVo" >
+    update T_WMS_CONSIGNOR
+    set CODE = #{code,jdbcType=VARCHAR},
+      COMAPANY = #{comapany,jdbcType=OTHER},
+      CONTACT = #{contact,jdbcType=OTHER},
+      PHONE = #{phone,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,229 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.perform;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.perform.TransverseAssessService;
+import com.ztel.app.vo.perform.TransverseAssessVo;
+import com.ztel.app.vo.sys.UserVo;
+import com.ztel.app.vo.wms.CigarettedamagedLineVo;
+import com.ztel.app.vo.wms.CigarettedamagedVo;
+import com.ztel.framework.util.DateUtil;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author lcf
+ * @since 2017年2月26日
+ * 横向考核
+ */
+@Controller
+@RequestMapping("/perform/transverseAssess")
+public class TransverseAssessCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(TransverseAssessCtrl.class);
+	
+	@Autowired
+	private TransverseAssessService TransverseAssessService = null;
+	
+	/**
+	 * 横向考核
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("toTransverseAssess")
+	public String index(HttpServletRequest request) {
+		//String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常)
+		//request.setAttribute("damagedtype", damagedtype);
+		return "/perform/v_transverseAssess";
+	}
+	
+	/**
+	 * 领导考核
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("toTransverseAssessLeader")
+	public String toTransverseAssessLeader(HttpServletRequest request) {
+		//String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常)
+		//request.setAttribute("damagedtype", damagedtype);
+		return "/perform/v_transverseAssessLeader";
+	}
+	
+	/**
+	 * 横向考核汇总
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("toTransverseAssessReport")
+	public String toTransverseAssessReport(HttpServletRequest request) {
+		//String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常)
+		//request.setAttribute("damagedtype", damagedtype);
+		return "/perform/v_transverseAssessReport";
+	}
+	
+	@RequestMapping(value="getTransverseAssessPageList")
+	 @ResponseBody
+	 public Map<String, Object> getTransverseAssessPageList(TransverseAssessVo transverseAssessVo, HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		 String keyword = transverseAssessVo.getKeyword();
+		 String searchtime = request.getParameter("searchtime");
+		 //if(searchtime==null)searchtime=DateUtil.getyyyy_mm()+"-01";
+		 if(searchtime==null)searchtime="2017-02-01";
+		 String searchtime2 = request.getParameter("searchtime2");
+		 if(searchtime2==null)searchtime2=DateUtil.getyyyy_mm_dd();
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		 if(searchtime!=null&&!searchtime.equals("")){
+				Date searchtimeD = sdf.parse(searchtime);
+				Date searchtime2D = sdf.parse(searchtime2);
+				transverseAssessVo.setBegintime(searchtimeD);
+				transverseAssessVo.setEndtime(searchtime2D);
+		 }
+		 
+		Pagination<?> page = this.getPagination(request);
+		if (transverseAssessVo!=null) {
+			 page.setParam(transverseAssessVo);
+		}
+		List<TransverseAssessVo> transverseAssessVoList = new ArrayList<TransverseAssessVo>();
+		transverseAssessVoList = TransverseAssessService.selectTransverseAssessPageList(page);
+		
+		 result.put("rows",transverseAssessVoList);  
+		 result.put("total",page.getTotalCount());  
+		 
+		return result;
+	}
+	
+
+	
+	 /**
+	  * 新增来烟破损
+	  * @return
+	  */
+	 @RequestMapping(value="doSave")
+	 @ResponseBody
+	 public  Map<String, Object> doSave(CigarettedamagedLineVo cigarettedamagedLineVo,HttpServletRequest request)
+	 {
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 String otherqty = request.getParameter("otherqty");//破损数量（件）
+		 String actualqty = request.getParameter("actualqtynew");//实际破损数量(条数)
+		 BigDecimal inboundid = cigarettedamagedLineVo.getInboundid();
+		 String inbounddetailid = request.getParameter("inbounddetailid2");
+		 String cigarettecode = request.getParameter("cigarettecode2");
+		 String damagedtype = request.getParameter("damagedtype");
+		 if(damagedtype==null || damagedtype.equals(""))damagedtype="10";
+		 
+		 String abid = request.getParameter("abid");//id
+		 Long id = 0L;
+	
+		 
+		 CigarettedamagedVo cigarettedamagedVo = new CigarettedamagedVo();
+		 	cigarettedamagedVo.setId(new BigDecimal(id));
+			cigarettedamagedVo.setInboundid(inboundid);
+	        cigarettedamagedVo.setQty(new BigDecimal(otherqty));
+	        cigarettedamagedVo.setCreatetime(new Date());
+	        cigarettedamagedVo.setActualqty(new BigDecimal(actualqty));
+	        cigarettedamagedVo.setDamagedtype(new BigDecimal(damagedtype));
+	        UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 if(userVo!=null&&userVo.getUsername().trim().length()>0){
+				 cigarettedamagedVo.setCreateuser(userVo.getId());
+			 }
+			 
+	        cigarettedamagedLineVo.setDamagedqty(new BigDecimal(otherqty));
+	        cigarettedamagedLineVo.setInbounddetailid(new BigDecimal(inbounddetailid));
+	        cigarettedamagedLineVo.setCigarettecode(cigarettecode);
+	        cigarettedamagedLineVo.setActualqty(new BigDecimal(actualqty));
+		 try{
+			// cigarettedamagedService.insertCigarettedamaged(cigarettedamagedLineVo, cigarettedamagedVo);
+		 
+		 map.put("msg", "新增成功");
+		 }catch(Exception e){
+			 map.put("msg", "新增失败");
+			 e.printStackTrace();
+		 }
+		 map.put("total", "1");
+		 return map;
+	 }
+	 
+	 
+	 /**
+	  * 审核
+	  * @return
+	  */
+	 @RequestMapping(value="doAudit")
+	 @ResponseBody
+	 public  Map<String, Object> doAudit(HttpServletRequest request)
+	 {
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 String checkflag = request.getParameter("checkflag");
+		 String inboundid = request.getParameter("inboundid");//入库单号
+		 String checkdescribe = request.getParameter("checkdescribe");
+		 
+		 CigarettedamagedVo cigarettedamagedVo = new CigarettedamagedVo();
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
+			 cigarettedamagedVo.setCheckuser(userVo.getId());
+			 cigarettedamagedVo.setCheckusername(userVo.getUsername());
+		 }
+		 cigarettedamagedVo.setInboundid(new BigDecimal(inboundid));
+		 cigarettedamagedVo.setCheckflag(checkflag);
+		 cigarettedamagedVo.setCheckdescribe(checkdescribe);
+		 cigarettedamagedVo.setChecktime(new Date());
+		 try{
+			// cigarettedamagedService.doAudit(cigarettedamagedVo);
+		 
+		 map.put("msg", "审核成功");
+		 }catch(Exception e){
+			 map.put("msg", "审核失败");
+			 e.printStackTrace();
+		 }
+		 map.put("total", "1");
+		 return map;
+	 }
+	 
+	 
+	
+	 /**
+	  * 删除
+	  * @return
+	  */
+	 @RequestMapping(value="doDel")
+	 @ResponseBody
+	 public  Map<String, Object> doDel(HttpServletRequest request)
+	 {
+		 Map<String, Object> resultMap=new HashMap<String, Object>();  
+			
+		 String inboundid = request.getParameter("inboundid");
+
+		 try{
+			// cigarettedamagedService.doDel(new BigDecimal(inboundid));
+		 resultMap.put("msg", "删除成功！");
+		 }catch(Exception e){
+			 resultMap.put("msg", "删除失败！");
+		 }
+		 resultMap.put("total", 1);
+		 return resultMap;
+	 }
+	 
+	
+}
+	
+    

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.UserrolerelativeVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.UserrolerelativeVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ROLEID" property="roleid" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROLEID, USERID, REMARKS
+  </sql>
+  
+      <!-- 根据userid和roleid，检查记录是否存在 -->
+  <select id="checkGrant" resultType="Integer" >
+    select 
+    count(*) as cnt
+    from T_SYS_USERROLERELATIVE
+    where USERID = #{userid} and ROLEID = #{roleid}
+  </select>
+  
+  <!-- 获取角色已经授权的用户信息 -->
+  <select id="selectUserListByroleid" resultType="UserVo" >
+    select sysuser.id,sysuser.usercode,sysuser.username 
+    from T_SYS_USERROLERELATIVE re  left outer join t_sys_user sysuser on re.userid=sysuser.id 
+    where re.roleid=#{roleid}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_USERROLERELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByUserid" parameterType="java.lang.Integer" >
+    delete from T_SYS_USERROLERELATIVE
+    where userid = #{userid,jdbcType=DECIMAL}
+  </delete>
+   <delete id="deleteByRoleid"  >
+    delete from T_SYS_USERROLERELATIVE
+    where roleid = #{roleid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.UserrolerelativeVo" >
+    insert into T_SYS_USERROLERELATIVE (ID, ROLEID, USERID, 
+      REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{roleid,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.UserrolerelativeVo" >
+    insert into T_SYS_USERROLERELATIVE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       S_SYS_PUB.nextval,
+      <if test="roleid != null" >
+        #{roleid,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.UserrolerelativeVo" >
+    update T_SYS_USERROLERELATIVE
+    <set >
+      <if test="roleid != null" >
+        ROLEID = #{roleid,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.UserrolerelativeVo" >
+    update T_SYS_USERROLERELATIVE
+    set ROLEID = #{roleid,jdbcType=DECIMAL},
+      USERID = #{userid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

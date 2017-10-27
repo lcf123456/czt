@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.FireFacilitiesVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.FireFacilitiesVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SERIAL" property="serial" jdbcType="VARCHAR" />
+    <result column="DEVICEID" property="deviceid" jdbcType="DECIMAL" />
+    <result column="DEVICECODE" property="devicecode" jdbcType="VARCHAR" />
+    <result column="ADDR" property="addr" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+    <result column="IMPORTANT" property="important" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DEVICE" property="device" jdbcType="VARCHAR" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SERIAL, DEVICEID, DEVICECODE, ADDR, DEPTID, CTYPE, IMPORTANT, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_FIRE_FACILITIES
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getFireFacilitiesPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select a.id,SERIAL, b.DEVICE as device, DEVICECODE, ADDR, c.deptname as DEPTNAME, b.model as model，CTYPE, IMPORTANT from T_SAFE_FIRE_FACILITIES a,
+  t_safe_fire_facilityname b,t_sys_dept c where a.deviceid=b.id and a.deptid=c.id
+   
+    <if test="param != null and param.device != null and param.device!= ''">
+        AND (device like '%'||#{param.device}||'%' or model like '%'||#{param.device}||'%' )
+    </if>
+     <if test="param != null and param.ctype != null and param.ctype != '40' " >
+        and a.ctype= #{param.ctype,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SAFE_FIRE_FACILITIES
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.FireFacilitiesVo" >
+    insert into T_SAFE_FIRE_FACILITIES (ID, SERIAL, DEVICEID, 
+      DEVICECODE, ADDR, DEPTID, 
+      CTYPE, IMPORTANT, STATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{serial,jdbcType=VARCHAR}, #{deviceid,jdbcType=DECIMAL}, 
+      #{devicecode,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{deptid,jdbcType=DECIMAL}, 
+      #{ctype,jdbcType=VARCHAR}, #{important,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.FireFacilitiesVo" >
+    insert into T_SAFE_FIRE_FACILITIES
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="serial != null" >
+        SERIAL,
+      </if>
+      <if test="deviceid != null" >
+        DEVICEID,
+      </if>
+      <if test="devicecode != null" >
+        DEVICECODE,
+      </if>
+      <if test="addr != null" >
+        ADDR,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="important != null" >
+        IMPORTANT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="serial != null" >
+        #{serial,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceid != null" >
+        #{deviceid,jdbcType=DECIMAL},
+      </if>
+      <if test="devicecode != null" >
+        #{devicecode,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="important != null" >
+        #{important,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.FireFacilitiesVo" >
+    update T_SAFE_FIRE_FACILITIES
+    <set >
+      <if test="serial != null" >
+        SERIAL = #{serial,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceid != null" >
+        DEVICEID = #{deviceid,jdbcType=DECIMAL},
+      </if>
+      <if test="devicecode != null" >
+        DEVICECODE = #{devicecode,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        ADDR = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="important != null" >
+        IMPORTANT = #{important,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.FireFacilitiesVo" >
+    update T_SAFE_FIRE_FACILITIES
+    set SERIAL = #{serial,jdbcType=VARCHAR},
+      DEVICEID = #{deviceid,jdbcType=DECIMAL},
+      DEVICECODE = #{devicecode,jdbcType=VARCHAR},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      CTYPE = #{ctype,jdbcType=VARCHAR},
+      IMPORTANT = #{important,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

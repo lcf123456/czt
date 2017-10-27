@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.InventoryVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.InventoryVo" >
+    <id column="INVENTORYID" property="inventoryid" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="INVENTORYTYPE" property="inventorytype" jdbcType="DECIMAL" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="CONSIGNSOR" property="consignsor" jdbcType="OTHER" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    INVENTORYID, CREATETIME, INVENTORYTYPE, QTY, CONSIGNSOR, STATUS,CREATENAME
+  </sql>
+  <!-- 取盘点主表信息 -->
+  <select id="selectInventoryPageList" resultMap="BaseResultMap" parameterType="Pagination" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_INVENTORY
+    where INVENTORYTYPE=10
+    <if test="param != null and param.begdate != null " >
+        and createtime>=to_date(#{param.begdate},'yyyy-MM-dd')
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and createtime &lt; to_date(#{param.enddate},'yyyy-MM-dd')+1 
+      </if>
+  </select>
+  <!-- 取盘点主表信息 -->
+  <select id="selectInventoryCount" resultMap="BaseResultMap" parameterType="com.ztel.app.vo.wms.InventoryVo" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_INVENTORY
+    where INVENTORYTYPE=10
+    <if test="createtime != null  " >
+        and createtime=#{createtime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_INVENTORY
+    where INVENTORYID = #{inventoryid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_INVENTORY
+    where INVENTORYID = #{inventoryid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.InventoryVo" >
+    insert into T_WMS_INVENTORY (INVENTORYID, CREATETIME, INVENTORYTYPE, 
+      QTY, CONSIGNSOR, STATUS
+      )
+    values (#{inventoryid,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{inventorytype,jdbcType=DECIMAL}, 
+      #{qty,jdbcType=DECIMAL}, #{consignsor,jdbcType=OTHER}, #{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.wms.InventoryVo" >
+    insert into T_WMS_INVENTORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        INVENTORYID,
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="inventorytype != null" >
+        INVENTORYTYPE,
+      </if>
+      <if test="qty != null" >
+        QTY,
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createname != null" >
+        CREATENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      S_WMS_INVENTORY.nextval,
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inventorytype != null" >
+        #{inventorytype,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="consignsor != null" >
+        #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null" >
+        #{createname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.InventoryVo" >
+    update T_WMS_INVENTORY
+    <set >
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inventorytype != null" >
+        INVENTORYTYPE = #{inventorytype,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where INVENTORYID = #{inventoryid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.InventoryVo" >
+    update T_WMS_INVENTORY
+    set CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      INVENTORYTYPE = #{inventorytype,jdbcType=DECIMAL},
+      QTY = #{qty,jdbcType=DECIMAL},
+      CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where INVENTORYID = #{inventoryid,jdbcType=DECIMAL}
+  </update>
+</mapper>

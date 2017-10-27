@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.CigfactoryVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.CigfactoryVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ADDR" property="addr" jdbcType="VARCHAR" />
+    <result column="TELNUM" property="telnum" jdbcType="DECIMAL" />
+    <result column="CONTACTS" property="contacts" jdbcType="VARCHAR" />
+    <result column="ADVISOR" property="advisor" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, ADDR, TELNUM, CONTACTS, ADVISOR, PROVINCE, DELSTATUS, REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_CIGFACTORY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SQ_CIGFACTORY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.CigfactoryVo" >
+    insert into T_SQ_CIGFACTORY (ID, NAME, ADDR, 
+      TELNUM, CONTACTS, ADVISOR, 
+      PROVINCE, DELSTATUS, REMARKS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
+      #{telnum,jdbcType=DECIMAL}, #{contacts,jdbcType=VARCHAR}, #{advisor,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.CigfactoryVo" >
+    insert into T_SQ_CIGFACTORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="addr != null" >
+        ADDR,
+      </if>
+      <if test="telnum != null" >
+        TELNUM,
+      </if>
+      <if test="contacts != null" >
+        CONTACTS,
+      </if>
+      <if test="advisor != null" >
+        ADVISOR,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null" >
+        #{telnum,jdbcType=DECIMAL},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="advisor != null" >
+        #{advisor,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.CigfactoryVo" >
+    update T_SQ_CIGFACTORY
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        ADDR = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null" >
+        TELNUM = #{telnum,jdbcType=DECIMAL},
+      </if>
+      <if test="contacts != null" >
+        CONTACTS = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="advisor != null" >
+        ADVISOR = #{advisor,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.CigfactoryVo" >
+    update T_SQ_CIGFACTORY
+    set NAME = #{name,jdbcType=VARCHAR},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      TELNUM = #{telnum,jdbcType=DECIMAL},
+      CONTACTS = #{contacts,jdbcType=VARCHAR},
+      ADVISOR = #{advisor,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

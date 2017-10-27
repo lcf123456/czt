@@ -1,0 +1,84 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.wms.ItemVoMapper;
+import com.ztel.app.persist.mybatis.wms.MachinedamagedLineVoMapper;
+import com.ztel.app.persist.mybatis.wms.MachinedamagedVoMapper;
+import com.ztel.app.vo.produce.SortTroughVo;
+import com.ztel.app.vo.wms.ItemVo;
+import com.ztel.app.vo.wms.MachinedamagedLineVo;
+import com.ztel.app.vo.wms.MachinedamagedVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class MachinedamagedServiceImpl implements MachinedamagedService {
+
+	@Autowired
+	private MachinedamagedVoMapper machinedamagedVoMapper = null;
+	
+	@Autowired
+	private MachinedamagedLineVoMapper  machinedamagedLineVoMapper = null;
+	@Autowired
+	private ItemVoMapper itemVoMapper = null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public MachinedamagedServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+//		sortKeyMapping.put(key, value)
+		sortKeyMapping.put("createtime", "createtime");
+		sortKeyMapping.put("id", "id");
+	}
+	
+	@Override
+	public List<MachinedamagedVo> selectCigarettedamagedPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		page.sortKeyToColumn(sortKeyMapping);
+		return machinedamagedVoMapper.selectCigarettedamagedPageList(page);
+	}
+
+	@Transactional(rollbackFor=Exception.class)
+	public void insertMachinedamaged(SortTroughVo sortTroughVo,BigDecimal qty,BigDecimal id,Long userid,String mdid){
+		MachinedamagedVo machinedamagedVo = new MachinedamagedVo();
+		 
+		if(mdid.equals("0")||mdid.equals(""))
+		{
+			machinedamagedVo.setId(id);
+			 machinedamagedVo.setQty(qty);
+			 machinedamagedVo.setCreateuser(userid);
+			 machinedamagedVoMapper.insertSelective(machinedamagedVo);
+		}
+		 
+		//取件条比例和件码
+			String barcode = "100000";//缺省
+			BigDecimal jtSize = new BigDecimal("50");//默认1件50条
+			ItemVo itemVo = new ItemVo();
+			itemVo.setItemno(sortTroughVo.getCigarettecode());
+			List<ItemVo> itemVoList = itemVoMapper.selectListByCond(itemVo);
+			if(itemVoList!=null && itemVoList.size()>0){
+				for(int j=0;j<itemVoList.size();j++){
+					ItemVo itemVo2 = itemVoList.get(j);
+					barcode = itemVo2.getBigboxBar();
+					jtSize = itemVo2.getJtSize();
+				}
+			}
+			
+		 MachinedamagedLineVo machinedamagedLineVo = new MachinedamagedLineVo();
+		 machinedamagedLineVo.setTroughnum(sortTroughVo.getTroughnum());
+		 machinedamagedLineVo.setCigarettecode(sortTroughVo.getCigarettecode());
+		 machinedamagedLineVo.setCigarettename(sortTroughVo.getCigarettename());
+		 machinedamagedLineVo.setDamagedqty(qty);
+		 machinedamagedLineVo.setFid(id);
+		 machinedamagedLineVo.setBarcode(barcode);
+		 machinedamagedLineVoMapper.insertSelective(machinedamagedLineVo);
+		 
+	}
+}

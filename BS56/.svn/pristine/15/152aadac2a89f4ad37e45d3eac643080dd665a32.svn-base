@@ -1,0 +1,46 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.ztel.app.vo.wms.StorageAreaInOutVo;
+
+public interface StorageAreaInOutVoMapper {
+	
+	List<StorageAreaInOutVo> selectLastStorageAreaInOutInfoByCond(StorageAreaInOutVo storageAreaInOutVo);
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insert(StorageAreaInOutVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insertSelective(StorageAreaInOutVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    StorageAreaInOutVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKeySelective(StorageAreaInOutVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKey(StorageAreaInOutVo record);
+}

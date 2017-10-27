@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.HazardsInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.HazardsInfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LVALUE" property="lvalue" jdbcType="DECIMAL" />
+    <result column="LNAME" property="lname" jdbcType="VARCHAR" />
+    <result column="EVALUE" property="evalue" jdbcType="DECIMAL" />
+    <result column="ENAME" property="ename" jdbcType="VARCHAR" />
+    <result column="CVALUE" property="cvalue" jdbcType="DECIMAL" />
+    <result column="CNAME" property="cname" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LVALUE, LNAME, EVALUE, ENAME, CVALUE, CNAME, REMARKS, DELSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_HAZARDSINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SAFE_HAZARDSINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.HazardsInfoVo" >
+    insert into T_SAFE_HAZARDSINFO (ID, LVALUE, LNAME, 
+      EVALUE, ENAME, CVALUE, 
+      CNAME, REMARKS, DELSTATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{lvalue,jdbcType=DECIMAL}, #{lname,jdbcType=VARCHAR}, 
+      #{evalue,jdbcType=DECIMAL}, #{ename,jdbcType=VARCHAR}, #{cvalue,jdbcType=DECIMAL}, 
+      #{cname,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.HazardsInfoVo" >
+    insert into T_SAFE_HAZARDSINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="lvalue != null" >
+        LVALUE,
+      </if>
+      <if test="lname != null" >
+        LNAME,
+      </if>
+      <if test="evalue != null" >
+        EVALUE,
+      </if>
+      <if test="ename != null" >
+        ENAME,
+      </if>
+      <if test="cvalue != null" >
+        CVALUE,
+      </if>
+      <if test="cname != null" >
+        CNAME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="lvalue != null" >
+        #{lvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="lname != null" >
+        #{lname,jdbcType=VARCHAR},
+      </if>
+      <if test="evalue != null" >
+        #{evalue,jdbcType=DECIMAL},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="cvalue != null" >
+        #{cvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.HazardsInfoVo" >
+    update T_SAFE_HAZARDSINFO
+    <set >
+      <if test="lvalue != null" >
+        LVALUE = #{lvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="lname != null" >
+        LNAME = #{lname,jdbcType=VARCHAR},
+      </if>
+      <if test="evalue != null" >
+        EVALUE = #{evalue,jdbcType=DECIMAL},
+      </if>
+      <if test="ename != null" >
+        ENAME = #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="cvalue != null" >
+        CVALUE = #{cvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="cname != null" >
+        CNAME = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.HazardsInfoVo" >
+    update T_SAFE_HAZARDSINFO
+    set LVALUE = #{lvalue,jdbcType=DECIMAL},
+      LNAME = #{lname,jdbcType=VARCHAR},
+      EVALUE = #{evalue,jdbcType=DECIMAL},
+      ENAME = #{ename,jdbcType=VARCHAR},
+      CVALUE = #{cvalue,jdbcType=DECIMAL},
+      CNAME = #{cname,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

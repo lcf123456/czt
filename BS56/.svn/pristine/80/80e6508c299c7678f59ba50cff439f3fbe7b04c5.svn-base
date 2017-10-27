@@ -1,0 +1,65 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.wms;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.wms.InBoundService;
+import com.ztel.app.vo.wms.InBoundVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author Zeal
+ * @since 2017年2月26日
+ *入库单
+ */
+@Controller
+@RequestMapping("/wms/inbound")
+public class InboundCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(InboundCtrl.class);
+	
+	@Autowired
+	private InBoundService inBoundService = null;
+	
+	@RequestMapping("toInbound")
+	public String index(HttpServletRequest request) {
+		
+		return "/wms/v_inbound";
+	}
+	
+	
+	@RequestMapping(value="getInBoundPageList")
+	 @ResponseBody
+	 public Map<String, Object> getInBoundPageList(InBoundVo inBoundVo, HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		Pagination<?> page = this.getPagination(request);
+		if (inBoundVo!=null) {
+			 page.setParam(inBoundVo);
+		}
+		List<InBoundVo> inBoundVoList = new ArrayList<InBoundVo>();
+		inBoundVoList = inBoundService.selectInBoundPageList(page);
+		
+		 result.put("rows",inBoundVoList);  
+		 result.put("total",page.getTotalCount());  
+		 
+		return result;
+	}
+}
+	
+    

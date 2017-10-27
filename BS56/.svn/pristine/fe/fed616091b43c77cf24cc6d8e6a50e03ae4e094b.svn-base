@@ -1,0 +1,42 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.CustomerVo;
+import java.math.BigDecimal;
+
+public interface CustomerVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-05-31
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-05-31
+     */
+    int insert(CustomerVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-05-31
+     */
+    int insertSelective(CustomerVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-05-31
+     */
+    CustomerVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-05-31
+     */
+    int updateByPrimaryKeySelective(CustomerVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-05-31
+     */
+    int updateByPrimaryKey(CustomerVo record);
+}

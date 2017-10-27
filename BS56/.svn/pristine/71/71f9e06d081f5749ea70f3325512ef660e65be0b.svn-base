@@ -1,0 +1,57 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.wms.InventoryLineVoMapper;
+import com.ztel.app.service.wms.InventoryLineVoService;
+import com.ztel.app.util.Constant;
+import com.ztel.app.vo.wms.ATSCellInfoDetailVo;
+import com.ztel.app.vo.wms.InventoryLineVo;
+@Service
+public class InventoryLineVoServiceImpl implements InventoryLineVoService {
+
+	@Autowired
+	private InventoryLineVoMapper inventoryLineVoMapper = null;
+	
+	@Override
+	public int doInventoryLineAdd(InventoryLineVo inventoryLineVo) {
+		// TODO Auto-generated method stub
+		return inventoryLineVoMapper.insertSelective(inventoryLineVo);
+	}
+
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void doInventoryComplete(String inventoryId, List<ATSCellInfoDetailVo> atsCellList) {
+		// TODO Auto-generated method stub
+		BigDecimal fid=new BigDecimal(inventoryId);
+		int listLen=0;
+		//遍历插入立库盘点数据
+		if(atsCellList!=null&&atsCellList.size()>0){
+			listLen=atsCellList.size();
+			ATSCellInfoDetailVo atsCellInfoDetailVo=new ATSCellInfoDetailVo();
+			for(int i=0;i<listLen;i++){
+				atsCellInfoDetailVo=atsCellList.get(i);
+				InventoryLineVo inventoryLineVo=new InventoryLineVo();
+				inventoryLineVo.setInventoryid(fid);
+				inventoryLineVo.setCigarettecode(atsCellInfoDetailVo.getCigarettecode());
+				inventoryLineVo.setCigarettename(atsCellInfoDetailVo.getCigarettename());
+				inventoryLineVo.setBoxqty(atsCellInfoDetailVo.getQty());
+				inventoryLineVo.setAreaid(new BigDecimal(Constant.storagearea_lk));
+				inventoryLineVo.setInventorytype(new BigDecimal(10));
+				
+				doInventoryLineAdd(inventoryLineVo);
+			}
+		}
+	}
+
+	@Override
+	public List<InventoryLineVo> getLastInventoryInfoByCond(InventoryLineVo inventoryLineVo) {
+		// TODO Auto-generated method stub
+		return inventoryLineVoMapper.selectLastInventoryInfoByCond(inventoryLineVo);
+	}
+}

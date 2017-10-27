@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.AutocalldemoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.AutocalldemoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FILENAME" property="filename" jdbcType="VARCHAR" />
+    <result column="CALLCOUNT" property="callcount" jdbcType="DECIMAL" />
+    <result column="LENGTH" property="length" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FILENAME, CALLCOUNT, LENGTH
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_AUTOCALLDEMO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SQ_AUTOCALLDEMO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.AutocalldemoVo" >
+    insert into T_SQ_AUTOCALLDEMO (ID, FILENAME, CALLCOUNT, 
+      LENGTH)
+    values (#{id,jdbcType=DECIMAL}, #{filename,jdbcType=VARCHAR}, #{callcount,jdbcType=DECIMAL}, 
+      #{length,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.AutocalldemoVo" >
+    insert into T_SQ_AUTOCALLDEMO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="filename != null" >
+        FILENAME,
+      </if>
+      <if test="callcount != null" >
+        CALLCOUNT,
+      </if>
+      <if test="length != null" >
+        LENGTH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="callcount != null" >
+        #{callcount,jdbcType=DECIMAL},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.AutocalldemoVo" >
+    update T_SQ_AUTOCALLDEMO
+    <set >
+      <if test="filename != null" >
+        FILENAME = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="callcount != null" >
+        CALLCOUNT = #{callcount,jdbcType=DECIMAL},
+      </if>
+      <if test="length != null" >
+        LENGTH = #{length,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.AutocalldemoVo" >
+    update T_SQ_AUTOCALLDEMO
+    set FILENAME = #{filename,jdbcType=VARCHAR},
+      CALLCOUNT = #{callcount,jdbcType=DECIMAL},
+      LENGTH = #{length,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

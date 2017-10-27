@@ -1,0 +1,280 @@
+package com.ztel.app.vo.cost;
+
+import java.math.BigDecimal;
+
+public class SPLApplyListLineVo {
+    /**
+     * id序号
+     */
+    private BigDecimal id;
+
+    /**
+     * 申请单id
+     */
+    private BigDecimal listid;
+
+    /**
+     * 物资id
+     */
+    private Integer splid;
+
+    /**
+     * 物资类型id
+     */
+    private BigDecimal typeid;
+
+    /**
+     * 申请数量
+     */
+    private BigDecimal applyqty;
+    
+    /**
+     * 修改后的申请数量
+     */
+    private BigDecimal editapplyqty;
+
+    /**
+     * 申请设备总金额
+     */
+    private BigDecimal amount;
+
+    /**
+     * 申请设备单价
+     */
+    private BigDecimal price;
+
+    /**
+     * 申请前库存量
+     */
+    private BigDecimal preapplyqty;
+    
+    /**
+     * 审批数量
+     */
+    private BigDecimal auditqty;
+    
+    /**
+     * 类型名称
+     */
+
+    private String typename;
+    
+    /**
+     * 设备名称
+     */
+    private String splname;
+
+    /**
+     * 设备剩余数量
+     */
+    private BigDecimal quantity;
+    /**
+     * id序号
+     * @return ID id序号
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * id序号
+     * @param id id序号
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 申请单id
+     * @return LISTID 申请单id
+     */
+    public BigDecimal getListid() {
+        return listid;
+    }
+
+    /**
+     * 申请单id
+     * @param listid 申请单id
+     */
+    public void setListid(BigDecimal listid) {
+        this.listid = listid;
+    }
+
+    /**
+     * 物资id
+     * @return SPLID 物资id
+     */
+    public Integer getSplid() {
+        return splid;
+    }
+
+    /**
+     * 物资id
+     * @param splid 物资id
+     */
+    public void setSplid(Integer splid) {
+        this.splid = splid;
+    }
+
+    /**
+     * 物资类型id
+     * @return TYPEID 物资类型id
+     */
+    public BigDecimal getTypeid() {
+        return typeid;
+    }
+
+    /**
+     * 物资类型id
+     * @param typeid 物资类型id
+     */
+    public void setTypeid(BigDecimal typeid) {
+        this.typeid = typeid;
+    }
+
+    /**
+     * 申请数量
+     * @return APPLYQTY 申请数量
+     */
+    public BigDecimal getApplyqty() {
+        return applyqty;
+    }
+
+    /**
+     * 申请数量
+     * @param applyqty 申请数量
+     */
+    public void setApplyqty(BigDecimal applyqty) {
+        this.applyqty = applyqty;
+    }
+
+    /**
+     * 申请设备总金额
+     * @return AMOUNT 申请设备总金额
+     */
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    /**
+     * 申请设备总金额
+     * @param amount 申请设备总金额
+     */
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * 申请设备单价
+     * @return PRICE 申请设备单价
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * 申请设备单价
+     * @param price 申请设备单价
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    /**
+     * 申请前库存量
+     * @return PREAPPLYQTY 申请前库存量
+     */
+    public BigDecimal getPreapplyqty() {
+        return preapplyqty;
+    }
+
+    /**
+     * 申请前库存量
+     * @param preapplyqty 申请前库存量
+     */
+    public void setPreapplyqty(BigDecimal preapplyqty) {
+        this.preapplyqty = preapplyqty;
+    }
+
+    /**
+     * 审批数量
+     * @return AUDITQTY 审批数量
+     */
+    public BigDecimal getAuditqty() {
+        return auditqty;
+    }
+
+    /**
+     * 审批数量
+     * @param auditqty 审批数量
+     */
+    public void setAuditqty(BigDecimal auditqty) {
+        this.auditqty = auditqty;
+    }
+
+    /**
+     * 设备类型名称
+     * @return TYPENAME 设备类型名称
+     */
+	public String getTypename() {
+		return typename;
+	}
+
+	/**
+	 * 设备类型名称
+	 * @param typename 设备类型名称
+	 */
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+
+	/**
+	 * 设备名称
+	 * @return SPLNAME 设备名称
+	 */
+	public String getSplname() {
+		return splname;
+	}
+
+	/**
+	 * 设备名称
+	 * @param splname 设备名称
+	 */
+	public void setSplname(String splname) {
+		this.splname = splname;
+	}
+
+	/**
+	 * 设备剩余数量
+	 * @return QUANTITY 设备剩余数量
+	 */
+	public BigDecimal getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * 设备剩余数量
+	 * @param quantity 设备剩余数量
+	 */
+	public void setQuantity(BigDecimal quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * 修改后的申请数量
+	 * @return editapplyqty 修改后的申请数量
+	 */
+	public BigDecimal getEditapplyqty() {
+		return editapplyqty;
+	}
+
+	/**
+	 * 修改后的申请数量
+	 * @param editapplyqty 修改后的申请数量
+	 */
+	public void setEditapplyqty(BigDecimal editapplyqty) {
+		this.editapplyqty = editapplyqty;
+	}
+    
+	
+}

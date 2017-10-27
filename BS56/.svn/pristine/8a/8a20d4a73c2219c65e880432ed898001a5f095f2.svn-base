@@ -1,0 +1,254 @@
+.icon-blank{
+	background:url('icons/blank.gif') no-repeat center center;
+}
+.icon-add{
+	background:url('icons/edit_add.png') no-repeat center center;
+}
+.icon-edit{
+	background:url('icons/pencil.png') no-repeat center center;
+}
+.icon-clear{
+	background:url('icons/clear.png') no-repeat center center;
+}
+.icon-remove{
+	background:url('icons/edit_remove.png') no-repeat center center;
+}
+.icon-save{
+	background:url('icons/filesave.png') no-repeat center center;
+}
+.icon-cut{
+	background:url('icons/cut.png') no-repeat center center;
+}
+.icon-ok{
+	background:url('icons/ok.png') no-repeat center center;
+}
+.icon-no{
+	background:url('icons/no.png') no-repeat center center;
+}
+.icon-cancel{
+	background:url('icons/cancel.png') no-repeat center center;
+}
+.icon-reload{
+	background:url('icons/reload.png') no-repeat center center;
+}
+.icon-search{
+	background:url('icons/search.png') no-repeat center center;
+}
+.icon-print{
+	background:url('icons/print.png') no-repeat center center;
+}
+.icon-help{
+	background:url('icons/help.png') no-repeat center center;
+}
+.icon-undo{
+	background:url('icons/undo.png') no-repeat center center;
+}
+.icon-redo{
+	background:url('icons/redo.png') no-repeat center center;
+}
+.icon-back{
+	background:url('icons/back.png') no-repeat center center;
+}
+.icon-sum{
+	background:url('icons/sum.png') no-repeat center center;
+}
+.icon-tip{
+	background:url('icons/tip.png') no-repeat center center;
+}
+.icon-filter{
+	background:url('icons/filter.png') no-repeat center center;
+}
+.icon-man{
+	background:url('icons/man.png') no-repeat center center;
+}
+.icon-lock{
+	background:url('icons/lock.png') no-repeat center center;
+}
+.icon-more{
+	background:url('icons/more.png') no-repeat center center;
+}
+.icon-view{
+	background:url('icons/views.png') no-repeat center center;
+}
+
+.icon-mini-add{
+	background:url('icons/mini_add.png') no-repeat center center;
+}
+.icon-mini-edit{
+	background:url('icons/mini_edit.png') no-repeat center center;
+}
+.icon-mini-refresh{
+	background:url('icons/mini_refresh.png') no-repeat center center;
+}
+
+.icon-large-picture{
+	background:url('icons/large_picture.png') no-repeat center center;
+}
+.icon-large-clipart{
+	background:url('icons/large_clipart.png') no-repeat center center;
+}
+.icon-large-shapes{
+	background:url('icons/large_shapes.png') no-repeat center center;
+}
+.icon-large-smartart{
+	background:url('icons/large_smartart.png') no-repeat center center;
+}
+.icon-large-chart{
+	background:url('icons/large_chart.png') no-repeat center center;
+}
+
+/*绯荤粺鏂板icon锛岄潪easyui鑷甫*/
+.icon-mygroup{
+	background:url('icons/my_group.png') no-repeat center center;
+}
+.icon-mysetting{
+	background:url('icons/my_setting.png') no-repeat center center;
+}
+.icon-myarrowin{
+	background:url('icons/my_arrowin.png') no-repeat center center;
+}
+.icon-myarrowout{
+	background:url('icons/my_arrowout.png') no-repeat center center;
+}
+.icon-mychartmenu{
+	background:url('icons/my_chartmenu.png') no-repeat center center;
+}
+.icon-mychartbar{
+	background:url('icons/my_chartbar.png') no-repeat center center;
+}
+.icon-myuser{
+	background:url('icons/my_user.png') no-repeat center center;
+}
+.icon-mybook{
+	background:url('icons/my_book.png') no-repeat center center;
+}
+/*系统管理*/
+.icon-mycog{
+	background:url('icons/my_cog.png') no-repeat center center;my_lorry_flatbed
+}
+/*系统管理-配送分部门*/
+.icon-mylorry_flatbed{
+	background:url('icons/my_lorry_flatbed.png') no-repeat center center;
+}
+/*系统管理-系统参数配置*/
+.icon-mywrench{
+	background:url('icons/my_wrench.png') no-repeat center center;
+}/*系统管理-系统年份设置*/
+.icon-mywrench_orange{
+	background:url('icons/my_wrench_orange.png') no-repeat center center;
+}
+/*基本信息管理*/
+.icon-myimage3406{
+	background:url('icons/my_image3406.png') no-repeat center center;
+}
+/*基本信息管理-坐席考核项*/
+.icon-mystatus_online{
+	background:url('icons/my_status_online.png') no-repeat center center;
+}
+/*基本信息管理-车组考核项管理*/
+.icon-mylorry_error{
+	background:url('icons/my_lorry_error.png') no-repeat center center;
+}
+/*基本信息管理-分部主任抽查考核项/统计报表-部主任考核统计*/
+.icon-myuser_gray{
+	background:url('icons/my_user_gray.png') no-repeat center center;
+}
+/*基本信息管理-市场抽查考核项*/
+.icon-mytable_key{
+	background:url('icons/my_table_key.png') no-repeat center center;
+}
+/*基本信息管理-考核权重设置*/
+.icon-mykey{
+	background:url('icons/my_key.png') no-repeat center center;
+}
+/*基本信息管理-车组挂接*/
+.icon-mylorry_link{
+	background:url('icons/my_lorry_link.png') no-repeat center center;
+}
+/*基本信息管理-车辆信息*/
+.icon-mycar{
+	background:url('icons/my_car.png') no-repeat center center;
+}
+/*基本信息管理-自动语音考核项*/
+.icon-myphone_sound{
+	background:url('icons/my_phone_sound.png') no-repeat center center;
+}
+/*基本信息管理-自动语音考核项维护*/
+.icon-myphone_add{
+	background:url('icons/my_phone_add.png') no-repeat center center;
+}
+/*统计报表*/
+.icon-mychartbar{
+	background:url('icons/my_chartbar.png') no-repeat center center;
+}
+/*统计报表-车组星级统计*/
+.icon-mystar{
+	background:url('icons/my_star.png') no-repeat center center;
+}
+/*统计报表-车组星级月统计*/
+.icon-myaward_star_silver_2{
+	background:url('icons/my_award_star_silver_2.png') no-repeat center center;
+}
+/*统计报表-车组人员调动表*/
+.icon-mygroup_go{
+	background:url('icons/my_group_go.png') no-repeat center center;
+}
+/*统计报表-公司服务满意度*/
+.icon-myemoticon_smile{
+	background:url('icons/my_emoticon_smile.png') no-repeat center center;
+}
+/*回访计划*/
+.icon-mytelephone{
+	background:url('icons/my_telephone.png') no-repeat center center;
+}
+/*基本信息管理-投诉分类/投诉处理*/
+.icon-myemoticon_evilgrin{
+	background:url('icons/my_emoticon_evilgrin.png') no-repeat center center;
+}
+/*/*基本信息管理-车组信息/车组考核*/
+.icon-mylorry{
+	background:url('icons/my_lorry.png') no-repeat center center;
+}
+/*知识库*/
+.icon-myimage2810{
+	background:url('icons/my_image2810.png') no-repeat center center;
+}
+/*触摸屏*/
+.icon-mymonitor{
+	background:url('icons/my_monitor.png') no-repeat center center;
+}
+/*统计报表-星级年度表/星级查看*/
+.icon-myaward_star_gold_1{
+	background:url('icons/my_award_star_gold_1.png') no-repeat center center;
+}
+/*投诉报表*/
+.icon-mychart_curve{
+	background:url('icons/my_chart_curve.png') no-repeat center center;
+}
+/*6S评比*/
+.icon-myimage4388{
+	background:url('icons/my_image4388.png') no-repeat center center;
+}
+/*内部服务*/
+.icon-mythumb_up{
+	background:url('icons/my_thumb_up.png') no-repeat center center;
+}
+/*工艺质量*/
+.icon-myshield{
+	background:url('icons/my_shield.png') no-repeat center center;
+}
+/*零售户异动*/
+.icon-myhouse_go{
+	background:url('icons/my_house_go.png') no-repeat center center;
+}
+/*零售户异动-零售户信息*/
+.icon-myhouse{
+	background:url('icons/my_house.png') no-repeat center center;
+}
+/*系统管理-功能按钮*/
+.icon-myfunction{
+	background:url('icons/my_function.png') no-repeat center center;
+}
+.icon-myto_excel{
+	background:url('icons/my_to_excel.png') no-repeat center center;
+}

@@ -1,0 +1,67 @@
+package com.ztel.app.persist.mybatis.sys;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.ztel.app.vo.sys.DeptTreeVo;
+import com.ztel.app.vo.sys.DeptVo;
+
+public interface DeptVoMapper {
+	
+	/**
+	 * 获取部门树
+	 * @return
+	 */
+	 List<DeptTreeVo> getDeptTree(@Param("parentId") String parentId);
+	 
+	 /**
+	  * 获取部门信息，用于投诉年报表取车组归宿部门信息
+	  * @return
+	  */
+	 List<DeptVo> getDeptinfoForReport();
+	 
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int deleteByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int insert(DeptVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int insertSelective(DeptVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    DeptVo selectByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int updateByPrimaryKeySelective(DeptVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int updateByPrimaryKey(DeptVo record);
+    
+    List<DeptVo> getDeptinfoList(@Param("deptlevel") String deptlevel,@Param("fid") String fid,@Param("keywd") String keywd);
+    /**
+     * 库存管理领料时只取二级部门，增加此方法
+     * @param record
+     * @return
+     */
+    List<DeptVo> getDeptinfoList(DeptVo record);
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.Sq6SscorelineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.Sq6SscorelineVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SUPERIORSID" property="superiorsid" jdbcType="DECIMAL" />
+    <result column="SHIEID" property="shieid" jdbcType="DECIMAL" />
+    <result column="ACTUALSCORE" property="actualscore" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SUPERIORSID, SHIEID, ACTUALSCORE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_6SSCORELINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SQ_6SSCORELINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.Sq6SscorelineVo" >
+    insert into T_SQ_6SSCORELINE (ID, SUPERIORSID, SHIEID, 
+      ACTUALSCORE)
+    values (#{id,jdbcType=DECIMAL}, #{superiorsid,jdbcType=DECIMAL}, #{shieid,jdbcType=DECIMAL}, 
+      #{actualscore,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.Sq6SscorelineVo" >
+    insert into T_SQ_6SSCORELINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="superiorsid != null" >
+        SUPERIORSID,
+      </if>
+      <if test="shieid != null" >
+        SHIEID,
+      </if>
+      <if test="actualscore != null" >
+        ACTUALSCORE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="superiorsid != null" >
+        #{superiorsid,jdbcType=DECIMAL},
+      </if>
+      <if test="shieid != null" >
+        #{shieid,jdbcType=DECIMAL},
+      </if>
+      <if test="actualscore != null" >
+        #{actualscore,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.Sq6SscorelineVo" >
+    update T_SQ_6SSCORELINE
+    <set >
+      <if test="superiorsid != null" >
+        SUPERIORSID = #{superiorsid,jdbcType=DECIMAL},
+      </if>
+      <if test="shieid != null" >
+        SHIEID = #{shieid,jdbcType=DECIMAL},
+      </if>
+      <if test="actualscore != null" >
+        ACTUALSCORE = #{actualscore,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.Sq6SscorelineVo" >
+    update T_SQ_6SSCORELINE
+    set SUPERIORSID = #{superiorsid,jdbcType=DECIMAL},
+      SHIEID = #{shieid,jdbcType=DECIMAL},
+      ACTUALSCORE = #{actualscore,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

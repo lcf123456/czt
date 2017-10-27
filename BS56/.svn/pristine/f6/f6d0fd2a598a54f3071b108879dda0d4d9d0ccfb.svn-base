@@ -1,0 +1,17 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.CigarettedamagedLineVo;
+
+public interface CigarettedamagedLineVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-08-02
+     */
+    int insert(CigarettedamagedLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-02
+     */
+    int insertSelective(CigarettedamagedLineVo record);
+}

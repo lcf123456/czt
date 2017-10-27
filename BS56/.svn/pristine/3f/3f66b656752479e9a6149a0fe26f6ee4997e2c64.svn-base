@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.account.OperateVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.account.OperateVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="CTYPE" jdbcType="VARCHAR" property="ctype" />
+    <result column="CREATEID" jdbcType="DECIMAL" property="createid" />
+    <result column="CREATENAME" jdbcType="VARCHAR" property="createname" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="QUANTITY" jdbcType="DECIMAL" property="quantity" />
+    <result column="ORDERDATE" jdbcType="TIMESTAMP" property="orderdate" />
+    <result column="CALCDATE" jdbcType="TIMESTAMP" property="calcdate" />
+    <result column="ORDERNO" jdbcType="VARCHAR" property="orderno" />
+    <result column="REASONID" jdbcType="DECIMAL" property="reasonid" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="PICTURENAME" jdbcType="VARCHAR" property="picturename" />
+    <result column="PICTUREADDR" jdbcType="VARCHAR" property="pictureaddr" />
+    <result column="AUDITID" jdbcType="DECIMAL" property="auditid" />
+    <result column="AUDITNAME" jdbcType="VARCHAR" property="auditname" />
+    <result column="AUDITDATE" jdbcType="TIMESTAMP" property="auditdate" />
+    <result column="AUDITREMARKS" jdbcType="VARCHAR" property="auditremarks" />
+    <result column="ROUTECODE" jdbcType="VARCHAR" property="routecode" />
+    <result column="TARGETROUTECODE" jdbcType="VARCHAR" property="targetroutecode" />
+    <result column="CREATEDATE" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="PRESTATUS" jdbcType="VARCHAR" property="prestatus" />
+    <result column="BEGDATE" jdbcType="VARCHAR" property="begdate" />
+    <result column="ENDDATE" jdbcType="VARCHAR" property="enddate" />
+    <result column="KEYWD" jdbcType="VARCHAR" property="keywd" />
+    <result column="REASONCONTENT" jdbcType="VARCHAR" property="reasoncontent" />
+    <result column="CUSCODE" jdbcType="VARCHAR" property="cuscode" />
+    <result column="CUSNAME" jdbcType="VARCHAR" property="cusname" />
+    <result column="PRESTATUSCONTENT" jdbcType="VARCHAR" property="prestatuscontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CTYPE, CREATEID, CREATENAME, AMOUNT, QUANTITY, ORDERDATE, CALCDATE, ORDERNO, 
+    REASONID, REMARKS, STATUS, PICTURENAME, PICTUREADDR, AUDITID, AUDITNAME, AUDITDATE, 
+    AUDITREMARKS, ROUTECODE, TARGETROUTECODE, CREATEDATE, PRESTATUS
+  </sql>
+  <!-- 根据条件查询操作列表 -->
+  <select id="getOperatePageList" parameterType="Pagination" resultMap="BaseResultMap">
+		select a.routecode,a.prestatus,a.id,a.orderdate,a.amount,a.quantity,a.createid,b.contentlist as reasoncontent,a.calcdate,a.orderno,
+		a.createname,a.status,d.id as cuscode,d.name as cusname,decode(a.prestatus,'10','已结算','未结算')as prestatuscontent from 
+		T_ACCOUNT_OPERATE a,t_sys_basetypeinfo b,t_wms_shiporder c,t_wms_customer d 
+		where a.reasonid=b.id and a.orderno=c.orderno and c.customer_id=d.id
+		<if test="param != null and param.ctype != null  and param.ctype != ''" >
+	        and a.ctype=#{param.ctype}
+	    </if>
+		<if test="param != null and param.status != null  and param.status != ''" >
+	        and a.status=#{param.status}
+	    </if>
+		<if test="param != null and param.routecode != null  and param.routecode != ''" >
+	        and a.routecode=#{param.routecode}
+	    </if>
+		<if test="param != null and param.keywd != null  and param.keywd != ''" >
+	        and (d.id like'%'||#{param.keywd}||'%' or d.name like'%'||#{param.keywd}||'%' )
+	    </if>
+	    <if test="param != null and param.begdate != null " >
+	        and a.orderdate>=to_date(#{param.begdate},'yyyy-MM-dd')
+	    </if>
+	    <if test="param != null and param.enddate != null " >
+	        and a.orderdate &lt;= to_date(#{param.enddate},'yyyy-MM-dd') +1
+	    </if>
+		order by a.createdate desc
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_ACCOUNT_OPERATE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_ACCOUNT_OPERATE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.account.OperateVo">
+    insert into T_ACCOUNT_OPERATE (ID, CTYPE, CREATEID, 
+      CREATENAME, AMOUNT, QUANTITY, 
+      ORDERDATE, CALCDATE, ORDERNO, 
+      REASONID, REMARKS, STATUS, 
+      PICTURENAME, PICTUREADDR, AUDITID, 
+      AUDITNAME, AUDITDATE, AUDITREMARKS, 
+      ROUTECODE, TARGETROUTECODE, CREATEDATE, 
+      PRESTATUS)
+    values (#{id,jdbcType=DECIMAL}, #{ctype,jdbcType=VARCHAR}, #{createid,jdbcType=DECIMAL}, 
+      #{createname,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, #{quantity,jdbcType=DECIMAL}, 
+      #{orderdate,jdbcType=TIMESTAMP}, #{calcdate,jdbcType=TIMESTAMP}, #{orderno,jdbcType=VARCHAR}, 
+      #{reasonid,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{picturename,jdbcType=VARCHAR}, #{pictureaddr,jdbcType=VARCHAR}, #{auditid,jdbcType=DECIMAL}, 
+      #{auditname,jdbcType=VARCHAR}, #{auditdate,jdbcType=TIMESTAMP}, #{auditremarks,jdbcType=VARCHAR}, 
+      #{routecode,jdbcType=VARCHAR}, #{targetroutecode,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{prestatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.account.OperateVo">
+    insert into T_ACCOUNT_OPERATE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="ctype != null">
+        CTYPE,
+      </if>
+      <if test="createid != null">
+        CREATEID,
+      </if>
+      <if test="createname != null">
+        CREATENAME,
+      </if>
+      <if test="amount != null">
+        AMOUNT,
+      </if>
+      <if test="quantity != null">
+        QUANTITY,
+      </if>
+      <if test="orderdate != null">
+        ORDERDATE,
+      </if>
+      <if test="calcdate != null">
+        CALCDATE,
+      </if>
+      <if test="orderno != null">
+        ORDERNO,
+      </if>
+      <if test="reasonid != null">
+        REASONID,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="picturename != null">
+        PICTURENAME,
+      </if>
+      <if test="pictureaddr != null">
+        PICTUREADDR,
+      </if>
+      <if test="auditid != null">
+        AUDITID,
+      </if>
+      <if test="auditname != null">
+        AUDITNAME,
+      </if>
+      <if test="auditdate != null">
+        AUDITDATE,
+      </if>
+      <if test="auditremarks != null">
+        AUDITREMARKS,
+      </if>
+      <if test="routecode != null">
+        ROUTECODE,
+      </if>
+      <if test="targetroutecode != null">
+        TARGETROUTECODE,
+      </if>
+      <if test="createdate != null">
+        CREATEDATE,
+      </if>
+      <if test="prestatus != null">
+        PRESTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null">
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null">
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="orderdate != null">
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calcdate != null">
+        #{calcdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonid != null">
+        #{reasonid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="picturename != null">
+        #{picturename,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureaddr != null">
+        #{pictureaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="auditid != null">
+        #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="auditname != null">
+        #{auditname,jdbcType=VARCHAR},
+      </if>
+      <if test="auditdate != null">
+        #{auditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditremarks != null">
+        #{auditremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null">
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="targetroutecode != null">
+        #{targetroutecode,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prestatus != null">
+        #{prestatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.account.OperateVo">
+    update T_ACCOUNT_OPERATE
+    <set>
+      <if test="ctype != null">
+        CTYPE = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null">
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        CREATENAME = #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null">
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="orderdate != null">
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calcdate != null">
+        CALCDATE = #{calcdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderno != null">
+        ORDERNO = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonid != null">
+        REASONID = #{reasonid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="picturename != null">
+        PICTURENAME = #{picturename,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureaddr != null">
+        PICTUREADDR = #{pictureaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="auditid != null">
+        AUDITID = #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="auditname != null">
+        AUDITNAME = #{auditname,jdbcType=VARCHAR},
+      </if>
+      <if test="auditdate != null">
+        AUDITDATE = #{auditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditremarks != null">
+        AUDITREMARKS = #{auditremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null">
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="targetroutecode != null">
+        TARGETROUTECODE = #{targetroutecode,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prestatus != null">
+        PRESTATUS = #{prestatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.account.OperateVo">
+    update T_ACCOUNT_OPERATE
+    set CTYPE = #{ctype,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATENAME = #{createname,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      CALCDATE = #{calcdate,jdbcType=TIMESTAMP},
+      ORDERNO = #{orderno,jdbcType=VARCHAR},
+      REASONID = #{reasonid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      PICTURENAME = #{picturename,jdbcType=VARCHAR},
+      PICTUREADDR = #{pictureaddr,jdbcType=VARCHAR},
+      AUDITID = #{auditid,jdbcType=DECIMAL},
+      AUDITNAME = #{auditname,jdbcType=VARCHAR},
+      AUDITDATE = #{auditdate,jdbcType=TIMESTAMP},
+      AUDITREMARKS = #{auditremarks,jdbcType=VARCHAR},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      TARGETROUTECODE = #{targetroutecode,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      PRESTATUS = #{prestatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

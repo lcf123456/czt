@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.RoutescoreVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.RoutescoreVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CUSTID" property="custid" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="ROUTESCORE" property="routescore" jdbcType="DECIMAL" />
+    <result column="DSCORE" property="dscore" jdbcType="DECIMAL" />
+    <result column="CSCORE" property="cscore" jdbcType="DECIMAL" />
+    <result column="SOURCEID" property="sourceid" jdbcType="DECIMAL" />
+    <result column="SCORINGTIME" property="scoringtime" jdbcType="TIMESTAMP" />
+    <result column="PLANID" property="planid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="CASHIERID" property="cashierid" jdbcType="DECIMAL" />
+    <result column="COMPANYCORE" property="companycore" jdbcType="DECIMAL" />
+    <result column="RECORD" property="record" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="CNAME" property="cname" jdbcType="VARCHAR" />
+	<result column="DNAME" property="dname" jdbcType="VARCHAR" />
+	<result column="ASSESSWEIGHT" property="assessweight" jdbcType="DECIMAL" />
+	<result column="ACTUALSCORE" property="actualscore" jdbcType="DECIMAL" />
+	<result column="EVALITEMID" property="evalitemid" jdbcType="DECIMAL" />
+	<result column="CONTENTSHORT" property="contentshort" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUSTID, ROUTECODE, CREATEID, ROUTESCORE, DSCORE, CSCORE, SOURCEID, SCORINGTIME, 
+    PLANID, REMARKS, DRIVERID, CASHIERID, COMPANYCORE, RECORD
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_ROUTE_SCORESUMMARY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getRoutescorePageList" parameterType="Pagination" resultType="com.ztel.app.vo.sq.RoutescoreVo">
+    select  a.ID, CUSTID, ROUTECODE, creater.username as createname, a.CREATEID, ROUTESCORE, DSCORE, CSCORE, SOURCEID, SCORINGTIME, 
+    PLANID, REMARKS, driver.username as dname, a.DRIVERID, cashier.username as cname, a.CASHIERID, COMPANYCORE, RECORD
+    from T_SQ_ROUTE_SCORESUMMARY a ,t_sys_user creater,t_sys_user cashier,t_sys_user driver  
+    where SOURCEID=4 and a.createid=creater.id and a.cashierid=cashier.id and a.driverid=driver.id
+      <if test="param != null and param.keywd != null and param.keywd != ''" >
+        and (ROUTECODE like'%'||#{param.keywd}||'%'  )
+      </if>
+       <if test="param != null and param.scoringtime != null " >
+        and (to_char(SCORINGTIME,'yyyy-MM-dd') =to_char(#{param.scoringtime},'yyyy-MM-dd') )
+      </if>
+      order by SCORINGTIME DESC
+</select>
+  <select id="getViewRoutescorePageList" parameterType="Pagination" resultType="com.ztel.app.vo.sq.RoutescoreVo">
+select b.id,b.fid,b.assessweight,b.actualscore,c.contentshort 
+from T_SQ_ROUTE_SCORESUMMARY a,t_sq_route_scoreline b ,T_SQ_EVALITEM c  
+where   b.evalitemid=c.id and a.SOURCEID=4 and a.id=b.fid and b.fid=#{param.id}
+</select>
+  <delete id="deleteLineKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_ROUTE_SCORELINE
+    where FID = #{id,jdbcType=DECIMAL}
+  </delete>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_ROUTE_SCORESUMMARY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <!--insert id="insert" parameterType="com.ztel.app.vo.sq.RouteScoreVo" >
+    insert into T_SQ_ROUTE_SCORESUMMARY (ID, CUSTID, ROUTECODE, 
+      CREATEID, ROUTESCORE, DSCORE, 
+      CSCORE, SOURCEID, SCORINGTIME, 
+      PLANID, REMARKS, DRIVERID, 
+      CASHIERID, COMPANYCORE, RECORD
+      )
+    values (#{id,jdbcType=DECIMAL}, #{custid,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, 
+      #{createid,jdbcType=DECIMAL}, #{routescore,jdbcType=DECIMAL}, #{dscore,jdbcType=DECIMAL}, 
+      #{cscore,jdbcType=DECIMAL}, #{sourceid,jdbcType=DECIMAL}, #{scoringtime,jdbcType=TIMESTAMP}, 
+      #{planid,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, #{driverid,jdbcType=DECIMAL}, 
+      #{cashierid,jdbcType=DECIMAL}, #{companycore,jdbcType=DECIMAL}, #{record,jdbcType=VARCHAR}
+      )
+  </insert-->
+  
+</mapper>

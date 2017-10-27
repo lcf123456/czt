@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.FireRelativeVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.FireRelativeVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FIREITEMID" property="fireitemid" jdbcType="DECIMAL" />
+    <result column="FIRESYSID" property="firesysid" jdbcType="DECIMAL" />
+    <result column="TYPEID" property="typeid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FIREITEMID, FIRESYSID, TYPEID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_FIRE_RELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SAFE_FIRE_RELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.FireRelativeVo" >
+    insert into T_SAFE_FIRE_RELATIVE (ID, FIREITEMID, FIRESYSID, 
+      TYPEID)
+    values (#{id,jdbcType=DECIMAL}, #{fireitemid,jdbcType=DECIMAL}, #{firesysid,jdbcType=DECIMAL}, 
+      #{typeid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.FireRelativeVo" >
+    insert into T_SAFE_FIRE_RELATIVE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fireitemid != null" >
+        FIREITEMID,
+      </if>
+      <if test="firesysid != null" >
+        FIRESYSID,
+      </if>
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="fireitemid != null" >
+        #{fireitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="firesysid != null" >
+        #{firesysid,jdbcType=DECIMAL},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.FireRelativeVo" >
+    update T_SAFE_FIRE_RELATIVE
+    <set >
+      <if test="fireitemid != null" >
+        FIREITEMID = #{fireitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="firesysid != null" >
+        FIRESYSID = #{firesysid,jdbcType=DECIMAL},
+      </if>
+      <if test="typeid != null" >
+        TYPEID = #{typeid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.FireRelativeVo" >
+    update T_SAFE_FIRE_RELATIVE
+    set FIREITEMID = #{fireitemid,jdbcType=DECIMAL},
+      FIRESYSID = #{firesysid,jdbcType=DECIMAL},
+      TYPEID = #{typeid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

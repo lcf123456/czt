@@ -1,0 +1,178 @@
+package com.ztel.app.vo.wms;
+
+import java.math.BigDecimal;
+
+public class MoveareastockLineVo {
+    /**
+     * null
+     */
+    private BigDecimal id;
+
+    /**
+     * 父id
+     */
+    private BigDecimal parentid;
+
+    /**
+     * 通道编号(分拣区记录用)
+     */
+    private String troughnum;
+
+    /**
+     * 件码
+     */
+    private String barcode;
+
+    /**
+     * 卷烟名称
+     */
+    private String cigarettename;
+
+    /**
+     * 卷烟编码
+     */
+    private String cigarettecode;
+
+    /**
+     * 移库数量(件)
+     */
+    private BigDecimal boxqty;
+
+    /**
+     * 移库数量(条)
+     */
+    private BigDecimal barqty;
+    
+    /**
+     * 目标区域通道编号(分拣区或重力式货架记录用)
+     */
+    private String targettroughnum;
+
+    /**
+     * null
+     * @return ID null
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * null
+     * @param id null
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 父id
+     * @return PARENTID 父id
+     */
+    public BigDecimal getParentid() {
+        return parentid;
+    }
+
+    /**
+     * 父id
+     * @param parentid 父id
+     */
+    public void setParentid(BigDecimal parentid) {
+        this.parentid = parentid;
+    }
+
+    /**
+     * 通道编号(分拣区记录用)
+     * @return TROUGHNUM 通道编号(分拣区记录用)
+     */
+    public String getTroughnum() {
+        return troughnum;
+    }
+
+    /**
+     * 通道编号(分拣区记录用)
+     * @param troughnum 通道编号(分拣区记录用)
+     */
+    public void setTroughnum(String troughnum) {
+        this.troughnum = troughnum == null ? null : troughnum.trim();
+    }
+
+    /**
+     * 件码
+     * @return BARCODE 件码
+     */
+    public String getBarcode() {
+        return barcode;
+    }
+
+    /**
+     * 件码
+     * @param barcode 件码
+     */
+    public void setBarcode(String barcode) {
+        this.barcode = barcode == null ? null : barcode.trim();
+    }
+
+    /**
+     * 卷烟名称
+     * @return CIGARETTENAME 卷烟名称
+     */
+    public String getCigarettename() {
+        return cigarettename;
+    }
+
+    /**
+     * 卷烟名称
+     * @param cigarettename 卷烟名称
+     */
+    public void setCigarettename(String cigarettename) {
+        this.cigarettename = cigarettename == null ? null : cigarettename.trim();
+    }
+
+    /**
+     * 卷烟编码
+     * @return CIGARETTECODE 卷烟编码
+     */
+    public String getCigarettecode() {
+        return cigarettecode;
+    }
+
+    /**
+     * 卷烟编码
+     * @param cigarettecode 卷烟编码
+     */
+    public void setCigarettecode(String cigarettecode) {
+        this.cigarettecode = cigarettecode == null ? null : cigarettecode.trim();
+    }
+
+    /**
+     * 移库数量(件)
+     * @return BOXQTY 移库数量(件)
+     */
+    public BigDecimal getBoxqty() {
+        return boxqty;
+    }
+
+    /**
+     * 移库数量(件)
+     * @param boxqty 移库数量(件)
+     */
+    public void setBoxqty(BigDecimal boxqty) {
+        this.boxqty = boxqty;
+    }
+
+    /**
+     * 移库数量(条)
+     * @return BARQTY 移库数量(条)
+     */
+    public BigDecimal getBarqty() {
+        return barqty;
+    }
+
+    /**
+     * 移库数量(条)
+     * @param barqty 移库数量(条)
+     */
+    public void setBarqty(BigDecimal barqty) {
+        this.barqty = barqty;
+    }
+}

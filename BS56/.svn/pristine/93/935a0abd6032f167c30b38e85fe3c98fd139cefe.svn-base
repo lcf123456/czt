@@ -1,0 +1,113 @@
+package com.ztel.app.service.perform.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.perform.DeptmonthLineVoMapper;
+import com.ztel.app.persist.mybatis.perform.DeptmonthsumVoMapper;
+import com.ztel.app.service.perform.DeptmonthsumService;
+import com.ztel.app.vo.perform.DeptmonthLineVo;
+import com.ztel.app.vo.perform.DeptmonthsumVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class DeptmonthsumServiceImpl implements DeptmonthsumService {
+
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	@Autowired
+	DeptmonthsumVoMapper deptmonthsumVoMapper = null;
+	
+	@Autowired
+	DeptmonthLineVoMapper deptmonthLineVoMapper = null;
+	
+	public DeptmonthsumServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+//		sortKeyMapping.put(key, value)
+		sortKeyMapping.put("assessdate", "assessdate");
+		sortKeyMapping.put("id", "id");
+	}
+	
+	@Override
+	public List<DeptmonthsumVo> selectDeptmonthsumPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		page.sortKeyToColumn(sortKeyMapping);
+		return deptmonthsumVoMapper.selectDeptmonthsumPageList(page);
+	}
+
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void insertDeptmonthsum(DeptmonthsumVo deptmonthsumVo,List<DeptmonthLineVo> deptmonthLineVoList,String obid){
+		// TODO Auto-generated method stub
+		if(obid!=null&&!obid.equals("0")&&!obid.equals("")){//第二次做更新
+			deptmonthsumVo.setId(new Long(obid));
+			deptmonthsumVoMapper.updateByPrimaryKeySelective(deptmonthsumVo);
+			if(deptmonthLineVoList!=null&&deptmonthLineVoList.size()>0){
+				for(int i=0;i<deptmonthLineVoList.size();i++){
+					DeptmonthLineVo deptmonthLineVo = deptmonthLineVoList.get(i);
+					deptmonthLineVoMapper.updateByCondSelective(deptmonthLineVo);
+				}
+			}
+		 }
+		else{//第一次做插入
+			deptmonthsumVoMapper.insertSelective(deptmonthsumVo);
+			if(deptmonthLineVoList!=null&&deptmonthLineVoList.size()>0){
+				for(int i=0;i<deptmonthLineVoList.size();i++){
+					DeptmonthLineVo deptmonthLineVo = deptmonthLineVoList.get(i);
+					deptmonthLineVoMapper.insertSelective(deptmonthLineVo);
+				}
+			}
+		}
+		
+	}
+	
+	public void updateDeptmonthsum(DeptmonthsumVo deptmonthsumVo,List<DeptmonthLineVo> deptmonthLineVoList){
+		deptmonthsumVoMapper.updateByPrimaryKeySelective(deptmonthsumVo);
+		if(deptmonthLineVoList!=null&&deptmonthLineVoList.size()>0){
+			for(int i=0;i<deptmonthLineVoList.size();i++){
+				DeptmonthLineVo deptmonthLineVo = deptmonthLineVoList.get(i);
+				deptmonthLineVoMapper.updateByPrimaryKeySelective(deptmonthLineVo);
+			}
+		}
+	}
+
+	public DeptmonthsumVo selectDeptmonthsumByCond(DeptmonthsumVo deptmonthsumVo){
+		return deptmonthsumVoMapper.selectDeptmonthsumByCond(deptmonthsumVo);
+	}
+	
+	public void updateDeptmonthsumByCond(DeptmonthsumVo deptmonthsumVo){
+		deptmonthsumVoMapper.updateByPrimaryKeySelective(deptmonthsumVo);
+	}
+	@Override
+	public void doEdit(DeptmonthsumVo deptmonthsumVo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void doOneAudit(DeptmonthsumVo deptmonthsumVo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void doEndAudit(DeptmonthsumVo deptmonthsumVo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void doDel(Long id) {
+		// TODO Auto-generated method stub
+		deptmonthsumVoMapper.deleteByPrimaryKey(id);
+		deptmonthLineVoMapper.deleteByParentid(id);
+		
+	}
+
+}

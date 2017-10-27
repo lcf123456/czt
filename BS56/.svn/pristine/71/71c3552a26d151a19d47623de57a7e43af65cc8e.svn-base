@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.inspur.mybatis.SalecustomerVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.inspur.vo.SalecustomerVo" >
+    <result column="cust_id" property="custId" jdbcType="VARCHAR" />
+    <result column="license_code" property="licenseCode" jdbcType="VARCHAR" />
+    <result column="cust_name" property="custName" jdbcType="VARCHAR" />
+    <result column="order_way" property="orderWay" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="tax_account" property="taxAccount" jdbcType="VARCHAR" />
+    <result column="manager" property="manager" jdbcType="VARCHAR" />
+    <result column="PERIODS_ID" property="periodsId" jdbcType="VARCHAR" />
+    <result column="busi_addr" property="busiAddr" jdbcType="VARCHAR" />
+    <result column="order_tel" property="orderTel" jdbcType="VARCHAR" />
+    <result column="receive_tel2" property="receiveTel2" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="work_port" property="workPort" jdbcType="VARCHAR" />
+    <result column="base_type" property="baseType" jdbcType="VARCHAR" />
+    <result column="cust_short_id" property="custShortId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getSalecustomerList"  resultType="com.ztel.app.inspur.vo.SalecustomerVo">
+    select  cust_id,license_code,cust_name,order_way,bank,account,tax_account,
+    manager,PERIODS_ID,busi_addr,order_tel,receive_tel2,car_id,
+    work_port,base_type,cust_short_id 
+     from db2inst2.V_SALE_CUSTOMER
+</select>
+
+</mapper>

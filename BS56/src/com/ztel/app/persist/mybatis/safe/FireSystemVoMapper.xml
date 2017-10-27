@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.FireSystemVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.FireSystemVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CHECKCODE" property="checkcode" jdbcType="VARCHAR" />
+    <result column="CHECKNAME" property="checkname" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CHECKCODE, CHECKNAME, CREATETIME, DELSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_FIRE_SYSTEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SAFE_FIRE_SYSTEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.FireSystemVo" >
+    insert into T_SAFE_FIRE_SYSTEM (ID, CHECKCODE, CHECKNAME, 
+      CREATETIME, DELSTATUS)
+    values (#{id,jdbcType=DECIMAL}, #{checkcode,jdbcType=VARCHAR}, #{checkname,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{delstatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.FireSystemVo" >
+    insert into T_SAFE_FIRE_SYSTEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="checkcode != null" >
+        CHECKCODE,
+      </if>
+      <if test="checkname != null" >
+        CHECKNAME,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="checkcode != null" >
+        #{checkcode,jdbcType=VARCHAR},
+      </if>
+      <if test="checkname != null" >
+        #{checkname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.FireSystemVo" >
+    update T_SAFE_FIRE_SYSTEM
+    <set >
+      <if test="checkcode != null" >
+        CHECKCODE = #{checkcode,jdbcType=VARCHAR},
+      </if>
+      <if test="checkname != null" >
+        CHECKNAME = #{checkname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.FireSystemVo" >
+    update T_SAFE_FIRE_SYSTEM
+    set CHECKCODE = #{checkcode,jdbcType=VARCHAR},
+      CHECKNAME = #{checkname,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

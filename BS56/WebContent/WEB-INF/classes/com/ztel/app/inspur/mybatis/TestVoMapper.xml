@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.inspur.mybatis.TestVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.inspur.vo.TestVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="OTHER" />
+  </resultMap>
+  
+  <select id="getList"  resultType="com.ztel.app.inspur.vo.TestVo">
+    select  * from TEST
+</select>
+
+
+  <insert id="insert" parameterType="com.ztel.app.inspur.vo.TestVo" >
+    insert into TEST (ID, NAME)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.inspur.vo.TestVo" >
+    insert into TEST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

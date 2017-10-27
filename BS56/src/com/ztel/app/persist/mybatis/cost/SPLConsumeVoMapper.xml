@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SPLConsumeVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SPLConsumeVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SPLID" property="splid" jdbcType="DECIMAL" />
+    <result column="TYPEID" property="typeid" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="SURPLUSQTY" property="surplusqty" jdbcType="DECIMAL" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="APPLYID" property="applyid" jdbcType="DECIMAL" />
+    <result column="ISSUEDATE" property="issuedate" jdbcType="TIMESTAMP" />
+    <result column="APPLYUSERID" property="applyuserid" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="SPLNAME" property="splname" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+     <result column="MAINTYPENAME" property="maintypename" jdbcType="VARCHAR" />
+    <result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+    <result column="UNITID" property="unitid" jdbcType="VARCHAR" />
+    <result column="TOTALAMOUT" property="totalamount" jdbcType="DECIMAL" />
+    <result column="APPLYUSER" property="applyuser" jdbcType="VARCHAR" /> 
+     <result column="CODE" property="code" jdbcType="VARCHAR" />
+     <result column="MAINTYPEID" property="maintypeid" jdbcType="DECIMAL" />
+  </resultMap>
+  <!-- 物资出库明细查询 -->
+  <select id="getSPLConsumeVoPageList" parameterType="Pagination" resultType="com.ztel.app.vo.cost.SPLConsumeVo">
+select a.id,a.splid,a.typeid,a.quantity,a.surplusqty,a.deptid,a.applyid,a.issuedate,a.applyuserid,
+round(a.price,3)as price, b.splname ,b.unitid,c.deptname,d.typename,
+round(a.quantity*a.price,3) as totalamount,e.username as applyuser
+ from t_cost_splconsume a,t_cost_suppliesimp b ,t_sys_dept c ,t_cost_spltypeinfo d,t_sys_user e
+ where  a.splid=b.id and a.typeid=d.id and a.deptid=c.id and a.applyuserid=e.id
+       <if test="param != null and param.deptid != null " >
+       and a.deptid= #{param.deptid,jdbcType=DECIMAL}
+      </if>
+       <if test="param != null and param.begdate != null " >
+        and a.issuedate>=to_date(#{param.begdate},'yyyy-MM-dd')
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and a.issuedate &lt;= to_date(#{param.enddate},'yyyy-MM-dd') +1
+      </if>
+        order by  a.id,issuedate
+  </select>
+   <!-- 物资出库汇总 -->
+  <select id="getSPLConsummaryList" parameterType="Pagination" resultType="com.ztel.app.vo.cost.SPLConsumeVo">
+      select a.splid,a.typeid,d.deptname||'-'||c2.typename as maintypename ,c4.typename as typename,b.splname,b.code,b.unitid,round(a.price,2)as price,a.QUANTITY,a.SURPLUSQTY，a.ISSUEDATE，round((a.price*a.QUANTITY),2)as totalamount
+   from t_cost_splconsume a,t_cost_spltypeinfo c4,t_cost_spltypeinfo c3,t_cost_spltypeinfo c2,t_cost_suppliesimp b	,  t_sys_dept    d  
+where a.typeid=c4.id 
+ and b.id = a.splid
+ and c4.fid=c3.id and d.id=a.deptid and c3.fid=c2.id
+      <if test="param != null and param.begdate != null " >
+        and a.issuedate>=to_date(#{param.begdate},'yyyy-MM-dd')
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and a.issuedate &lt;= to_date(#{param.enddate},'yyyy-MM-dd') +1
+      </if>
+      <if test="param != null and param.typename != null and param.typename != ''" >
+	        and (B.SPLNAME like'%'||#{param.typename}||'%' or C3.TYPENAME like'%'||#{param.typename}||'%'  )
+	   </if>  
+	    <if test="param.deptname!= null and param.deptname != ''" >
+           and deptid= #{param.deptname,jdbcType=VARCHAR}
+       </if> 
+  </select>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.SPLConsumeVo" >
+    insert into T_COST_SPLCONSUME (ID, SPLID, TYPEID, 
+      QUANTITY, SURPLUSQTY, DEPTID, 
+      APPLYID, ISSUEDATE, APPLYUSERID, 
+      PRICE)
+    values (#{id,jdbcType=DECIMAL}, #{splid,jdbcType=DECIMAL}, #{typeid,jdbcType=DECIMAL}, 
+      #{quantity,jdbcType=DECIMAL}, #{surplusqty,jdbcType=DECIMAL}, #{deptid,jdbcType=DECIMAL}, 
+      #{applyid,jdbcType=DECIMAL}, #{issuedate,jdbcType=TIMESTAMP}, #{applyuserid,jdbcType=DECIMAL}, 
+      #{price,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.cost.SPLConsumeVo" >
+    insert into T_COST_SPLCONSUME
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="splid != null" >
+        SPLID,
+      </if>
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="surplusqty != null" >
+        SURPLUSQTY,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="applyid != null" >
+        APPLYID,
+      </if>
+      <if test="issuedate != null" >
+        ISSUEDATE,
+      </if>
+      <if test="applyuserid != null" >
+        APPLYUSERID,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_COST_SPLCONSUME.nextval,
+      <if test="splid != null" >
+        #{splid,jdbcType=DECIMAL},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusqty != null" >
+        #{surplusqty,jdbcType=DECIMAL},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="applyid != null" >
+        #{applyid,jdbcType=DECIMAL},
+      </if>
+      <if test="issuedate != null" >
+        #{issuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyuserid != null" >
+        #{applyuserid,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,54 @@
+package com.ztel.app.persist.mybatis.gis;
+
+import com.ztel.app.vo.gis.GroupinfoVo;
+import com.ztel.framework.vo.Pagination;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+public interface GroupinfoVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+	int deleteByPrimaryKey(String groupcodes);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int insert(GroupinfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int insertSelective(GroupinfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    GroupinfoVo selectByPrimaryKey(String groupcodes);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int updateByPrimaryKeySelective(GroupinfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int updateByPrimaryKey(GroupinfoVo record);
+
+	List<GroupinfoVo> getGroupinfoVoList(GroupinfoVo vo);
+	
+	/**
+	 * 取所有列表
+	 * @param vo
+	 * @return
+	 */
+	List<GroupinfoVo> selectAllGroupinfoList(GroupinfoVo vo);
+}

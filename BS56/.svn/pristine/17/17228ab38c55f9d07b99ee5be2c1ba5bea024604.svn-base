@@ -1,0 +1,41 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.ShipOrderVo;
+
+public interface ShipOrderVoMapper {
+	/**
+    *
+    * @mbggenerated 2017-08-04
+    */
+   int deleteByPrimaryKey(String id);
+
+   /**
+    *
+    * @mbggenerated 2017-08-04
+    */
+   int insert(ShipOrderVo record);
+
+   /**
+    *
+    * @mbggenerated 2017-08-04
+    */
+   int insertSelective(ShipOrderVo record);
+
+   /**
+    *
+    * @mbggenerated 2017-08-04
+    */
+   ShipOrderVo selectByPrimaryKey(String id);
+
+   /**
+    *
+    * @mbggenerated 2017-08-04
+    */
+   int updateByPrimaryKeySelective(ShipOrderVo record);
+
+   /**
+    *
+    * @mbggenerated 2017-08-04
+    */
+   int updateByPrimaryKey(ShipOrderVo record);
+}

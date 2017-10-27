@@ -1,0 +1,205 @@
+package com.ztel.app.web.ctrl.cost;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.PubService;
+import com.ztel.app.service.cost.SPLApplyListLineService;
+import com.ztel.app.service.cost.SPLApplyListService;
+import com.ztel.app.service.cost.SPLTypeServcie;
+import com.ztel.app.vo.cost.SPLApplyListLineVo;
+import com.ztel.app.vo.cost.SPLApplyListVo;
+import com.ztel.framework.util.DateUtil;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+/**
+ * 物资出库
+ * @author lcf
+ *
+ */
+@Controller
+@RequestMapping("/cost/SPLConsume")
+public class SPLConsumeCtrl extends BaseCtrl  {
+	@Autowired
+	private SPLApplyListService sPLApplyListService = null;
+	@Autowired 
+	private SPLApplyListLineService sPLApplyListLineService = null;
+	
+	@Autowired
+	SPLTypeServcie sPLTypeServcie = null;
+	@Autowired
+	PubService pubService = null;
+	
+	@RequestMapping("toSPLConsume")
+	public String toSPLApplyList(HttpServletRequest request) {
+		return "/cost/v_splconsume";
+	}
+
+	/**
+	  * 根据系统模块名称获取栏目信息
+	  * @return
+	  */
+	 @RequestMapping(value="getSPLApplyList")
+	 @ResponseBody
+	 public  Map<String, Object> getSPLApplyList(SPLApplyListVo sPLApplyListVo,HttpServletRequest request)
+	 {
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 Pagination<?> page = this.getPagination(request);
+			
+		 if (sPLApplyListVo!=null) {
+			 page.setParam(sPLApplyListVo);
+		}
+		 //System.out.println("menuCtrl getSysMenuRight :sysid----"+sysid+",id----"+id);
+		 List<SPLApplyListVo> SPLTypeInfoList=sPLApplyListService.getApplyListList(page);
+		 result.put("rows",SPLTypeInfoList);  
+		 result.put("total",page.getTotalCount());  
+
+		 return result;
+	 }
+	 
+	 /**
+	  * 新增领料申请
+	  * @return
+	  */
+	 @RequestMapping(value="doSave")
+	 @ResponseBody
+	 public  Map<String, Object> doSave(HttpServletRequest request)
+	 {
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 String reqType = request.getParameter("reqType");//请求类型 first首次 second非首次
+		 String listidStr = request.getParameter("listid");
+		 if(listidStr == null)listidStr="0";
+		 if(reqType==null)reqType="first";
+		 String applyuserid= request.getParameter("applyid");
+		 String deptid= request.getParameter("deptid");
+		 String typeid= request.getParameter("typeid");
+		 String purpose= request.getParameter("purpose");
+		 String surplusqty= request.getParameter("surplusqty");//可用数量/剩余库存
+		 String applyqty= request.getParameter("applyqty");//申请数量
+		 String listtype = "10";  //10：一般领料   20：生产领料
+		 String applytype = "10";//10:申请领用，20：申请退库
+		 
+		 SPLApplyListVo sPLApplyListVo = new SPLApplyListVo();
+		 Long listid = 0L;
+		 if(reqType.equals("first"))
+		 {
+			 listid = pubService.getSequence("S_COST_SPLAPPLYLIST");
+		 }
+		 else{
+			 listid = Long.parseLong(listidStr);
+		 }
+		 sPLApplyListVo.setId(new BigDecimal(listid));
+		 sPLApplyListVo.setApplyid(Long.parseLong(applyuserid));
+		 sPLApplyListVo.setPurpose(purpose);
+		 sPLApplyListVo.setDeptid(Integer.parseInt(deptid));
+		 sPLApplyListVo.setListtype(listtype);
+		 sPLApplyListVo.setApplytype(applytype);
+		 sPLApplyListVo.setAuditflag("0");
+		 
+		 SPLApplyListLineVo sPLApplyListLineVo = new SPLApplyListLineVo();
+		 sPLApplyListLineVo.setApplyqty(new BigDecimal(applyqty));
+		 sPLApplyListLineVo.setTypeid(new BigDecimal(typeid));
+		 sPLApplyListLineVo.setPreapplyqty(new BigDecimal(surplusqty));
+		//menuinfoService.doAddMenu(menuInfo);
+		 //先取序列S_COST_SPLAPPLYLIST值
+		 try{
+		 sPLApplyListService.doAddApplyList(sPLApplyListVo, sPLApplyListLineVo,reqType);
+		 
+		 map.put("listid", listid);
+		 map.put("msg", "新增成功");
+		 }catch(Exception e){
+			 map.put("listid", 0);
+			 map.put("msg", "新增成功");
+			 e.printStackTrace();
+		 }
+		 map.put("total", "1");
+		 return map;
+	 }
+	 
+	 /**
+	  * 根据申请单id获取
+	  * @return
+	  */
+	 @RequestMapping(value="getSPLApplyListLine")
+	 @ResponseBody
+	 public  Map<String, Object> getSPLApplyListLineList(HttpServletRequest request)
+	 {
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 String listid = request.getParameter("listid");
+		 if(listid==null)listid="0";
+		 SPLApplyListLineVo sPLApplyListLineVo = new SPLApplyListLineVo();
+		 sPLApplyListLineVo.setListid(new BigDecimal(listid));
+		 List<SPLApplyListLineVo> sPLApplyListLineVoList = sPLApplyListLineService.getApplyListLine(sPLApplyListLineVo);
+		 
+		 result.put("rows",sPLApplyListLineVoList);  
+		 result.put("total",sPLApplyListLineVoList.size()); 
+		 return result;
+	 }
+	 
+	 /**
+	  * 根据系统模块名称获取栏目信息
+	  * @return
+	  */
+	 @RequestMapping(value="doConsume")
+	 @ResponseBody
+	 public  Map<String, Object> doConsume(HttpServletRequest request)
+	 {
+		 Map<String, Object> resultMap=new HashMap<String, Object>();  
+		 Date keeperauditdate = new Date();
+			
+		 String auditflag = request.getParameter("auditflag");
+		 String listid = request.getParameter("listid");
+		 String keeperid = request.getParameter("keeperid");
+		 SPLApplyListVo  sPLApplyListVo = sPLApplyListService.getSPLApplyListVoByPrimaryKey(listid);
+		// sPLApplyListVo.setId(new BigDecimal(listid));
+		 sPLApplyListVo.setAuditflag(auditflag);
+		 sPLApplyListVo.setKeeperid(Long.parseLong(keeperid));
+		 sPLApplyListVo.setKeeperauditdate(keeperauditdate);
+		 
+		 try{
+		 sPLApplyListService.doUpdateApplyList(sPLApplyListVo);
+		 resultMap.put("msg", "发料成功！");
+		 }catch(Exception e){
+			 resultMap.put("msg", "发料失败！");
+		 }
+		 return resultMap;
+	 }
+	 
+	 /**
+	  * 根据系统模块名称获取栏目信息
+	  * @return
+	  */
+	 @RequestMapping(value="doDel")
+	 @ResponseBody
+	 public  Map<String, Object> doDel(HttpServletRequest request)
+	 {
+		 Map<String, Object> resultMap=new HashMap<String, Object>();  
+		 Date mngauditdate = new Date();
+			
+		 String listid = request.getParameter("listid");
+		 String auditflag = request.getParameter("auditflag");
+		 SPLApplyListVo  sPLApplyListVo = new SPLApplyListVo();
+		 sPLApplyListVo.setId(new BigDecimal(listid));
+		 sPLApplyListVo.setDelstatus("0");
+		 sPLApplyListVo.setAuditflag(auditflag);
+		 try{
+		 sPLApplyListService.doDelApplyList(sPLApplyListVo);
+		 resultMap.put("msg", "删除成功！");
+		 }catch(Exception e){
+			 resultMap.put("msg", "删除失败！");
+		 }
+		 resultMap.put("total", 1);
+		 return resultMap;
+	 }
+	
+}

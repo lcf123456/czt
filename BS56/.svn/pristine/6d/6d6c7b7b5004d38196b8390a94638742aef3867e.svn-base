@@ -1,0 +1,121 @@
+package com.ztel.app.service.sys.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.sys.BusinessRoleRelativeVoMapper;
+import com.ztel.app.persist.mybatis.sys.BusinessRoleVoMapper;
+import com.ztel.app.persist.mybatis.sys.UserVoMapper;
+import com.ztel.app.service.sys.BusinessRoleService;
+import com.ztel.app.vo.sys.BusinessRoleRelativeVo;
+import com.ztel.app.vo.sys.BusinessRoleVo;
+import com.ztel.app.vo.sys.UserVo;
+import com.ztel.app.vo.sys.UserrolerelativeVo;
+import com.ztel.framework.util.PubUtils;
+
+@Service
+public class BusinessRoleServcieImpl implements BusinessRoleService {
+	
+	@Autowired
+	private BusinessRoleVoMapper businessRoleVoMapper = null;
+	
+	@Autowired
+	private BusinessRoleRelativeVoMapper businessRoleRelativeVoMapper = null;
+	
+
+	@Autowired
+	private UserVoMapper userVoMapper = null;
+	
+
+	@Override
+	public List<BusinessRoleVo> getBusinessRoleList(String rolename) {
+		// TODO Auto-generated method stub
+		List<BusinessRoleVo> resultList = new ArrayList<BusinessRoleVo>();
+		List<BusinessRoleVo> businessRoleVoList = this.businessRoleVoMapper.getBusinessRoleList(rolename);
+		if(businessRoleVoList!=null && businessRoleVoList.size()>0){
+			for(int i=0;i<businessRoleVoList.size();i++){
+				BusinessRoleVo businessRoleVo = businessRoleVoList.get(i);
+				String roleid = businessRoleVo.getId()+"";
+				List<BusinessRoleRelativeVo> businessRoleRelativeVoList = this.businessRoleRelativeVoMapper.getBusinessRoleRelativeList(roleid);
+				if(businessRoleRelativeVoList!=null&&businessRoleRelativeVoList.size()>0){
+					String usernames = "";
+					for(int j=0;j<businessRoleRelativeVoList.size();j++){
+						BusinessRoleRelativeVo businessRoleRelativeVo = businessRoleRelativeVoList.get(j);
+						usernames = usernames+ businessRoleRelativeVo.getUsername()+",";
+					}
+					if(usernames.trim().length()>1){
+						usernames = usernames.substring(0, usernames.length()-1);
+					}
+					businessRoleVo.setUsernames(usernames);
+				}
+				resultList.add(businessRoleVo);
+			}
+		}
+		return resultList;
+	}
+
+	public void deleteRoleById(List<Integer>  ids){
+		 
+		for(int i=0;i<ids.size();i++)
+		{
+			this.businessRoleVoMapper.deleteByPrimaryKey(ids.get(i));
+		}
+	}
+	
+	public int doAddRole(BusinessRoleVo businessRoleVo){
+		return this.businessRoleVoMapper.insertSelective(businessRoleVo);
+	}
+	
+	public int  doUpdateRole(BusinessRoleVo businessRoleVo){
+		return this.businessRoleVoMapper.updateByPrimaryKeySelective(businessRoleVo);
+	}
+	
+	/**
+	 * 角色授权给用户
+	 * @param userstr 用户串 格式为姓名[工号];姓名[工号];姓名[工号]...  如：谢静[0502];殷兴强[0061];...
+	 * @param roleid
+	 */
+	public void doRoleGrant(String userstr,String roleid){
+		String codestr = PubUtils.userstrExtract(userstr);//codestr格式为0502;006;
+		String[] codestrArr = codestr.split(";");
+		UserrolerelativeVo userrolerelativeVo = new UserrolerelativeVo();
+		//授权之前删除该角色下已授权用户,前版本为用户和角色挂接表，后修改为直接对用户表授权角色
+		businessRoleRelativeVoMapper.deleteByRoleid(roleid);
+		//授权之前删除该角色下已授权用户
+		//userVoMapper.resetRole(roleid);
+		
+		if(codestrArr!=null&&codestrArr.length>0){
+			for(int i=0;i<codestrArr.length;i++){
+				UserVo userVo = userVoMapper.selectByCodeAndPwd(codestrArr[i], "");
+				Long userid = userVo.getId();
+				if(!checkGrant(userid+"",roleid)){//检查角色下该用户是否已经授权，已经授权则跳过，没有则执行授权
+					BusinessRoleRelativeVo businessRoleRelativeVo  = new BusinessRoleRelativeVo();
+					businessRoleRelativeVo.setUserid(userid);
+					businessRoleRelativeVo.setRoleid(Integer.parseInt(roleid));
+					businessRoleRelativeVoMapper.insertSelective(businessRoleRelativeVo);
+					//userVoMapper.updateByPrimaryKeySelective(user);
+//					 userrolerelativeVo = new UserrolerelativeVo();
+//					 userrolerelativeVo.setRoleid(Integer.parseInt(roleid));
+//					 userrolerelativeVo.setUserid(Integer.parseInt(userid));
+//					 userrolerelativeVoMapper.insertSelective(userrolerelativeVo);
+				}
+			}
+		}
+		
+	}
+	
+	
+	
+	private boolean checkGrant(String userid,String roleid)//返回true则表示已经授权
+	{
+		boolean hasSetting = false;
+		int rlt = businessRoleRelativeVoMapper.checkGrant(userid, roleid);
+		if(rlt!=0)hasSetting = true;
+		
+		return hasSetting;
+	}
+}
+

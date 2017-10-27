@@ -1,0 +1,41 @@
+package com.ztel.app.persist.mybatis.sq;
+
+import com.ztel.app.vo.sq.AssessweightVo;
+
+public interface AssessweightVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int deleteByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int insert(AssessweightVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int insertSelective(AssessweightVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    AssessweightVo selectByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int updateByPrimaryKeySelective(AssessweightVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int updateByPrimaryKey(AssessweightVo record);
+}

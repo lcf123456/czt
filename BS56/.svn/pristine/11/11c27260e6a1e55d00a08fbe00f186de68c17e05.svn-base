@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.account.TimebydmVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.account.TimebydmVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="C_DATE" jdbcType="TIMESTAMP" property="cDate" />
+    <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="DELIVERYDATE" jdbcType="TIMESTAMP" property="deliverydate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, C_DATE, UPDATETIME, DELIVERYDATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_ACCOUNT_TIMEBYDM
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_ACCOUNT_TIMEBYDM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.account.TimebydmVo">
+    insert into T_ACCOUNT_TIMEBYDM (ID, C_DATE, UPDATETIME, 
+      DELIVERYDATE)
+    values (#{id,jdbcType=DECIMAL}, #{cDate,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{deliverydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.account.TimebydmVo">
+    insert into T_ACCOUNT_TIMEBYDM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="cDate != null">
+        C_DATE,
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME,
+      </if>
+      <if test="deliverydate != null">
+        DELIVERYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="cDate != null">
+        #{cDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverydate != null">
+        #{deliverydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.account.TimebydmVo">
+    update T_ACCOUNT_TIMEBYDM
+    <set>
+      <if test="cDate != null">
+        C_DATE = #{cDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverydate != null">
+        DELIVERYDATE = #{deliverydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.account.TimebydmVo">
+    update T_ACCOUNT_TIMEBYDM
+    set C_DATE = #{cDate,jdbcType=TIMESTAMP},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      DELIVERYDATE = #{deliverydate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  </mapper>

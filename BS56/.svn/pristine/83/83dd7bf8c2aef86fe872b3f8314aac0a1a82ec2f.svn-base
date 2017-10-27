@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.account.InvoiceExportVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.account.InvoiceExportVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="QTY" jdbcType="DECIMAL" property="qty" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    
+    <result column="ORDERDATE" jdbcType="VARCHAR" property="orderdate" />
+    <result column="ITEMCODE" jdbcType="VARCHAR" property="itemcode" />
+    <result column="ITEMNAME" jdbcType="VARCHAR" property="itemname" />
+    <result column="ITEMUOM" jdbcType="VARCHAR" property="itemuom" />
+    <result column="ITEMQTY" jdbcType="DECIMAL" property="itemqty" />
+    <result column="ITEMPRICE" jdbcType="DECIMAL" property="itemprice" />
+    <result column="ITEMAMOUNT" jdbcType="DECIMAL" property="itemamount" />
+    <result column="BILLTYPE" jdbcType="VARCHAR" property="billtype" />
+    
+    <result column="BEGDATE" jdbcType="VARCHAR" property="begdate" />
+    <result column="ENDDATE" jdbcType="VARCHAR" property="enddate" />
+    <result column="PARAM" jdbcType="VARCHAR" property="param" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, NAME, QTY,AMOUNT
+  </sql>
+  <select id="getInvoiceExportCustomer" parameterType="com.ztel.app.vo.account.InvoiceExportVo" resultMap="BaseResultMap">
+    select c.id,c.name,c.code,sum(r.totalamount) as amount,sum(r.totalqty) as qty 
+	from t_wms_customer c left outer join t_wms_shiporder r on c.id=r.customer_id 
+	left outer join (select * from t_account_operate t where t.ctype='10') o on r.orderno=o.orderno 
+	where c.invoiceflag='1' and o.id is null 
+	<if test="param != null and param != ''" >
+        and (c.code like'%'||#{param}||'%' or c.remarks like'%'||#{param}||'%' or c.name like'%'||#{param}||'%'  )
+      </if>
+	<if test="billtype != null and billtype != ''" >
+        and c.billtype=#{billtype}
+      </if>
+       <if test="begdate != null and begdate != ''" >
+        and r.orderdate>=to_date(#{begdate},'yyyy-MM-dd')
+      </if>
+       <if test="enddate != null and enddate !=''" >
+        and r.orderdate &lt;= to_date(#{enddate},'yyyy-MM-dd') 
+      </if>
+	group by  c.id,c.name,c.code order by c.name
+  </select>
+  
+  
+  <!-- 查看订单明细 -->
+  <select id="getOrderDetail" parameterType="com.ztel.app.vo.account.InvoiceExportVo" resultMap="BaseResultMap">
+    select a.totalamount as amount,a.totalqty as qty,a.expectedshipdate as orderdate, 
+		m.itemno itemcode,m.itemname itemname,l.itemprice itemprice,l.qty itemqty,l.saleamount itemamount 
+		from t_wms_shiporder a,t_wms_shiporderline l,t_wms_item m
+		where l.item_id = m.id and l.orderno = a.orderno
+	<if test="id != null and id != ''" >
+        and a.customer_id =#{id}
+      </if>
+       <if test="begdate != null and begdate != ''" >
+        and a.orderdate>=to_date(#{begdate},'yyyy-MM-dd')
+      </if>
+       <if test="enddate != null and enddate !=''" >
+        and a.orderdate &lt;= to_date(#{enddate},'yyyy-MM-dd') 
+      </if>
+	order by a.orderdate,l.itemprice desc
+  </select>
+  
+  <!-- 查询要导出的数据 -->
+  <select id="getExportDataInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select p.name,p.id,
+		i.itemname,round(l.itemprice/1.17,4) as itemprice,sum(l.qty) as itemqty,sum(l.saleamount) as itemamount 
+		from t_wms_customer p left outer join 
+		t_wms_shiporder r on r.customer_id=p.id  left outer join 
+		t_wms_shiporderline l on r.orderno = l.orderno left outer join 
+		t_wms_item i on l.item_id=i.id left outer join 
+		(select * from t_account_operate t where t.ctype='10') o on r.orderno=o.orderno 
+		where p.invoiceflag='1' and billtype=#{billtype} and o.id is null 
+		and p.id in
+		<foreach item="item" index="index" collection="ids" open="("  
+            separator="," close=")">  
+            #{item}  
+        </foreach>  
+       <if test="begdate != null and begdate != ''" >
+        and r.orderdate>=to_date(#{begdate},'yyyy-MM-dd')
+      </if>
+       <if test="enddate != null and enddate !=''" >
+        and r.orderdate &lt;= to_date(#{enddate},'yyyy-MM-dd') 
+      </if>
+      group by p.name,p.id,i.itemname,l.itemprice 
+	order by p.name
+  </select>
+</mapper>

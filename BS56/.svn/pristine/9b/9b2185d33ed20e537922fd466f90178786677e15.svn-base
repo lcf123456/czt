@@ -1,0 +1,67 @@
+package com.ztel.app.web.ctrl.account;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.produce.OrderService;
+import com.ztel.app.service.wms.ShipOrderService;
+import com.ztel.app.vo.wms.ShipOrderVo;
+
+/**
+ * 预付款客户
+ * @author lcf
+ *
+ */
+@Controller
+@RequestMapping("/account/prepay")
+public class PrepayCtrl {
+	
+	@Autowired
+	private ShipOrderService shipOrderService = null;
+	
+	@Autowired
+	private OrderService orderService = null;
+	
+	@RequestMapping("toPrepayvehicle")
+	public String toPrepayvehicle(HttpServletRequest request) {
+		return "/account/v_prepayvehicle";
+		//return "/gis/v_truckseq";
+	}
+	
+	@RequestMapping(value="selectShiporderPerpayList")
+	 @ResponseBody
+	 public List<ShipOrderVo> selectShiporderPerpayList(HttpServletRequest request) throws Exception{
+		 List<ShipOrderVo> result=new ArrayList<ShipOrderVo>(); 
+		 String orderdateStr = request.getParameter("orderdate");//订单日期
+		 if(orderdateStr==null){
+			 orderdateStr = orderService.selectOrderdate();//取默认订单日期
+		 }
+		 orderdateStr = "2017-09-07";
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+		    Date orderdate = sdf.parse(orderdateStr);
+		  String calcid = request.getParameter("calcid");
+		  String deptid = request.getParameter("deptid");
+		    
+		 ShipOrderVo shipOrderVo = new ShipOrderVo();
+		 shipOrderVo.setOrderdate(orderdate);
+		 if(calcid!=null&&!calcid.equals("")){
+			 shipOrderVo.setCalcid(new BigDecimal(calcid));
+		 }
+		 if(deptid!=null&&!deptid.equals("")){
+			 shipOrderVo.setDeptid(new BigDecimal(deptid));
+		 }
+		 result = shipOrderService.selectShiporderPerpayList(shipOrderVo);
+		return result;
+	}
+
+}

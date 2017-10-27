@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.EquipmentVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.EquipmentVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TYPEID" property="typeid" jdbcType="DECIMAL" />
+    <result column="EQUIPNAME" property="equipname" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="MANUFACTURER" property="manufacturer" jdbcType="VARCHAR" />
+    <result column="PURCHASETIME" property="purchasetime" jdbcType="TIMESTAMP" />
+    <result column="PURCHASEAMOUNT" property="purchaseamount" jdbcType="DECIMAL" />
+    <result column="PURCHASESTYLE" property="purchasestyle" jdbcType="VARCHAR" />
+    <result column="SERVICELIFE" property="servicelife" jdbcType="DECIMAL" />
+    <result column="DEPRECIATIONYEAR" property="depreciationyear" jdbcType="DECIMAL" />
+    <result column="DESIGNABILITY" property="designability" jdbcType="VARCHAR" />
+    <result column="ACTUALABILITY" property="actualability" jdbcType="VARCHAR" />
+    <result column="POWER" property="power" jdbcType="VARCHAR" />
+    <result column="GUARANTEED" property="guaranteed" jdbcType="VARCHAR" />
+    <result column="DEPRECIATION" property="depreciation" jdbcType="DECIMAL" />
+    <result column="EQUIPTYPE" property="equiptype" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TYPEID, EQUIPNAME, BRAND, MODEL, QTY, MANUFACTURER, PURCHASETIME, PURCHASEAMOUNT, 
+    PURCHASESTYLE, SERVICELIFE, DEPRECIATIONYEAR, DESIGNABILITY, ACTUALABILITY, POWER, 
+    GUARANTEED, DEPRECIATION, EQUIPTYPE, CREATETIME, USERID, USERNAME, STATUS, DELSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_EQUIPMENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectEquipmentPageList" resultMap="BaseResultMap" parameterType="Pagination">
+   select id, equipname,typeid,brand,model,qty,manufacturer,purchasetime,purchaseamount,purchasestyle,servicelife,
+   designability,actualability,power,guaranteed,status from t_cost_equipment where delstatus!='0'
+   <if test="param != null and param.equipname != null and param.equipname!= ''">
+        AND (equipname like '%'||#{param.equipname}||'%' or manufacturer like '%'||#{param.equipname}||'%' )
+    </if>
+  
+    </select> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+     update T_COST_EQUIPMENT set delstatus='0'
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.EquipmentVo" >
+    insert into T_COST_EQUIPMENT (ID, TYPEID, EQUIPNAME, 
+      BRAND, MODEL, QTY, 
+      MANUFACTURER, PURCHASETIME, PURCHASEAMOUNT, 
+      PURCHASESTYLE, SERVICELIFE, DEPRECIATIONYEAR, 
+      DESIGNABILITY, ACTUALABILITY, POWER, 
+      GUARANTEED, DEPRECIATION, EQUIPTYPE, 
+      CREATETIME, USERID, USERNAME, 
+      STATUS, DELSTATUS)
+    values (#{id,jdbcType=DECIMAL}, #{typeid,jdbcType=DECIMAL}, #{equipname,jdbcType=VARCHAR}, 
+      #{brand,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{qty,jdbcType=DECIMAL}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{purchasetime,jdbcType=TIMESTAMP}, #{purchaseamount,jdbcType=DECIMAL}, 
+      #{purchasestyle,jdbcType=VARCHAR}, #{servicelife,jdbcType=DECIMAL}, #{depreciationyear,jdbcType=DECIMAL}, 
+      #{designability,jdbcType=VARCHAR}, #{actualability,jdbcType=VARCHAR}, #{power,jdbcType=VARCHAR}, 
+      #{guaranteed,jdbcType=VARCHAR}, #{depreciation,jdbcType=DECIMAL}, #{equiptype,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{delstatus,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.EquipmentVo" >
+    insert into T_COST_EQUIPMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      
+        ID,
+     
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+      <if test="equipname != null" >
+        EQUIPNAME,
+      </if>
+      <if test="brand != null" >
+        BRAND,
+      </if>
+      <if test="model != null" >
+        MODEL,
+      </if>
+      <if test="qty != null" >
+        QTY,
+      </if>
+      <if test="manufacturer != null" >
+        MANUFACTURER,
+      </if>
+      <if test="purchasetime != null" >
+        PURCHASETIME,
+      </if>
+      <if test="purchaseamount != null" >
+        PURCHASEAMOUNT,
+      </if>
+      <if test="purchasestyle != null" >
+        PURCHASESTYLE,
+      </if>
+      <if test="servicelife != null" >
+        SERVICELIFE,
+      </if>
+      <if test="depreciationyear != null" >
+        DEPRECIATIONYEAR,
+      </if>
+      <if test="designability != null" >
+        DESIGNABILITY,
+      </if>
+      <if test="actualability != null" >
+        ACTUALABILITY,
+      </if>
+      <if test="power != null" >
+        POWER,
+      </if>
+      <if test="guaranteed != null" >
+        GUARANTEED,
+      </if>
+      <if test="depreciation != null" >
+        DEPRECIATION,
+      </if>
+      <if test="equiptype != null" >
+        EQUIPTYPE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    S_COST_EQUIPMENT.nextval,
+     
+      <if test="typeid != null" >
+        #{typeid,jdbcType=DECIMAL},
+      </if>
+      <if test="equipname != null" >
+        #{equipname,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="manufacturer != null" >
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasetime != null" >
+        #{purchasetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseamount != null" >
+        #{purchaseamount,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasestyle != null" >
+        #{purchasestyle,jdbcType=VARCHAR},
+      </if>
+      <if test="servicelife != null" >
+        #{servicelife,jdbcType=DECIMAL},
+      </if>
+      <if test="depreciationyear != null" >
+        #{depreciationyear,jdbcType=DECIMAL},
+      </if>
+      <if test="designability != null" >
+        #{designability,jdbcType=VARCHAR},
+      </if>
+      <if test="actualability != null" >
+        #{actualability,jdbcType=VARCHAR},
+      </if>
+      <if test="power != null" >
+        #{power,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteed != null" >
+        #{guaranteed,jdbcType=VARCHAR},
+      </if>
+      <if test="depreciation != null" >
+        #{depreciation,jdbcType=DECIMAL},
+      </if>
+      <if test="equiptype != null" >
+        #{equiptype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.EquipmentVo" >
+    update T_COST_EQUIPMENT
+    <set >
+      <if test="typeid != null" >
+        TYPEID = #{typeid,jdbcType=DECIMAL},
+      </if>
+      <if test="equipname != null" >
+        EQUIPNAME = #{equipname,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        MODEL = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null" >
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="manufacturer != null" >
+        MANUFACTURER = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasetime != null" >
+        PURCHASETIME = #{purchasetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseamount != null" >
+        PURCHASEAMOUNT = #{purchaseamount,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasestyle != null" >
+        PURCHASESTYLE = #{purchasestyle,jdbcType=VARCHAR},
+      </if>
+      <if test="servicelife != null" >
+        SERVICELIFE = #{servicelife,jdbcType=DECIMAL},
+      </if>
+      <if test="depreciationyear != null" >
+        DEPRECIATIONYEAR = #{depreciationyear,jdbcType=DECIMAL},
+      </if>
+      <if test="designability != null" >
+        DESIGNABILITY = #{designability,jdbcType=VARCHAR},
+      </if>
+      <if test="actualability != null" >
+        ACTUALABILITY = #{actualability,jdbcType=VARCHAR},
+      </if>
+      <if test="power != null" >
+        POWER = #{power,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteed != null" >
+        GUARANTEED = #{guaranteed,jdbcType=VARCHAR},
+      </if>
+      <if test="depreciation != null" >
+        DEPRECIATION = #{depreciation,jdbcType=DECIMAL},
+      </if>
+      <if test="equiptype != null" >
+        EQUIPTYPE = #{equiptype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.EquipmentVo" >
+    update T_COST_EQUIPMENT
+    set TYPEID = #{typeid,jdbcType=DECIMAL},
+      EQUIPNAME = #{equipname,jdbcType=VARCHAR},
+      BRAND = #{brand,jdbcType=VARCHAR},
+      MODEL = #{model,jdbcType=VARCHAR},
+      QTY = #{qty,jdbcType=DECIMAL},
+      MANUFACTURER = #{manufacturer,jdbcType=VARCHAR},
+      PURCHASETIME = #{purchasetime,jdbcType=TIMESTAMP},
+      PURCHASEAMOUNT = #{purchaseamount,jdbcType=DECIMAL},
+      PURCHASESTYLE = #{purchasestyle,jdbcType=VARCHAR},
+      SERVICELIFE = #{servicelife,jdbcType=DECIMAL},
+      DEPRECIATIONYEAR = #{depreciationyear,jdbcType=DECIMAL},
+      DESIGNABILITY = #{designability,jdbcType=VARCHAR},
+      ACTUALABILITY = #{actualability,jdbcType=VARCHAR},
+      POWER = #{power,jdbcType=VARCHAR},
+      GUARANTEED = #{guaranteed,jdbcType=VARCHAR},
+      DEPRECIATION = #{depreciation,jdbcType=DECIMAL},
+      EQUIPTYPE = #{equiptype,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      USERID = #{userid,jdbcType=DECIMAL},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

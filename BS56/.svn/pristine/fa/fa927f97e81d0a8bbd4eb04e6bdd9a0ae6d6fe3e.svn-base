@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SPLTypeStockVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SPLTypeStockVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TYPEID" property="typeid" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="SURPLUSQTY" property="surplusqty" jdbcType="DECIMAL" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="APPLYQTY" property="applyqty" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="TOTALAMOUNT" property="totalamount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TYPEID, QUANTITY, SURPLUSQTY, UNIT, APPLYQTY, PRICE, TOTALAMOUNT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_SPLTYPESTOCK
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+   <!-- 根据设备类型id获取该类型的库存情况 ,暂时用于设备类型管理的删除-->
+  <select id="selectSPLTYPESTOCKByTypeId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_SPLTYPESTOCK
+    where TYPEID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_COST_SPLTYPESTOCK
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.SPLTypeStockVo" >
+    insert into T_COST_SPLTYPESTOCK (ID, TYPEID, QUANTITY, 
+      SURPLUSQTY, UNIT, APPLYQTY, 
+      PRICE, TOTALAMOUNT)
+    values (#{id,jdbcType=DECIMAL}, #{typeid,jdbcType=DECIMAL}, #{quantity,jdbcType=DECIMAL}, 
+      #{surplusqty,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, #{applyqty,jdbcType=DECIMAL}, 
+      #{price,jdbcType=DECIMAL}, #{totalamount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective"  useGeneratedKeys="false" parameterType="com.ztel.app.vo.cost.SPLTypeStockVo" >
+    insert into T_COST_SPLTYPESTOCK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="surplusqty != null" >
+        SURPLUSQTY,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="applyqty != null" >
+        APPLYQTY,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="totalamount != null" >
+        TOTALAMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_COST_SPLTYPESTOCK.nextval,
+      <if test="typeid != null" >
+        #{typeid,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusqty != null" >
+        #{surplusqty,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="applyqty != null" >
+        #{applyqty,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="totalamount != null" >
+        #{totalamount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.SPLTypeStockVo" >
+    update T_COST_SPLTYPESTOCK
+    <set >
+      <if test="typeid != null" >
+        TYPEID = #{typeid,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusqty != null" >
+        SURPLUSQTY = #{surplusqty,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="applyqty != null" >
+        APPLYQTY = #{applyqty,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="totalamount != null" >
+        TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.SPLTypeStockVo" >
+    update T_COST_SPLTYPESTOCK
+    set TYPEID = #{typeid,jdbcType=DECIMAL},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      SURPLUSQTY = #{surplusqty,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      APPLYQTY = #{applyqty,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL},
+      TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,55 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.CustomerVoMapper;
+import com.ztel.app.service.wms.CustomerService;
+import com.ztel.app.vo.wms.CustomerVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class CustomerServiceImpl implements CustomerService {
+	
+	@Autowired
+	private CustomerVoMapper customerVoMapper = null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public CustomerServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+        //sortKeyMapping.put(key, value)
+		//sortKeyMapping.put("deliveryseq", "deliveryseq");
+	}
+
+	/**
+	 * 取零售户列表信息
+	 */
+	@Override
+	public List<CustomerVo> getCustomersPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		//page.sortKeyToColumn(sortKeyMapping);
+		List<CustomerVo> custList = customerVoMapper.getCustomersPageList(page);
+		return custList;
+	}
+	
+	/**
+	 * 根据条件查询零售户，暂时传入了routecode参数，用于投诉受理零售户查询
+	 */
+	public List<CustomerVo>  getListByCond(CustomerVo customerVo){
+		List<CustomerVo> custList = null;
+		custList = customerVoMapper.selectListByCond(customerVo);
+		return custList;
+	}
+
+	@Override
+	public void viewCustomerVo(CustomerVo customervo) {
+		// TODO 自动生成的方法存根
+		
+	}
+	
+}

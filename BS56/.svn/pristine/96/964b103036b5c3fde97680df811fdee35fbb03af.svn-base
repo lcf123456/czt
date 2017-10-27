@@ -1,0 +1,158 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.wms;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.wms.CigarettedamagedLineService;
+import com.ztel.app.service.wms.CigarettedamagedService;
+import com.ztel.app.vo.sys.UserVo;
+import com.ztel.app.vo.wms.CigarettedamagedLineVo;
+import com.ztel.app.vo.wms.CigarettedamagedVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author Zeal
+ * @since 2017年2月26日
+ *入库单
+ */
+@Controller
+@RequestMapping("/wms/cigarettedamaged")
+public class CigarettedamagedCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(InboundCtrl.class);
+	
+	@Autowired
+	private CigarettedamagedService cigarettedamagedService = null;
+	
+	@Autowired
+	private CigarettedamagedLineService  cigarettedamagedLineService = null;
+	
+	@RequestMapping("toCigarettedamaged")
+	public String index(HttpServletRequest request) {
+		return "/wms/v_cigarettedamaged";
+	}
+	
+	@RequestMapping(value="getCigarettedamagedPageList")
+	 @ResponseBody
+	 public Map<String, Object> getCigarettedamagedPageList(CigarettedamagedVo cigarettedamagedVo, HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		Pagination<?> page = this.getPagination(request);
+		if (cigarettedamagedVo!=null) {
+			 page.setParam(cigarettedamagedVo);
+		}
+		List<CigarettedamagedVo> cigarettedamagedVoList = new ArrayList<CigarettedamagedVo>();
+		cigarettedamagedVoList = cigarettedamagedService.selectCigarettedamagedPageList(page);
+		
+		 result.put("rows",cigarettedamagedVoList);  
+		 result.put("total",page.getTotalCount());  
+		 
+		return result;
+	}
+	
+	@RequestMapping(value="getCigarettedamagedLineList")
+	 @ResponseBody
+	 public List<CigarettedamagedLineVo> getCigarettedamagedLineList(HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		 String inboundid = request.getParameter("inboundid");
+		 CigarettedamagedLineVo cigarettedamagedLineVo = new CigarettedamagedLineVo();
+		 cigarettedamagedLineVo.setInboundid(new BigDecimal(inboundid));
+	
+		List<CigarettedamagedLineVo> cigarettedamagedLineVoList = new ArrayList<CigarettedamagedLineVo>();
+		cigarettedamagedLineVoList = cigarettedamagedLineService.selectListByCond(cigarettedamagedLineVo);
+		
+		return cigarettedamagedLineVoList;
+	}
+	
+	 /**
+	  * 新增领料申请
+	  * @return
+	  */
+	 @RequestMapping(value="doSave")
+	 @ResponseBody
+	 public  Map<String, Object> doSave(CigarettedamagedLineVo cigarettedamagedLineVo,HttpServletRequest request)
+	 {
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 String otherqty = request.getParameter("otherqty");//破损数量
+		 BigDecimal inboundid = cigarettedamagedLineVo.getInboundid();
+		 String inbounddetailid = request.getParameter("inbounddetailid2");
+		 String cigarettecode = request.getParameter("cigarettecode2");
+		 CigarettedamagedVo cigarettedamagedVo = new CigarettedamagedVo();
+			cigarettedamagedVo.setInboundid(inboundid);
+	        cigarettedamagedVo.setQty(new BigDecimal(otherqty));
+	        cigarettedamagedVo.setCreatetime(new Date());
+	        UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 if(userVo!=null&&userVo.getUsername().trim().length()>0){
+				 cigarettedamagedVo.setCreateuser(userVo.getId());
+			 }
+			 
+	        cigarettedamagedLineVo.setDamagedqty(new BigDecimal(otherqty));
+	        cigarettedamagedLineVo.setInbounddetailid(new BigDecimal(inbounddetailid));
+	        cigarettedamagedLineVo.setCigarettecode(cigarettecode);
+		 try{
+			 cigarettedamagedService.insertCigarettedamaged(cigarettedamagedLineVo, cigarettedamagedVo);
+		 
+		 map.put("msg", "新增成功");
+		 }catch(Exception e){
+			 map.put("msg", "新增失败");
+			 e.printStackTrace();
+		 }
+		 map.put("total", "1");
+		 return map;
+	 }
+	 
+	 /**
+	  * 新增领料申请
+	  * @return
+	  */
+	 @RequestMapping(value="doAudit")
+	 @ResponseBody
+	 public  Map<String, Object> doAudit(HttpServletRequest request)
+	 {
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 String checkflag = request.getParameter("checkflag");
+		 String inboundid = request.getParameter("inboundid");//入库单号
+		 String checkdescribe = request.getParameter("checkdescribe");
+		 
+		 CigarettedamagedVo cigarettedamagedVo = new CigarettedamagedVo();
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
+			 cigarettedamagedVo.setCheckuser(userVo.getId());
+		 }
+		 cigarettedamagedVo.setInboundid(new BigDecimal(inboundid));
+		 cigarettedamagedVo.setCheckflag(checkflag);
+		 cigarettedamagedVo.setCheckdescribe(checkdescribe);
+		 cigarettedamagedVo.setChecktime(new Date());
+		 try{
+			 cigarettedamagedService.doAudit(cigarettedamagedVo);
+		 
+		 map.put("msg", "审核成功");
+		 }catch(Exception e){
+			 map.put("msg", "审核失败");
+			 e.printStackTrace();
+		 }
+		 map.put("total", "1");
+		 return map;
+	 }
+	
+}
+	
+    

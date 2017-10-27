@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SPLApplyListVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SPLApplyListVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="APPLYID" property="applyid" jdbcType="DECIMAL" />
+    <result column="APPLYDATE" property="applydate" jdbcType="TIMESTAMP" />
+    <result column="KEEPERID" property="keeperid" jdbcType="DECIMAL" />
+    <result column="AUDITFLAG" property="auditflag" jdbcType="VARCHAR" />
+    <result column="KEEPERSUGGESTION" property="keepersuggestion" jdbcType="VARCHAR" />
+    <result column="KEEPERAUDITDATE" property="keeperauditdate" jdbcType="TIMESTAMP" />
+    <result column="MNGID" property="mngid" jdbcType="DECIMAL" />
+    <result column="MNGSUGGESTION" property="mngsuggestion" jdbcType="VARCHAR" />
+    <result column="MNGAUDITDATE" property="mngauditdate" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="ISSUEDATE" property="issuedate" jdbcType="TIMESTAMP" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="PURPOSE" property="purpose" jdbcType="VARCHAR" />
+    <result column="LISTTYPE" property="listtype" jdbcType="VARCHAR" />
+    <result column="APPLYTYPE" property="applytype" jdbcType="VARCHAR" />
+    <result column="APPLYUSERNAME" property="applyusername" jdbcType="VARCHAR" />
+    <result column="MNGUSERNAME" property="mngusername" jdbcType="VARCHAR" />
+    <result column="AUDITFLAGNAME" property="auditflagname" jdbcType="VARCHAR" />
+    <result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="STARTDATE" property="startdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, APPLYID, APPLYDATE, KEEPERID, AUDITFLAG, KEEPERSUGGESTION, KEEPERAUDITDATE, MNGID, 
+    MNGSUGGESTION, MNGAUDITDATE, REMARKS, ISSUEDATE, DEPTID, PURPOSE, LISTTYPE, APPLYTYPE
+  </sql>
+  
+    <select id="selectApplyListPageList" parameterType="Pagination" resultType="SPLApplyListVo">
+		select li.ID, APPLYID, APPLYDATE, KEEPERID, AUDITFLAG, KEEPERSUGGESTION, KEEPERAUDITDATE, MNGID, 
+    MNGSUGGESTION, MNGAUDITDATE, li.REMARKS, ISSUEDATE, li.DEPTID, PURPOSE, LISTTYPE, APPLYTYPE,u1.username as applyusername,
+    u2.username as mngusername,d.deptname,
+    decode(li.auditflag,'0','未审核',' 10','仓管审核通过 ','20','仓管审核驳回','30','经理审核通过','40','经理审核驳回','50','发料完成','60','退库完成','未审核') as auditflagname 
+    	FROM  T_COST_SPLAPPLYLIST li 
+		left outer join t_sys_user u1 on li.APPLYID=u1.id
+		left outer join t_sys_user u2 on li.MNGID=u2.id
+		left outer join t_sys_dept d on li.deptid = d.id
+		where 1=1 
+	<if test="param != null and param.keyword != null and param.keyword != ''">
+        and u1.username  like '%'||#{param.keyword}||'%' or u2.username  like '%'||#{param.keyword}||'%' 
+	</if>
+	<if test="param != null and param.deptid != null and param.deptid != ''">
+        and li.deptid=#{param.deptid}
+	</if>
+	<if test="param != null and param.startdate != null and param.startdate != '' and param.enddate != null and param.enddate!= ''">
+        and ( applydate between to_date(#{startdate},'yyyy-mm-dd') and  to_date(#{enddate},'yyyy-mm-dd'))
+	</if>
+	order by id desc
+</select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_SPLAPPLYLIST
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_COST_SPLAPPLYLIST
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.SPLApplyListVo" >
+    insert into T_COST_SPLAPPLYLIST (ID, APPLYID, APPLYDATE, 
+      KEEPERID, AUDITFLAG, KEEPERSUGGESTION, 
+      KEEPERAUDITDATE, MNGID, MNGSUGGESTION, 
+      MNGAUDITDATE, REMARKS, ISSUEDATE, 
+      DEPTID, PURPOSE, LISTTYPE, 
+      APPLYTYPE)
+    values (#{id,jdbcType=DECIMAL}, #{applyid,jdbcType=DECIMAL}, #{applydate,jdbcType=TIMESTAMP}, 
+      #{keeperid,jdbcType=DECIMAL}, #{auditflag,jdbcType=VARCHAR}, #{keepersuggestion,jdbcType=VARCHAR}, 
+      #{keeperauditdate,jdbcType=TIMESTAMP}, #{mngid,jdbcType=DECIMAL}, #{mngsuggestion,jdbcType=VARCHAR}, 
+      #{mngauditdate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{issuedate,jdbcType=TIMESTAMP}, 
+      #{deptid,jdbcType=DECIMAL}, #{purpose,jdbcType=VARCHAR}, #{listtype,jdbcType=VARCHAR}, 
+      #{applytype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.SPLApplyListVo" >
+    insert into T_COST_SPLAPPLYLIST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="applyid != null" >
+        APPLYID,
+      </if>
+        APPLYDATE,
+      <if test="keeperid != null" >
+        KEEPERID,
+      </if>
+      <if test="auditflag != null" >
+        AUDITFLAG,
+      </if>
+      <if test="keepersuggestion != null" >
+        KEEPERSUGGESTION,
+      </if>
+      <if test="keeperauditdate != null" >
+        KEEPERAUDITDATE,
+      </if>
+      <if test="mngid != null" >
+        MNGID,
+      </if>
+      <if test="mngsuggestion != null" >
+        MNGSUGGESTION,
+      </if>
+      <if test="mngauditdate != null" >
+        MNGAUDITDATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="issuedate != null" >
+        ISSUEDATE,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="purpose != null" >
+        PURPOSE,
+      </if>
+      <if test="listtype != null" >
+        LISTTYPE,
+      </if>
+      <if test="applytype != null" >
+        APPLYTYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="applyid != null" >
+        #{applyid,jdbcType=DECIMAL},
+      </if>
+       sysdate,
+      <if test="keeperid != null" >
+        #{keeperid,jdbcType=DECIMAL},
+      </if>
+      <if test="auditflag != null" >
+        #{auditflag,jdbcType=VARCHAR},
+      </if>
+      <if test="keepersuggestion != null" >
+        #{keepersuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="keeperauditdate != null" >
+        #{keeperauditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mngid != null" >
+        #{mngid,jdbcType=DECIMAL},
+      </if>
+      <if test="mngsuggestion != null" >
+        #{mngsuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="mngauditdate != null" >
+        #{mngauditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedate != null" >
+        #{issuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="purpose != null" >
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="listtype != null" >
+        #{listtype,jdbcType=VARCHAR},
+      </if>
+      <if test="applytype != null" >
+        #{applytype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.SPLApplyListVo" >
+    update T_COST_SPLAPPLYLIST
+    <set >
+      <if test="applyid != null" >
+        APPLYID = #{applyid,jdbcType=DECIMAL},
+      </if>
+      <if test="applydate != null" >
+        APPLYDATE = #{applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keeperid != null" >
+        KEEPERID = #{keeperid,jdbcType=DECIMAL},
+      </if>
+      <if test="auditflag != null" >
+        AUDITFLAG = #{auditflag,jdbcType=VARCHAR},
+      </if>
+      <if test="keepersuggestion != null" >
+        KEEPERSUGGESTION = #{keepersuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="keeperauditdate != null" >
+        KEEPERAUDITDATE = #{keeperauditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mngid != null" >
+        MNGID = #{mngid,jdbcType=DECIMAL},
+      </if>
+      <if test="mngsuggestion != null" >
+        MNGSUGGESTION = #{mngsuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="mngauditdate != null" >
+        MNGAUDITDATE = #{mngauditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedate != null" >
+        ISSUEDATE = #{issuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="purpose != null" >
+        PURPOSE = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="listtype != null" >
+        LISTTYPE = #{listtype,jdbcType=VARCHAR},
+      </if>
+      <if test="applytype != null" >
+        APPLYTYPE = #{applytype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.SPLApplyListVo" >
+    update T_COST_SPLAPPLYLIST
+    set APPLYID = #{applyid,jdbcType=DECIMAL},
+      APPLYDATE = #{applydate,jdbcType=TIMESTAMP},
+      KEEPERID = #{keeperid,jdbcType=DECIMAL},
+      AUDITFLAG = #{auditflag,jdbcType=VARCHAR},
+      KEEPERSUGGESTION = #{keepersuggestion,jdbcType=VARCHAR},
+      KEEPERAUDITDATE = #{keeperauditdate,jdbcType=TIMESTAMP},
+      MNGID = #{mngid,jdbcType=DECIMAL},
+      MNGSUGGESTION = #{mngsuggestion,jdbcType=VARCHAR},
+      MNGAUDITDATE = #{mngauditdate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      ISSUEDATE = #{issuedate,jdbcType=TIMESTAMP},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      PURPOSE = #{purpose,jdbcType=VARCHAR},
+      LISTTYPE = #{listtype,jdbcType=VARCHAR},
+      APPLYTYPE = #{applytype,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

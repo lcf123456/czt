@@ -1,0 +1,42 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.OutBoundLineVo;
+import java.math.BigDecimal;
+
+public interface OutBoundLineVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insert(OutBoundLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insertSelective(OutBoundLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    OutBoundLineVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKeySelective(OutBoundLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKey(OutBoundLineVo record);
+}

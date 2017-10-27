@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.TouchProblemVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.TouchProblemVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="CLEVEL" property="clevel" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="HANDLEDEPT" property="handledept" jdbcType="DECIMAL" />
+    <result column="HANDLERESULT" property="handleresult" jdbcType="VARCHAR" />
+    <result column="HANDLEID" property="handleid" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="HANDLEFLAG" property="handleflag" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NOTE, CLEVEL, CREATEID, CREATEDATE, HANDLEDEPT, HANDLERESULT, HANDLEID, DELSTATUS, 
+    REMARKS, HANDLEFLAG, DEPTID, FLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_TOUCH_PROBLEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SQ_TOUCH_PROBLEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.TouchProblemVo" >
+    insert into T_SQ_TOUCH_PROBLEM (ID, NOTE, CLEVEL, 
+      CREATEID, CREATEDATE, HANDLEDEPT, 
+      HANDLERESULT, HANDLEID, DELSTATUS, 
+      REMARKS, HANDLEFLAG, DEPTID, 
+      FLAG)
+    values (#{id,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR}, #{clevel,jdbcType=VARCHAR}, 
+      #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, #{handledept,jdbcType=DECIMAL}, 
+      #{handleresult,jdbcType=VARCHAR}, #{handleid,jdbcType=DECIMAL}, #{delstatus,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{handleflag,jdbcType=VARCHAR}, #{deptid,jdbcType=DECIMAL}, 
+      #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.TouchProblemVo" >
+    insert into T_SQ_TOUCH_PROBLEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="clevel != null" >
+        CLEVEL,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="handledept != null" >
+        HANDLEDEPT,
+      </if>
+      <if test="handleresult != null" >
+        HANDLERESULT,
+      </if>
+      <if test="handleid != null" >
+        HANDLEID,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="handleflag != null" >
+        HANDLEFLAG,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="clevel != null" >
+        #{clevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handledept != null" >
+        #{handledept,jdbcType=DECIMAL},
+      </if>
+      <if test="handleresult != null" >
+        #{handleresult,jdbcType=VARCHAR},
+      </if>
+      <if test="handleid != null" >
+        #{handleid,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="handleflag != null" >
+        #{handleflag,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.TouchProblemVo" >
+    update T_SQ_TOUCH_PROBLEM
+    <set >
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="clevel != null" >
+        CLEVEL = #{clevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handledept != null" >
+        HANDLEDEPT = #{handledept,jdbcType=DECIMAL},
+      </if>
+      <if test="handleresult != null" >
+        HANDLERESULT = #{handleresult,jdbcType=VARCHAR},
+      </if>
+      <if test="handleid != null" >
+        HANDLEID = #{handleid,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="handleflag != null" >
+        HANDLEFLAG = #{handleflag,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.TouchProblemVo" >
+    update T_SQ_TOUCH_PROBLEM
+    set NOTE = #{note,jdbcType=VARCHAR},
+      CLEVEL = #{clevel,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      HANDLEDEPT = #{handledept,jdbcType=DECIMAL},
+      HANDLERESULT = #{handleresult,jdbcType=VARCHAR},
+      HANDLEID = #{handleid,jdbcType=DECIMAL},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      HANDLEFLAG = #{handleflag,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      FLAG = #{flag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,24 @@
+package com.ztel.app.service.wms;
+
+import java.util.List;
+
+import com.ztel.app.vo.wms.ItemstockLineVo;
+import com.ztel.app.vo.wms.ItemstockVo;
+
+public interface ItemstockService {
+	
+	/**
+	 * 插入卷烟库存账面量表
+	 * @param itemstockVo 
+	 */
+	public void insertItemstock(ItemstockVo itemstockVo);
+	
+
+	/**
+	 * 获取当前卷烟库存账面量,参数可为货主或卷烟品牌
+	 * @param itemstockVo
+	 * @return 卷烟账面量列表
+	 */
+	public List<ItemstockLineVo> selectItemstockLineList(ItemstockVo itemstockVo);
+
+}

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.BaseMultitypeInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.BaseMultitypeInfoVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TYPECODE" property="typecode" jdbcType="VARCHAR" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+    <result column="CONTENTLIST" property="contentlist" jdbcType="VARCHAR" />
+    <result column="PARENTID" property="parentid" jdbcType="DECIMAL" />
+    <result column="TYPELEVEL" property="typelevel" jdbcType="DECIMAL" />
+    <result column="TYPEFLAG" property="typeflag" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" jdbcType="DECIMAL" property="delstatus" />
+  </resultMap>
+  
+  <select id="getBaseMultitypeInfoVoList"  resultType="com.ztel.app.vo.sys.BaseMultitypeInfoVo">
+		select ID, TYPECODE, TYPENAME, CONTENTLIST, PARENTID, TYPELEVEL, SEQ,DELSTATUS, TYPEFLAG, REMARKS  
+     from T_SYS_BASEMULTITYPEINFO where DELSTATUS=10 
+	<if test="parentId != null and  parentId != ''">
+        AND PARENTID = #{parentId} 
+	</if>
+	order by seq 
+</select>
+
+  <insert id="insert"  parameterType="com.ztel.app.vo.sys.BaseMultitypeInfoVo" >
+    insert into T_SYS_BASEMULTITYPEINFO (ID, TYPECODE, TYPENAME, 
+      CONTENTLIST, PARENTID, TYPELEVEL, 
+      TYPEFLAG, REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{typecode,jdbcType=VARCHAR}, #{typename,jdbcType=VARCHAR}, 
+      #{contentlist,jdbcType=VARCHAR}, #{parentid,jdbcType=DECIMAL}, #{typelevel,jdbcType=DECIMAL}, 
+      #{typeflag,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.sys.BaseMultitypeInfoVo" >
+    insert into T_SYS_BASEMULTITYPEINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="typecode != null" >
+        TYPECODE,
+      </if>
+      <if test="typename != null" >
+        TYPENAME,
+      </if>
+      <if test="contentlist != null" >
+        CONTENTLIST,
+      </if>
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="typelevel != null" >
+        TYPELEVEL,
+      </if>
+      <if test="typeflag != null" >
+        TYPEFLAG,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+        DELSTATUS,
+      <if test="seq != null" >
+        SEQ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_SYS_BASEMULTITYPEINFO.nextval,
+      <if test="typecode != null" >
+        #{typecode,jdbcType=VARCHAR},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="contentlist != null" >
+        #{contentlist,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=DECIMAL},
+      </if>
+      <if test="typelevel != null" >
+        #{typelevel,jdbcType=DECIMAL},
+      </if>
+      <if test="typeflag != null" >
+        #{typeflag,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+        10,
+      <if test="seq != null" >
+        #{seq,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.BaseMultitypeInfoVo">
+    update T_SYS_BASEMULTITYPEINFO
+    <set>
+      <if test="typecode != null" >
+        TYPECODE = #{typecode,jdbcType=VARCHAR},
+      </if>
+      <if test="typename != null" >
+        TYPENAME = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="contentlist != null" >
+        CONTENTLIST = #{contentlist,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        PARENTID = #{parentid,jdbcType=DECIMAL},
+      </if>
+      <if test="typelevel != null" >
+      	TYPELEVEL = #{typelevel,jdbcType=DECIMAL},
+      </if>
+      <if test="seq != null">
+        SEQ = #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null">
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="typeflag != null">
+        TYPEFLAG = #{typeflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

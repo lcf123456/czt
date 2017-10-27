@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.SysparameterVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.SysparameterVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PARANAME_E" property="paranameE" jdbcType="VARCHAR" />
+    <result column="PARANAME_C" property="paranameC" jdbcType="VARCHAR" />
+    <result column="PARAVAL" property="paraval" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PARANAME_E, PARANAME_C, PARAVAL, UPDATETIME, REMARKS, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_SYSPARAMETER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update T_SYS_SYSPARAMETER set status='0'
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.SysparameterVo" >
+    insert into T_SYS_SYSPARAMETER (ID, PARANAME_E, PARANAME_C, 
+      PARAVAL, UPDATETIME, REMARKS, 
+      STATUS)
+    values (#{id,jdbcType=DECIMAL}, #{paranameE,jdbcType=VARCHAR}, #{paranameC,jdbcType=VARCHAR}, 
+      #{paraval,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.SysparameterVo" >
+    insert into T_SYS_SYSPARAMETER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="paranameE != null" >
+        PARANAME_E,
+      </if>
+      <if test="paranameC != null" >
+        PARANAME_C,
+      </if>
+      <if test="paraval != null" >
+        PARAVAL,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        s_sys_sysparameter.nextval,
+      <if test="paranameE != null" >
+        #{paranameE,jdbcType=VARCHAR},
+      </if>
+      <if test="paranameC != null" >
+        #{paranameC,jdbcType=VARCHAR},
+      </if>
+      <if test="paraval != null" >
+        #{paraval,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.SysparameterVo" >
+    update T_SYS_SYSPARAMETER
+    <set >
+      <if test="paranameE != null" >
+        PARANAME_E = #{paranameE,jdbcType=VARCHAR},
+      </if>
+      <if test="paranameC != null" >
+        PARANAME_C = #{paranameC,jdbcType=VARCHAR},
+      </if>
+      <if test="paraval != null" >
+        PARAVAL = #{paraval,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.SysparameterVo" >
+    update T_SYS_SYSPARAMETER
+    set PARANAME_E = #{paranameE,jdbcType=VARCHAR},
+      PARANAME_C = #{paranameC,jdbcType=VARCHAR},
+      PARAVAL = #{paraval,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getSysparameterPageList" parameterType="Pagination" resultType="com.ztel.app.vo.sys.SysparameterVo">
+    select ID, PARANAME_E, PARANAME_C, 
+      PARAVAL, UPDATETIME, REMARKS, 
+      STATUS from T_SYS_SYSPARAMETER where status = '10'
+    <if test="param != null and param.paranameE != null and param.paranameE != ''" >
+        and (PARANAME_E like'%'||#{param.paranameE}||'%' or PARANAME_C like'%'||#{param.paranameE}||'%' or PARAVAL like'%'||#{param.paranameE}||'%')
+      </if>
+</select>
+</mapper>

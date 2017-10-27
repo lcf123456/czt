@@ -1,0 +1,21 @@
+package com.ztel.app.service.wms;
+
+import java.util.List;
+
+import com.ztel.app.vo.wms.ShipOrderVo;
+
+public interface ShipOrderService {
+
+	public List<ShipOrderVo> selectRoutecodeList(ShipOrderVo shipOrderVo);
+	
+	public int doUpdateShipOrder(ShipOrderVo shipOrderVo);
+	
+	public ShipOrderVo getShipOrderByOrderNo(String orderNo);
+	
+	/**
+	 * 取预付款客户订单 ,用于货款核算预付款客户车组查看
+	 * @param shipOrderVo
+	 * @return
+	 */
+	public List<ShipOrderVo> selectShiporderPerpayList(ShipOrderVo shipOrderVo);
+}

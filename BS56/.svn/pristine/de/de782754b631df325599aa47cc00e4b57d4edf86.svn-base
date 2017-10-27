@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.IndustrialdriverVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.IndustrialdriverVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FACTORYID" property="factoryid" jdbcType="DECIMAL" />
+    <result column="DRIVERNAME" property="drivername" jdbcType="VARCHAR" />
+    <result column="PHONENUM" property="phonenum" jdbcType="DECIMAL" />
+    <result column="FACTORYNAME" property="factoryname" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="PSW" property="psw" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,FACTORYID, DRIVERNAME, PHONENUM, FACTORYNAME, DELSTATUS, PSW
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_INDUSTRIALDRIVER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+   <!-- 根据厂家id获取厂家信息 -->
+  <select id="getIndustrialdriverListByFactoryId" resultType="IndustrialdriverVo" parameterType="Integer">
+    select  ID, NAME  from T_SQ_CIGFACTORY  where ID = #{id} 
+  </select>
+   <!-- 获取厂家列表 -->
+  <select id="getIndustrialdriverList" resultType="CigfactoryVo">
+    select  ID, NAME  from T_SQ_CIGFACTORY 
+  </select>
+  <select id="getIndustrialdriverPageList" resultMap="BaseResultMap" parameterType="Pagination" >
+  select id, FACTORYID,DRIVERNAME, PHONENUM, FACTORYNAME from T_SQ_INDUSTRIALDRIVER  where DELSTATUS='10'
+    
+    <if test="param != null and param.drivername != null and param.drivername != ''" >
+        and drivername like'%'||#{param.drivername}||'%'
+        </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+ update T_SQ_INDUSTRIALDRIVER set delstatus='0'
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.IndustrialdriverVo" >
+    insert into T_SQ_INDUSTRIALDRIVER (ID, FACTORYID, DRIVERNAME, 
+      PHONENUM, FACTORYNAME, DELSTATUS, 
+      PSW)
+    values (#{id,jdbcType=DECIMAL}, #{factoryid,jdbcType=DECIMAL}, #{drivername,jdbcType=VARCHAR}, 
+      #{phonenum,jdbcType=DECIMAL}, #{factoryname,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}, 
+      #{psw,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.IndustrialdriverVo" >
+    insert into T_SQ_INDUSTRIALDRIVER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+  
+        ID,DELSTATUS,
+        <if test="factoryid != null" >
+        FACTORYID,
+      </if>
+        
+      <if test="drivername != null" >
+        DRIVERNAME,
+      </if>
+      <if test="phonenum != null" >
+        PHONENUM,
+      </if>
+      <if test="factoryname != null" >
+        FACTORYNAME,
+      </if>
+      <if test="psw != null" >
+        PSW,
+      </if>
+    
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     S_SQ_INDUSTRIALDRIVER.nextval,10,
+     <if test="factoryid != null" >
+        #{factoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="drivername != null" >
+        #{drivername,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        #{phonenum,jdbcType=DECIMAL},
+      </if>
+      <if test="factoryname != null" >
+        #{factoryname,jdbcType=VARCHAR},
+      </if>
+      <if test="psw != null" >
+        #{psw,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.IndustrialdriverVo" >
+    update T_SQ_INDUSTRIALDRIVER
+    <set >
+      <if test="factoryid != null" >
+        FACTORYID = #{factoryid,jdbcType=DECIMAL},
+      </if>
+      <if test="drivername != null" >
+        DRIVERNAME = #{drivername,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        PHONENUM = #{phonenum,jdbcType=DECIMAL},
+      </if>
+      <if test="factoryname != null" >
+        FACTORYNAME = #{factoryname,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="psw != null" >
+        PSW = #{psw,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.IndustrialdriverVo" >
+    update T_SQ_INDUSTRIALDRIVER
+    set FACTORYID = #{factoryid,jdbcType=DECIMAL},
+      DRIVERNAME = #{drivername,jdbcType=VARCHAR},
+      PHONENUM = #{phonenum,jdbcType=DECIMAL},
+      FACTORYNAME = #{factoryname,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      PSW = #{psw,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,72 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.StorageAreaVoMapper;
+import com.ztel.app.service.wms.StorageAreaService;
+import com.ztel.app.vo.gis.GroupinfoVo;
+import com.ztel.app.vo.wms.StorageAreaVo;
+import com.ztel.framework.vo.Pagination;
+@Service
+public class StorageAreaServiceImpl implements StorageAreaService {
+
+	
+	@Autowired
+	private StorageAreaVoMapper storageAreaVoMapper = null;
+
+	 
+	 private Map<String, String> sortKeyMapping = new HashMap<>();
+		
+		public StorageAreaServiceImpl() {
+			//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+//			sortKeyMapping.put(key, value)
+			sortKeyMapping.put("areaname", "areaname");
+			sortKeyMapping.put("id", "id");
+		}
+		
+	@Override
+	
+public List<StorageAreaVo> selectStorageAreaPageList(Pagination<?> page) {
+		
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.storageAreaVoMapper.selectStorageAreaPageList(page);
+	}
+	
+	public StorageAreaVo selectByPrimaryKey(BigDecimal id){
+		return storageAreaVoMapper.selectByPrimaryKey(id);
+	}
+	
+	@Override
+	public List<HashMap<String, String>> getStorageAreaCombobox() {
+		// TODO 自动生成的方法存根
+		GroupinfoVo vo = new GroupinfoVo();
+		List<StorageAreaVo> treeList=this.storageAreaVoMapper.selectStorageAreaList();
+	   	 List<HashMap<String, String>> boxList=new ArrayList<>();
+	   	 if (treeList!=null&&treeList.size()>0) {
+	   		 for(int i=0;i<treeList.size();i++){
+	   			StorageAreaVo groupinfoVo=treeList.get(i);
+	   			 HashMap<String, String> map=new HashMap<String, String>();
+	   			 map.put("id", groupinfoVo.getId()+"");
+	   			 map.put("code", groupinfoVo.getAreacode());
+	   			 map.put("name", groupinfoVo.getAreaname()+"");
+	   			 boxList.add(map);
+	   		 }
+	   	 }
+	   	 return boxList;
+	}
+}

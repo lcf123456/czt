@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.gis.RegionVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.gis.RegionVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="ISOPTIMIZE" property="isoptimize" jdbcType="VARCHAR" />
+    <result column="ISOPTIMIZECONTENT" property="isoptimizecontent" jdbcType="VARCHAR" />
+    <result column="DELSTATUSCONTENT" property="delstatuscontent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, REMARKS, DELSTATUS, ISOPTIMIZE
+  </sql>
+  
+  <select id="getRegionInfoList" resultType="com.ztel.app.vo.gis.RegionVo" >
+	  select ID, NAME, REMARKS, DELSTATUS, ISOPTIMIZE,decode(DELSTATUS,'在用','停用') as delstatuscontent,
+	  decode(ISOPTIMIZE,'启用','禁用') as isoptimizecontent from T_GIS_REGION  order by ID
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.gis.RegionVo" >
+    insert into T_GIS_REGION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+       ID, 
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="isoptimize != null" >
+        ISOPTIMIZE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       s_gis_region.nextval,
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="isoptimize != null" >
+        #{isoptimize,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.gis.RegionVo" >
+    update T_GIS_REGION
+    <set >
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="optimize != null" >
+        OPTIMIZE = #{optimize,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

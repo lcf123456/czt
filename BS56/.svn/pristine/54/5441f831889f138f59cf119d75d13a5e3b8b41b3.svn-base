@@ -1,0 +1,106 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.ShipOrderVoMapper;
+import com.ztel.app.service.wms.ShipOrderService;
+import com.ztel.app.vo.wms.ShipOrderVo;
+
+@Service
+public class ShipOrderServiceImpl implements ShipOrderService {
+
+	@Autowired
+	private ShipOrderVoMapper shipOrderVoMapper = null;
+	@Override
+	public List<ShipOrderVo> selectRoutecodeList(ShipOrderVo shipOrderVo) {
+		// TODO Auto-generated method stub
+		return shipOrderVoMapper.selectRoutecodeList(shipOrderVo);
+	}
+	@Override
+	public int doUpdateShipOrder(ShipOrderVo shipOrderVo) {
+		// TODO Auto-generated method stub
+		return shipOrderVoMapper.updateByPrimaryKeySelective(shipOrderVo);
+	}
+	@Override
+	public ShipOrderVo getShipOrderByOrderNo(String orderNo) {
+		// TODO Auto-generated method stub
+		return shipOrderVoMapper.selectByPrimaryKey(orderNo);
+	}
+	
+	/**
+	 * 取预付款客户订单 ,用于货款核算预付款客户车组查看
+	 * @param shipOrderVo
+	 * @return
+	 */
+	public List<ShipOrderVo> selectShiporderPerpayList(ShipOrderVo shipOrderVo){
+		List<ShipOrderVo> resultList = new ArrayList<ShipOrderVo>();
+		//需要添加每个车组的合计后返回
+		List<ShipOrderVo> shipOrderList = shipOrderVoMapper.selectShiporderPerpayList(shipOrderVo);
+		if(shipOrderList!=null&&shipOrderList.size()>0){
+			String routecodeTmp = "";
+			BigDecimal amountAll = new BigDecimal("0");//合计金额
+			BigDecimal qtyAll = new BigDecimal("0");//合计条数
+			ShipOrderVo shipOrderVo3 = new ShipOrderVo();
+			
+			for(int i=0;i<shipOrderList.size();i++){
+				ShipOrderVo shipOrderVo2 = shipOrderList.get(i);
+				
+				String routecode = shipOrderVo2.getRoutecode();
+				if(i==0){
+					amountAll =  amountAll.add(shipOrderVo2.getTotalamount());
+					qtyAll = qtyAll.add(shipOrderVo2.getTotalqty());
+					if(shipOrderList.size()==1){//如果所有数据只有一条记录
+						resultList.add(shipOrderVo2);
+						 shipOrderVo3 = new ShipOrderVo();
+						shipOrderVo3.setRoutecode("小计");
+						shipOrderVo3.setCustomername("");
+						shipOrderVo3.setTotalamount(amountAll);
+						shipOrderVo3.setTotalqty(qtyAll);
+						resultList.add(shipOrderVo3);
+					}
+				}
+				if(i!=0 ){
+						if(!routecode.equals(routecodeTmp))
+						{
+							shipOrderVo3 = new ShipOrderVo();
+							shipOrderVo3.setRoutecode("小计");
+							shipOrderVo3.setCustomername("");
+							shipOrderVo3.setTotalamount(amountAll);
+							shipOrderVo3.setTotalqty(qtyAll);
+							
+							resultList.add(shipOrderVo3);
+							amountAll = new BigDecimal("0");//合计金额
+							qtyAll = new BigDecimal("0");//合计条数
+						}
+							amountAll =  amountAll.add(shipOrderVo2.getTotalamount());
+							qtyAll = qtyAll.add(shipOrderVo2.getTotalqty());
+					
+				}
+				if(shipOrderList.size()!=1)//所有记录不止1条，1条的情况前面已经考虑
+				{
+					resultList.add(shipOrderVo2);
+					if( i==shipOrderList.size()-1  )//最后一项加上合计
+					{
+						shipOrderVo3 = new ShipOrderVo();
+						shipOrderVo3.setRoutecode("小计");
+						shipOrderVo3.setCustomername("");
+//						amountAll =  amountAll.add(shipOrderVo2.getTotalamount());
+//						qtyAll = qtyAll.add(shipOrderVo2.getTotalqty());
+						shipOrderVo3.setTotalamount(amountAll);
+						shipOrderVo3.setTotalqty(qtyAll);
+						resultList.add(shipOrderVo3);
+					}
+				}
+				
+				routecodeTmp = routecode;
+			}
+		}
+		return resultList;
+	}
+
+}

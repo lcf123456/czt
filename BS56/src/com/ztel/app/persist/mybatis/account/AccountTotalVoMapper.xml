@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.account.AccountTotalVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.account.AccountTotalVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ORDERDATE" jdbcType="TIMESTAMP" property="orderdate" />
+    <result column="CALCDATE" jdbcType="TIMESTAMP" property="calcdate" />
+    <result column="CASHIERID" jdbcType="DECIMAL" property="cashierid" />
+    <result column="CASHIER" jdbcType="VARCHAR" property="cashier" />
+    <result column="ONLINEAMOUNT" jdbcType="DECIMAL" property="onlineamount" />
+    <result column="ONLINECOUNT" jdbcType="DECIMAL" property="onlinecount" />
+    <result column="CARDAMOUNT" jdbcType="DECIMAL" property="cardamount" />
+    <result column="CARDCOUNT" jdbcType="DECIMAL" property="cardcount" />
+    <result column="CASHAMOUNT" jdbcType="DECIMAL" property="cashamount" />
+    <result column="CASHCOUNT" jdbcType="DECIMAL" property="cashcount" />
+    <result column="RETURNAMOUNT" jdbcType="DECIMAL" property="returnamount" />
+    <result column="RETURNCOUNT" jdbcType="DECIMAL" property="returncount" />
+    <result column="TURNGOODSAMOUNT" jdbcType="DECIMAL" property="turngoodsamount" />
+    <result column="TURNGOODSCOUNT" jdbcType="DECIMAL" property="turngoodscount" />
+    <result column="TEMPSTORAGEAMOUNT" jdbcType="DECIMAL" property="tempstorageamount" />
+    <result column="TEMPSTORAGECOUNT" jdbcType="DECIMAL" property="tempstoragecount" />
+    <result column="PREPAYAMOUNT" jdbcType="DECIMAL" property="prepayamount" />
+    <result column="PREPAYCOUNT" jdbcType="DECIMAL" property="prepaycount" />
+    <result column="TODAYARREARS" jdbcType="DECIMAL" property="todayarrears" />
+    <result column="TOTALARREARS" jdbcType="DECIMAL" property="totalarrears" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="UPTIME" jdbcType="TIMESTAMP" property="uptime" />
+    <result column="CREATEID" jdbcType="DECIMAL" property="createid" />
+    <result column="CREATECODE" jdbcType="VARCHAR" property="createcode" />
+    <result column="UPDATEID" jdbcType="DECIMAL" property="updateid" />
+    <result column="UPDATEPERSONNAME" jdbcType="VARCHAR" property="updatepersonname" />
+    <result column="ARREARSREASON" jdbcType="VARCHAR" property="arrearsreason" />
+    <result column="SALEAMOUNT" jdbcType="DECIMAL" property="saleamount" />
+    <result column="SALECOUNT" jdbcType="DECIMAL" property="salecount" />
+    <result column="ROUTECODE" jdbcType="VARCHAR" property="routecode" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="TEMPSTORAGEAMOUNT2" jdbcType="DECIMAL" property="tempstorageamount2" />
+    <result column="TEMPSTORAGECOUNT2" jdbcType="DECIMAL" property="tempstoragecount2" />
+    <result column="OTHERAMOUNT" jdbcType="DECIMAL" property="otheramount" />
+    <result column="OTHERCOUNT" jdbcType="DECIMAL" property="othercount" />
+    <result column="OTHERREMARKS" jdbcType="VARCHAR" property="otherremarks" />
+    <result column="TURNGOODSAMOUNT2" jdbcType="DECIMAL" property="turngoodsamount2" />
+    <result column="TURNGOODSCOUNT2" jdbcType="DECIMAL" property="turngoodscount2" />
+    <result column="DELIVERAMOUNT" jdbcType="DECIMAL" property="deliveramount" />
+    <result column="DELIVERAMOUNT2" jdbcType="DECIMAL" property="deliveramount2" />
+    <result column="ORDERDATESTR" jdbcType="VARCHAR" property="orderdatestr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ORDERDATE, CALCDATE, CASHIERID, CASHIER, ONLINEAMOUNT, ONLINECOUNT, CARDAMOUNT, 
+    CARDCOUNT, CASHAMOUNT, CASHCOUNT, RETURNAMOUNT, RETURNCOUNT, TURNGOODSAMOUNT, TURNGOODSCOUNT, 
+    TEMPSTORAGEAMOUNT, TEMPSTORAGECOUNT, PREPAYAMOUNT, PREPAYCOUNT, TODAYARREARS, TOTALARREARS, 
+    CREATETIME, UPTIME, CREATEID, CREATECODE, UPDATEID, UPDATEPERSONNAME, ARREARSREASON, 
+    SALEAMOUNT, SALECOUNT, ROUTECODE, STATUS, REMARKS, TEMPSTORAGEAMOUNT2, TEMPSTORAGECOUNT2, 
+    OTHERAMOUNT, OTHERCOUNT, OTHERREMARKS, TURNGOODSAMOUNT2, TURNGOODSCOUNT2, DELIVERAMOUNT, 
+    DELIVERAMOUNT2
+  </sql>
+  <select id="selectAccountTotalList" parameterType="Pagination" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_ACCOUNT_ACCOUNTTOTAL
+    where 1=1
+    <!-- if test="param != null and param.orderdatestr != null " >
+        and ORDERDATE=to_date(#{param.orderdatestr},'yyyy-MM-dd') 
+      </if> -->
+     <if test="param != null and param.orderdate != null " >
+        and ORDERDATE=#{param.orderdate,jdbcType=TIMESTAMP} 
+      </if>
+    <if test="param != null and param.routecode != null  and param.routecode != ''" >
+	        and routecode=#{param.routecode}
+	    </if>
+    order by routecode 
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_ACCOUNT_ACCOUNTTOTAL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_ACCOUNT_ACCOUNTTOTAL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.account.AccountTotalVo">
+    insert into T_ACCOUNT_ACCOUNTTOTAL (ID, ORDERDATE, CALCDATE, 
+      CASHIERID, CASHIER, ONLINEAMOUNT, 
+      ONLINECOUNT, CARDAMOUNT, CARDCOUNT, 
+      CASHAMOUNT, CASHCOUNT, RETURNAMOUNT, 
+      RETURNCOUNT, TURNGOODSAMOUNT, TURNGOODSCOUNT, 
+      TEMPSTORAGEAMOUNT, TEMPSTORAGECOUNT, PREPAYAMOUNT, 
+      PREPAYCOUNT, TODAYARREARS, TOTALARREARS, 
+      CREATETIME, UPTIME, CREATEID, 
+      CREATECODE, UPDATEID, UPDATEPERSONNAME, 
+      ARREARSREASON, SALEAMOUNT, SALECOUNT, 
+      ROUTECODE, STATUS, REMARKS, 
+      TEMPSTORAGEAMOUNT2, TEMPSTORAGECOUNT2, 
+      OTHERAMOUNT, OTHERCOUNT, OTHERREMARKS, 
+      TURNGOODSAMOUNT2, TURNGOODSCOUNT2, DELIVERAMOUNT, 
+      DELIVERAMOUNT2)
+    values (#{id,jdbcType=DECIMAL}, #{orderdate,jdbcType=TIMESTAMP}, #{calcdate,jdbcType=TIMESTAMP}, 
+      #{cashierid,jdbcType=DECIMAL}, #{cashier,jdbcType=VARCHAR}, #{onlineamount,jdbcType=DECIMAL}, 
+      #{onlinecount,jdbcType=DECIMAL}, #{cardamount,jdbcType=DECIMAL}, #{cardcount,jdbcType=DECIMAL}, 
+      #{cashamount,jdbcType=DECIMAL}, #{cashcount,jdbcType=DECIMAL}, #{returnamount,jdbcType=DECIMAL}, 
+      #{returncount,jdbcType=DECIMAL}, #{turngoodsamount,jdbcType=DECIMAL}, #{turngoodscount,jdbcType=DECIMAL}, 
+      #{tempstorageamount,jdbcType=DECIMAL}, #{tempstoragecount,jdbcType=DECIMAL}, #{prepayamount,jdbcType=DECIMAL}, 
+      #{prepaycount,jdbcType=DECIMAL}, #{todayarrears,jdbcType=DECIMAL}, #{totalarrears,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{uptime,jdbcType=TIMESTAMP}, #{createid,jdbcType=DECIMAL}, 
+      #{createcode,jdbcType=VARCHAR}, #{updateid,jdbcType=DECIMAL}, #{updatepersonname,jdbcType=VARCHAR}, 
+      #{arrearsreason,jdbcType=VARCHAR}, #{saleamount,jdbcType=DECIMAL}, #{salecount,jdbcType=DECIMAL}, 
+      #{routecode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{tempstorageamount2,jdbcType=DECIMAL}, #{tempstoragecount2,jdbcType=DECIMAL}, 
+      #{otheramount,jdbcType=DECIMAL}, #{othercount,jdbcType=DECIMAL}, #{otherremarks,jdbcType=VARCHAR}, 
+      #{turngoodsamount2,jdbcType=DECIMAL}, #{turngoodscount2,jdbcType=DECIMAL}, #{deliveramount,jdbcType=DECIMAL}, 
+      #{deliveramount2,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.account.AccountTotalVo">
+    insert into T_ACCOUNT_ACCOUNTTOTAL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="orderdate != null">
+        ORDERDATE,
+      </if>
+      <if test="calcdate != null">
+        CALCDATE,
+      </if>
+      <if test="cashierid != null">
+        CASHIERID,
+      </if>
+      <if test="cashier != null">
+        CASHIER,
+      </if>
+      <if test="onlineamount != null">
+        ONLINEAMOUNT,
+      </if>
+      <if test="onlinecount != null">
+        ONLINECOUNT,
+      </if>
+      <if test="cardamount != null">
+        CARDAMOUNT,
+      </if>
+      <if test="cardcount != null">
+        CARDCOUNT,
+      </if>
+      <if test="cashamount != null">
+        CASHAMOUNT,
+      </if>
+      <if test="cashcount != null">
+        CASHCOUNT,
+      </if>
+      <if test="returnamount != null">
+        RETURNAMOUNT,
+      </if>
+      <if test="returncount != null">
+        RETURNCOUNT,
+      </if>
+      <if test="turngoodsamount != null">
+        TURNGOODSAMOUNT,
+      </if>
+      <if test="turngoodscount != null">
+        TURNGOODSCOUNT,
+      </if>
+      <if test="tempstorageamount != null">
+        TEMPSTORAGEAMOUNT,
+      </if>
+      <if test="tempstoragecount != null">
+        TEMPSTORAGECOUNT,
+      </if>
+      <if test="prepayamount != null">
+        PREPAYAMOUNT,
+      </if>
+      <if test="prepaycount != null">
+        PREPAYCOUNT,
+      </if>
+      <if test="todayarrears != null">
+        TODAYARREARS,
+      </if>
+      <if test="totalarrears != null">
+        TOTALARREARS,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="uptime != null">
+        UPTIME,
+      </if>
+      <if test="createid != null">
+        CREATEID,
+      </if>
+      <if test="createcode != null">
+        CREATECODE,
+      </if>
+      <if test="updateid != null">
+        UPDATEID,
+      </if>
+      <if test="updatepersonname != null">
+        UPDATEPERSONNAME,
+      </if>
+      <if test="arrearsreason != null">
+        ARREARSREASON,
+      </if>
+      <if test="saleamount != null">
+        SALEAMOUNT,
+      </if>
+      <if test="salecount != null">
+        SALECOUNT,
+      </if>
+      <if test="routecode != null">
+        ROUTECODE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="tempstorageamount2 != null">
+        TEMPSTORAGEAMOUNT2,
+      </if>
+      <if test="tempstoragecount2 != null">
+        TEMPSTORAGECOUNT2,
+      </if>
+      <if test="otheramount != null">
+        OTHERAMOUNT,
+      </if>
+      <if test="othercount != null">
+        OTHERCOUNT,
+      </if>
+      <if test="otherremarks != null">
+        OTHERREMARKS,
+      </if>
+      <if test="turngoodsamount2 != null">
+        TURNGOODSAMOUNT2,
+      </if>
+      <if test="turngoodscount2 != null">
+        TURNGOODSCOUNT2,
+      </if>
+      <if test="deliveramount != null">
+        DELIVERAMOUNT,
+      </if>
+      <if test="deliveramount2 != null">
+        DELIVERAMOUNT2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orderdate != null">
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calcdate != null">
+        #{calcdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashierid != null">
+        #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashier != null">
+        #{cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineamount != null">
+        #{onlineamount,jdbcType=DECIMAL},
+      </if>
+      <if test="onlinecount != null">
+        #{onlinecount,jdbcType=DECIMAL},
+      </if>
+      <if test="cardamount != null">
+        #{cardamount,jdbcType=DECIMAL},
+      </if>
+      <if test="cardcount != null">
+        #{cardcount,jdbcType=DECIMAL},
+      </if>
+      <if test="cashamount != null">
+        #{cashamount,jdbcType=DECIMAL},
+      </if>
+      <if test="cashcount != null">
+        #{cashcount,jdbcType=DECIMAL},
+      </if>
+      <if test="returnamount != null">
+        #{returnamount,jdbcType=DECIMAL},
+      </if>
+      <if test="returncount != null">
+        #{returncount,jdbcType=DECIMAL},
+      </if>
+      <if test="turngoodsamount != null">
+        #{turngoodsamount,jdbcType=DECIMAL},
+      </if>
+      <if test="turngoodscount != null">
+        #{turngoodscount,jdbcType=DECIMAL},
+      </if>
+      <if test="tempstorageamount != null">
+        #{tempstorageamount,jdbcType=DECIMAL},
+      </if>
+      <if test="tempstoragecount != null">
+        #{tempstoragecount,jdbcType=DECIMAL},
+      </if>
+      <if test="prepayamount != null">
+        #{prepayamount,jdbcType=DECIMAL},
+      </if>
+      <if test="prepaycount != null">
+        #{prepaycount,jdbcType=DECIMAL},
+      </if>
+      <if test="todayarrears != null">
+        #{todayarrears,jdbcType=DECIMAL},
+      </if>
+      <if test="totalarrears != null">
+        #{totalarrears,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptime != null">
+        #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null">
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createcode != null">
+        #{createcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateid != null">
+        #{updateid,jdbcType=DECIMAL},
+      </if>
+      <if test="updatepersonname != null">
+        #{updatepersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="arrearsreason != null">
+        #{arrearsreason,jdbcType=VARCHAR},
+      </if>
+      <if test="saleamount != null">
+        #{saleamount,jdbcType=DECIMAL},
+      </if>
+      <if test="salecount != null">
+        #{salecount,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null">
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="tempstorageamount2 != null">
+        #{tempstorageamount2,jdbcType=DECIMAL},
+      </if>
+      <if test="tempstoragecount2 != null">
+        #{tempstoragecount2,jdbcType=DECIMAL},
+      </if>
+      <if test="otheramount != null">
+        #{otheramount,jdbcType=DECIMAL},
+      </if>
+      <if test="othercount != null">
+        #{othercount,jdbcType=DECIMAL},
+      </if>
+      <if test="otherremarks != null">
+        #{otherremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="turngoodsamount2 != null">
+        #{turngoodsamount2,jdbcType=DECIMAL},
+      </if>
+      <if test="turngoodscount2 != null">
+        #{turngoodscount2,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveramount != null">
+        #{deliveramount,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveramount2 != null">
+        #{deliveramount2,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.account.AccountTotalVo">
+    update T_ACCOUNT_ACCOUNTTOTAL
+    <set>
+      <if test="orderdate != null">
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calcdate != null">
+        CALCDATE = #{calcdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashierid != null">
+        CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashier != null">
+        CASHIER = #{cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineamount != null">
+        ONLINEAMOUNT = #{onlineamount,jdbcType=DECIMAL},
+      </if>
+      <if test="onlinecount != null">
+        ONLINECOUNT = #{onlinecount,jdbcType=DECIMAL},
+      </if>
+      <if test="cardamount != null">
+        CARDAMOUNT = #{cardamount,jdbcType=DECIMAL},
+      </if>
+      <if test="cardcount != null">
+        CARDCOUNT = #{cardcount,jdbcType=DECIMAL},
+      </if>
+      <if test="cashamount != null">
+        CASHAMOUNT = #{cashamount,jdbcType=DECIMAL},
+      </if>
+      <if test="cashcount != null">
+        CASHCOUNT = #{cashcount,jdbcType=DECIMAL},
+      </if>
+      <if test="returnamount != null">
+        RETURNAMOUNT = #{returnamount,jdbcType=DECIMAL},
+      </if>
+      <if test="returncount != null">
+        RETURNCOUNT = #{returncount,jdbcType=DECIMAL},
+      </if>
+      <if test="turngoodsamount != null">
+        TURNGOODSAMOUNT = #{turngoodsamount,jdbcType=DECIMAL},
+      </if>
+      <if test="turngoodscount != null">
+        TURNGOODSCOUNT = #{turngoodscount,jdbcType=DECIMAL},
+      </if>
+      <if test="tempstorageamount != null">
+        TEMPSTORAGEAMOUNT = #{tempstorageamount,jdbcType=DECIMAL},
+      </if>
+      <if test="tempstoragecount != null">
+        TEMPSTORAGECOUNT = #{tempstoragecount,jdbcType=DECIMAL},
+      </if>
+      <if test="prepayamount != null">
+        PREPAYAMOUNT = #{prepayamount,jdbcType=DECIMAL},
+      </if>
+      <if test="prepaycount != null">
+        PREPAYCOUNT = #{prepaycount,jdbcType=DECIMAL},
+      </if>
+      <if test="todayarrears != null">
+        TODAYARREARS = #{todayarrears,jdbcType=DECIMAL},
+      </if>
+      <if test="totalarrears != null">
+        TOTALARREARS = #{totalarrears,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptime != null">
+        UPTIME = #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null">
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createcode != null">
+        CREATECODE = #{createcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateid != null">
+        UPDATEID = #{updateid,jdbcType=DECIMAL},
+      </if>
+      <if test="updatepersonname != null">
+        UPDATEPERSONNAME = #{updatepersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="arrearsreason != null">
+        ARREARSREASON = #{arrearsreason,jdbcType=VARCHAR},
+      </if>
+      <if test="saleamount != null">
+        SALEAMOUNT = #{saleamount,jdbcType=DECIMAL},
+      </if>
+      <if test="salecount != null">
+        SALECOUNT = #{salecount,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null">
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="tempstorageamount2 != null">
+        TEMPSTORAGEAMOUNT2 = #{tempstorageamount2,jdbcType=DECIMAL},
+      </if>
+      <if test="tempstoragecount2 != null">
+        TEMPSTORAGECOUNT2 = #{tempstoragecount2,jdbcType=DECIMAL},
+      </if>
+      <if test="otheramount != null">
+        OTHERAMOUNT = #{otheramount,jdbcType=DECIMAL},
+      </if>
+      <if test="othercount != null">
+        OTHERCOUNT = #{othercount,jdbcType=DECIMAL},
+      </if>
+      <if test="otherremarks != null">
+        OTHERREMARKS = #{otherremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="turngoodsamount2 != null">
+        TURNGOODSAMOUNT2 = #{turngoodsamount2,jdbcType=DECIMAL},
+      </if>
+      <if test="turngoodscount2 != null">
+        TURNGOODSCOUNT2 = #{turngoodscount2,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveramount != null">
+        DELIVERAMOUNT = #{deliveramount,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveramount2 != null">
+        DELIVERAMOUNT2 = #{deliveramount2,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.account.AccountTotalVo">
+    update T_ACCOUNT_ACCOUNTTOTAL
+    set ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      CALCDATE = #{calcdate,jdbcType=TIMESTAMP},
+      CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      CASHIER = #{cashier,jdbcType=VARCHAR},
+      ONLINEAMOUNT = #{onlineamount,jdbcType=DECIMAL},
+      ONLINECOUNT = #{onlinecount,jdbcType=DECIMAL},
+      CARDAMOUNT = #{cardamount,jdbcType=DECIMAL},
+      CARDCOUNT = #{cardcount,jdbcType=DECIMAL},
+      CASHAMOUNT = #{cashamount,jdbcType=DECIMAL},
+      CASHCOUNT = #{cashcount,jdbcType=DECIMAL},
+      RETURNAMOUNT = #{returnamount,jdbcType=DECIMAL},
+      RETURNCOUNT = #{returncount,jdbcType=DECIMAL},
+      TURNGOODSAMOUNT = #{turngoodsamount,jdbcType=DECIMAL},
+      TURNGOODSCOUNT = #{turngoodscount,jdbcType=DECIMAL},
+      TEMPSTORAGEAMOUNT = #{tempstorageamount,jdbcType=DECIMAL},
+      TEMPSTORAGECOUNT = #{tempstoragecount,jdbcType=DECIMAL},
+      PREPAYAMOUNT = #{prepayamount,jdbcType=DECIMAL},
+      PREPAYCOUNT = #{prepaycount,jdbcType=DECIMAL},
+      TODAYARREARS = #{todayarrears,jdbcType=DECIMAL},
+      TOTALARREARS = #{totalarrears,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      UPTIME = #{uptime,jdbcType=TIMESTAMP},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATECODE = #{createcode,jdbcType=VARCHAR},
+      UPDATEID = #{updateid,jdbcType=DECIMAL},
+      UPDATEPERSONNAME = #{updatepersonname,jdbcType=VARCHAR},
+      ARREARSREASON = #{arrearsreason,jdbcType=VARCHAR},
+      SALEAMOUNT = #{saleamount,jdbcType=DECIMAL},
+      SALECOUNT = #{salecount,jdbcType=DECIMAL},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      TEMPSTORAGEAMOUNT2 = #{tempstorageamount2,jdbcType=DECIMAL},
+      TEMPSTORAGECOUNT2 = #{tempstoragecount2,jdbcType=DECIMAL},
+      OTHERAMOUNT = #{otheramount,jdbcType=DECIMAL},
+      OTHERCOUNT = #{othercount,jdbcType=DECIMAL},
+      OTHERREMARKS = #{otherremarks,jdbcType=VARCHAR},
+      TURNGOODSAMOUNT2 = #{turngoodsamount2,jdbcType=DECIMAL},
+      TURNGOODSCOUNT2 = #{turngoodscount2,jdbcType=DECIMAL},
+      DELIVERAMOUNT = #{deliveramount,jdbcType=DECIMAL},
+      DELIVERAMOUNT2 = #{deliveramount2,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,172 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.perform;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.perform.WorkcontentService;
+import com.ztel.app.vo.perform.KeyworkVo;
+import com.ztel.app.vo.perform.WorkcontentVo;
+import com.ztel.app.vo.sys.UserVo;
+import com.ztel.framework.util.DateUtil;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author lcf
+ * @since 2017年2月26日
+ * 重点工作
+ */
+@Controller
+@RequestMapping("/perform/workcontent")
+public class WorkcontentCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(WorkcontentCtrl.class);
+	
+	@Autowired
+	private WorkcontentService workcontentService = null;
+	
+	/**
+	 * 日常工作
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("toworkcontent")
+	public String tokeywork(HttpServletRequest request) {
+		return "/perform/v_workcontent";
+	}
+	
+	
+	
+	@RequestMapping(value="getWorkcontentList")
+	 @ResponseBody
+	 public List<WorkcontentVo> getWorkcontentList(WorkcontentVo workcontentVo, HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		 //String keyword = workcontentVo.getKeyword();
+		 String searchdept = request.getParameter("searchdept");
+		 String deptid = request.getParameter("deptid");
+		 String ctype = request.getParameter("ctype");
+		 String searchtime = request.getParameter("searchtime");
+		 if(searchtime==null){
+			 searchtime=DateUtil.getyyyy_mm();
+		 }
+			 searchtime = "2016-08";
+		 //if(searchtime==null)searchtime="2017-02-01";
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		 if(searchtime!=null&&!searchtime.equals("")){
+				//Date searchtimeD = sdf.parse(searchtime);
+				workcontentVo.setWorkdatestr(searchtime);
+		 }
+		 if(deptid!=null&&!deptid.equals("")){
+			 workcontentVo.setDeptid(Integer.parseInt(deptid));
+		 }
+		 List<WorkcontentVo> workcontentList = new ArrayList<WorkcontentVo>();
+		 workcontentList = workcontentService.selectWorkcontentList(workcontentVo);
+		return workcontentList;
+	}
+	
+	 /**
+	  * 新增
+	  * @return
+	  */
+	 @RequestMapping(value="doSave")
+	 @ResponseBody
+	 public  Map<String, Object> doSave(HttpServletRequest request) throws Exception
+	 {
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 String ctype = request.getParameter("ctype");//类型(10:重点工作  20:月度计划调整)
+		 String workdate_new = request.getParameter("workdate_new");//工作时间
+		 if(workdate_new==null){
+			 workdate_new=DateUtil.getyyyy_mm();
+		 }
+		 workdate_new = workdate_new + "-01";
+		 String deptid_new = request.getParameter("deptid_new");//计划调整部门
+		 String weight_new = request.getParameter("weight_new");//权重
+		 if(weight_new==null||weight_new.equals(""))weight_new="0";
+		 String content_new = request.getParameter("content_new");//工作内容
+		 String finishdate_new = request.getParameter("finishdate_new");//完成期限
+		 String process_new = request.getParameter("process_new");//过程进度
+		 String target_new = request.getParameter("target_new");//要求及目标
+		 String partake_new = request.getParameter("partake_new");//实施人
+		 
+		 Long userid = 0L;
+		 int checkdeptid = 0;
+		 String username = "";
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
+			 userid = userVo.getId();
+			 checkdeptid = userVo.getDeptid();
+			 username = userVo.getUsername();
+		 }
+		 
+		 KeyworkVo keyworkVo = new KeyworkVo();
+		 keyworkVo.setDeptid(Integer.parseInt(deptid_new));
+		 keyworkVo.setWeight(new BigDecimal(weight_new));
+		 keyworkVo.setContent(content_new);
+		 keyworkVo.setFinishdate(finishdate_new);
+		 keyworkVo.setProcess(process_new);
+		 keyworkVo.setTarget(target_new);
+		 keyworkVo.setPartake(partake_new);
+		 keyworkVo.setCreateid(userid);
+		 keyworkVo.setStatus("0");
+		 keyworkVo.setCtype(ctype);//类型(10:重点工作  20:月度计划调整)
+		 keyworkVo.setCreatedate(new Date());
+
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+				Date workdate_newD = sdf.parse(workdate_new);
+				keyworkVo.setWorkdate(workdate_newD);
+		 
+		 try{
+			// keyworkService.insertKeywork(keyworkVo);
+		 
+		 map.put("msg", "新增成功");
+		 }catch(Exception e){
+			 map.put("msg", "新增失败");
+			 e.printStackTrace();
+		 }
+		 map.put("total", "1");
+		 return map;
+	 }
+	 
+	 /**
+	  * 删除
+	  * @return
+	  */
+	 @RequestMapping(value="doDel")
+	 @ResponseBody
+	 public  Map<String, Object> doDel(HttpServletRequest request)
+	 {
+		 Map<String, Object> resultMap=new HashMap<String, Object>();  
+			
+		 String id = request.getParameter("id");
+		 if(id==null||id.equals(""))id="0";
+
+		 try{
+			 workcontentService.doDel(new Integer(id));
+		 resultMap.put("msg", "删除成功！");
+		 }catch(Exception e){
+			 resultMap.put("msg", "删除失败！");
+		 }
+		 resultMap.put("total", 1);
+		 return resultMap;
+	 }
+	 
+}
+	
+    

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.EvalitemVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.EvalitemVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CONTENTSHORT" property="contentshort" jdbcType="VARCHAR" />
+    <result column="SCORE" property="score" jdbcType="DECIMAL" />
+    <result column="ASSESSWEIGHT" property="assessweight" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="VOTEFLAG" property="voteflag" jdbcType="VARCHAR" />
+    <result column="USETYPE" property="usetype" jdbcType="VARCHAR" />
+    <result column="ASSESSTYPE" property="assesstype" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="RESERVE" property="reserve" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="VOXFILE" property="voxfile" jdbcType="VARCHAR" />
+    <result column="ITEMNUM" property="itemnum" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CONTENTSHORT, SCORE, ASSESSWEIGHT, FLAG, VOTEFLAG, USETYPE, ASSESSTYPE, DELSTATUS, 
+    RESERVE, REMARKS, CONTENT, VOXFILE, ITEMNUM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_EVALITEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_EVALITEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.EvalitemVo" >
+    insert into T_SQ_EVALITEM (ID, CONTENTSHORT, SCORE, 
+      ASSESSWEIGHT, FLAG, VOTEFLAG, 
+      USETYPE, ASSESSTYPE, DELSTATUS, 
+      RESERVE, REMARKS, CONTENT, 
+      VOXFILE, ITEMNUM)
+    values (#{id,jdbcType=DECIMAL}, #{contentshort,jdbcType=VARCHAR}, #{score,jdbcType=DECIMAL}, 
+      #{assessweight,jdbcType=DECIMAL}, #{flag,jdbcType=VARCHAR}, #{voteflag,jdbcType=VARCHAR}, 
+      #{usetype,jdbcType=VARCHAR}, #{assesstype,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}, 
+      #{reserve,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{voxfile,jdbcType=VARCHAR}, #{itemnum,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.EvalitemVo" >
+    insert into T_SQ_EVALITEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="contentshort != null" >
+        CONTENTSHORT,
+      </if>
+      <if test="score != null" >
+        SCORE,
+      </if>
+      <if test="assessweight != null" >
+        ASSESSWEIGHT,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="voteflag != null" >
+        VOTEFLAG,
+      </if>
+      <if test="usetype != null" >
+        USETYPE,
+      </if>
+      <if test="assesstype != null" >
+        ASSESSTYPE,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="reserve != null" >
+        RESERVE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="voxfile != null" >
+        VOXFILE,
+      </if>
+      <if test="itemnum != null" >
+        ITEMNUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="contentshort != null" >
+        #{contentshort,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="assessweight != null" >
+        #{assessweight,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="voteflag != null" >
+        #{voteflag,jdbcType=VARCHAR},
+      </if>
+      <if test="usetype != null" >
+        #{usetype,jdbcType=VARCHAR},
+      </if>
+      <if test="assesstype != null" >
+        #{assesstype,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        #{reserve,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="voxfile != null" >
+        #{voxfile,jdbcType=VARCHAR},
+      </if>
+      <if test="itemnum != null" >
+        #{itemnum,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.EvalitemVo" >
+    update T_SQ_EVALITEM
+    <set >
+      <if test="contentshort != null" >
+        CONTENTSHORT = #{contentshort,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="assessweight != null" >
+        ASSESSWEIGHT = #{assessweight,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="voteflag != null" >
+        VOTEFLAG = #{voteflag,jdbcType=VARCHAR},
+      </if>
+      <if test="usetype != null" >
+        USETYPE = #{usetype,jdbcType=VARCHAR},
+      </if>
+      <if test="assesstype != null" >
+        ASSESSTYPE = #{assesstype,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        RESERVE = #{reserve,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="voxfile != null" >
+        VOXFILE = #{voxfile,jdbcType=VARCHAR},
+      </if>
+      <if test="itemnum != null" >
+        ITEMNUM = #{itemnum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.EvalitemVo" >
+    update T_SQ_EVALITEM
+    set CONTENTSHORT = #{contentshort,jdbcType=VARCHAR},
+      SCORE = #{score,jdbcType=DECIMAL},
+      ASSESSWEIGHT = #{assessweight,jdbcType=DECIMAL},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      VOTEFLAG = #{voteflag,jdbcType=VARCHAR},
+      USETYPE = #{usetype,jdbcType=VARCHAR},
+      ASSESSTYPE = #{assesstype,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      RESERVE = #{reserve,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      VOXFILE = #{voxfile,jdbcType=VARCHAR},
+      ITEMNUM = #{itemnum,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

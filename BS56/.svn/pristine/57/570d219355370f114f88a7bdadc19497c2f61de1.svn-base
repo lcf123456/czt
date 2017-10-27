@@ -1,0 +1,107 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.wms;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.produce.OrderService;
+import com.ztel.app.service.wms.OutBoundService;
+import com.ztel.app.service.wms.ShipOrderService;
+import com.ztel.app.vo.wms.OutBoundVo;
+import com.ztel.app.vo.wms.ShipOrderVo;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author Zeal
+ * @since 2017年2月26日
+ *入库单
+ */
+@Controller
+@RequestMapping("/wms/outbound")
+public class OutBoundCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(OutBoundCtrl.class);
+	
+	@Autowired
+	private OutBoundService outBoundService = null;
+	
+	@Autowired
+	private ShipOrderService shipOrderService = null;
+	
+	@Autowired
+	private OrderService orderService = null;
+	
+	//@Autowired
+	//private OutBoundLineService  inBoundLineService = null;
+	
+	@RequestMapping("toOutbound")
+	public String index(HttpServletRequest request) {
+		String outboundtype = request.getParameter("outboundtype");//出库类型(10订单出库 20 调拨出库)
+		request.setAttribute("outboundtype", outboundtype);
+		return "/wms/v_outbound";
+	}
+	
+	
+	/**
+	 * 获取出库单列表
+	 * @param outBoundVo 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="getOutBoundList")
+	 @ResponseBody
+	 public List<OutBoundVo> getOutBoundList(HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		String outboundtype = request.getParameter("outboundtype");
+		if(outboundtype==null)outboundtype="10";//缺省10订单出库
+		
+		OutBoundVo outBoundVo = new OutBoundVo();
+			outBoundVo.setOutboundtype(new BigDecimal(outboundtype));
+			
+		List<OutBoundVo> outBoundVoList = new ArrayList<OutBoundVo>();
+		outBoundVoList = outBoundService.selectOutoundList(outBoundVo);
+		 
+		return outBoundVoList;
+	}
+	
+	/**
+	 * 获取出库单列表
+	 * @param outBoundVo 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="getRouteCodeList")
+	 @ResponseBody
+	 public List<ShipOrderVo> getRouteCodeList(HttpServletRequest request) throws Exception{
+		 List<ShipOrderVo> result=new ArrayList<ShipOrderVo>(); 
+		 String orderdateStr = request.getParameter("orderdate");//订单日期
+		 //orderdateStr = "2017-05-23";
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+		    Date orderdate = sdf.parse(orderdateStr);
+		    
+		 ShipOrderVo shipOrderVo = new ShipOrderVo();
+		 shipOrderVo.setOrderdate(orderdate);
+		 result = shipOrderService.selectRoutecodeList(shipOrderVo);
+		return result;
+	}
+	
+	
+}

@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.service.sys;
+
+import java.util.List;
+
+import com.ztel.app.vo.sys.BusinessRoleVo;
+import com.ztel.framework.vo.Pagination;
+
+/**
+ * @author lcf
+ * @since 2017年2月27日
+ */
+public interface BusinessRoleService {
+	
+	public List<BusinessRoleVo> getBusinessRolePageList(Pagination<?> page);
+	
+	public void deleteRoleById(List<Integer>  id);
+	
+	public int doAddRole(BusinessRoleVo businessRoleVo);
+	
+	public int  doUpdateRole(BusinessRoleVo businessRoleVo);
+	
+	/**
+	 * 角色授权给用户
+	 * @param userstr 用户串 格式为姓名[工号];姓名[工号];姓名[工号]...  如：谢静[0502];殷兴强[0061];...
+	 * @param roleid
+	 */
+		public void doRoleGrant(String userstr,String roleid);
+	
+}

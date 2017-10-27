@@ -1,0 +1,44 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.ATSCellInfoDetailVo;
+import java.math.BigDecimal;
+import java.util.List;
+
+public interface ATSCellInfoDetailVoMapper {
+	List<ATSCellInfoDetailVo> getATSCellInfoSummary();
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insert(ATSCellInfoDetailVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insertSelective(ATSCellInfoDetailVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    ATSCellInfoDetailVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKeySelective(ATSCellInfoDetailVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKey(ATSCellInfoDetailVo record);
+}

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.OperationlogVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.OperationlogVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="OPERATIONDATE" property="operationdate" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="MENU" property="menu" jdbcType="VARCHAR" />
+    <result column="POINT" property="point" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USERID, OPERATIONDATE, REMARKS, URL, MENU, POINT, USERNAME
+  </sql>
+  <select id="getOperationlogList"  resultType="OperationlogVo">
+    select  
+    <include refid="Base_Column_List" />
+     from T_SYS_OPERATIONLOG 
+     <if test="keyword != null and keyword != ''">
+        where (username like '%'||#{keyword}||'%' or menu like '%'||#{keyword}||'%' or point like '%'||#{keyword}||'%')
+    </if>
+      order by id desc
+</select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_OPERATIONLOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_OPERATIONLOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.OperationlogVo" >
+    insert into T_SYS_OPERATIONLOG (ID, USERID, OPERATIONDATE, 
+      REMARKS, URL, MENU, 
+      POINT, USERNAME)
+    values (#{id,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, #{operationdate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{menu,jdbcType=VARCHAR}, 
+      #{point,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.sys.OperationlogVo" >
+    insert into T_SYS_OPERATIONLOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="userid != null" >
+        USERID,
+      </if>
+        OPERATIONDATE,
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="menu != null" >
+        MENU,
+      </if>
+      <if test="point != null" >
+        POINT,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_SYS_OPERATIONLOG.NEXTVAL,
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+       sysdate,
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menu != null" >
+        #{menu,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.OperationlogVo" >
+    update T_SYS_OPERATIONLOG
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="operationdate != null" >
+        OPERATIONDATE = #{operationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menu != null" >
+        MENU = #{menu,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        POINT = #{point,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.OperationlogVo" >
+    update T_SYS_OPERATIONLOG
+    set USERID = #{userid,jdbcType=DECIMAL},
+      OPERATIONDATE = #{operationdate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      MENU = #{menu,jdbcType=VARCHAR},
+      POINT = #{point,jdbcType=VARCHAR},
+      USERNAME = #{username,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

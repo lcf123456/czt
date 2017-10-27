@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.OperationrolerelativeVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.OperationrolerelativeVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="OPERATIONID" property="operationid" jdbcType="DECIMAL" />
+    <result column="ROLEID" property="roleid" jdbcType="DECIMAL" />
+    <result column="BELONGSYS"  property="belongsys" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, OPERATIONID, ROLEID,BELONGSYS 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_OPERATIONROLERELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SYS_OPERATIONROLERELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByRoleid"  >
+    delete from T_SYS_OPERATIONROLERELATIVE
+    where ROLEID = #{roleid} and BELONGSYS = #{belongsys}
+  </delete>
+  <delete id="deleteByOperationid"  >
+    delete from T_SYS_OPERATIONROLERELATIVE
+    where OPERATIONID = #{operationid}
+  </delete>
+  
+  <!-- 根据角色id和功能点id查找记录，检查是否授权，用于功能点授权显示时是否显示勾选 -->
+  <select id="selectByOpidRoleid"  resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from T_SYS_OPERATIONROLERELATIVE
+    where ROLEID = #{roleid}  and OPERATIONID = #{operationid}
+  </select>
+  
+   <!-- 根据角色id查找记录，用于角色登陆后取授权的功能点按钮，赋予到前台界面的全局变量 -->
+  <select id="selectListByRoleid"  resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from T_SYS_OPERATIONROLERELATIVE
+    where ROLEID = #{roleid}
+  </select>
+  
+ 
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.OperationrolerelativeVo" >
+    insert into T_SYS_OPERATIONROLERELATIVE (ID, OPERATIONID, ROLEID,BELONGSYS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{operationid,jdbcType=DECIMAL}, #{roleid,jdbcType=DECIMAL}, #{belongsys,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys ="false" parameterType="com.ztel.app.vo.sys.OperationrolerelativeVo" >
+    insert into T_SYS_OPERATIONROLERELATIVE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="operationid != null" >
+        OPERATIONID,
+      </if>
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="belongsys != null" >
+        BELONGSYS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       S_SYS_ROLE.nextval,
+      <if test="operationid != null" >
+        #{operationid,jdbcType=DECIMAL},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=DECIMAL},
+      </if>
+      <if test="belongsys != null" >
+        #{belongsys,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.OperationrolerelativeVo" >
+    update T_SYS_OPERATIONROLERELATIVE
+    <set >
+      <if test="operationid != null" >
+        OPERATIONID = #{operationid,jdbcType=DECIMAL},
+      </if>
+      <if test="roleid != null" >
+        ROLEID = #{roleid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.OperationrolerelativeVo" >
+    update T_SYS_OPERATIONROLERELATIVE
+    set OPERATIONID = #{operationid,jdbcType=DECIMAL},
+      ROLEID = #{roleid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

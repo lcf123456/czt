@@ -1,0 +1,22 @@
+package com.ztel.app.web.ctrl.account;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * 预付款客户
+ * @author lcf
+ *
+ */
+@Controller
+@RequestMapping("/account/prepay")
+public class PrepayCtrl {
+	
+	@RequestMapping("toPrepayvehicle")
+	public String index1(HttpServletRequest request) {
+		return "/account/v_prepayvehicle";
+	}
+
+}

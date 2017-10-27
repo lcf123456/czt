@@ -1,0 +1,23 @@
+package com.ztel.app.service.wms.Impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ztel.app.persist.mybatis.wms.InBoundLineVoMapper;
+import com.ztel.app.persist.mybatis.wms.InBoundVoMapper;
+import com.ztel.app.service.wms.InBoundLineService;
+import com.ztel.app.service.wms.InBoundService;
+import com.ztel.app.vo.wms.InBoundLineVo;
+import com.ztel.app.vo.wms.InBoundVo;
+
+public class InBoundLineServiceImpl implements InBoundLineService {
+
+	@Autowired
+	private InBoundLineVoMapper voMapper = null;
+
+	@Override
+	public void InsertInBoundLine(InBoundLineVo vo) {
+		// TODO Auto-generated method stub
+		voMapper.insertSelective(vo);
+	}
+
+}

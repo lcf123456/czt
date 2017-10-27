@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.perform.DeptmonthsumVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.perform.DeptmonthsumVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SCOREMONTH" property="scoremonth" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="SELFSCORE" property="selfscore" jdbcType="DECIMAL" />
+    <result column="SELFID" property="selfid" jdbcType="DECIMAL" />
+    <result column="DEPTMNGSCORE" property="deptmngscore" jdbcType="DECIMAL" />
+    <result column="DEPTMNGRATING" property="deptmngrating" jdbcType="VARCHAR" />
+    <result column="DEPTMNGID" property="deptmngid" jdbcType="DECIMAL" />
+    <result column="GENMNGSCORE" property="genmngscore" jdbcType="DECIMAL" />
+    <result column="GENMNGRATING" property="genmngrating" jdbcType="VARCHAR" />
+    <result column="GENMNGID" property="genmngid" jdbcType="DECIMAL" />
+    <result column="CTYPE" property="ctype" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="BELONGDEPT" property="belongdept" jdbcType="DECIMAL" />
+    <result column="MNGDATE" property="mngdate" jdbcType="TIMESTAMP" />
+    <result column="GENMNGDATE" property="genmngdate" jdbcType="TIMESTAMP" />
+    <result column="MATTER" property="matter" jdbcType="VARCHAR" />
+    <result column="UNFINISHED" property="unfinished" jdbcType="VARCHAR" />
+    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+    <result column="BEGINTIME" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="SELFUSER" property="selfuser" jdbcType="VARCHAR" />
+    <result column="DEPTMNGUSER" property="deptmnguser" jdbcType="VARCHAR" />
+    <result column="GENMNGUSER" property="genmnguser" jdbcType="VARCHAR" />
+    <result column="STATUSNAME" property="statusname" jdbcType="VARCHAR" />
+    <result column="BELONGDEPTNAME" property="belongdeptname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SCOREMONTH, CREATETIME, SELFSCORE, SELFID, DEPTMNGSCORE, DEPTMNGRATING, DEPTMNGID, 
+    GENMNGSCORE, GENMNGRATING, GENMNGID, CTYPE, STATUS, BELONGDEPT, MNGDATE, GENMNGDATE, 
+    MATTER, UNFINISHED, SUMMARY
+  </sql>
+  
+  <select id="selectDeptmonthsumPageList" parameterType="Pagination" resultType="com.ztel.app.vo.perform.DeptmonthsumVo">
+    select dm.ID, dm.SCOREMONTH, dm.CREATETIME, dm.SELFSCORE, dm.SELFID, dm.DEPTMNGSCORE, dm.DEPTMNGRATING, dm.DEPTMNGID, 
+    dm.GENMNGSCORE, dm.GENMNGRATING, dm.GENMNGID, dm.CTYPE, dm.STATUS, dm.BELONGDEPT, dm.MNGDATE, dm.GENMNGDATE, 
+    decode(dm.STATUS,'10','自评未完成','20','自评完成','30','部长评分完成','40','总经理评分完成') as statusname,
+    dm.MATTER, dm.UNFINISHED, dm.SUMMARY,u1.username as  selfuser,u2.username as  deptmnguser,u3.username as  genmnguser ,dept.deptname as belongdeptname 
+    from T_PERFORM_DEPTMONTHSUM dm 
+    left outer join (select * from t_sys_user where delstatus=10) u1 on dm.SELFID=u1.id
+    left outer join (select * from t_sys_user where delstatus=10) u2 on dm.DEPTMNGID=u2.id
+    left outer join (select * from t_sys_user where delstatus=10) u3 on dm.GENMNGID=u3.id
+    left outer join t_sys_dept dept on dm.BELONGDEPT=dept.id
+    where 1=1 
+    <if test="param != null and param.begintime != null and param.endtime != null">
+        AND (trunc(dm.CREATETIME) between  #{param.begintime} and #{param.endtime})
+    </if>
+    <if test="param != null and param.ctype != null">
+        AND dm.ctype = #{param.ctype}
+    </if>
+    <if test="param != null and param.useridstr != null">
+        AND dm.SELFID in ${param.useridstr}
+    </if>
+    order by dm.id desc
+</select>
+
+<select id="selectDeptmonthsumByCond" parameterType="com.ztel.app.vo.perform.DeptmonthsumVo" resultType="com.ztel.app.vo.perform.DeptmonthsumVo">
+    select dm.ID, dm.SCOREMONTH, dm.CREATETIME, dm.SELFSCORE, dm.SELFID, dm.DEPTMNGSCORE, dm.DEPTMNGRATING, dm.DEPTMNGID, 
+    dm.GENMNGSCORE, dm.GENMNGRATING, dm.GENMNGID, dm.CTYPE, dm.STATUS, dm.BELONGDEPT, dm.MNGDATE, dm.GENMNGDATE, 
+    decode(dm.STATUS,'10','自评未完成','20','自评完成','30','部长评分完成','40','总经理评分完成') as statusname,
+    dm.MATTER, dm.UNFINISHED, dm.SUMMARY,u1.username as  selfuser,u2.username as  deptmnguser,u3.username as  genmnguser ,dept.deptname as belongdeptname 
+    from T_PERFORM_DEPTMONTHSUM dm
+    left outer join (select * from t_sys_user where delstatus=10) u1 on dm.SELFID=u1.id
+    left outer join (select * from t_sys_user where delstatus=10) u2 on dm.DEPTMNGID=u2.id
+    left outer join (select * from t_sys_user where delstatus=10) u3 on dm.GENMNGID=u3.id
+    left outer join t_sys_dept dept on dm.BELONGDEPT=dept.id
+    where 1=1 
+    <if test="id != null">
+        AND dm.id = #{id}
+    </if>
+</select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PERFORM_DEPTMONTHSUM
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_PERFORM_DEPTMONTHSUM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.perform.DeptmonthsumVo" >
+    insert into T_PERFORM_DEPTMONTHSUM (ID, SCOREMONTH, CREATETIME, 
+      SELFSCORE, SELFID, DEPTMNGSCORE, 
+      DEPTMNGRATING, DEPTMNGID, GENMNGSCORE, 
+      GENMNGRATING, GENMNGID, CTYPE, 
+      STATUS, BELONGDEPT, MNGDATE, 
+      GENMNGDATE, MATTER, UNFINISHED, 
+      SUMMARY)
+    values (#{id,jdbcType=DECIMAL}, #{scoremonth,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{selfscore,jdbcType=DECIMAL}, #{selfid,jdbcType=DECIMAL}, #{deptmngscore,jdbcType=DECIMAL}, 
+      #{deptmngrating,jdbcType=VARCHAR}, #{deptmngid,jdbcType=DECIMAL}, #{genmngscore,jdbcType=DECIMAL}, 
+      #{genmngrating,jdbcType=VARCHAR}, #{genmngid,jdbcType=DECIMAL}, #{ctype,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{belongdept,jdbcType=DECIMAL}, #{mngdate,jdbcType=TIMESTAMP}, 
+      #{genmngdate,jdbcType=TIMESTAMP}, #{matter,jdbcType=VARCHAR}, #{unfinished,jdbcType=VARCHAR}, 
+      #{summary,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.perform.DeptmonthsumVo" >
+    insert into T_PERFORM_DEPTMONTHSUM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="scoremonth != null" >
+        SCOREMONTH,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="selfscore != null" >
+        SELFSCORE,
+      </if>
+      <if test="selfid != null" >
+        SELFID,
+      </if>
+      <if test="deptmngscore != null" >
+        DEPTMNGSCORE,
+      </if>
+      <if test="deptmngrating != null" >
+        DEPTMNGRATING,
+      </if>
+      <if test="deptmngid != null" >
+        DEPTMNGID,
+      </if>
+      <if test="genmngscore != null" >
+        GENMNGSCORE,
+      </if>
+      <if test="genmngrating != null" >
+        GENMNGRATING,
+      </if>
+      <if test="genmngid != null" >
+        GENMNGID,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="belongdept != null" >
+        BELONGDEPT,
+      </if>
+      <if test="mngdate != null" >
+        MNGDATE,
+      </if>
+      <if test="genmngdate != null" >
+        GENMNGDATE,
+      </if>
+      <if test="matter != null" >
+        MATTER,
+      </if>
+      <if test="unfinished != null" >
+        UNFINISHED,
+      </if>
+      <if test="summary != null" >
+        SUMMARY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="scoremonth != null" >
+        #{scoremonth,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="selfscore != null" >
+        #{selfscore,jdbcType=DECIMAL},
+      </if>
+      <if test="selfid != null" >
+        #{selfid,jdbcType=DECIMAL},
+      </if>
+      <if test="deptmngscore != null" >
+        #{deptmngscore,jdbcType=DECIMAL},
+      </if>
+      <if test="deptmngrating != null" >
+        #{deptmngrating,jdbcType=VARCHAR},
+      </if>
+      <if test="deptmngid != null" >
+        #{deptmngid,jdbcType=DECIMAL},
+      </if>
+      <if test="genmngscore != null" >
+        #{genmngscore,jdbcType=DECIMAL},
+      </if>
+      <if test="genmngrating != null" >
+        #{genmngrating,jdbcType=VARCHAR},
+      </if>
+      <if test="genmngid != null" >
+        #{genmngid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="belongdept != null" >
+        #{belongdept,jdbcType=DECIMAL},
+      </if>
+      <if test="mngdate != null" >
+        #{mngdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="genmngdate != null" >
+        #{genmngdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matter != null" >
+        #{matter,jdbcType=VARCHAR},
+      </if>
+      <if test="unfinished != null" >
+        #{unfinished,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.perform.DeptmonthsumVo" >
+    update T_PERFORM_DEPTMONTHSUM
+    <set >
+      <if test="scoremonth != null" >
+        SCOREMONTH = #{scoremonth,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="selfscore != null" >
+        SELFSCORE = #{selfscore,jdbcType=DECIMAL},
+      </if>
+      <if test="selfid != null" >
+        SELFID = #{selfid,jdbcType=DECIMAL},
+      </if>
+      <if test="deptmngscore != null" >
+        DEPTMNGSCORE = #{deptmngscore,jdbcType=DECIMAL},
+      </if>
+      <if test="deptmngrating != null" >
+        DEPTMNGRATING = #{deptmngrating,jdbcType=VARCHAR},
+      </if>
+      <if test="deptmngid != null" >
+        DEPTMNGID = #{deptmngid,jdbcType=DECIMAL},
+      </if>
+      <if test="genmngscore != null" >
+        GENMNGSCORE = #{genmngscore,jdbcType=DECIMAL},
+      </if>
+      <if test="genmngrating != null" >
+        GENMNGRATING = #{genmngrating,jdbcType=VARCHAR},
+      </if>
+      <if test="genmngid != null" >
+        GENMNGID = #{genmngid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="belongdept != null" >
+        BELONGDEPT = #{belongdept,jdbcType=DECIMAL},
+      </if>
+      <if test="mngdate != null" >
+        MNGDATE = #{mngdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="genmngdate != null" >
+        GENMNGDATE = #{genmngdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matter != null" >
+        MATTER = #{matter,jdbcType=VARCHAR},
+      </if>
+      <if test="unfinished != null" >
+        UNFINISHED = #{unfinished,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        SUMMARY = #{summary,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.perform.DeptmonthsumVo" >
+    update T_PERFORM_DEPTMONTHSUM
+    set SCOREMONTH = #{scoremonth,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      SELFSCORE = #{selfscore,jdbcType=DECIMAL},
+      SELFID = #{selfid,jdbcType=DECIMAL},
+      DEPTMNGSCORE = #{deptmngscore,jdbcType=DECIMAL},
+      DEPTMNGRATING = #{deptmngrating,jdbcType=VARCHAR},
+      DEPTMNGID = #{deptmngid,jdbcType=DECIMAL},
+      GENMNGSCORE = #{genmngscore,jdbcType=DECIMAL},
+      GENMNGRATING = #{genmngrating,jdbcType=VARCHAR},
+      GENMNGID = #{genmngid,jdbcType=DECIMAL},
+      CTYPE = #{ctype,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BELONGDEPT = #{belongdept,jdbcType=DECIMAL},
+      MNGDATE = #{mngdate,jdbcType=TIMESTAMP},
+      GENMNGDATE = #{genmngdate,jdbcType=TIMESTAMP},
+      MATTER = #{matter,jdbcType=VARCHAR},
+      UNFINISHED = #{unfinished,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

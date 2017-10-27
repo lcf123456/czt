@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.gis.GroupinfoVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.gis.GroupinfoVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="GROUPCODE" jdbcType="VARCHAR" property="groupcode" />
+    <result column="GROUPNAME" jdbcType="VARCHAR" property="groupname" />
+    <result column="MEMBER" jdbcType="DECIMAL" property="member" />
+    <result column="MEMBERNAME" jdbcType="VARCHAR" property="membername" />
+    <result column="DELSTATUS" jdbcType="DECIMAL" property="delstatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, GROUPCODE, GROUPNAME, MEMBER, MEMBERNAME, DELSTATUS
+  </sql>
+  <select id="getGroupinfoVoList"  resultType="com.ztel.app.vo.gis.GroupinfoVo" >
+SELECT groupcode,groupname,LISTAGG(membername, ';') WITHIN GROUP(ORDER BY membername) AS membername
+FROM t_gis_groupinfo where delstatus=10 
+GROUP BY groupcode,groupname
+ORDER BY groupcode   
+   </select>
+   
+ <select id="useGroupinfoVoList"  resultType="com.ztel.app.vo.gis.GroupinfoVo" >
+SELECT id,groupcode,groupname,member,membername
+FROM t_gis_groupinfo where delstatus=10 
+<if test="groupcode != null">
+and  GROUPCODE = #{groupcode,jdbcType=VARCHAR}
+</if>
+ORDER BY id   
+   </select>
+   
+   <!--  取所有列表 -->
+   <select id="selectAllGroupinfoList"  resultType="com.ztel.app.vo.gis.GroupinfoVo" >
+	SELECT  ID, GROUPCODE, GROUPNAME, MEMBER, MEMBERNAME, DELSTATUS
+	FROM t_gis_groupinfo where delstatus=10 
+	order by GROUPCODE
+   </select>
+   
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GIS_GROUPINFO
+    where GROUPCODE = #{groupcode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ztel.app.vo.gis.GroupinfoVo">
+    update  t_gis_groupinfo set delstatus=20 
+    where GROUPCODE = #{groupcode,jdbcType=VARCHAR}
+  </delete>
+   <delete id="deleteByUserPrimaryKey" parameterType="java.lang.Integer">
+    update  t_gis_groupinfo set delstatus=20 
+    where id = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.gis.GroupinfoVo">
+    insert into T_GIS_GROUPINFO (ID, GROUPCODE, GROUPNAME, 
+      MEMBER, MEMBERNAME, DELSTATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{groupcode,jdbcType=VARCHAR}, #{groupname,jdbcType=VARCHAR}, 
+      #{member,jdbcType=DECIMAL}, #{membername,jdbcType=VARCHAR}, #{delstatus,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.gis.GroupinfoVo">
+    insert into T_GIS_GROUPINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        ID,DELSTATUS,
+      <if test="groupcode != null">
+        GROUPCODE,
+      </if>
+      <if test="groupname != null">
+        GROUPNAME,
+      </if>
+      <if test="member != null">
+        MEMBER,
+      </if>
+      <if test="membername != null">
+        MEMBERNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        s_gis_groupinfo.nextval,10,
+      <if test="groupcode != null">
+        #{groupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupname != null">
+        #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="member != null">
+        #{member,jdbcType=DECIMAL},
+      </if>
+      <if test="membername != null">
+        #{membername,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.gis.GroupinfoVo">
+    update T_GIS_GROUPINFO
+    <set>
+      <if test="groupcode != null">
+        GROUPCODE = #{groupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupname != null">
+        GROUPNAME = #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="member != null">
+        MEMBER = #{member,jdbcType=DECIMAL},
+      </if>
+      <if test="membername != null">
+        MEMBERNAME = #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null">
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.gis.GroupinfoVo">
+    update T_GIS_GROUPINFO
+    set GROUPCODE = #{groupcode,jdbcType=VARCHAR},
+      GROUPNAME = #{groupname,jdbcType=VARCHAR},
+      MEMBER = #{member,jdbcType=DECIMAL},
+      MEMBERNAME = #{membername,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

@@ -1,0 +1,424 @@
+<%@ page language="java" contentType ="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %><!doctype html>
+
+<html>
+
+<%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/sys/vehicle.js"/>"></script>
+  <head>
+  </head>
+  
+  <body>
+  <!-- 查询
+  <div id="searchDiv">
+    <form id="queryForm" style="margin:10;text-align: center;">
+		<table width="100%">
+			<tr>
+			<td>角色名称：<input class="easyui-textbox"  name="rolename"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchUser();},prompt:'请输入角色名称...'" style="width:450px;height:26px;">
+            &nbsp;&nbsp;
+            <a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search">清空</a></td>
+			<td align="center"><a href="#" onclick="searchUser();" class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+			</tr>
+		</table>
+	</form>
+	</div>
+   -->
+	
+	
+	<!-- datagrid页面列表数据 -->
+	<div style="padding:10" id="tabdiv">
+		<table id="dataTable"></table>
+	</div>
+	
+	<!-- 查询-->
+	<div id="toolbar" style="padding:5px;height:auto;border-top:1px solid #95B8E7">
+	<form id="queryForm" style="margin:10;">
+		<div style="margin-bottom:5px">
+			<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newadd()">新增</a>
+			<a href="#" id="viewBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="openView()">查看</a>
+			<a href="#" id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEdit()">修改</a>
+			<a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">报废</a>
+			<select class="easyui-combobox" name="vehicles" id=vehicles style="width:auto;" data-option='selected:true;'>
+				<option value="10" selected>配送车辆</option>
+				<!-- <option value="20">干线车辆</option> -->
+				<option value="30">公务车辆</option>
+				<!--<option value="40">备用车辆</option>-->
+                <option value="" >所有车辆</option>
+			</select>
+			<input class="easyui-textbox"  name=vehicleno id=vehicleno  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchVehicle();},prompt:'请输入车牌号码...'," style="width:250px;height:24px;">
+			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
+		</div>
+		</form>
+	</div>
+	
+	<!-- 新增对话框 -->
+	<div id="add-dlg" class="easyui-dialog" style="width:550px;height:460px;padding:10px 20px;align:center;"
+			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<div class="ftitle"></div>
+		<form  id="add-fm" method="post" action="" novalidate  >
+			<div class="fitem">
+				<table width="100%" border="0" cellpadding="0" cellspacing="6">
+            <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
+               <tr><td colspan="4"  class="style2"><font color="blue">新增车辆基础信息</font></td></tr>
+               </table></td>
+           </tr>          
+     <tr>
+    <td >
+	  <table width="100%" border="0" cellpadding="2" cellspacing="2" class="">
+              <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>车辆用途：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                   <select name="vehicles" id="vehicles"  data-option='selected:true;'>
+                   	    <option value="10" selected>配送车辆</option>
+						<option value="30" >公务车辆</option>
+					</select>
+            </td>
+         <td width="5%"  height="20" align="left" nowrap>创建人：</td>
+           <td width="13%" height="20" align="left" nowrap>
+               <input name="createname" id="createname"   class="easyui-validatebox tb" value="${userVo.username}" data-options="" readonly>
+           </td>   
+       </tr>    
+        <tr align="center" >
+           <td width="5%" height="20" align="left" nowrap>车牌号码：</td>
+           <td width="14%" height="20" align="left" nowrap>
+                <input name="vehicleno" id="vehicleno" class="easyui-validatebox tb" data-options="required:true,validType:'length[5,14]'"><strong><font color="red" >*</font></strong>
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>车型：</td>
+           <td width="13%" height="20" align="left" nowrap>
+               <input name="vehicletype" id="vehicletype"   class="easyui-validatebox tb" data-options="validType:'length[0,10]'">
+           </td>   
+       </tr>
+       
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>注册载重：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <input name="regload" id="regload" class="easyui-numberbox" min="0.01" max="10000000" precision="2">
+           </td>
+           <td width="5%" height="20" align="left" nowrap>登记注册：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <select name="register" id="register"  data-option="selected:true">
+                         <option value="市烟草公司" selected>市烟草公司</option>
+				         <option value="白沙物流">白沙物流</option>
+                  </select>
+            </td>
+       </tr>
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>购车日期：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                  <input name="buydate" id="buydate" class="easyui-datebox" style="width:auto;">
+            </td>
+           <td width="5%" height="20" align="left" nowrap>发动机号：</td>
+           <td width="14%" height="20" align="left" nowrap>
+           <input name="enginenum" id="enginenum" class="easyui-validatebox tb" style="ime-mode:Disabled" data-options="validType:'length[0,18]'">
+           </td>
+       </tr>
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>车驾号码：</td>
+            <td width="12%" height="20" align="left" nowrap>
+                 <input name="vinno" id="vinno" class="easyui-validatebox tb" data-options="validType:'length[0,18]'" style="ime-mode:Disabled"/>
+            </td>
+           <td width="5%" height="20" align="left" nowrap>GPS编码：</td>
+           <td width="14%" height="20" align="left" nowrap>
+               <input name="gpscode" id="gpscode"  class="easyui-validatebox tb" data-options="validType:'length[0,18]'" style="ime-mode:Disabled">
+           </td>
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>最大装载量：</td>
+           <td width="13%" height="20" align="left" nowrap>
+           <input name="maxloadnum" id="maxloadnum"   class="easyui-numberbox"  min="0.00" max="10000000" precision="2" style="ime-mode:Disabled">
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>最大订单数：</td>
+            <td width="14%" height="20" align="left" nowrap>
+            <input id="maxordernum" name="maxordernum"   class="easyui-numberbox"   min="0.00" max="10000000" precision="2" style="ime-mode:Disabled">
+            </td>
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>燃油类型：</td>
+                       <td width="14%" height="20" align="left" nowrap>
+                   <select name="fueltype" id="fueltype"  data-option="selected:true">
+                   	    <option value="0" selected>柴油</option>
+						<option value="1" >93#汽油</option>
+						<option value="2" >97#汽油</option>
+					</select>
+            </td>
+            <td width="5%"  height="20" align="left" nowrap>车辆状态：</td>
+                       <td width="14%" height="20" align="left" nowrap>
+                   <select name="delstatus" id="delstatus"  data-option="selected:true">
+                   	    <option value="10" selected>在用</option>
+						<option value="0" >报废</option>
+					</select>
+            </td>
+       </tr>
+        <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>保养里程：</td>
+           <td width="13%" height="20" align="left" nowrap>
+           <input name="maintainmileage" id="maintainmileage" class="easyui-numberbox" min="0.01" max="1000000000" precision="2" style="ime-mode:Disabled">
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>轮胎个数：</td>
+            <td width="14%" height="20" align="left" nowrap>
+               <input id="tyrenum" name="tyrenum" class="easyui-numberbox" style="ime-mode:Disabled">
+              </td>
+
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>备注信息：</td>
+           <td width="13%" height="20"  colspan=3  >
+           <input name="remarks" id="remarks" class="easyui-textbox" data-options="multiline:true,validType:'length[0,100]'"  style="width:392px" >
+           </td>
+       </tr>
+    </table>
+	</td>
+  </tr>
+  </table>
+			<br>
+		</form>
+	</div>
+	<div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveAdd()">保存</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#add-dlg').dialog('close')">取消</a>
+	</div>
+	
+		
+	
+		<!-- 修改对话框 -->
+	<div id="edit-dlg" class="easyui-dialog" style="width:550px;height:460px;padding:10px 20px;align:center;"  data-options="modal:true,draggable:false"
+			 closed="true" buttons="#edit-dlg-buttons">
+		<div class="ftitle"></div>
+		<form id="edit-fm" method="post" action="" novalidate  >
+			<div class="fitem"><input type=hidden name=id id=id>
+				<table width="100%" border="0" cellpadding="0" cellspacing="6">
+            <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
+              <tr><td colspan="4"  class="style2"><font color="blue">修改车辆基础信息</font></td></tr>
+               </table></td>
+           </tr>          
+     <tr>
+    <td >
+	  <table width="100%" border="0" cellpadding="2" cellspacing="2" class="">
+              <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>车辆用途：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                   <select name="vehicles" id="vehicles"  data-option='selected:true;'>
+                   	    <option value="10" selected>配送车辆</option>
+						<option value="30" >公务车辆</option>
+					</select>
+            </td>
+            <td width="5%"  height="20" align="left" nowrap>创建人：</td>
+           <td width="13%" height="20" align="left" nowrap>
+               <input name="username" id="username1"   class="easyui-validatebox tb" data-options="" readonly>
+        <tr align="center" >
+           <td width="5%" height="20" align="left" nowrap>车牌号码：</td>
+           <td width="14%" height="20" align="left" nowrap>
+                <input name="vehicleno" id="vehicleno" class="easyui-validatebox tb" data-options="required:true,validType:'length[5,14]'"><strong><font color="red" >*</font></strong>
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>车型：</td>
+           <td width="13%" height="20" align="left" nowrap>
+               <input name="vehicletype" id="vehicletype"   class="easyui-validatebox tb" data-options="validType:'length[0,10]'">
+           </td>   
+       </tr>
+       
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>注册载重：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <input name="regload" id="regload" class="easyui-numberbox" min="0.01" max="10000000" precision="2">
+           </td>
+           <td width="5%" height="20" align="left" nowrap>登记注册：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <select name="register" id="register"  data-option="selected:true">
+                         <option value="市烟草公司" selected>市烟草公司</option>
+				         <option value="白沙物流">白沙物流</option>
+                  </select>
+            </td>
+       </tr>
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>购车日期：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                  <input name="buydate" id="buydate" class="easyui-datebox" style="width:auto;">
+            </td>
+           <td width="5%" height="20" align="left" nowrap>发动机号：</td>
+           <td width="14%" height="20" align="left" nowrap>
+           <input name="enginenum" id="enginenum" class="easyui-validatebox tb" style="ime-mode:Disabled" data-options="validType:'length[0,18]'">
+           </td>
+       </tr>
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>车驾号码：</td>
+            <td width="12%" height="20" align="left" nowrap>
+                 <input name="vinno" id="vinno" class="easyui-validatebox tb" data-options="validType:'length[0,18]'" style="ime-mode:Disabled"/>
+            </td>
+           <td width="5%" height="20" align="left" nowrap>GPS编码：</td>
+           <td width="14%" height="20" align="left" nowrap>
+               <input name="gpscode" id="gpscode"  class="easyui-validatebox tb" data-options="validType:'length[0,18]'" style="ime-mode:Disabled">
+           </td>
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>最大装载量：</td>
+           <td width="13%" height="20" align="left" nowrap>
+           <input name="maxloadnum" id="maxloadnum" value="0"  class="easyui-numberbox" min="0.01" max="10000000" precision="2" style="ime-mode:Disabled">
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>最大订单数：</td>
+            <td width="14%" height="20" align="left" nowrap>
+               <input id="maxordernum" name="maxordernum" value="0"  class="easyui-numberbox" min="0.01" max="10000000" precision="2" style="ime-mode:Disabled">
+            </td>
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>燃油类型：</td>
+                       <td width="14%" height="20" align="left" nowrap>
+                   <select name="fueltype" id="fueltype"  data-option="selected:true">
+                   	    <option value="0" selected>柴油</option>
+						<option value="1" >93#汽油</option>
+						<option value="2" >97#汽油</option>
+					</select>
+            </td>
+            <td width="5%"  height="20" align="left" nowrap>车辆状态：</td>
+                       <td width="14%" height="20" align="left" nowrap>
+                   <select name="delstatus" id="delstatus"  data-option="selected:true">
+                   	    <option value="10" selected>在用</option>
+						<option value="0" >报废</option>
+					</select>
+            </td>
+       </tr>
+        <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>保养里程：</td>
+           <td width="13%" height="20" align="left" nowrap>
+           <input name="maintainmileage" id="maintainmileage" class="easyui-numberbox" min="0.01" max="1000000000" precision="2" style="ime-mode:Disabled">
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>轮胎个数：</td>
+            <td width="14%" height="20" align="left" nowrap>
+               <input id="tyrenum" name="tyrenum" class="easyui-numberbox" style="ime-mode:Disabled">
+              </td>
+
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>备注信息：</td>
+           <td width="13%" height="20"  colspan=3  >
+           <input name="remarks" id="remarks" class="easyui-textbox" data-options="multiline:true,validType:'length[0,100]'"  style="width:392px" >
+           </td>
+       </tr>
+    </table>
+	</td>
+  </tr>
+  </table>
+			</div>
+			<br>
+		</form>
+	</div>
+	<div id="edit-dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveEdit()">保存</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#edit-dlg').dialog('close')">取消</a>
+	</div>
+	
+	
+	
+	<!-- 查看对话框 -->
+	<div id="view-dlg" class="easyui-dialog" style="width:550px;height:400px;padding:10px 20px;align:center;"  data-options="modal:true,draggable:false"
+			 closed="true" buttons="#view-dlg-buttons">
+		<div class="ftitle"></div>
+		<form id="view-fm" method="post" action="" novalidate  >
+			<div class="fitem">
+				<table width="100%" border="0" cellpadding="0" cellspacing="6">
+            <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
+              <tr><td colspan="4"  class="style2"><font color="blue">查看车辆基础信息</font></td></tr>
+               </table></td>
+           </tr>          
+     <tr>
+    <td >
+    
+	  <table width="100%" border="0" cellpadding="2" cellspacing="2" class="">
+              <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>车辆用途：</td>
+            <td id="v-vehiclescn" class="formtd" font style="color:darkblue;" width="14%" height="20" align="left" nowrap>
+            </td>
+           <td width="5%" height="20" align="left" nowrap>创建人：</td>
+            <td id="v-username" class="formtd" font style="color:darkblue;" width="14%" height="20" align="left" nowrap>
+            </td>
+        <tr align="center" >
+           <td width="5%" height="20" align="left" nowrap>车牌号码：</td>
+           <td id="v-vehicleno"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>车型：</td>
+           <td id="v-vehicletype"class="formtd" font style=" color:darkblue" width="13%" height="20" align="left" nowrap>
+           </td>   
+       </tr>
+       
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>注册载重：</td>
+            <td id="v-regload"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+           </td>
+           <td width="5%" height="20" align="left" nowrap>登记注册：</td>
+            <td id="v-register"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+                
+            </td>
+       </tr>
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>购车日期：</td>
+            <td id="v-buydate"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+            </td>
+           <td width="5%" height="20" align="left" nowrap>发动机号：</td>
+           <td id="v-enginenum"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+           </td>
+       </tr>
+       <tr align="center" >
+            <td width="5%" height="20" align="left" nowrap>车驾号码：</td>
+            <td id="v-vinno"class="formtd" font style=" color:darkblue" width="12%" height="20" align="left" nowrap>
+            </td>
+           <td width="5%" height="20" align="left" nowrap>GPS编码：</td>
+           <td id="v-gpscode"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+           </td>
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>最大装载量：</td>
+           <td id="v-maxloadnum"class="formtd" font style=" color:darkblue" width="13%" height="20" align="left" nowrap>
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>最大订单数：</td>
+            <td id="v-maxordernum"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+            </td>
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>燃油类型：</td>
+                       <td id="v-fueltypecn"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+            </td>
+            <td width="5%"  height="20" align="left" nowrap>车辆状态：</td>
+                       <td id="v-delstatuscontent"class="formtd" font style=" color:darkblue" width="14%" height="20" align="left" nowrap>
+            </td>
+       </tr>
+        <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>保养里程：</td>
+           <td id="v-maintainmileage"class="formtd" font style=" color:darkblue" width="13%" height="20" align="left" nowrap>
+           </td>
+           <td width="5%"  height="20" align="left" nowrap>轮胎个数：</td>
+            <td id="v-tyrenum"class="formtd" font style=" color:darkblue" width="14%" height="2" align="left" nowrap>
+              </td></td>
+
+       </tr>
+       <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>备注信息：</td>
+           <td id="v-remarks"class="formtd" align="left" style="color:darkblue;word-wrap:break-word;word-break:break-all;" colspan=3 >
+           </td>
+       </tr>
+    </table>
+    
+	
+	</td>
+  </tr>
+  </table>
+			</div>
+			<br>
+		</form>
+	</div>
+	<div id="view-dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#view-dlg').dialog('close')">关闭</a>
+	</div>
+
+	<!-- 进度条，建议对于耗时长的操作才启用
+	<div id="loading">
+		<div class="inputdiv" >
+			<img  src="/BS56/img/loading.gif" style="padding-top: 20px; padding-left:72px;"/><br>
+			<h3 style="padding-left: 35px;">&nbsp;&nbsp;&nbsp;&nbsp;数据上传中,请稍候......</h3>
+		</div>
+	 </div>
+	  -->
+    <c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=Vehicle"></c:import>	  
+  </body>
+</html>

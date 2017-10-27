@@ -1,0 +1,131 @@
+package com.ztel.app.web.ctrl.safe;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.safe.HiddendangerService;
+import com.ztel.app.service.safe.TypeinfoService;
+import com.ztel.app.service.sq.CigfactoryService;
+import com.ztel.app.util.Constant;
+import com.ztel.app.vo.safe.FireFacilitiesVo;
+import com.ztel.app.vo.safe.HiddendangerVo;
+import com.ztel.app.vo.wms.ATSCellInfoDetailVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+/**
+ * @author yy
+ * @since 2017年10月11日
+ *隐患事件
+ */
+@Controller
+@RequestMapping("/safe/hiddendanger")
+public class HiddendangerCtrl extends BaseCtrl {
+	private static Logger logger = LogManager.getLogger(HiddendangerCtrl.class);
+	
+	@Autowired
+	private HiddendangerService hiddendangerService = null;
+	@Autowired
+	private TypeinfoService typeinfoService = null;
+	
+	@RequestMapping("toDangercreate")
+	public String index(HttpServletRequest request) {
+			
+		return "/safe/v_dangercreate";
+	}
+	@RequestMapping("toDangerverify")
+	public String index1(HttpServletRequest request) {
+			
+		return "/safe/v_dangerverify";
+	}
+	@RequestMapping("toDangerrectify")
+	public String index2(HttpServletRequest request) {
+			
+		return "/safe/v_dangerrectify";
+	}
+	
+	
+	
+	
+	/**
+	  * 获取隐患记录信息列表
+	  * @return
+	  * @throws Exception
+	*/
+	 @RequestMapping(value="getDangercreate")
+	 @ResponseBody
+	 public  Map<String, Object> getDangercreate(HiddendangerVo hiddendangerVo,HttpServletRequest request) throws Exception {
+		 Pagination<?> page = this.getPagination(request);
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 if (hiddendangerVo!=null) {
+			 page.setParam(hiddendangerVo);
+		}
+		 List<HiddendangerVo> paras = hiddendangerService.searchDangercreatPageList(page);
+		 System.out.println(paras.size());
+		 result.put("rows",paras);  
+		 result.put("total",page.getTotalCount());  
+		 return result;
+	 }	
+	 /**
+	  * 获取隐患核实信息列表
+	  * @return
+	  * @throws Exception
+	*/
+	 @RequestMapping(value="getDangerverify")
+	 @ResponseBody
+	 public  Map<String, Object> getDangerverify(HiddendangerVo hiddendangerVo,HttpServletRequest request) throws Exception {
+		 Pagination<?> page = this.getPagination(request);
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 if (hiddendangerVo!=null) {
+			 page.setParam(hiddendangerVo);
+		}
+		 List<HiddendangerVo> paras = hiddendangerService.searchDangerverifyPageList(page);
+		 System.out.println(paras.size());
+		 result.put("rows",paras);  
+		 result.put("total",page.getTotalCount());  
+		 return result;
+	 }	
+	 /**
+	  * 获取隐患整改信息列表
+	  * @return
+	  * @throws Exception
+	*/
+	 @RequestMapping(value="getDangerrectify")
+	 @ResponseBody
+	 public  Map<String, Object> getDangerrectify(HiddendangerVo hiddendangerVo,HttpServletRequest request) throws Exception {
+		 Pagination<?> page = this.getPagination(request);
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 if (hiddendangerVo!=null) {
+			 page.setParam(hiddendangerVo);
+		}
+		 List<HiddendangerVo> paras = hiddendangerService.searchDangerrectifyPageList(page);
+		 System.out.println(paras.size());
+		 result.put("rows",paras);  
+		 result.put("total",page.getTotalCount());  
+		 return result;
+	 }	
+	 /**
+	  * 获取隐患类型名称下拉列表
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="getCtypeCombobox")
+	 @ResponseBody
+	 public  List<HashMap<String, String>> getCtypeCombobox(HttpServletRequest request) throws Exception {
+		 List<HashMap<String, String>> boxList=new ArrayList<>();
+		boxList=typeinfoService.getCtypeCombobox();
+		 return boxList;
+	 }
+}

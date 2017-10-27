@@ -1,0 +1,14 @@
+package com.ztel.app.service.account;
+
+import java.util.List;
+
+import com.ztel.app.vo.account.OperateVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface OperateVoService {
+
+	public List<OperateVo> getOperatePageList(Pagination<?> page);
+	
+	public void doOperateUpdate(OperateVo operateVo);
+	
+}

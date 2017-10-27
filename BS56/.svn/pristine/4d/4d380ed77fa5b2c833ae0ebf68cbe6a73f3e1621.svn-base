@@ -1,0 +1,30 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.OrderMapper;
+import com.ztel.app.service.OrderService;
+import com.ztel.app.vo.Order;
+import com.ztel.framework.vo.Pagination;
+
+/**
+ * @author Administrator
+ * @since 2017年2月27日
+ */
+@Service
+public class OrderServiceImpl implements OrderService {
+	
+	@Autowired
+	private OrderMapper orderMapper = null;
+	
+	public List<Order> searchUserOrders(Pagination<?> page) {
+		return this.orderMapper.getUserOrderPageList(page);
+	}
+
+}

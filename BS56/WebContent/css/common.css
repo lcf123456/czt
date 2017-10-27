@@ -1,0 +1,114 @@
+#fm{
+	margin:0;
+	padding:10px 0px;
+}
+#efm{
+	margin:0;
+	padding:10px 0px;
+}
+.ftitle{
+	font-size:14px;
+	font-weight:bold;
+	color:#666;
+	padding:5px 0;
+	margin-bottom:10px;
+	border-bottom:1px solid #ccc;
+}
+.fitem{
+	margin-bottom:5px;
+}
+.fitem ul {
+    margin: 0px;
+    padding: 0px;
+}
+.fitem li{
+	list-style: none;
+}
+.fitem label{
+	display:inline-block;
+	font-weight: bold;
+	width:80px;
+}
+.file-remove{
+    display: inline-block;
+    width: 20px;
+    height: 14px;
+    background-image: url(../image/delete.png);
+    background-size: 20px 14px;
+}
+.file-remove:hover{
+    background-image: url(../image/delete_hover.png);
+}
+.file-edit{
+    display: inline-block;
+    width: 15px;
+    height: 14px;
+    background-image: url(../image/edit.png);
+    background-size: 15px 15px;
+}
+.file-edit:hover{
+    background-image: url(../image/edit_hover.png);
+}
+.file-download{
+    display: inline-block;
+    width: 20px;
+    height: 14px;
+    background-image: url(../image/download.png);
+    background-size: 20px 16px;
+}
+.file-download:hover{
+    background-image: url(../image/download_hover.png);
+}
+.file-row:hover{
+	background-color: #E4F0FF;
+}
+.file-row-btn{
+	padding-left: 6px;
+	width: 20px;
+}
+.file-row-add td{
+	height: 16px;
+	cursor: pointer;
+    background-image: url(../image/add.png);
+    background-position: 50% 0px;
+    background-repeat: no-repeat;
+    background-size: 24px 20px;
+    min-width: 260px;
+}
+.file-row-add td:hover{
+    background-color: #DADADA;
+    /* border-style: dashed; */
+    /* border-width: 1px; */
+    /* border-color: #AFAFAF; */
+    /* background-position-y: 0px;
+    background-size: 24px 20.5px; */
+}
+
+.file-row-filename{
+	display: block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+table.gridtable {
+ font-family: verdana,arial,sans-serif;
+ font-size:11px;
+ color:#000000;
+ border-width: 1px;
+ border-color: #E5E5E5;
+ border-collapse: collapse;
+}
+table.gridtable th {
+ border-width: 1px;
+ padding: 8px;
+ border-style: solid;
+ border-color: #E5E5E5;
+ background-color: #F4F4F4;
+}
+table.gridtable td {
+ border-width: 1px;
+ padding: 8px;
+ border-style: solid;
+ border-color: #E5E5E5;
+ background-color: #ffffff;
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.Sq6ScompsumVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.Sq6ScompsumVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SCOREID" property="scoreid" jdbcType="DECIMAL" />
+    <result column="SCORINGTIME" property="scoringtime" jdbcType="TIMESTAMP" />
+    <result column="SCORE" property="score" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="WEEK" property="week" jdbcType="VARCHAR" />
+    <result column="CHECKTIME" property="checktime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SCOREID, SCORINGTIME, SCORE, REMARKS, FLAG, WEEK, CHECKTIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_6SCOMPSUM
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SQ_6SCOMPSUM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.Sq6ScompsumVo" >
+    insert into T_SQ_6SCOMPSUM (ID, SCOREID, SCORINGTIME, 
+      SCORE, REMARKS, FLAG, 
+      WEEK, CHECKTIME)
+    values (#{id,jdbcType=DECIMAL}, #{scoreid,jdbcType=DECIMAL}, #{scoringtime,jdbcType=TIMESTAMP}, 
+      #{score,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, 
+      #{week,jdbcType=VARCHAR}, #{checktime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.Sq6ScompsumVo" >
+    insert into T_SQ_6SCOMPSUM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="scoreid != null" >
+        SCOREID,
+      </if>
+      <if test="scoringtime != null" >
+        SCORINGTIME,
+      </if>
+      <if test="score != null" >
+        SCORE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="week != null" >
+        WEEK,
+      </if>
+      <if test="checktime != null" >
+        CHECKTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreid != null" >
+        #{scoreid,jdbcType=DECIMAL},
+      </if>
+      <if test="scoringtime != null" >
+        #{scoringtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="week != null" >
+        #{week,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.Sq6ScompsumVo" >
+    update T_SQ_6SCOMPSUM
+    <set >
+      <if test="scoreid != null" >
+        SCOREID = #{scoreid,jdbcType=DECIMAL},
+      </if>
+      <if test="scoringtime != null" >
+        SCORINGTIME = #{scoringtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="week != null" >
+        WEEK = #{week,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null" >
+        CHECKTIME = #{checktime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.Sq6ScompsumVo" >
+    update T_SQ_6SCOMPSUM
+    set SCOREID = #{scoreid,jdbcType=DECIMAL},
+      SCORINGTIME = #{scoringtime,jdbcType=TIMESTAMP},
+      SCORE = #{score,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      WEEK = #{week,jdbcType=VARCHAR},
+      CHECKTIME = #{checktime,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

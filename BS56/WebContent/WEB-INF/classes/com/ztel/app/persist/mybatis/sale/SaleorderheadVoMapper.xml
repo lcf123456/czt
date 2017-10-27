@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.sale.SaleorderheadVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sale.SaleorderheadVo">
+    <id column="ORDERNO" jdbcType="OTHER" property="orderno" />
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ORG_CODE" jdbcType="OTHER" property="orgCode" />
+    <result column="SUBORG_CODE" jdbcType="OTHER" property="suborgCode" />
+    <result column="INPUTDATE" jdbcType="TIMESTAMP" property="inputdate" />
+    <result column="SHIPDATE" jdbcType="TIMESTAMP" property="shipdate" />
+    <result column="SALETYPE" jdbcType="OTHER" property="saletype" />
+    <result column="SALEMODE" jdbcType="OTHER" property="salemode" />
+    <result column="CUSTOMER_ID" jdbcType="DECIMAL" property="customerId" />
+    <result column="SETTLEMODE_ID" jdbcType="DECIMAL" property="settlemodeId" />
+    <result column="INVOICE" jdbcType="OTHER" property="invoice" />
+    <result column="ISRUSH" jdbcType="OTHER" property="isrush" />
+    <result column="WAREHOUSE_ID" jdbcType="DECIMAL" property="warehouseId" />
+    <result column="INPUTTYPE" jdbcType="OTHER" property="inputtype" />
+    <result column="EMP_ID" jdbcType="DECIMAL" property="empId" />
+    <result column="REMARK" jdbcType="OTHER" property="remark" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="TOTALAMOUNT" jdbcType="DECIMAL" property="totalamount" />
+    <result column="TOTALQTY" jdbcType="DECIMAL" property="totalqty" />
+    <result column="ORDERLINES" jdbcType="DECIMAL" property="orderlines" />
+    <result column="CREATEUSER" jdbcType="OTHER" property="createuser" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="MODIFYUSER" jdbcType="OTHER" property="modifyuser" />
+    <result column="MODIFYTIME" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="RTOTALAMOUNT" jdbcType="DECIMAL" property="rtotalamount" />
+    <result column="RTOTALQTY" jdbcType="DECIMAL" property="rtotalqty" />
+    <result column="INVOICEPRINTFLAG" jdbcType="DECIMAL" property="invoiceprintflag" />
+    <result column="DELIVERFLAG" jdbcType="DECIMAL" property="deliverflag" />
+    <result column="SETTLEMENTFLAG" jdbcType="DECIMAL" property="settlementflag" />
+    <result column="PRIVILEGEFLAG" jdbcType="DECIMAL" property="privilegeflag" />
+    <result column="WHETHERPRINT" jdbcType="DECIMAL" property="whetherprint" />
+    <result column="BEEPPAGER" jdbcType="OTHER" property="beeppager" />
+    <result column="OTHERKEY" jdbcType="DECIMAL" property="otherkey" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ORDERNO, ID, ORG_CODE, SUBORG_CODE, INPUTDATE, SHIPDATE, SALETYPE, SALEMODE, CUSTOMER_ID, 
+    SETTLEMODE_ID, INVOICE, ISRUSH, WAREHOUSE_ID, INPUTTYPE, EMP_ID, REMARK, STATUS, 
+    TOTALAMOUNT, TOTALQTY, ORDERLINES, CREATEUSER, CREATETIME, MODIFYUSER, MODIFYTIME, 
+    RTOTALAMOUNT, RTOTALQTY, INVOICEPRINTFLAG, DELIVERFLAG, SETTLEMENTFLAG, PRIVILEGEFLAG, 
+    WHETHERPRINT, BEEPPAGER, OTHERKEY
+  </sql>
+  
+    <!-- 营销数据到插入之前先全部删除 -->
+  <delete id="deletesaleorderhead" >
+    ${sqlstr}
+  </delete>
+  <!-- 营销数据到oracle中间表T_SALE_ORDER_HEAD -->
+    <insert id="insertsaleorderhead" useGeneratedKeys="false" >
+    ${sqlstr}
+  </insert>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Object" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SALE_ORDER_HEAD
+    where ORDERNO = #{orderno,jdbcType=OTHER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Object">
+    delete from T_SALE_ORDER_HEAD
+    where ORDERNO = #{orderno,jdbcType=OTHER}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sale.SaleorderheadVo">
+    insert into T_SALE_ORDER_HEAD (ORDERNO, ID, ORG_CODE, 
+      SUBORG_CODE, INPUTDATE, SHIPDATE, 
+      SALETYPE, SALEMODE, CUSTOMER_ID, 
+      SETTLEMODE_ID, INVOICE, ISRUSH, 
+      WAREHOUSE_ID, INPUTTYPE, EMP_ID, 
+      REMARK, STATUS, TOTALAMOUNT, 
+      TOTALQTY, ORDERLINES, CREATEUSER, 
+      CREATETIME, MODIFYUSER, MODIFYTIME, 
+      RTOTALAMOUNT, RTOTALQTY, INVOICEPRINTFLAG, 
+      DELIVERFLAG, SETTLEMENTFLAG, PRIVILEGEFLAG, 
+      WHETHERPRINT, BEEPPAGER, OTHERKEY
+      )
+    values (#{orderno,jdbcType=OTHER}, #{id,jdbcType=DECIMAL}, #{orgCode,jdbcType=OTHER}, 
+      #{suborgCode,jdbcType=OTHER}, #{inputdate,jdbcType=TIMESTAMP}, #{shipdate,jdbcType=TIMESTAMP}, 
+      #{saletype,jdbcType=OTHER}, #{salemode,jdbcType=OTHER}, #{customerId,jdbcType=DECIMAL}, 
+      #{settlemodeId,jdbcType=DECIMAL}, #{invoice,jdbcType=OTHER}, #{isrush,jdbcType=OTHER}, 
+      #{warehouseId,jdbcType=DECIMAL}, #{inputtype,jdbcType=OTHER}, #{empId,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=OTHER}, #{status,jdbcType=DECIMAL}, #{totalamount,jdbcType=DECIMAL}, 
+      #{totalqty,jdbcType=DECIMAL}, #{orderlines,jdbcType=DECIMAL}, #{createuser,jdbcType=OTHER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{modifyuser,jdbcType=OTHER}, #{modifytime,jdbcType=TIMESTAMP}, 
+      #{rtotalamount,jdbcType=DECIMAL}, #{rtotalqty,jdbcType=DECIMAL}, #{invoiceprintflag,jdbcType=DECIMAL}, 
+      #{deliverflag,jdbcType=DECIMAL}, #{settlementflag,jdbcType=DECIMAL}, #{privilegeflag,jdbcType=DECIMAL}, 
+      #{whetherprint,jdbcType=DECIMAL}, #{beeppager,jdbcType=OTHER}, #{otherkey,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sale.SaleorderheadVo">
+    insert into T_SALE_ORDER_HEAD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderno != null">
+        ORDERNO,
+      </if>
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE,
+      </if>
+      <if test="suborgCode != null">
+        SUBORG_CODE,
+      </if>
+      <if test="inputdate != null">
+        INPUTDATE,
+      </if>
+      <if test="shipdate != null">
+        SHIPDATE,
+      </if>
+      <if test="saletype != null">
+        SALETYPE,
+      </if>
+      <if test="salemode != null">
+        SALEMODE,
+      </if>
+      <if test="customerId != null">
+        CUSTOMER_ID,
+      </if>
+      <if test="settlemodeId != null">
+        SETTLEMODE_ID,
+      </if>
+      <if test="invoice != null">
+        INVOICE,
+      </if>
+      <if test="isrush != null">
+        ISRUSH,
+      </if>
+      <if test="warehouseId != null">
+        WAREHOUSE_ID,
+      </if>
+      <if test="inputtype != null">
+        INPUTTYPE,
+      </if>
+      <if test="empId != null">
+        EMP_ID,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="totalamount != null">
+        TOTALAMOUNT,
+      </if>
+      <if test="totalqty != null">
+        TOTALQTY,
+      </if>
+      <if test="orderlines != null">
+        ORDERLINES,
+      </if>
+      <if test="createuser != null">
+        CREATEUSER,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="modifyuser != null">
+        MODIFYUSER,
+      </if>
+      <if test="modifytime != null">
+        MODIFYTIME,
+      </if>
+      <if test="rtotalamount != null">
+        RTOTALAMOUNT,
+      </if>
+      <if test="rtotalqty != null">
+        RTOTALQTY,
+      </if>
+      <if test="invoiceprintflag != null">
+        INVOICEPRINTFLAG,
+      </if>
+      <if test="deliverflag != null">
+        DELIVERFLAG,
+      </if>
+      <if test="settlementflag != null">
+        SETTLEMENTFLAG,
+      </if>
+      <if test="privilegeflag != null">
+        PRIVILEGEFLAG,
+      </if>
+      <if test="whetherprint != null">
+        WHETHERPRINT,
+      </if>
+      <if test="beeppager != null">
+        BEEPPAGER,
+      </if>
+      <if test="otherkey != null">
+        OTHERKEY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderno != null">
+        #{orderno,jdbcType=OTHER},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=OTHER},
+      </if>
+      <if test="suborgCode != null">
+        #{suborgCode,jdbcType=OTHER},
+      </if>
+      <if test="inputdate != null">
+        #{inputdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipdate != null">
+        #{shipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saletype != null">
+        #{saletype,jdbcType=OTHER},
+      </if>
+      <if test="salemode != null">
+        #{salemode,jdbcType=OTHER},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemodeId != null">
+        #{settlemodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="invoice != null">
+        #{invoice,jdbcType=OTHER},
+      </if>
+      <if test="isrush != null">
+        #{isrush,jdbcType=OTHER},
+      </if>
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=DECIMAL},
+      </if>
+      <if test="inputtype != null">
+        #{inputtype,jdbcType=OTHER},
+      </if>
+      <if test="empId != null">
+        #{empId,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="totalamount != null">
+        #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalqty != null">
+        #{totalqty,jdbcType=DECIMAL},
+      </if>
+      <if test="orderlines != null">
+        #{orderlines,jdbcType=DECIMAL},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuser != null">
+        #{modifyuser,jdbcType=OTHER},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rtotalamount != null">
+        #{rtotalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="rtotalqty != null">
+        #{rtotalqty,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceprintflag != null">
+        #{invoiceprintflag,jdbcType=DECIMAL},
+      </if>
+      <if test="deliverflag != null">
+        #{deliverflag,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementflag != null">
+        #{settlementflag,jdbcType=DECIMAL},
+      </if>
+      <if test="privilegeflag != null">
+        #{privilegeflag,jdbcType=DECIMAL},
+      </if>
+      <if test="whetherprint != null">
+        #{whetherprint,jdbcType=DECIMAL},
+      </if>
+      <if test="beeppager != null">
+        #{beeppager,jdbcType=OTHER},
+      </if>
+      <if test="otherkey != null">
+        #{otherkey,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sale.SaleorderheadVo">
+    update T_SALE_ORDER_HEAD
+    <set>
+      <if test="id != null">
+        ID = #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE = #{orgCode,jdbcType=OTHER},
+      </if>
+      <if test="suborgCode != null">
+        SUBORG_CODE = #{suborgCode,jdbcType=OTHER},
+      </if>
+      <if test="inputdate != null">
+        INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipdate != null">
+        SHIPDATE = #{shipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saletype != null">
+        SALETYPE = #{saletype,jdbcType=OTHER},
+      </if>
+      <if test="salemode != null">
+        SALEMODE = #{salemode,jdbcType=OTHER},
+      </if>
+      <if test="customerId != null">
+        CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemodeId != null">
+        SETTLEMODE_ID = #{settlemodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="invoice != null">
+        INVOICE = #{invoice,jdbcType=OTHER},
+      </if>
+      <if test="isrush != null">
+        ISRUSH = #{isrush,jdbcType=OTHER},
+      </if>
+      <if test="warehouseId != null">
+        WAREHOUSE_ID = #{warehouseId,jdbcType=DECIMAL},
+      </if>
+      <if test="inputtype != null">
+        INPUTTYPE = #{inputtype,jdbcType=OTHER},
+      </if>
+      <if test="empId != null">
+        EMP_ID = #{empId,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=OTHER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="totalamount != null">
+        TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalqty != null">
+        TOTALQTY = #{totalqty,jdbcType=DECIMAL},
+      </if>
+      <if test="orderlines != null">
+        ORDERLINES = #{orderlines,jdbcType=DECIMAL},
+      </if>
+      <if test="createuser != null">
+        CREATEUSER = #{createuser,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuser != null">
+        MODIFYUSER = #{modifyuser,jdbcType=OTHER},
+      </if>
+      <if test="modifytime != null">
+        MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rtotalamount != null">
+        RTOTALAMOUNT = #{rtotalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="rtotalqty != null">
+        RTOTALQTY = #{rtotalqty,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceprintflag != null">
+        INVOICEPRINTFLAG = #{invoiceprintflag,jdbcType=DECIMAL},
+      </if>
+      <if test="deliverflag != null">
+        DELIVERFLAG = #{deliverflag,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementflag != null">
+        SETTLEMENTFLAG = #{settlementflag,jdbcType=DECIMAL},
+      </if>
+      <if test="privilegeflag != null">
+        PRIVILEGEFLAG = #{privilegeflag,jdbcType=DECIMAL},
+      </if>
+      <if test="whetherprint != null">
+        WHETHERPRINT = #{whetherprint,jdbcType=DECIMAL},
+      </if>
+      <if test="beeppager != null">
+        BEEPPAGER = #{beeppager,jdbcType=OTHER},
+      </if>
+      <if test="otherkey != null">
+        OTHERKEY = #{otherkey,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ORDERNO = #{orderno,jdbcType=OTHER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sale.SaleorderheadVo">
+    update T_SALE_ORDER_HEAD
+    set ID = #{id,jdbcType=DECIMAL},
+      ORG_CODE = #{orgCode,jdbcType=OTHER},
+      SUBORG_CODE = #{suborgCode,jdbcType=OTHER},
+      INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+      SHIPDATE = #{shipdate,jdbcType=TIMESTAMP},
+      SALETYPE = #{saletype,jdbcType=OTHER},
+      SALEMODE = #{salemode,jdbcType=OTHER},
+      CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      SETTLEMODE_ID = #{settlemodeId,jdbcType=DECIMAL},
+      INVOICE = #{invoice,jdbcType=OTHER},
+      ISRUSH = #{isrush,jdbcType=OTHER},
+      WAREHOUSE_ID = #{warehouseId,jdbcType=DECIMAL},
+      INPUTTYPE = #{inputtype,jdbcType=OTHER},
+      EMP_ID = #{empId,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=DECIMAL},
+      TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      TOTALQTY = #{totalqty,jdbcType=DECIMAL},
+      ORDERLINES = #{orderlines,jdbcType=DECIMAL},
+      CREATEUSER = #{createuser,jdbcType=OTHER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      MODIFYUSER = #{modifyuser,jdbcType=OTHER},
+      MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      RTOTALAMOUNT = #{rtotalamount,jdbcType=DECIMAL},
+      RTOTALQTY = #{rtotalqty,jdbcType=DECIMAL},
+      INVOICEPRINTFLAG = #{invoiceprintflag,jdbcType=DECIMAL},
+      DELIVERFLAG = #{deliverflag,jdbcType=DECIMAL},
+      SETTLEMENTFLAG = #{settlementflag,jdbcType=DECIMAL},
+      PRIVILEGEFLAG = #{privilegeflag,jdbcType=DECIMAL},
+      WHETHERPRINT = #{whetherprint,jdbcType=DECIMAL},
+      BEEPPAGER = #{beeppager,jdbcType=OTHER},
+      OTHERKEY = #{otherkey,jdbcType=DECIMAL}
+    where ORDERNO = #{orderno,jdbcType=OTHER}
+  </update>
+  
+</mapper>

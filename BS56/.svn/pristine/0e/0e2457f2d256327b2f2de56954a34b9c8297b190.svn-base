@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ztel.webdemo.persist.mybatis.DeviceTypeMapper">
+
+<select id="getOneLevelTypeList" resultType="DeviceType">
+    select t_id,t_name from t_cost_sblbxx where t_level = 1 and scbz='0'
+</select>
+
+<select id="getTwolLevelTypeByIDList" parameterType="String"  resultType="DeviceType">
+   select t_id,t_name from t_cost_sblbxx where t_level = 2 and scbz='0' and f_id=#{tId} 
+ </select>
+
+<select id="getThreelLevelTypeByIDList" parameterType="String"  resultType="DeviceType">
+   select t_id,t_name from t_cost_sblbxx where t_level = 3 and scbz='0' and f_id=#{tId} 
+ </select>
+</mapper>

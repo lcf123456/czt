@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.perform.TransverseAmountVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.perform.TransverseAmountVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ASSESSID" property="assessid" jdbcType="DECIMAL" />
+    <result column="ALLOTID" property="allotid" jdbcType="DECIMAL" />
+    <result column="ALLOTTIME" property="allottime" jdbcType="TIMESTAMP" />
+    <result column="ASSIGNID" property="assignid" jdbcType="DECIMAL" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="ALLOTNAME" property="allotname" jdbcType="VARCHAR" />
+    <result column="ASSIGNNAME" property="assignname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ASSESSID, ALLOTID, ALLOTTIME, ASSIGNID, AMOUNT, FLAG, ALLOTNAME, ASSIGNNAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PERFORM_TRANSVERSE_AMOUNT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_PERFORM_TRANSVERSE_AMOUNT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.perform.TransverseAmountVo" >
+    insert into T_PERFORM_TRANSVERSE_AMOUNT (ID, ASSESSID, ALLOTID, 
+      ALLOTTIME, ASSIGNID, AMOUNT, 
+      FLAG, ALLOTNAME, ASSIGNNAME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{assessid,jdbcType=DECIMAL}, #{allotid,jdbcType=DECIMAL}, 
+      #{allottime,jdbcType=TIMESTAMP}, #{assignid,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
+      #{flag,jdbcType=VARCHAR}, #{allotname,jdbcType=VARCHAR}, #{assignname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.perform.TransverseAmountVo" >
+    insert into T_PERFORM_TRANSVERSE_AMOUNT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="assessid != null" >
+        ASSESSID,
+      </if>
+      <if test="allotid != null" >
+        ALLOTID,
+      </if>
+      <if test="allottime != null" >
+        ALLOTTIME,
+      </if>
+      <if test="assignid != null" >
+        ASSIGNID,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="allotname != null" >
+        ALLOTNAME,
+      </if>
+      <if test="assignname != null" >
+        ASSIGNNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="assessid != null" >
+        #{assessid,jdbcType=DECIMAL},
+      </if>
+      <if test="allotid != null" >
+        #{allotid,jdbcType=DECIMAL},
+      </if>
+      <if test="allottime != null" >
+        #{allottime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assignid != null" >
+        #{assignid,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="allotname != null" >
+        #{allotname,jdbcType=VARCHAR},
+      </if>
+      <if test="assignname != null" >
+        #{assignname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.perform.TransverseAmountVo" >
+    update T_PERFORM_TRANSVERSE_AMOUNT
+    <set >
+      <if test="assessid != null" >
+        ASSESSID = #{assessid,jdbcType=DECIMAL},
+      </if>
+      <if test="allotid != null" >
+        ALLOTID = #{allotid,jdbcType=DECIMAL},
+      </if>
+      <if test="allottime != null" >
+        ALLOTTIME = #{allottime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assignid != null" >
+        ASSIGNID = #{assignid,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="allotname != null" >
+        ALLOTNAME = #{allotname,jdbcType=VARCHAR},
+      </if>
+      <if test="assignname != null" >
+        ASSIGNNAME = #{assignname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.perform.TransverseAmountVo" >
+    update T_PERFORM_TRANSVERSE_AMOUNT
+    set ASSESSID = #{assessid,jdbcType=DECIMAL},
+      ALLOTID = #{allotid,jdbcType=DECIMAL},
+      ALLOTTIME = #{allottime,jdbcType=TIMESTAMP},
+      ASSIGNID = #{assignid,jdbcType=DECIMAL},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      ALLOTNAME = #{allotname,jdbcType=VARCHAR},
+      ASSIGNNAME = #{assignname,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

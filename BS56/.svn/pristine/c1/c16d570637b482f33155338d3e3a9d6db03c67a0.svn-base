@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.HazardsVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.HazardsVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="HAZARDS" property="hazards" jdbcType="VARCHAR" />
+    <result column="TYPEID" property="typeid" jdbcType="VARCHAR" />
+    <result column="EFFECT" property="effect" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="LID" property="lid" jdbcType="DECIMAL" />
+    <result column="DVALUE" property="dvalue" jdbcType="DECIMAL" />
+    <result column="LEVELID" property="levelid" jdbcType="DECIMAL" />
+    <result column="OPINION" property="opinion" jdbcType="VARCHAR" />
+    <result column="AUDITID" property="auditid" jdbcType="DECIMAL" />
+    <result column="AUDITDATE" property="auditdate" jdbcType="TIMESTAMP" />
+    <result column="CONTROLID" property="controlid" jdbcType="DECIMAL" />
+    <result column="CONOPINION" property="conopinion" jdbcType="VARCHAR" />
+    <result column="CONTROLLERID" property="controllerid" jdbcType="DECIMAL" />
+    <result column="CONTROLDATE" property="controldate" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="EID" property="eid" jdbcType="DECIMAL" />
+    <result column="CID" property="cid" jdbcType="DECIMAL" />
+     <result column="HAZARDSTYPE" property="hazardstype" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="AUDITNAME" property="auditname" jdbcType="VARCHAR" />
+     <result column="CLEVEL" property="clevel" jdbcType="VARCHAR" />
+     <result column="CVALUE" property="cvalue" jdbcType="DECIMAL" />
+     <result column="LVALUE" property="lvalue" jdbcType="DECIMAL" />
+     <result column="EVALUE" property="evalue" jdbcType="DECIMAL" />
+     <result column="CONTROLMEANS" property="controlmeans" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HAZARDS, TYPEID, EFFECT, DEPTID, NOTE, CREATEID, CREATETIME, LID, DVALUE, LEVELID, 
+    OPINION, AUDITID, AUDITDATE, CONTROLID, CONOPINION, CONTROLLERID, CONTROLDATE, REMARKS, 
+    EID, CID
+  </sql>
+   <!-- 获取类型列表 -->
+  <select id="getHazardstypeList" resultType="TypeinfoVo">
+    select  ID, ctype  from T_SAFE_TYPEINFO  where  flag='50'
+  </select>
+   <!-- 获取等级列表 -->
+  <select id="getClevelList" resultType="HazardsLevelVo">
+    select  ID, clevel  from T_SAFE_HAZARDSLEVEL
+  </select> 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_HAZARDS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+   <!-- 风险源清单-->
+  <select id="getHazardsPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select a.id,a.hazards,c.ctype as hazardstype,a.effect,d.deptname as deptname,b.username as createname,a.controllerid,a.auditid
+from T_SAFE_HAZARDS a,t_sys_user b,t_safe_typeinfo c ,t_sys_dept d
+where  a.createid=b.id(+) and c.id=a.typeid and d.id(+)=a.deptid 
+   
+    <if test="param != null and param.hazards != null and param.hazards!= ''">
+        AND (b.username like '%'||#{param.hazards}||'%' or effect like '%'||#{param.hazards}||'%' )
+    </if>
+      <if test="param.hazardstype!= null and param.hazardstype != ''" >
+           and typeid= #{param.hazardstype,jdbcType=VARCHAR}
+       </if> 
+       <if test="param.deptid!= null and param.deptid != ''" >
+           and a.deptid= #{param.deptid,jdbcType=VARCHAR}
+       </if> 
+      order by id desc
+  </select>
+   <!-- 风险源评估 -->
+   <select id="getHazardsAuditPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   select a.id,a.hazards,c.ctype as hazardstype,d.deptname as deptname,b.username as auditname,e.lvalue as lvalue,
+    f.evalue as evalue,g.cvalue as cvalue,dvalue,x.clevel as clevel
+from T_SAFE_HAZARDS a,t_sys_user b,t_safe_typeinfo c ,t_sys_dept d,t_safe_hazardsinfo e,t_safe_hazardsinfo f,
+t_safe_hazardsinfo g,t_safe_hazardslevel x
+where  a.auditid=b.id(+) and c.id=a.typeid and d.id(+)=a.deptid and e.id(+)=a.lid and f.id(+)=a.eid and g.id(+)=a.cid
+   and x.id(+)=a.levelid
+    <if test="param != null and param.hazards != null and param.hazards!= ''">
+        AND (b.username like '%'||#{param.hazards}||'%' or effect like '%'||#{param.hazards}||'%' )
+    </if>
+      <if test="param.hazardstype!= null and param.hazardstype != ''" >
+           and typeid= #{param.hazardstype,jdbcType=VARCHAR}
+       </if> 
+       <if test="param.deptid!= null and param.deptid != ''" >
+           and a.deptid= #{param.deptid,jdbcType=VARCHAR}
+       </if> 
+       <if test="param.levelid!= null and param.levelid != ''" >
+           and a.levelid= #{param.levelid,jdbcType=VARCHAR}
+       </if> 
+      order by id desc
+  </select>
+   <!-- 风险源统计 -->
+   <select id="getHazardsStatPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   select a.id,a.hazards,c.ctype as hazardstype,d.deptname as deptname,
+    dvalue,x.clevel as clevel, a.createtime
+from T_SAFE_HAZARDS a,t_safe_typeinfo c ,t_sys_dept d,t_safe_hazardslevel x
+where  c.id=a.typeid and d.id(+)=a.deptid 
+   and x.id(+)=a.levelid
+    <if test="param != null and param.hazards != null and param.hazards!= ''">
+        AND  hazards like '%'||#{param.hazards}||'%' 
+    </if>
+      <if test="param.hazardstype!= null and param.hazardstype != ''" >
+           and typeid= #{param.hazardstype,jdbcType=VARCHAR}
+       </if> 
+       <if test="param.deptid!= null and param.deptid != ''" >
+           and a.deptid= #{param.deptid,jdbcType=VARCHAR}
+       </if> 
+       <if test="param.levelid!= null and param.levelid != ''" >
+           and a.levelid= #{param.levelid,jdbcType=VARCHAR}
+       </if> 
+      order by createtime desc
+  </select>
+   <!-- 风险源控制 -->
+   <select id="getHazardsControlPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   select a.id,a.hazards,c.ctype as hazardstype,d.deptname as deptname,effect，b.controlmeans as controlmeans,
+    x.clevel as clevel
+from T_SAFE_HAZARDS a,t_safe_typeinfo c ,t_sys_dept d,t_safe_hazardslevel x,t_safe_hazardscontrol b
+where  c.id=a.typeid and d.id(+)=a.deptid and a.controlid=b.id(+)
+   and x.id(+)=a.levelid
+    <if test="param != null and param.hazards != null and param.hazards!= ''">
+        AND  effect like '%'||#{param.hazards}||'%' 
+    </if>
+      <if test="param.hazardstype!= null and param.hazardstype != ''" >
+           and typeid= #{param.hazardstype,jdbcType=VARCHAR}
+       </if> 
+       <if test="param.deptid!= null and param.deptid != ''" >
+           and a.deptid= #{param.deptid,jdbcType=VARCHAR}
+       </if> 
+       <if test="param.levelid!= null and param.levelid != ''" >
+           and a.levelid= #{param.levelid,jdbcType=VARCHAR}
+       </if> 
+      order by id desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SAFE_HAZARDS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.HazardsVo" >
+    insert into T_SAFE_HAZARDS (ID, HAZARDS, TYPEID, 
+      EFFECT, DEPTID, NOTE, 
+      CREATEID, CREATETIME, LID, 
+      DVALUE, LEVELID, OPINION, 
+      AUDITID, AUDITDATE, CONTROLID, 
+      CONOPINION, CONTROLLERID, CONTROLDATE, 
+      REMARKS, EID, CID)
+    values (#{id,jdbcType=DECIMAL}, #{hazards,jdbcType=VARCHAR}, #{typeid,jdbcType=VARCHAR}, 
+      #{effect,jdbcType=VARCHAR}, #{deptid,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR}, 
+      #{createid,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{lid,jdbcType=DECIMAL}, 
+      #{dvalue,jdbcType=DECIMAL}, #{levelid,jdbcType=DECIMAL}, #{opinion,jdbcType=VARCHAR}, 
+      #{auditid,jdbcType=DECIMAL}, #{auditdate,jdbcType=TIMESTAMP}, #{controlid,jdbcType=DECIMAL}, 
+      #{conopinion,jdbcType=VARCHAR}, #{controllerid,jdbcType=DECIMAL}, #{controldate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{eid,jdbcType=DECIMAL}, #{cid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.HazardsVo" >
+    insert into T_SAFE_HAZARDS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="hazards != null" >
+        HAZARDS,
+      </if>
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+      <if test="effect != null" >
+        EFFECT,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="lid != null" >
+        LID,
+      </if>
+      <if test="dvalue != null" >
+        DVALUE,
+      </if>
+      <if test="levelid != null" >
+        LEVELID,
+      </if>
+      <if test="opinion != null" >
+        OPINION,
+      </if>
+      <if test="auditid != null" >
+        AUDITID,
+      </if>
+      <if test="auditdate != null" >
+        AUDITDATE,
+      </if>
+      <if test="controlid != null" >
+        CONTROLID,
+      </if>
+      <if test="conopinion != null" >
+        CONOPINION,
+      </if>
+      <if test="controllerid != null" >
+        CONTROLLERID,
+      </if>
+      <if test="controldate != null" >
+        CONTROLDATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="eid != null" >
+        EID,
+      </if>
+      <if test="cid != null" >
+        CID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="hazards != null" >
+        #{hazards,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="effect != null" >
+        #{effect,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lid != null" >
+        #{lid,jdbcType=DECIMAL},
+      </if>
+      <if test="dvalue != null" >
+        #{dvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="levelid != null" >
+        #{levelid,jdbcType=DECIMAL},
+      </if>
+      <if test="opinion != null" >
+        #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="auditid != null" >
+        #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="auditdate != null" >
+        #{auditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="controlid != null" >
+        #{controlid,jdbcType=DECIMAL},
+      </if>
+      <if test="conopinion != null" >
+        #{conopinion,jdbcType=VARCHAR},
+      </if>
+      <if test="controllerid != null" >
+        #{controllerid,jdbcType=DECIMAL},
+      </if>
+      <if test="controldate != null" >
+        #{controldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=DECIMAL},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.HazardsVo" >
+    update T_SAFE_HAZARDS
+    <set >
+      <if test="hazards != null" >
+        HAZARDS = #{hazards,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        TYPEID = #{typeid,jdbcType=VARCHAR},
+      </if>
+      <if test="effect != null" >
+        EFFECT = #{effect,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lid != null" >
+        LID = #{lid,jdbcType=DECIMAL},
+      </if>
+      <if test="dvalue != null" >
+        DVALUE = #{dvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="levelid != null" >
+        LEVELID = #{levelid,jdbcType=DECIMAL},
+      </if>
+      <if test="opinion != null" >
+        OPINION = #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="auditid != null" >
+        AUDITID = #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="auditdate != null" >
+        AUDITDATE = #{auditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="controlid != null" >
+        CONTROLID = #{controlid,jdbcType=DECIMAL},
+      </if>
+      <if test="conopinion != null" >
+        CONOPINION = #{conopinion,jdbcType=VARCHAR},
+      </if>
+      <if test="controllerid != null" >
+        CONTROLLERID = #{controllerid,jdbcType=DECIMAL},
+      </if>
+      <if test="controldate != null" >
+        CONTROLDATE = #{controldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="eid != null" >
+        EID = #{eid,jdbcType=DECIMAL},
+      </if>
+      <if test="cid != null" >
+        CID = #{cid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.HazardsVo" >
+    update T_SAFE_HAZARDS
+    set HAZARDS = #{hazards,jdbcType=VARCHAR},
+      TYPEID = #{typeid,jdbcType=VARCHAR},
+      EFFECT = #{effect,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      NOTE = #{note,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      LID = #{lid,jdbcType=DECIMAL},
+      DVALUE = #{dvalue,jdbcType=DECIMAL},
+      LEVELID = #{levelid,jdbcType=DECIMAL},
+      OPINION = #{opinion,jdbcType=VARCHAR},
+      AUDITID = #{auditid,jdbcType=DECIMAL},
+      AUDITDATE = #{auditdate,jdbcType=TIMESTAMP},
+      CONTROLID = #{controlid,jdbcType=DECIMAL},
+      CONOPINION = #{conopinion,jdbcType=VARCHAR},
+      CONTROLLERID = #{controllerid,jdbcType=DECIMAL},
+      CONTROLDATE = #{controldate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      EID = #{eid,jdbcType=DECIMAL},
+      CID = #{cid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

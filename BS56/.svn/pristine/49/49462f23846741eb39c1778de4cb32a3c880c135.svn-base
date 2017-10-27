@@ -1,0 +1,42 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.InBoundVo;
+import java.math.BigDecimal;
+
+public interface InBoundVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int deleteByPrimaryKey(BigDecimal inboundid);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insert(InBoundVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insertSelective(InBoundVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    InBoundVo selectByPrimaryKey(BigDecimal inboundid);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKeySelective(InBoundVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKey(InBoundVo record);
+}

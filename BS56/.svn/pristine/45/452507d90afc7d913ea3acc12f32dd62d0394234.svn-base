@@ -1,0 +1,54 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.InBoundVo;
+import com.ztel.app.vo.wms.OutBoundVo;
+import com.ztel.framework.vo.Pagination;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+public interface InBoundVoMapper {
+	
+	public List<InBoundVo> selectInBoundPageList(Pagination<?> page);
+	
+	public List<InBoundVo> selectInBoundList(InBoundVo inBoundVo);
+	
+	
+	
+	//public  int getIdFromSequence();
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int deleteByPrimaryKey(BigDecimal inboundid);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insert(InBoundVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int insertSelective(InBoundVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    InBoundVo selectByPrimaryKey(BigDecimal inboundid);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKeySelective(InBoundVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-01
+     */
+    int updateByPrimaryKey(InBoundVo record);
+}

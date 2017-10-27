@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.InBoundLineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.InBoundLineVo" >
+    <id column="INBOUNDDETAILID" property="inbounddetailid" jdbcType="DECIMAL" />
+    <result column="INBOUNDID" property="inboundid" jdbcType="DECIMAL" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="OTHER" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="VARCHAR" />
+    <result column="BOXQTY" property="boxqty" jdbcType="DECIMAL" />
+    <result column="ITEMQTY" property="itemqty" jdbcType="DECIMAL" />
+    <result column="CONSIGNSOR" property="consignsor" jdbcType="OTHER" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ABOXQTY" property="aboxqty" jdbcType="DECIMAL" />
+    <result column="LOCKQTY" property="lockqty" jdbcType="DECIMAL" />
+    <result column="OTHERQTY" property="otherqty" jdbcType="DECIMAL" />
+    <result column="STATUSNAME" property="statusname" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="JTSIZE" property="jtsize" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    INBOUNDDETAILID, INBOUNDID, CIGARETTENAME, CIGARETTECODE, BOXQTY, ITEMQTY, CONSIGNSOR, 
+    STATUS, ABOXQTY, LOCKQTY, OTHERQTY,BARCODE
+  </sql>
+  
+  <!-- 根据输入条件获取列表 -->
+  <select id="selectListByCond" resultType="InBoundLineVo" parameterType="InBoundLineVo" >
+    select 
+    INBOUNDDETAILID, INBOUNDID, CIGARETTENAME, CIGARETTECODE, BOXQTY, ITEMQTY, CONSIGNSOR, BARCODE,
+    STATUS, ABOXQTY, LOCKQTY, OTHERQTY,decode(STATUS,'10','新增','20','入库中','30','入库完成','新增') as STATUSNAME 
+    from T_WMS_INBOUND_LINE
+    where 1=1
+    <if test="inboundid != null and inboundid != ''">
+        AND  INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+    </if>
+    order by INBOUNDDETAILID
+  </select>
+  
+  <!-- 管控中心：仓储管控：入库汇总 -->
+  <select id="selectInboundReportListByCond" resultType="com.ztel.app.vo.wms.InBoundLineVo" parameterType="com.ztel.app.vo.wms.InBoundVo" >
+    select cigarettecode,cigarettename,sum(boxqty) as boxqty 
+	from t_wms_inbound_line line
+	where line.inboundid in 
+	(select inboundid from t_wms_inbound where 1=1 
+	<if test="intype != null ">
+        AND  intype = #{intype}
+    </if>
+	<if test="consignsor != null and consignsor != ''">
+        AND  consignsor = #{consignsor}
+    </if>
+	<if test="begintime != null and endtime != null">
+       and trunc(createtime) between #{begintime} and #{endtime} 
+    </if>
+	)
+ 	group by cigarettecode,cigarettename
+  </select>
+  
+  <!-- 取入库所有品牌的库存量 -->
+<select id="selectInboundListForStock" resultType="com.ztel.app.vo.wms.InBoundLineVo" parameterType="com.ztel.app.vo.wms.InBoundVo" >
+   select cigarettecode,cigarettename,sum(aboxqty) as aboxqty,sum(otherqty) as otherqty,jt_size  as jtsize,ib.consignsor
+   from t_wms_inbound_line ibline,t_wms_inbound ib,t_wms_item item
+   where ibline.inboundid=ib.inboundid  and ibline.cigarettecode=item.itemno  
+   <if test="consignsor != null and consignsor != ''">
+       and ib.consignsor= #{consignsor}
+    </if>
+    <if test="begintime != null and endtime != null">
+       and ib.createtime between #{begintime} and #{endtime}
+    </if>
+       group by cigarettecode,cigarettename,jt_size,ib.consignsor order by ib.consignsor,cigarettename
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_INBOUND_LINE
+    where INBOUNDDETAILID = #{inbounddetailid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_INBOUND_LINE
+    where INBOUNDDETAILID = #{inbounddetailid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.InBoundLineVo" >
+    insert into T_WMS_INBOUND_LINE (INBOUNDDETAILID, INBOUNDID, CIGARETTENAME, 
+      CIGARETTECODE, BOXQTY, ITEMQTY, 
+      CONSIGNSOR, STATUS, ABOXQTY, 
+      LOCKQTY, OTHERQTY)
+    values (#{inbounddetailid,jdbcType=DECIMAL}, #{inboundid,jdbcType=DECIMAL}, #{cigarettename,jdbcType=OTHER}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{boxqty,jdbcType=DECIMAL}, #{itemqty,jdbcType=DECIMAL}, 
+      #{consignsor,jdbcType=OTHER}, #{status,jdbcType=OTHER}, #{aboxqty,jdbcType=DECIMAL}, 
+      #{lockqty,jdbcType=DECIMAL}, #{otherqty,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.InBoundLineVo" useGeneratedKeys="false">
+    insert into T_WMS_INBOUND_LINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        INBOUNDDETAILID,
+      <if test="inboundid != null" >
+        INBOUNDID,
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME,
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE,
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY,
+      </if>
+      <if test="itemqty != null" >
+        ITEMQTY,
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="aboxqty != null" >
+        ABOXQTY,
+      </if>
+      <if test="lockqty != null" >
+        LOCKQTY,
+      </if>
+      <if test="otherqty != null" >
+        OTHERQTY,
+      </if>
+      <if test="barcode != null" >
+        BARCODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       S_WMS_INOUTBOUND_LINE.nextval,
+      <if test="inboundid != null" >
+        #{inboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettename != null" >
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemqty != null" >
+        #{itemqty,jdbcType=DECIMAL},
+      </if>
+      <if test="consignsor != null" >
+        #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=OTHER},
+      </if>
+      <if test="aboxqty != null" >
+        #{aboxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="lockqty != null" >
+        #{lockqty,jdbcType=DECIMAL},
+      </if>
+      <if test="otherqty != null" >
+        #{otherqty,jdbcType=DECIMAL},
+      </if>
+      <if test="barcode != null" >
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.InBoundLineVo" >
+    update T_WMS_INBOUND_LINE
+    <set >
+      <if test="inboundid != null" >
+        INBOUNDID = #{inboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemqty != null" >
+        ITEMQTY = #{itemqty,jdbcType=DECIMAL},
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=OTHER},
+      </if>
+      <if test="aboxqty != null" >
+        ABOXQTY = #{aboxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="lockqty != null" >
+        LOCKQTY = #{lockqty,jdbcType=DECIMAL},
+      </if>
+      <if test="otherqty != null" >
+        OTHERQTY = OTHERQTY + #{otherqty,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where INBOUNDDETAILID = #{inbounddetailid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.InBoundLineVo" >
+    update T_WMS_INBOUND_LINE
+    set INBOUNDID = #{inboundid,jdbcType=DECIMAL},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      ITEMQTY = #{itemqty,jdbcType=DECIMAL},
+      CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=OTHER},
+      ABOXQTY = #{aboxqty,jdbcType=DECIMAL},
+      LOCKQTY = #{lockqty,jdbcType=DECIMAL},
+      OTHERQTY = #{otherqty,jdbcType=DECIMAL}
+    where INBOUNDDETAILID = #{inbounddetailid,jdbcType=DECIMAL}
+  </update>
+</mapper>

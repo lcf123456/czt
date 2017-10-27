@@ -1,0 +1,18 @@
+package com.ztel.app.service.wms;
+
+import java.util.List;
+
+import com.ztel.app.vo.wms.ConsignorVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface ConsignorService {
+
+	public List<ConsignorVo>  getConsignorList(ConsignorVo consignorVo);
+	
+//	public List<ConsignorVo>  getConsignorPageList(Pagination<?> page);
+
+	//public void viewConsignorVo(ConsignorVo consignorvo);
+	
+	
+	
+}

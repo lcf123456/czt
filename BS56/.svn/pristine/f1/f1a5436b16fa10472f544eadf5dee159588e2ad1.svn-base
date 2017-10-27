@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SupplierInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SupplierInfoVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SUPPLIER" property="supplier" jdbcType="VARCHAR" />
+    <result column="ADDR" property="addr" jdbcType="VARCHAR" />
+    <result column="CONTACTS" property="contacts" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="RANGE" property="range" jdbcType="VARCHAR" />
+    <result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 取供应商列表 -->
+  <select id="getSuppliersList" resultMap="BaseResultMap"  parameterType="com.ztel.app.vo.cost.SupplierInfoVo">
+    select  * from T_COST_SUPPLIERINFO where delstatus='10' 
+    <if test="ctype != null ">
+        and ctype= #{ctype}
+      </if>
+    order by SUPPLIER
+  </select>
+  
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.SupplierInfoVo" >
+    insert into T_COST_SUPPLIERINFO (ID, SUPPLIER, ADDR, 
+      CONTACTS, PHONE, RANGE, 
+      CTYPE, DELSTATUS, REMARKS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{supplier,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
+      #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{range,jdbcType=VARCHAR}, 
+      #{ctype,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.SupplierInfoVo" >
+    insert into T_COST_SUPPLIERINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="supplier != null" >
+        SUPPLIER,
+      </if>
+      <if test="addr != null" >
+        ADDR,
+      </if>
+      <if test="contacts != null" >
+        CONTACTS,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="range != null" >
+        RANGE,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="supplier != null" >
+        #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="range != null" >
+        #{range,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

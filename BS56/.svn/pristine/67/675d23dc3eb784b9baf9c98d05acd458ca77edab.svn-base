@@ -1,0 +1,43 @@
+package com.ztel.app.service.sys;
+
+import java.util.List;
+
+import com.ztel.app.vo.sys.RouteInfoVo;
+import com.ztel.framework.vo.Pagination;
+
+
+/**
+ * 
+ * @author NJ
+ *
+ */
+public interface RouteInfoService {
+	
+	
+	/**
+	 * 取车组列表
+	 * @param page
+	 * @return
+	 */
+	public List<RouteInfoVo> getRouteInfoPageList(Pagination<?> page);
+	
+	
+	/**
+	 * 新增车组
+	 * @param routeInfoVo
+	 */
+	public void insertNewRoute(RouteInfoVo routeInfoVo);
+	
+	/**
+	 * 修改车组
+	 * @param routeInfoVo
+	 */
+	public void updateRoute(RouteInfoVo routeInfoVo);
+	
+	/**
+	 * 根据部门id查找车组列表
+	 * @param roleid
+	 * @return
+	 */
+	public List<RouteInfoVo> getRoutesListByDeptid(Integer deptid);
+}

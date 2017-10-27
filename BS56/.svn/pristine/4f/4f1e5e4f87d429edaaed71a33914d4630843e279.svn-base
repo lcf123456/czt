@@ -1,0 +1,18 @@
+package com.ztel.app.service.wms;
+
+import java.util.List;
+
+import com.ztel.app.vo.wms.CustomerVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface CustomerService {
+
+	public List<CustomerVo>  getListByCond(CustomerVo customerVo);
+	
+	public List<CustomerVo> getCustomersPageList(Pagination<?> page);
+
+	public void viewCustomerVo(CustomerVo customervo);
+	
+	
+	
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.RouteitemVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.RouteitemVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="YEARMONTH" property="yearmonth" jdbcType="VARCHAR" />
+    <result column="EVALITEMID" property="evalitemid" jdbcType="DECIMAL" />
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CTYPE" property="ctype" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROUTECODE, YEARMONTH, EVALITEMID, WEIGHT, CREATETIME, CTYPE, REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_ROUTEITEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_ROUTEITEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.RouteitemVo" >
+    insert into T_SQ_ROUTEITEM (ID, ROUTECODE, YEARMONTH, 
+      EVALITEMID, WEIGHT, CREATETIME, 
+      CTYPE, REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, #{yearmonth,jdbcType=VARCHAR}, 
+      #{evalitemid,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{ctype,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.RouteitemVo" >
+    insert into T_SQ_ROUTEITEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="yearmonth != null" >
+        YEARMONTH,
+      </if>
+      <if test="evalitemid != null" >
+        EVALITEMID,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="yearmonth != null" >
+        #{yearmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="evalitemid != null" >
+        #{evalitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.RouteitemVo" >
+    update T_SQ_ROUTEITEM
+    <set >
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="yearmonth != null" >
+        YEARMONTH = #{yearmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="evalitemid != null" >
+        EVALITEMID = #{evalitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.RouteitemVo" >
+    update T_SQ_ROUTEITEM
+    set ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      YEARMONTH = #{yearmonth,jdbcType=VARCHAR},
+      EVALITEMID = #{evalitemid,jdbcType=DECIMAL},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      CTYPE = #{ctype,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

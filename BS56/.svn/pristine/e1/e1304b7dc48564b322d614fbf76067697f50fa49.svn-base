@@ -1,0 +1,90 @@
+package com.ztel.app.vo.account;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class TimebydmVo {
+    /**
+     * null
+     */
+    private BigDecimal id;
+
+    /**
+     * 订单日期
+     */
+    private Date cDate;
+
+    /**
+     * 更新时间
+     */
+    private Date updatetime;
+
+    /**
+     * 送货日期
+     */
+    private Date deliverydate;
+
+    /**
+     * null
+     * @return ID null
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * null
+     * @param id null
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 订单日期
+     * @return C_DATE 订单日期
+     */
+    public Date getcDate() {
+        return cDate;
+    }
+
+    /**
+     * 订单日期
+     * @param cDate 订单日期
+     */
+    public void setcDate(Date cDate) {
+        this.cDate = cDate;
+    }
+
+    /**
+     * 更新时间
+     * @return UPDATETIME 更新时间
+     */
+    public Date getUpdatetime() {
+        return updatetime;
+    }
+
+    /**
+     * 更新时间
+     * @param updatetime 更新时间
+     */
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    /**
+     * 送货日期
+     * @return DELIVERYDATE 送货日期
+     */
+    public Date getDeliverydate() {
+        return deliverydate;
+    }
+
+    /**
+     * 送货日期
+     * @param deliverydate 送货日期
+     */
+    public void setDeliverydate(Date deliverydate) {
+        this.deliverydate = deliverydate;
+    }
+}

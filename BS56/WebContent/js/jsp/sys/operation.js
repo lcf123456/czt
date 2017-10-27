@@ -1,0 +1,217 @@
+var sysid;
+var mid;
+var mcode;
+var murl;
+var mname;
+
+$(function(){
+	  $('#cmbox').combobox({
+		    url:baseURL+"/sys/menu/getSysMenuforCMBOX.json",
+			valueField:'id',  
+			textField:'text',
+			 onChange: function (n,o) {
+				  console.log("new="+n+",old="+o);
+				  sysid = n;
+				  openTree(n);
+				 
+			  }
+		});
+	  
+	  //默认加载sysid=1的服务考评系统
+	  if(sysid==null||sysid=="")sysid=1;
+	  openTree();
+	  
+	 
+});
+
+function openTree(){
+	  $('#menu_tree').tree({
+		  url: baseURL+'/sys/menu/getMenuinfoListforTree.json?sysid='+sysid,
+		  onClick:function(node){
+				
+				mid = node.id;
+				mname = node.text;
+				//获取menucode 并检查点击的菜单是否有功能按钮，只有有url的菜单才有功能菜单
+				
+				$.ajax({ 
+				    url: baseURL+'/sys/operation/getMenuInfoVo.json?mid='+mid, 
+				    type: 'POST', 
+				    success: function(data){
+						murl = data.url;
+				    	mcode = data.menucode;
+				    	$('#menucode').val(mcode);
+				    	if(murl!=null && murl!=""){
+				    		$('#dataTabel').datagrid({
+								title:'功能按钮维护', //标题
+								method:'post',
+								iconCls:'icon-edit', //图标
+								singleSelect:false, //多选
+								height:420, //高度
+								fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
+								striped: true, //奇偶行颜色不同
+								collapsible:true,//可折叠
+								url:baseURL+"/sys/operation/getOperationinfos.json?mcode="+mcode, //数据来源
+								sortName: 'id', //排序的列
+								sortOrder: 'desc', //倒序
+								remoteSort: true, //服务器端排序
+								idField:'id', //主键字段
+								queryParams:{
+									}, //查询条件
+								//pageSize : 1,
+								rownumbers:true, //显示行号
+								columns:[[
+									{field:'id',checkbox:true,width:2}, //显示复选框
+									{field:'id2',title:'编号',width:20,sortable:true,
+										formatter:function(value,row,index){return row.id;}
+									},
+									{field:'code',title:'按钮编码',width:20,sortable:true,
+										formatter:function(value,row,index){return row.code;} //需要formatter一下才能显示正确的数据
+									},
+									{field:'name',title:'按钮名称',width:20,sortable:true,
+										formatter:function(value,row,index){return row.name;}
+									},
+									{field:'menucode',title:'菜单编码',width:30,
+										formatter:function(value,row,index){mcode = row.menucode;return row.menucode;}
+									},
+									{field:'remarks',title:'备注信息',width:30,
+										formatter:function(value,row,index){
+											//return row.deptName;  //该列的值是deptId，显示的是deptName
+											return row.remarks;  
+										}
+									}
+								]],
+								toolbar:'#toolbar',
+								onLoadSuccess:function(){
+									$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
+									$('#tabdiv .panel-header').css('display','none'); 
+									
+								}
+							});// $('#dataTabel').datagrid({
+				    	}//
+				    	
+					}
+				   })
+		  }
+	  });
+
+}
+
+/**
+ * 打开新增窗口
+ */
+function newOp(){
+	$('#add-dlg').dialog('open').dialog('setTitle',mname+'--增加功能点').dialog('refresh');
+	$('#add-fm').form('clear');
+	$('#mid').val(mid);
+	$('#menucode').val(mcode);
+	//url = '/BS56/sys/roleNew.json';
+	//$('#add-dlg').dialog('colse');
+}
+
+/**
+ * 新增功能按钮，插入数据库
+ */
+function saveOp(){
+	$('#add-fm').form('submit',{
+		onSubmit: function(){
+			var isValidate = $(this).form('validate');
+			if(isValidate){
+				//$('#loading').window('open');
+			}
+			return isValidate;
+		},
+	url:baseURL+"/sys/operation/operationNew.json",
+	data:$("#add-fm").serializeArray(),
+	beforeSend : function () {
+		$.messager.progress({
+			text : '正在新增中...',
+		});
+	},
+	success: function(data){
+		//$('#loading').window('close');
+		data = eval('('+data+')');
+		$('#add-dlg').dialog('close');
+		$('#dataTabel').datagrid('reload'); 
+		$.messager.show({
+			title : '提示',
+			msg :  data.total+'个功能按钮新增'+data.msg+'！',
+		});
+		//$('#loading').window('close');
+	}
+	});
+}
+
+/**
+ * 打开更新窗口
+ */
+  function editOp(){
+		var rows = $('#dataTabel').datagrid('getSelections');
+		if(rows.length==0){
+			$.messager.alert('提示',"请选择你要更新的功能点",'info');
+			return;
+		}
+		if(rows.length > 1){
+			$.messager.alert('提示',"只能选择一个功能点进行更新",'info');
+			return;
+		}
+		var row = $('#dataTabel').datagrid('getSelected');
+		if (row){
+			$('#edit-dlg').dialog('open').dialog('setTitle',mname+'--修改功能点');
+			$('#edit-fm').form('load',row);
+		}
+
+	}
+  
+  /**
+   * 保存修改的功能点
+   */
+  function saveEdit(){
+  	$('#edit-fm').form('submit',{
+  		onSubmit: function(){
+  			var isValidate = $(this).form('validate');
+  			if(isValidate){
+  				//$('#loading').window('open');
+  			}
+  			return isValidate;
+  		},
+  		success: function(data){
+			//$('#loading').window('close');
+			data = eval('('+data+')');
+			$('#edit-dlg').dialog('close');
+			$('#dataTabel').datagrid('reload'); 
+    		$.messager.show({
+				title : '提示',
+				msg :  data.total+'个功能点修改'+data.msg+'！',
+			});
+			//$('#loading').window('close');
+		}
+  	});
+  }
+  
+//删除
+	function deleteOp(){
+		var rows = $('#dataTabel').datagrid('getSelections');
+		if(rows.length==0){
+		$.messager.alert('提示',"请选择你要删除的功能点",'info');
+		return;
+	}
+		$.messager.confirm('提示','确定要删除吗?',function(result){
+      if (result){
+      	var ps = "";
+      	$.each(rows,function(i,n){
+      		if(i==0) 
+      			ps += "?id="+n.id;
+      		else
+      			ps += "&id="+n.id;
+      	});
+      	$.post(baseURL+'/sys/operation/operationDel.json'+ps,function(data){
+	        	$('#dataTabel').datagrid('reload'); 
+	        	//console.log("del--"+data);
+      		$.messager.show({
+					title : '提示',
+					msg :  data.total+'个功能点被删除'+data.msg+'！',
+				});
+      	});
+      }
+  });
+	}

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.VoiceparaVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.VoiceparaVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PARANAME" property="paraname" jdbcType="VARCHAR" />
+    <result column="PARACONTENT" property="paracontent" jdbcType="VARCHAR" />
+    <result column="PARAREMARKS" property="pararemarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PARANAME, PARACONTENT, PARAREMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_VOICEPARA
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+ 
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.VoiceparaVo" >
+    insert into T_SQ_VOICEPARA (ID, PARANAME, PARACONTENT, 
+      PARAREMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{paraname,jdbcType=VARCHAR}, #{paracontent,jdbcType=VARCHAR}, 
+      #{pararemarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.VoiceparaVo" >
+    insert into T_SQ_VOICEPARA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     
+        ID,
+     
+      <if test="paraname != null" >
+        PARANAME,
+      </if>
+      <if test="paracontent != null" >
+        PARACONTENT,
+      </if>
+      <if test="pararemarks != null" >
+        PARAREMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    S_SQ_YYCS.nextval,
+     
+      <if test="paraname != null" >
+        #{paraname,jdbcType=VARCHAR},
+      </if>
+      <if test="paracontent != null" >
+        #{paracontent,jdbcType=VARCHAR},
+      </if>
+      <if test="pararemarks != null" >
+        #{pararemarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.VoiceparaVo" >
+    update T_SQ_VOICEPARA
+    <set >
+      <if test="paraname != null" >
+        PARANAME = #{paraname,jdbcType=VARCHAR},
+      </if>
+      <if test="paracontent != null" >
+        PARACONTENT = #{paracontent,jdbcType=VARCHAR},
+      </if>
+      <if test="pararemarks != null" >
+        PARAREMARKS = #{pararemarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+   
+ 
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.VoiceparaVo" >
+    update T_SQ_VOICEPARA
+    set PARANAME = #{paraname,jdbcType=VARCHAR},
+      PARACONTENT = #{paracontent,jdbcType=VARCHAR},
+      PARAREMARKS = #{pararemarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+     <select id="getVoiceparaPageList" parameterType="Pagination" resultType="com.ztel.app.vo.sq.VoiceparaVo">
+    select ID, PARANAME, PARACONTENT, PARAREMARKS from T_SQ_VOICEPARA 
+    <where>
+         <if test="param != null and param.paraname != null and param.paraname != ''" >
+        and  paraname like'%'||#{param.paraname}||'%'
+      </if>
+    </where>
+    
+</select>
+</mapper>

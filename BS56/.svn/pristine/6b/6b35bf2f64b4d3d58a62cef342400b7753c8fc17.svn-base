@@ -1,0 +1,232 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.sys;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+//import com.fsj.spring.web.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.ztel.app.service.sys.BlockcustomerService;
+import com.ztel.app.vo.sys.BlockcustomerVo;
+import com.ztel.app.vo.sys.VehicleVo;
+import com.ztel.app.vo.wms.CustomerVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author yy
+ * @since 2017年6月6日
+
+ * 零售户异动表
+
+ */
+@Controller
+@RequestMapping("/sys/blockcustomer")
+public class BlockcustomerCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(BlockcustomerCtrl.class);
+	
+	@Autowired
+	private BlockcustomerService blockcustomerService = null;
+	
+	@RequestMapping("/toBlockCustomers")
+	public String index(HttpServletRequest request) {
+		
+		return "/sys/v_blockcustomer";
+	}
+	@RequestMapping(value="/toBlockCustomerNew",method=RequestMethod.GET)
+	public String popWindow() throws Exception{
+		return "/sys/v_blockcustomer_new";
+	}
+	/**
+	  * 获取零售户信息列表
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping("getBlockCustomers")
+	 @ResponseBody
+	 public  Map<String, Object> getBlockcustomerList(BlockcustomerVo blockcustomerVo,HttpServletRequest request) throws Exception {
+		 Pagination<?> page = this.getPagination(request);
+//		// System.out.println("重置之前numPerPage="+page.getNumPerPage()+","+page.getSortColumn()+",isSortAsc="+page.isSortAsc()); 
+//		 //按照DataGrid的分页重新设置分页参数
+
+//		 if (dgm!=null&&dgm.getSort()!=null&&dgm.getSort()!="") {
+//			 page.setSortKey(dgm.getSort());//设置排序字段
+//			
+//			 boolean isSortAsc=false;
+//			 if(dgm.getOrder()!=null&&dgm.getOrder()!=""&&dgm.getOrder().equals("asc"))isSortAsc=true;
+//			 page.setSortAsc(isSortAsc);//设置是否正序排练
+//			// System.out.println("dgm sort= "+dgm.getSort()+",order ="+dgm.getOrder()+",isSortAsc="+isSortAsc+",pageNum="+dgm.getPage()+",getRows="+dgm.getRows()); 
+//			 page.setNumPerPage(dgm.getRows());//设置每页显示记录数
+
+//		}
+
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		
+		 if (blockcustomerVo!=null) {
+			 page.setParam(blockcustomerVo);
+		}
+		 List<BlockcustomerVo> ones = blockcustomerService.searchBlockcustomerPageList(page);
+		 //System.out.println(paras.size());
+		 //System.out.println(paras.get(0).getParanameE());
+		 result.put("rows",ones);  
+		 result.put("total",page.getTotalCount());  
+
+		 return result;
+	 }
+	 	
+	 /**
+	  * 删除零售户信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doBlockCustomerDel",method=RequestMethod.POST)
+	 @ResponseBody
+	 public   Map<String, Object> deleteBlockCustomer(@RequestParam("id") List<Integer> ids) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+		 if (ids!=null&&ids.size()>0) {
+			 total = ids.size();
+		}
+		 try {
+		
+			 blockcustomerService.delBlockcustomer(ids);
+		
+			 map.put("msg", "成功");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 
+		 return map;
+	 }
+    
+	 /**
+	  * 新增零售户信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doBlockCustomerNew",method=RequestMethod.POST)
+	// @ResponseBody
+	 public   void BlockCustomerNew(BlockcustomerVo blockcustomerVo,HttpServletResponse response) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+        
+		 try {
+			 blockcustomerService.insertBlockcustomer(blockcustomerVo);
+			 map.put("msg", "成功");
+			 total=1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 
+		 //直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
+
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);  
+	 }
+	 
+	 /**
+	  * 修改零售户信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doBlockCustomerUpdate",method=RequestMethod.POST)
+	 //@ResponseBody
+	 public   void BlockCustomerUpdate(BlockcustomerVo blockcustomerVo,HttpServletResponse response) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+        
+		 try {
+			 if(blockcustomerVo.getHandleflag()!=null && blockcustomerVo.getHandleflag().equals("未处理") )
+			 {
+				 blockcustomerVo.setHandleflag("0"); 
+			 }
+			 else if(blockcustomerVo.getHandleflag()!=null && blockcustomerVo.getHandleflag().equals("处理"))
+			 {
+				 blockcustomerVo.setHandleflag("10"); 
+			 }
+			 blockcustomerService.updateBlockcustomer(blockcustomerVo);
+			 map.put("msg", "成功");
+			 total=1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);
+		 //return map;
+	 }
+	 
+	 /**
+	  * 查看零售户信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doBlockCustomerView",method=RequestMethod.POST)
+	 //@ResponseBody
+	 public   void doBlockCustomerView(BlockcustomerVo blockcustomerVo,HttpServletResponse response) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+        
+		 try {
+			 blockcustomerService.BlockcustomerView(blockcustomerVo);
+			 map.put("msg", "成功");
+			 total=1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);
+		 //return map;
+	 }
+	 @RequestMapping("getCustListByRouteCode")
+	 @ResponseBody
+	 public List<CustomerVo> getCustListByRouteCode(HttpServletRequest request)
+	 {
+		 List<CustomerVo>  custList = null;
+		 
+		 //String routecode = request.getParameter("routecode");
+		// if(routecode==null)routecode="";
+		 String condname = request.getParameter("condname");
+		 if(condname==null)condname="";
+		 
+		 CustomerVo customerVo = new CustomerVo();
+		 //customerVo.setRoutecode(routecode);
+		 customerVo.setParam(condname);
+		 custList = customerVo.getListByCond(customerVo);
+		 return custList;
+	 }
+	 
+	 
+
+}

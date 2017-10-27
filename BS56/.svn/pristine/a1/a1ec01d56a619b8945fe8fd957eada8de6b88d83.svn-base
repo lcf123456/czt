@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.FireItemnoteVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.FireItemnoteVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="SYSTEMID" property="systemid" jdbcType="DECIMAL" />
+    <result column="PROJECTID" property="projectid" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FID, SYSTEMID, PROJECTID, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_FIRE_ITEMNOTE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SAFE_FIRE_ITEMNOTE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.FireItemnoteVo" >
+    insert into T_SAFE_FIRE_ITEMNOTE (ID, FID, SYSTEMID, 
+      PROJECTID, STATUS)
+    values (#{id,jdbcType=DECIMAL}, #{fid,jdbcType=DECIMAL}, #{systemid,jdbcType=DECIMAL}, 
+      #{projectid,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.FireItemnoteVo" >
+    insert into T_SAFE_FIRE_ITEMNOTE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="systemid != null" >
+        SYSTEMID,
+      </if>
+      <if test="projectid != null" >
+        PROJECTID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="systemid != null" >
+        #{systemid,jdbcType=DECIMAL},
+      </if>
+      <if test="projectid != null" >
+        #{projectid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.FireItemnoteVo" >
+    update T_SAFE_FIRE_ITEMNOTE
+    <set >
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="systemid != null" >
+        SYSTEMID = #{systemid,jdbcType=DECIMAL},
+      </if>
+      <if test="projectid != null" >
+        PROJECTID = #{projectid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.FireItemnoteVo" >
+    update T_SAFE_FIRE_ITEMNOTE
+    set FID = #{fid,jdbcType=DECIMAL},
+      SYSTEMID = #{systemid,jdbcType=DECIMAL},
+      PROJECTID = #{projectid,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

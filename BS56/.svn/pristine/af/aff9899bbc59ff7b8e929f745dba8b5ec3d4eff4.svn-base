@@ -1,0 +1,65 @@
+package com.ztel.app.web.ctrl.account;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.account.TimebydmVoService;
+import com.ztel.app.service.produce.OrderService;
+import com.ztel.app.vo.wms.ShipOrderVo;
+
+/**
+ * 预付款客户
+ * @author lcf
+ *
+ */
+@Controller
+@RequestMapping("/account/timebydm")
+public class TimebydmCtrl {
+	
+	@Autowired
+	private TimebydmVoService timebydmVoService = null;
+	
+	@Autowired
+	private OrderService orderService = null;
+	
+	@RequestMapping("toPrepayvehicle")
+	public String toPrepayvehicle(HttpServletRequest request) {
+		return "/account/v_prepayvehicle";
+		//return "/gis/v_truckseq";
+	}
+	
+	/**
+	 * 获取订单日期或送货日期
+	 * @param outBoundVo 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="getTimebydm")
+	 @ResponseBody
+	 public Map<String, Object> getTimebydm(HttpServletRequest request) throws Exception{
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 
+		String date = request.getParameter("date");
+		if(date==null||date.equals(""))date =( new Date()).toString();
+		String type = request.getParameter("type");
+		if(type==null||type.equals(""))type="0";//type=0:根据送货日期取订单日期    type=1：根据订单日期取送货日期
+		
+		 date = timebydmVoService.getTimebydm(date, type);
+		 map.put("timebydm", date);
+		return map;
+	}
+
+}

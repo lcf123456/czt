@@ -1,0 +1,196 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<title><c:out value="${titleInfo}"/></title>
+<%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/wms/confiscation.js"/>"></script>
+  <head>
+  </head>
+  
+  <body>
+	
+
+	<!-- datagrid页面列表数据 -->
+	<div style="padding:10" id="tabdiv">
+		<table id="dataTabel"></table>
+	</div>
+	
+	<!-- 查询-->
+	<div id="toolbar" style="padding:5px;height:auto;">
+	<form id="queryForm" style="margin:10;">
+		<div style="margin-bottom:5px">
+		<a href="#" id="viewBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="viewD()">查看</a>
+		<a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openNew();">新增</a>
+		<a href="#" id="impBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="cigImp();">入库</a>
+			<input class="easyui-textbox"  name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入准运证、货主、合同号...'" style="width:220px;height:24px;">
+			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
+		</div>
+		</form>
+	</div>
+	
+	
+	
+    <!-- 1、明细查看--------------------------------------------------------------------------------------->
+	<div id="add-dlg" class="easyui-dialog" style="width:800px;height:420px;padding:5px 10px;align:center;"
+			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<form  id="add-fm" method="post" action="" novalidate  >
+			<div >
+			<tr>
+			<td>
+			<table>
+			<tr>
+		  		 	<!-- <td width="5%" height="20" align="left" nowrap>入库编号：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="inboundid" id="inboundid1" class="easyui-textbox" style="width:120px"  readonly>
+		           	</td> -->
+		           	<td width="5%"  height="20" align="left" nowrap>准运证：</td>
+		           	<td width="23%" height="20" align="left" nowrap>
+		               <input name="navicert" id="navicert1" class="easyui-textbox" style="width:120px" readonly/>
+		           </td>  
+		            <td width="5%" height="20" align="left" nowrap>合同号：</td>
+		           	<td width="5%" height="20" align="left" nowrap colspan="1">
+		                <input name="contractno" id="contractno1" class="easyui-textbox" style="width:120px" readonly>
+		           	</td>
+		           	<td width="5%" height="20" align="left" nowrap>货主：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="consignsor" id="consignsor1" class="easyui-textbox" style="width:120px" readonly >
+		           	</td>
+	           </tr>
+	           <tr>
+		            <td width="5%" height="20" align="left" nowrap>数量：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		                <input name="qty" id="qty1" class="easyui-textbox" style="width:120px" readonly>
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>入库类型：</td>
+		           	<td width="23%" height="20" align="left" nowrap>
+		               <input name="intypename" id="intypename1" class="easyui-textbox" style="width:120px" readonly/>
+		           </td>  
+		            <td width="5%" height="20" align="left" nowrap>入库状态：</td>
+		           	<td width="5%" height="20" align="left" nowrap colspan="3">
+		                <input name="statusname" id="statusname1" class="easyui-textbox" style="width:120px" readonly>
+		           	</td>
+	           </tr>
+				<tr>
+		            <td width="5%" height="20" align="left" nowrap>备注：</td>
+		           	<td width="20%" height="20" align="left" nowrap colspan="7">
+		               <input name="remarks" id="remarks1" class="easyui-textbox" data-options="multiline:true"   style="width:460px" readonly>
+		           	</td>
+	           </tr>
+			</table>
+			</td>
+			</tr>
+			</div>
+		</form>
+	 <div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" id="btn-done" iconCls="icon-cancel" onclick="javascript:$('#new-dlg').dialog('close')">关闭</a>
+	</div>
+	
+	<div style="padding:10" id="listtabdiv">
+		<table id="listdataTabel"></table>
+	</div>
+	</div>
+	
+    <!-- 2、新增罚没烟入库单--------------------------------------------------------------------------------------->
+	<div id="new-dlg" class="easyui-dialog" style="width:800px;height:420px;padding:5px 10px;align:center;"
+			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<form  id="new-fm" method="post" action="" novalidate  >
+			<div >
+			<tr>
+			<td>
+			<table>
+			<tr>
+		  		 	<!-- <td width="5%" height="20" align="left" nowrap>入库编号：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="inboundid" id="inboundid" class="easyui-textbox" style="width:120px" data-options="prompt:'自动生成...'" readonly>
+		           	</td> -->
+		           	<td width="5%"  height="20" align="left" nowrap>准运证：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		               <input name="navicert" id="navicert" class="easyui-textbox" style="width:120px" />
+		           </td>  
+		            <td width="5%" height="20" align="left" nowrap>合同号：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		                <input name="contractno" id="contractno" class="easyui-textbox" style="width:120px" >
+		           	</td>
+		           	<td width="5%" height="20" align="left" nowrap>货主：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="consignsor" id="consignsor" class="easyui-combobox" style="width:120px" >
+		           	</td>
+	           </tr>
+	           <tr>
+		            <td width="5%" height="20" align="left" nowrap>数量：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		                <input name="qty" id="qty" class="easyui-numberbox" style="width:120px" value="0" readonly>
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>入库类型：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		               <input name="intype" id="intype" class="easyui-textbox" style="width:120px" readonly/>
+		           </td>  
+		            <td width="3%" height="20" align="left" nowrap>入库状态：</td>
+		           	<td width="20%" height="20" align="left" nowrap>
+		           		<select id="status" class="easyui-combobox" name="status" style="width:120px;" >
+						    <option value="10">新增</option>
+						    <option value="30">入库完成</option>
+						</select>
+		           	</td>
+	           </tr>
+	           <%--<tr>
+	            	<td width="5%" height="20" align="left" nowrap>记录时间：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="createtime" id="createtime" class="easyui-textbox" style="width:120px"  readonly>
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>供应商：</td>
+		           	<td width="23%" height="20" align="left" nowrap>
+		               <input name="supplier" id="supplier" class="easyui-textbox" style="width:120px" readonly/>
+		           </td>  
+		  		 	<td width="5%" height="20" align="left" nowrap>货主：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="consignsor" id="consignsor" class="easyui-textbox" style="width:120px"  readonly>
+		           	</td>
+	           </tr> --%>
+				<tr>
+		            <td width="5%" height="20" align="left" nowrap>备注：</td>
+		           	<td width="20%" height="20" align="left" nowrap colspan="7">
+		               <input name="remarks" id="remarks" class="easyui-textbox" data-options="multiline:true"   style="width:460px" readonly>
+		           	</td>
+	           </tr>
+				<%--<tr>
+		           	<td width="20%" height="20" align="left" nowrap colspan="7">
+		               &nbsp;
+		           	</td>
+	           </tr> --%>
+		  	  <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>品牌选择：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="cigarettecode" id="cigarettecode" class="easyui-combobox" style="width:120px" >
+		                <input name="cigarettename" id="cigarettename"type="hidden">
+		           	</td>
+		           	<td width="5%"  height="20" align="left"  nowrap>数量：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		               <input name="itemqty" id="itemqty" value="" class="easyui-numberbox" style="width:120px" />
+		           </td>  
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <a href="#" id="impBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="cigSubmit();">录入</a>
+		           	</td>
+	           </tr>
+		 	 </table>
+		     </td>
+	  	   </tr>
+	  	   <tr>
+			<td>
+				  <table id="newlistdataTabel"></table>
+			</td>
+		</tr>
+		<input type="hidden" name="newinboundid" id="newinboundid" ></input>
+			</div>
+		</form>
+	 <div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" id="btn-done" iconCls="icon-cancel" onclick="javascript:$('#add-dlg').dialog('close')">关闭</a>
+	</div>
+	</div>
+	
+	
+	<!--<c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=Confiscation"></c:import>-->	
+  </body>
+</html>
+

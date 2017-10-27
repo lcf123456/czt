@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SPLTypeInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SPLTypeInfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+    <result column="CLEVEL" property="clevel" jdbcType="DECIMAL" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="ISPRODUCE" property="isproduce" jdbcType="VARCHAR" />
+    <result column="FTYPENAME" property="ftypename" jdbcType="VARCHAR" />
+    <result column="ISPRODUCENAME" property="isproducename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TYPENAME, CLEVEL, FID, UNIT, PRICE, DELSTATUS, ISPRODUCE
+  </sql>
+  
+  <select id="getSPLTypeInfoList"  resultType="SPLTypeInfoVo">
+		select s1.ID,s1.TYPENAME,s1.CLEVEL,s1.FID,s1.UNIT,s1.ISPRODUCE,decode(s1.ISPRODUCE,'0','否','10','是','否') as isproducename,s2.typename as ftypename 
+		from T_COST_SPLTYPEINFO s1 
+		left outer join T_COST_SPLTYPEINFO s2 on s1.fid=s2.id
+		where s1.DELSTATUS = '10' 
+	<if test="fid != null and  fid != ''">
+        AND s1.FID = #{fid} 
+	</if>
+	order by id desc
+</select>
+  
+  <select id="getSPLTypeInfoListByCondition"  resultType="SPLTypeInfoVo" parameterType="com.ztel.app.vo.cost.SPLTypeInfoVo" >
+		select ID, TYPENAME, CLEVEL, FID, UNIT, PRICE, DELSTATUS, ISPRODUCE
+		from T_COST_SPLTYPEINFO s
+		where s.DELSTATUS = '10' 
+	<if test="fid != null and  fid != ''">
+        AND s.FID = #{fid} 
+	</if>
+    <if test="clevel != null and clevel !='' ">
+        and s.CLEVEL= #{clevel}
+     </if>
+	order by id desc
+</select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_SPLTYPEINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_COST_SPLTYPEINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.SPLTypeInfoVo" >
+    insert into T_COST_SPLTYPEINFO (ID, TYPENAME, CLEVEL, 
+      FID, UNIT, PRICE, DELSTATUS, 
+      ISPRODUCE)
+    values (#{id,jdbcType=DECIMAL}, #{typename,jdbcType=VARCHAR}, #{clevel,jdbcType=DECIMAL}, 
+      #{fid,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{delstatus,jdbcType=VARCHAR}, 
+      #{isproduce,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.cost.SPLTypeInfoVo" >
+    insert into T_COST_SPLTYPEINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="typename != null" >
+        TYPENAME,
+      </if>
+      <if test="clevel != null" >
+        CLEVEL,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+        DELSTATUS,
+      <if test="isproduce != null" >
+        ISPRODUCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        s_cost_spltypeinfo.nextval,
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="clevel != null" >
+        #{clevel,jdbcType=DECIMAL},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+       10,
+      <if test="isproduce != null" >
+        #{isproduce,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.SPLTypeInfoVo" >
+    update T_COST_SPLTYPEINFO
+    <set >
+      <if test="typename != null" >
+        TYPENAME = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="clevel != null" >
+        CLEVEL = #{clevel,jdbcType=DECIMAL},
+      </if>
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="isproduce != null" >
+        ISPRODUCE = #{isproduce,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.SPLTypeInfoVo" >
+    update T_COST_SPLTYPEINFO
+    set TYPENAME = #{typename,jdbcType=VARCHAR},
+      CLEVEL = #{clevel,jdbcType=DECIMAL},
+      FID = #{fid,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      ISPRODUCE = #{isproduce,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

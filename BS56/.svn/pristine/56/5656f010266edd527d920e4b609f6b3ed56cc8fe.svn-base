@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.gis.TruckseqVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.gis.TruckseqVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="VEHICLENO" jdbcType="VARCHAR" property="vehicleno" />
+    <result column="COMPANYNAME" jdbcType="VARCHAR" property="companyname" />
+    <result column="TELNUM" jdbcType="DECIMAL" property="telnum" />
+    <result column="QTY" jdbcType="DECIMAL" property="qty" />
+    <result column="ARRIVETIME" jdbcType="TIMESTAMP" property="arrivetime" />
+    <result column="UNLOCKTIME" jdbcType="TIMESTAMP" property="unlocktime" />
+    <result column="BILLTIME" jdbcType="TIMESTAMP" property="billtime" />
+    <result column="BEGSCANTIME" jdbcType="TIMESTAMP" property="begscantime" />
+    <result column="ENDSCANTIME" jdbcType="TIMESTAMP" property="endscantime" />
+    <result column="BACKTIME" jdbcType="TIMESTAMP" property="backtime" />
+    <result column="SEQ" jdbcType="DECIMAL" property="seq" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="GROUPCODE" jdbcType="VARCHAR" property="groupcode" />
+    <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+    <result column="STATUSNAME" jdbcType="VARCHAR" property="statusname" />
+    <result column="KEYWORD" jdbcType="VARCHAR" property="keyword" />
+    <result column="CONTRACTNO" jdbcType="VARCHAR" property="contractno" />
+    <result column="NAVICERT" jdbcType="VARCHAR" property="navicert" />
+    <result column="LOADTIME" jdbcType="DECIMAL" property="loadtime" />
+    <result column="EFFICIENCY" jdbcType="DECIMAL" property="efficiency" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, VEHICLENO, COMPANYNAME, TELNUM, QTY, ARRIVETIME, UNLOCKTIME, BILLTIME, BEGSCANTIME, 
+    ENDSCANTIME, BACKTIME, SEQ, STATUS, GROUPCODE, BATCH_ID
+  </sql>
+  
+<!-- 来烟排队：入园、入单、排队、出园 -->
+   <select id="getTruckseqPageList" parameterType="Pagination" resultType="com.ztel.app.vo.gis.TruckseqVo">
+    select 
+    ID, VEHICLENO, COMPANYNAME, TELNUM, QTY, ARRIVETIME, UNLOCKTIME, BILLTIME, BEGSCANTIME, 
+    ENDSCANTIME, BACKTIME, SEQ, STATUS, GROUPCODE, BATCH_ID,CONTRACTNO,NAVICERT,
+    decode(status,'1','在途','10','入园 ','20','开锁','30','交单','40','扫码卸货','50','卸货完成','55','同意出园','60','出园') as statusname
+     from T_GIS_TRUCKSEQ 
+      where 1=1
+      <if test="param != null and param.status != null and param.status == 2 ">
+        AND (status = 10 or status = 20 or status = 30 or status = 40 or status = 50 or status= 55 )
+    </if>
+    <if test="param != null and param.status != null and param.status != 2 ">
+        AND status = #{param.status}
+    </if>
+    <if test="param != null and param.keyword != null and param.keyword != ''">
+        AND (VEHICLENO like '%'||#{param.keyword}||'%' or COMPANYNAME like '%'||#{param.keyword}||'%' or GROUPCODE like '%'||#{param.keyword}||'%')
+    </if>
+    order by seq
+</select>
+
+<!-- 今日装卸 -->
+<select id="getTruckseqTodayPageList" parameterType="Pagination" resultType="com.ztel.app.vo.gis.TruckseqVo">
+    select 
+    ID, VEHICLENO, COMPANYNAME, TELNUM, QTY, ARRIVETIME, UNLOCKTIME, BILLTIME, BEGSCANTIME, 
+    ENDSCANTIME, BACKTIME, SEQ, STATUS, GROUPCODE, BATCH_ID,CONTRACTNO,NAVICERT,
+    decode(status,'1','在途','10','入园 ','20','开锁','30','交单','40','扫码卸货','50','卸货完成','55','同意出园','60','出园') as statusname
+     from T_GIS_TRUCKSEQ 
+      where trunc(BEGSCANTIME) =  trunc(sysdate) or trunc(ENDSCANTIME) =  trunc(sysdate) 
+    
+    order by seq
+</select>
+
+<!-- 装卸效率 -->
+<select id="getTruckseqEfficiencyPageList" parameterType="Pagination" resultType="com.ztel.app.vo.gis.TruckseqVo">
+    select 
+    ID, VEHICLENO, COMPANYNAME, TELNUM, QTY, ARRIVETIME, UNLOCKTIME, BILLTIME, BEGSCANTIME, 
+    ENDSCANTIME, BACKTIME, SEQ, STATUS, GROUPCODE, BATCH_ID,CONTRACTNO,NAVICERT,
+    decode(status,'1','在途','10','入园 ','20','开锁','30','交单','40','扫码卸货','50','卸货完成','55','同意出园','60','出园') as statusname,
+    round((ENDSCANTIME-BEGSCANTIME)*24,2) as loadtime,round(qty/((ENDSCANTIME-BEGSCANTIME)*24)) as efficiency
+     from T_GIS_TRUCKSEQ 
+      where BEGSCANTIME is not null and ENDSCANTIME is not null
+    <if test="param != null and param.searchbegtime != null and param.searchendtime != null ">
+        AND trunc(BEGSCANTIME) between #{param.searchbegtime} and #{param.searchendtime}
+    </if>
+    order by BEGSCANTIME desc 
+</select>
+
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GIS_TRUCKSEQ
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_GIS_TRUCKSEQ
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.gis.TruckseqVo">
+    insert into T_GIS_TRUCKSEQ (ID, VEHICLENO, COMPANYNAME, 
+      TELNUM, QTY, ARRIVETIME, 
+      UNLOCKTIME, BILLTIME, BEGSCANTIME, 
+      ENDSCANTIME, BACKTIME, SEQ, 
+      STATUS, GROUPCODE, BATCH_ID
+      )
+    values (#{id,jdbcType=DECIMAL}, #{vehicleno,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, 
+      #{telnum,jdbcType=DECIMAL}, #{qty,jdbcType=DECIMAL}, #{arrivetime,jdbcType=TIMESTAMP}, 
+      #{unlocktime,jdbcType=TIMESTAMP}, #{billtime,jdbcType=TIMESTAMP}, #{begscantime,jdbcType=TIMESTAMP}, 
+      #{endscantime,jdbcType=TIMESTAMP}, #{backtime,jdbcType=TIMESTAMP}, #{seq,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{groupcode,jdbcType=VARCHAR}, #{batchId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.gis.TruckseqVo">
+    insert into T_GIS_TRUCKSEQ
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="vehicleno != null">
+        VEHICLENO,
+      </if>
+      <if test="companyname != null">
+        COMPANYNAME,
+      </if>
+      <if test="telnum != null">
+        TELNUM,
+      </if>
+      <if test="qty != null">
+        QTY,
+      </if>
+      <if test="arrivetime != null">
+        ARRIVETIME,
+      </if>
+      <if test="unlocktime != null">
+        UNLOCKTIME,
+      </if>
+      <if test="billtime != null">
+        BILLTIME,
+      </if>
+      <if test="begscantime != null">
+        BEGSCANTIME,
+      </if>
+      <if test="endscantime != null">
+        ENDSCANTIME,
+      </if>
+      <if test="backtime != null">
+        BACKTIME,
+      </if>
+      <if test="seq != null">
+        SEQ,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="groupcode != null">
+        GROUPCODE,
+      </if>
+      <if test="batchId != null">
+        BATCH_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleno != null">
+        #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null">
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null">
+        #{telnum,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivetime != null">
+        #{arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unlocktime != null">
+        #{unlocktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billtime != null">
+        #{billtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begscantime != null">
+        #{begscantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endscantime != null">
+        #{endscantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backtime != null">
+        #{backtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="groupcode != null">
+        #{groupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.gis.TruckseqVo">
+    update T_GIS_TRUCKSEQ
+    <set>
+      <if test="vehicleno != null">
+        VEHICLENO = #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null">
+        COMPANYNAME = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null">
+        TELNUM = #{telnum,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivetime != null">
+        ARRIVETIME = #{arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unlocktime != null">
+        UNLOCKTIME = #{unlocktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billtime != null">
+        BILLTIME = #{billtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begscantime != null">
+        BEGSCANTIME = #{begscantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endscantime != null">
+        ENDSCANTIME = #{endscantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backtime != null">
+        BACKTIME = #{backtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seq != null">
+        SEQ = #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="groupcode != null">
+        GROUPCODE = #{groupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null">
+        BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.gis.TruckseqVo">
+    update T_GIS_TRUCKSEQ
+    set VEHICLENO = #{vehicleno,jdbcType=VARCHAR},
+      COMPANYNAME = #{companyname,jdbcType=VARCHAR},
+      TELNUM = #{telnum,jdbcType=DECIMAL},
+      QTY = #{qty,jdbcType=DECIMAL},
+      ARRIVETIME = #{arrivetime,jdbcType=TIMESTAMP},
+      UNLOCKTIME = #{unlocktime,jdbcType=TIMESTAMP},
+      BILLTIME = #{billtime,jdbcType=TIMESTAMP},
+      BEGSCANTIME = #{begscantime,jdbcType=TIMESTAMP},
+      ENDSCANTIME = #{endscantime,jdbcType=TIMESTAMP},
+      BACKTIME = #{backtime,jdbcType=TIMESTAMP},
+      SEQ = #{seq,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      GROUPCODE = #{groupcode,jdbcType=VARCHAR},
+      BATCH_ID = #{batchId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,58 @@
+package com.ztel.app.service.cost.impl;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.cost.SPLApplyListVoMapper;
+import com.ztel.app.persist.mybatis.cost.SuppliesImpVoMapper;
+import com.ztel.app.service.cost.SPLApplyListService;
+import com.ztel.app.vo.cost.SPLApplyListLineVo;
+import com.ztel.app.vo.cost.SPLApplyListVo;
+import com.ztel.app.vo.cost.SuppliesImpVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class SPLApplyListServiceImpl implements SPLApplyListService {
+
+	@Autowired
+	private SPLApplyListVoMapper SPLApplyListVoMapper = null;
+	@Autowired
+	SuppliesImpVoMapper suppliesImpVoMapper = null;//物资入库mapper
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public SPLApplyListServiceImpl(){
+		sortKeyMapping.put("applydate", "applydate");
+		sortKeyMapping.put("id", "id");
+		sortKeyMapping.put("deptname", "deptname");
+	}
+	public List<SPLApplyListVo> getApplyListList(Pagination<?> page)
+	{
+		page.sortKeyToColumn(sortKeyMapping);
+		return SPLApplyListVoMapper.selectApplyListPageList(page);
+		
+	}
+	
+	/**
+	 * 领料新增
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public void doAddApplyList(SPLApplyListVo sPLApplyListVo,SPLApplyListLineVo sPLApplyListLineVo)
+	{
+		//插入主表
+		SPLApplyListVoMapper.insertSelective(sPLApplyListVo);
+		BigDecimal typeid = sPLApplyListLineVo.getTypeid();
+		
+		//根据类型id获取物资列表，先进先出
+		List<SuppliesImpVo> suppliesImpVoList = suppliesImpVoMapper.getSuppliesImpListByTypeid(typeid+"");
+		if(suppliesImpVoList!=null&&suppliesImpVoList.size()>0){
+			
+		}
+	}
+}

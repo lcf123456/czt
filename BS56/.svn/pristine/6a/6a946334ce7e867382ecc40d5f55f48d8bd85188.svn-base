@@ -1,0 +1,183 @@
+/**
+ * 页面列表datagrid初始化
+ */
+jQuery(function($){
+	initstatus();
+	$('#dataTabel').datagrid({
+		title:'物流单信息', //标题
+		method:'post',
+		iconCls:'icon-edit', //图标
+		singleSelect:true, //单选
+		height:490, //高度
+		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
+		striped: true, //奇偶行颜色不同
+		collapsible:true,//可折叠
+		url:baseURL+"/gis/orderlineinfo/getOrderlineinfoPageList.json", //数据来源
+		sortName: 'id', //排序的列
+		sortOrder: 'desc', //倒序
+		remoteSort: true, //服务器端排序
+		idField:'id', //主键字段
+		pageNumber: 1, 
+		pageSize : 20,
+		pageList: [20,30,50],
+		queryParams:{
+			}, //查询条件
+		pagination:true, //显示分页
+		//pageSize : 1,
+		rownumbers:true, //显示行号
+		columns:[[
+			{field:'id',checkbox:true,width:2}, //显示复选框
+			{field:'batchId',title:'批次ID',width:$(this).width()*0.25,
+				formatter:function(value,row,index){return row.batchId;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'truckNum',title:'车牌',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return row.truckNum;}
+			},
+			{field:'cgtContNum',title:'合同号',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return row.cgtContNum;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'outDate',title:'发货日期',width:$(this).width()*0.08,sortable:true,
+				formatter:function(value,row,index){return row.outDate;}
+			},
+			{field:'tradeName',title:'品牌',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.tradeName;}
+			},
+			{field:'cgtPurQty1',title:'数量（件）',width:$(this).width()*0.05,sortable:true,
+				formatter:function(value,row,index){return row.cgtPurQty1;}
+			},
+			{field:'orgStoName',title:'发货仓库名称',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.orgStoName;}
+			},
+			{field:'isArrivedname',title:'状态',width:$(this).width()*0.03,
+				formatter:function(value,row,index){return row.isArrivedname;}
+			}
+		]],
+		toolbar:'#toolbar',
+		onLoadSuccess:function(){
+			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
+			$('#tabdiv .panel-header').css('display','none'); 
+			
+		}
+	});
+	
+});
+
+//查询
+function searchData(){
+	var params = $('#dataTabel').datagrid('options').queryParams; //先取得 datagrid 的查询参数
+	var fields =$('#queryForm').serializeArray(); //自动序列化表单元素为JSON对象
+	$.each( fields, function(i, field){
+		params[field.name] = field.value; //设置查询参数
+	}); 
+	$('#dataTabel').datagrid('reload'); //设置好查询参数 reload 一下就可以了
+}
+//清空查询条件
+function clearForm(){
+	//$('#queryForm').form('clear');
+	$('#keyword').textbox("setValue","");
+	$('#keyword').textbox("setText","");
+	searchData();
+}
+
+//初始化日期类型
+function initstatus(){
+	$("#status").combobox({
+        valueField:'id',
+        textField:'value',
+        data:[
+        	{
+        		id:'00',
+        		value:"在途"
+        	},{
+        		id:'01',
+        		value:"到货"
+        	}],
+	onLoadSuccess: function () {
+		 var val = $(this).combobox("getData");
+		 for (var item in val[0]) {
+             if (item == "id") {
+                 $(this).combobox("select", val[0][item]);
+             }
+         }
+	}
+    });
+}
+
+function getsplapplylistline(inboundid)
+{
+		//获取领料新增分配的物资明细列表
+	$('#listdataTabel').datagrid({
+		title:'入库明细', //标题
+		method:'post',
+		iconCls:'icon-view', //图标
+		singleSelect:false, //多选
+		height:200, //高度
+		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
+		striped: true, //奇偶行颜色不同
+		collapsible:false,//可折叠
+		url:baseURL+"/wms/inbound/getInBoundLineList.json?inboundid="+inboundid, 
+		sortName: 'inbounddetailid', //排序的列
+		sortOrder: 'desc', //倒序
+		remoteSort: true, //服务器端排序
+		idField:'inbounddetailid', //主键字段
+		pagination:false, //显示分页
+		//pageSize : 1,
+		rownumbers:true, //显示行号
+		columns:[[
+			{field:'inboundid',title:'入库编号',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return row.inboundid;}
+			},
+			{field:'cigarettename',title:'卷烟名称',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.cigarettename;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'boxqty',title:'件烟数量',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return row.boxqty;}
+			},
+			{field:'itemqty',title:'条烟数量',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return row.itemqty;}
+			},
+			{field:'consignsor',title:'货主',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return row.consignsor;}
+			},
+			{field:'aboxqty',title:'实际入库',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return row.aboxqty;}
+			},
+			{field:'otherqty',title:'散烟区入库数量',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return row.otherqty;}
+			}
+		]],
+		onLoadSuccess:function(){
+			$('#listtabdiv .panel-header').css('display','none'); 
+			
+		}
+	});
+	
+
+	}
+
+
+/**
+ * 查看窗口
+ */
+  function viewD(){
+	  $('#add-fm').form('clear');
+	  var rows = $('#dataTabel').datagrid('getSelections');
+		if(rows.length==0){
+			$.messager.alert('提示',"请选择你要查看的信息",'info');
+			return;
+		}
+		if(rows.length > 1){
+			$.messager.alert('提示',"只能选择一条信息进行查看",'info');
+			return;
+		}
+		
+		var row = $('#dataTabel').datagrid('getSelected');
+		var inboundid = row.inboundid;
+		if (row){
+			$('#add-dlg').dialog('open').dialog('setTitle',"查看");
+			$('#add-dlg').form('load',row);
+		}
+		
+		//getsplapplylistline(inboundid);
+	}
+

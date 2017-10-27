@@ -1,0 +1,39 @@
+package com.ztel.app.service.account.Impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.account.OperateVoMapper;
+import com.ztel.app.service.account.OperateVoService;
+import com.ztel.app.vo.account.OperateVo;
+import com.ztel.framework.vo.Pagination;
+@Service
+public class OperateVoServiceImpl implements OperateVoService {
+	
+	@Autowired
+	private OperateVoMapper operateVoMapper = null;
+	 
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+		
+	public OperateVoServiceImpl() {
+			//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+			//sortKeyMapping.put(key, value)
+	}
+
+	@Override
+	public List<OperateVo> getOperatePageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		return operateVoMapper.getOperatePageList(page);
+	}
+
+	@Override
+	public void doOperateUpdate(OperateVo operateVo) {
+		// TODO Auto-generated method stub
+		operateVoMapper.updateByPrimaryKeySelective(operateVo);
+	}
+
+}

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.HazardsLevelVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.HazardsLevelVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DANGER" property="danger" jdbcType="VARCHAR" />
+    <result column="CLEVEL" property="clevel" jdbcType="VARCHAR" />
+    <result column="MINSCORE" property="minscore" jdbcType="DECIMAL" />
+    <result column="MAXSCORE" property="maxscore" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DANGER, CLEVEL, MINSCORE, MAXSCORE, DELSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_HAZARDSLEVEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SAFE_HAZARDSLEVEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.HazardsLevelVo" >
+    insert into T_SAFE_HAZARDSLEVEL (ID, DANGER, CLEVEL, 
+      MINSCORE, MAXSCORE, DELSTATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{danger,jdbcType=VARCHAR}, #{clevel,jdbcType=VARCHAR}, 
+      #{minscore,jdbcType=DECIMAL}, #{maxscore,jdbcType=DECIMAL}, #{delstatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.HazardsLevelVo" >
+    insert into T_SAFE_HAZARDSLEVEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="danger != null" >
+        DANGER,
+      </if>
+      <if test="clevel != null" >
+        CLEVEL,
+      </if>
+      <if test="minscore != null" >
+        MINSCORE,
+      </if>
+      <if test="maxscore != null" >
+        MAXSCORE,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="danger != null" >
+        #{danger,jdbcType=VARCHAR},
+      </if>
+      <if test="clevel != null" >
+        #{clevel,jdbcType=VARCHAR},
+      </if>
+      <if test="minscore != null" >
+        #{minscore,jdbcType=DECIMAL},
+      </if>
+      <if test="maxscore != null" >
+        #{maxscore,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.HazardsLevelVo" >
+    update T_SAFE_HAZARDSLEVEL
+    <set >
+      <if test="danger != null" >
+        DANGER = #{danger,jdbcType=VARCHAR},
+      </if>
+      <if test="clevel != null" >
+        CLEVEL = #{clevel,jdbcType=VARCHAR},
+      </if>
+      <if test="minscore != null" >
+        MINSCORE = #{minscore,jdbcType=DECIMAL},
+      </if>
+      <if test="maxscore != null" >
+        MAXSCORE = #{maxscore,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.HazardsLevelVo" >
+    update T_SAFE_HAZARDSLEVEL
+    set DANGER = #{danger,jdbcType=VARCHAR},
+      CLEVEL = #{clevel,jdbcType=VARCHAR},
+      MINSCORE = #{minscore,jdbcType=DECIMAL},
+      MAXSCORE = #{maxscore,jdbcType=DECIMAL},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

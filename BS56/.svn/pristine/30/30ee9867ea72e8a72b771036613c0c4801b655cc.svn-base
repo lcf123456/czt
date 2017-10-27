@@ -1,0 +1,34 @@
+package com.ztel.app.service.produce.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.produce.SortTroughVoMapper;
+import com.ztel.app.persist.mybatis.sys.RoleinfoVoMapper;
+import com.ztel.app.service.produce.SortTroughService;
+import com.ztel.app.vo.produce.SortTroughVo;
+import com.ztel.framework.vo.Pagination;
+@Service
+public class SortTroughServiceImpl implements SortTroughService {
+
+	@Autowired
+	private SortTroughVoMapper sortTroughMapper = null;
+	@Override
+	public List<SortTroughVo> getSortTroughPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		return sortTroughMapper.getSortTroughPageList(page);
+	}
+	@Override
+	public void updateByPrimaryKeySelective(SortTroughVo vo) {
+		// TODO Auto-generated method stub
+		sortTroughMapper.updateByPrimaryKeySelective(vo);
+	}
+	@Override
+	public List<SortTroughVo> getSorttroughList(SortTroughVo sorttroughVo) {
+		// TODO 自动生成的方法存根
+		return sortTroughMapper.getSorttroughList(sorttroughVo);
+	}
+
+}

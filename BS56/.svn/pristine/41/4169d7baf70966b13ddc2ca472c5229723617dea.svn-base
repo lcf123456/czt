@@ -1,0 +1,53 @@
+package com.ztel.app.persist.mybatis.sys;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.ztel.app.vo.sys.RouteInfoVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface RouteInfoVoMapper {
+	
+	public List<RouteInfoVo> getRoutesPageList(Pagination<?> page);
+	
+	public List<RouteInfoVo> getRoutesList(@Param("deptid")Integer deptid);
+	
+	public RouteInfoVo selectByRoutecode(@Param("routecode")String routecode);
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int deleteByPrimaryKey(Integer routeid);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int insert(RouteInfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int insertSelective(RouteInfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    RouteInfoVo selectByPrimaryKey(Integer routeid);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int updateByPrimaryKeySelective(RouteInfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-12
+     */
+    int updateByPrimaryKey(RouteInfoVo record);
+    
+}

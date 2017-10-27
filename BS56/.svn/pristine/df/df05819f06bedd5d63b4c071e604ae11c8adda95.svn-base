@@ -1,0 +1,314 @@
+package com.ztel.app.vo.wms;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class ShipOrderVo {
+	private String customername;//店名
+	private String customerId;//专卖证号
+	private String realshipaddressphone;//联系电话
+	private String routecode;
+	 private BigDecimal totalamount;
+	 private BigDecimal totalqty;
+	private String orderno;
+    private String orgCode;
+    private String shiporderno;
+    private BigDecimal businesstypeId;
+    private BigDecimal shipperId;
+    
+	private BigDecimal warehouseid;
+    private String realshipaddress;
+    private String realaddresscontact;
+    
+    private BigDecimal orderlines;
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date orderdate;
+    private String orderdatestr ;//订单日期字符型,为了导出到excel时格式为yyyy-mm-dd
+    
+    private Date expectedshipdate;
+    private BigDecimal isrush;
+    private BigDecimal orderstatus;
+    private Date createtime;
+    private String createuser;
+    private Date deliverytime;
+    private BigDecimal delstatus;
+    private String remarks;
+    private BigDecimal paymentflag;
+    
+    private BigDecimal deliveryseq;
+    
+    private BigDecimal batch;
+    private String schedulestatus;
+    
+    private String bakphone;
+    private BigDecimal calcid;//核算员id
+    private String calcname;//核算员名称
+    private BigDecimal deptid;//部门id
+    private String parentcustname;//预付款客户父名称
+    private String parentcustid;//预付款客户父id
+    private String customercode;//客户代码
+    private String keywd;//查询关键字
+    private String keywdnumber;//查询关键字为数字型的，比如金额和数量，车组，专卖证号
+    private Date begintime;
+    private Date endtime;
+    private String paymentflagname;//结算状态名称：0未结算,10已结算 5预付款
+    private String itemid;//卷烟品牌id即卷烟编码
+    
+    
+	public String getCustomercode() {
+		return customercode;
+	}
+	public void setCustomercode(String customercode) {
+		this.customercode = customercode;
+	}
+	public String getKeywd() {
+		return keywd;
+	}
+	public void setKeywd(String keywd) {
+		this.keywd = keywd;
+	}
+	public String getOrderno() {
+		return orderno;
+	}
+	public void setOrderno(String orderno) {
+		this.orderno = orderno;
+	}
+	public String getOrgCode() {
+		return orgCode;
+	}
+	public void setOrgCode(String orgCode) {
+		this.orgCode = orgCode;
+	}
+	public String getShiporderno() {
+		return shiporderno;
+	}
+	public void setShiporderno(String shiporderno) {
+		this.shiporderno = shiporderno;
+	}
+	public BigDecimal getBusinesstypeId() {
+		return businesstypeId;
+	}
+	public void setBusinesstypeId(BigDecimal businesstypeId) {
+		this.businesstypeId = businesstypeId;
+	}
+	public BigDecimal getShipperId() {
+		return shipperId;
+	}
+	public void setShipperId(BigDecimal shipperId) {
+		this.shipperId = shipperId;
+	}
+	public String getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+	public BigDecimal getWarehouseid() {
+		return warehouseid;
+	}
+	public void setWarehouseid(BigDecimal warehouseid) {
+		this.warehouseid = warehouseid;
+	}
+	public String getRealshipaddress() {
+		return realshipaddress;
+	}
+	public void setRealshipaddress(String realshipaddress) {
+		this.realshipaddress = realshipaddress;
+	}
+	public String getRealaddresscontact() {
+		return realaddresscontact;
+	}
+	public void setRealaddresscontact(String realaddresscontact) {
+		this.realaddresscontact = realaddresscontact;
+	}
+	public String getRealshipaddressphone() {
+		return realshipaddressphone;
+	}
+	public void setRealshipaddressphone(String realshipaddressphone) {
+		this.realshipaddressphone = realshipaddressphone;
+	}
+	public BigDecimal getOrderlines() {
+		return orderlines;
+	}
+	public void setOrderlines(BigDecimal orderlines) {
+		this.orderlines = orderlines;
+	}
+	public BigDecimal getTotalamount() {
+		return totalamount;
+	}
+	public void setTotalamount(BigDecimal totalamount) {
+		this.totalamount = totalamount;
+	}
+	public Date getOrderdate() {
+		return orderdate;
+	}
+	public void setOrderdate(Date orderdate) {
+		this.orderdate = orderdate;
+	}
+	public Date getExpectedshipdate() {
+		return expectedshipdate;
+	}
+	public void setExpectedshipdate(Date expectedshipdate) {
+		this.expectedshipdate = expectedshipdate;
+	}
+	public BigDecimal getIsrush() {
+		return isrush;
+	}
+	public void setIsrush(BigDecimal isrush) {
+		this.isrush = isrush;
+	}
+	public BigDecimal getOrderstatus() {
+		return orderstatus;
+	}
+	public void setOrderstatus(BigDecimal orderstatus) {
+		this.orderstatus = orderstatus;
+	}
+	public Date getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
+	public String getCreateuser() {
+		return createuser;
+	}
+	public void setCreateuser(String createuser) {
+		this.createuser = createuser;
+	}
+	public Date getDeliverytime() {
+		return deliverytime;
+	}
+	public void setDeliverytime(Date deliverytime) {
+		this.deliverytime = deliverytime;
+	}
+	public BigDecimal getDelstatus() {
+		return delstatus;
+	}
+	public void setDelstatus(BigDecimal delstatus) {
+		this.delstatus = delstatus;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public BigDecimal getPaymentflag() {
+		return paymentflag;
+	}
+	public void setPaymentflag(BigDecimal paymentflag) {
+		this.paymentflag = paymentflag;
+	}
+	public String getRoutecode() {
+		return routecode;
+	}
+	public void setRoutecode(String routecode) {
+		this.routecode = routecode;
+	}
+	public BigDecimal getDeliveryseq() {
+		return deliveryseq;
+	}
+	public void setDeliveryseq(BigDecimal deliveryseq) {
+		this.deliveryseq = deliveryseq;
+	}
+	public BigDecimal getTotalqty() {
+		return totalqty;
+	}
+	public void setTotalqty(BigDecimal totalqty) {
+		this.totalqty = totalqty;
+	}
+	public BigDecimal getBatch() {
+		return batch;
+	}
+	public void setBatch(BigDecimal batch) {
+		this.batch = batch;
+	}
+	public String getSchedulestatus() {
+		return schedulestatus;
+	}
+	public void setSchedulestatus(String schedulestatus) {
+		this.schedulestatus = schedulestatus;
+	}
+	public String getCustomername() {
+		return customername;
+	}
+	public void setCustomername(String customername) {
+		this.customername = customername;
+	}
+	public String getBakphone() {
+		return bakphone;
+	}
+	public void setBakphone(String bakphone) {
+		this.bakphone = bakphone;
+	}
+	public BigDecimal getCalcid() {
+		return calcid;
+	}
+	public void setCalcid(BigDecimal calcid) {
+		this.calcid = calcid;
+	}
+	public String getCalcname() {
+		return calcname;
+	}
+	public void setCalcname(String calcname) {
+		this.calcname = calcname;
+	}
+	public BigDecimal getDeptid() {
+		return deptid;
+	}
+	public void setDeptid(BigDecimal deptid) {
+		this.deptid = deptid;
+	}
+	public String getOrderdatestr() {
+		return orderdatestr;
+	}
+	public void setOrderdatestr(String orderdatestr) {
+		this.orderdatestr = orderdatestr;
+	}
+	public String getParentcustname() {
+		return parentcustname;
+	}
+	public void setParentcustname(String parentcustname) {
+		this.parentcustname = parentcustname;
+	}
+	public String getParentcustid() {
+		return parentcustid;
+	}
+	public void setParentcustid(String parentcustid) {
+		this.parentcustid = parentcustid;
+	}
+	public Date getBegintime() {
+		return begintime;
+	}
+	public void setBegintime(Date begintime) {
+		this.begintime = begintime;
+	}
+	public Date getEndtime() {
+		return endtime;
+	}
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+	public String getPaymentflagname() {
+		return paymentflagname;
+	}
+	public void setPaymentflagname(String paymentflagname) {
+		this.paymentflagname = paymentflagname;
+	}
+	public String getItemid() {
+		return itemid;
+	}
+	public void setItemid(String itemid) {
+		this.itemid = itemid;
+	}
+	public String getKeywdnumber() {
+		return keywdnumber;
+	}
+	public void setKeywdnumber(String keywdnumber) {
+		this.keywdnumber = keywdnumber;
+	}
+    
+}

@@ -1,0 +1,363 @@
+/**
+ * 页面列表datagrid初始化
+ */
+jQuery(function($){
+	$('#dataTabel').datagrid({
+		title:'来烟破损', //标题
+		method:'post',
+		iconCls:'icon-edit', //图标
+		singleSelect:false, //多选
+		height:490, //高度
+		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
+		striped: true, //奇偶行颜色不同
+		url:baseURL+"/wms/cigarettedamaged/getCigarettedamagedPageList.json", //数据来源
+		sortName: 'id', //排序的列
+		sortOrder: 'desc', //倒序
+		remoteSort: true, //服务器端排序
+		idField:'id', //主键字段
+		pageNumber: 1, 
+		pageSize : 20,
+		pageList: [20,30,50],
+		queryParams:{
+			}, //查询条件
+		pagination:true, //显示分页
+		//pageSize : 1,
+		rownumbers:true, //显示行号
+		columns:[[
+			{field:'id',checkbox:true,width:2}, //显示复选框
+			{field:'id2',title:'id',width:$(this).width()*0.08,
+				formatter:function(value,row,index){return row.inboundid;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'inboundid',title:'入库单',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.inboundid;}
+			},
+			{field:'navicert',title:'准运证',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.navicert;}
+			},
+			{field:'contractno',title:'合同号',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.contractno;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'createtime',title:'记录时间',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.createtime;}
+			},
+			{field:'qty',title:'破损数量',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.qty;}
+			}
+		]],
+		toolbar:'#toolbar',
+		onLoadSuccess:function(){
+			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
+			$('#tabdiv .panel-header').css('display','none'); 
+			
+		}
+	});
+	
+});
+
+//查询
+function searchData(){
+	var params = $('#dataTabel').datagrid('options').queryParams; //先取得 datagrid 的查询参数
+	var fields =$('#queryForm').serializeArray(); //自动序列化表单元素为JSON对象
+	$.each( fields, function(i, field){
+		params[field.name] = field.value; //设置查询参数
+	}); 
+	$('#dataTabel').datagrid('reload'); //设置好查询参数 reload 一下就可以了
+}
+//清空查询条件
+function clearForm(){
+	$('#queryForm').form('clear');
+	searchUser();
+}
+
+/**
+ * 查看窗口
+ */
+  function viewD(){
+	  $('#add-fm').form('clear');
+	  var rows = $('#dataTabel').datagrid('getSelections');
+		if(rows.length==0){
+			$.messager.alert('提示',"请选择你要查看的信息",'info');
+			return;
+		}
+		if(rows.length > 1){
+			$.messager.alert('提示',"只能选择一条信息进行查看",'info');
+			return;
+		}
+		
+		var row = $('#dataTabel').datagrid('getSelected');
+		var inboundid = row.inboundid;
+		if (row){
+			$('#add-dlg').dialog('open').dialog('setTitle',"查看");
+			$('#add-dlg').form('load',row);
+		}
+		
+		//getsplapplylistline(inboundid);
+	}
+
+
+
+  
+  
+/**
+ * 打开新增窗口
+ */
+function openCreate(){
+	$('#add-fm').form('clear');
+	$('#add-dlg').dialog('open').dialog('setTitle','来烟破损');
+	
+	$("#fisstdiv" ).css("display", "block"); //审核不显示
+	$("#seconddiv" ).css("display", "none"); //审核不显示
+	 //获取入库单列表
+	getInboundList();
+}
+
+function getInboundList(){
+	$('#inboundTabel').datagrid({
+		title:'入库单', //标题
+		method:'post',
+		iconCls:'icon-edit', //图标
+		singleSelect:false, //多选
+		height:240, //高度
+		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
+		striped: true, //奇偶行颜色不同
+		url:baseURL+"/wms/inbound/getInBoundPageList.json", //数据来源
+		sortName: 'inboundid', //排序的列
+		sortOrder: 'desc', //倒序
+		remoteSort: true, //服务器端排序
+		idField:'inboundid', //主键字段
+		pageNumber: 1, 
+		pageSize : 20,
+		pageList: [20,30,50],
+		queryParams:{
+			}, //查询条件
+		pagination:true, //显示分页
+		//pageSize : 1,
+		rownumbers:true, //显示行号
+		columns:[[
+			{field:'inboundid',checkbox:true,width:2}, //显示复选框
+			{field:'id2',title:'inboundid',width:$(this).width()*0.08,
+				formatter:function(value,row,index){return row.inboundid;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'navicert',title:'准运证',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.navicert;}
+			},
+			{field:'contractno',title:'合同号',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.contractno;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'createtime',title:'记录时间',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.createtime;}
+			},
+			{field:'qty',title:'数量',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.qty;}
+			},
+			{field:'consignsor',title:'货主',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.consignsor;}
+			},
+			{field:'intypename',title:'类型',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.intypename;}
+			},
+			{field:'statusname',title:'状态',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.statusname;}
+			}
+		]],
+		onLoadSuccess:function(){
+			//$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
+			$('#inboundlinediv .panel-header').css('display','none'); 
+			
+		}
+	});
+}
+
+
+
+//上一步
+function fiststep()
+{
+	$("#fisstdiv" ).css("display", "block"); 
+	$("#seconddiv" ).css("display", "none"); 
+	}
+
+//下一步
+function nextstep()
+{
+	var rows = $('#inboundTabel').datagrid('getSelections');
+	if(rows.length==0){
+		$.messager.alert('提示',"请选择入库单信息",'info');
+		return;
+	}
+	if(rows.length > 1){
+		$.messager.alert('提示',"只能选择一条入库单信息进行操作",'info');
+		return;
+	}
+	
+	var row = $('#inboundTabel').datagrid('getSelected');
+	if (row){
+		$('#add-dlg').form('load',row);
+		$("#fisstdiv" ).css("display", "none"); //审核不显示
+		$("#seconddiv" ).css("display", "block"); //审核不显示
+		var inboundid = row.inboundid;
+		//入库单详情
+		getinboundlinelist(inboundid);
+		
+		//卷烟破损明细列表
+		getcigarettedamagedlinelist(inboundid);
+	}
+	}
+
+//入库单明细列表
+function getinboundlinelist(inboundid)
+{
+		//获取领料新增分配的物资明细列表
+	$('#inboundlineTabel').datagrid({
+		title:'入库单明细', //标题
+		method:'post',
+		iconCls:'icon-view', //图标
+		singleSelect:false, //多选
+		height:140, //高度
+		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
+		striped: true, //奇偶行颜色不同
+		collapsible:false,//可折叠
+		url:baseURL+"/wms/inbound/getInBoundLineList.json?inboundid="+inboundid, 
+		sortName: 'inbounddetailid', //排序的列
+		sortOrder: 'desc', //倒序
+		remoteSort: true, //服务器端排序
+		idField:'inbounddetailid', //主键字段
+		singleSelect: true,
+		pagination:false, //显示分页
+		//pageSize : 1,
+		rownumbers:true, //显示行号
+		columns:[[
+			{field:'inbounddetailid',title:'序号',width:$(this).width()*0.05,sortable:true,
+				formatter:function(value,row,index){return row.inbounddetailid;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'inboundid',title:'入库编号',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.inboundid;}
+			},
+			{field:'cigarettename',title:'卷烟名称',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.cigarettename;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'boxqty',title:'件烟数量',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.boxqty;}
+			},
+			{field:'consignsor',title:'货主',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.consignsor;}
+			},
+			{field:'_operate',title:'操作',width:$(this).width()*0.05,
+				formatter:function(value,row,index){return '<input name="isShow" type="radio" onclick="radClick('+index+')"/>';}
+			}
+		]],
+		onLoadSuccess:function(){
+			//$('#inboundlinediv .panel-header').css('display','none'); 
+			
+		}
+	});
+	}
+
+function radClick(index){ 
+	 $('#inboundlineTabel').datagrid('selectRow',index);// 关键在这里  
+	    var row = $('#inboundlineTabel').datagrid('getSelected');  
+	    if (row){  
+	    	$('#cigarettename').textbox("setValue",row.cigarettename);
+	    	$('#cigarettename').textbox("setText",row.cigarettename);
+	    	$('#boxqty').textbox("setValue",row.boxqty);
+	    	$('#boxqty').textbox("setText",row.boxqty);
+	    	$('#inbounddetailid2').val(row.inbounddetailid);
+	    	$('#cigarettecode2').val(row.cigarettecode);
+	    }
+}
+
+//卷烟破损明细列表
+function getcigarettedamagedlinelist(inboundid)
+{
+	$('#cigarettedamagedlineTabel').datagrid({
+		title:'入库单明细', //标题
+		method:'post',
+		iconCls:'icon-view', //图标
+		singleSelect:false, //多选
+		height:140, //高度
+		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
+		striped: true, //奇偶行颜色不同
+		collapsible:false,//可折叠
+		url:baseURL+"/wms/cigarettedamaged/getCigarettedamagedLineList.json?inboundid="+inboundid, 
+		sortName: 'id', //排序的列
+		sortOrder: 'desc', //倒序
+		remoteSort: true, //服务器端排序
+		idField:'id', //主键字段
+		singleSelect: true,
+		pagination:false, //显示分页
+		//pageSize : 1,
+		rownumbers:true, //显示行号
+		columns:[[
+			{field:'id',title:'序号',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.id;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'inboundid',title:'入库单号',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.inboundid;}
+			},
+			{field:'inbounddetailid',title:'入库单明细号',width:$(this).width()*0.1,
+				formatter:function(value,row,index){return row.inbounddetailid;}
+			},
+			{field:'cigarettename',title:'卷烟名称',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.cigarettename;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'boxqty',title:'件烟数量',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.boxqty;}
+			},
+			{field:'damagedqty',title:'破损数量',width:$(this).width()*0.1,sortable:true,
+				formatter:function(value,row,index){return row.damagedqty;}
+			}
+		]],
+		onLoadSuccess:function(){
+			//$('#inboundlinediv .panel-header').css('display','none'); 
+			
+		}
+	});
+	}
+
+/**
+ * 提交保存
+ */
+/**
+ * 新建角色
+ */
+function dosave(){
+	var boxqty= $("#boxqty").val(); 
+	var otherqty= $("#otherqty").val(); 
+	if(otherqty==null||otherqty==""){
+		$.messager.alert('系统提示', '请输入破损数量！', 'warning');
+		return;
+	}
+	if(boxqty==null||boxqty==""){
+		$.messager.alert('系统提示', '请选择入库明细并输入破损数量再保存！', 'warning');
+		return;
+	}
+	$('#add-fm').form('submit',{
+		onSubmit: function(){
+			var isValidate = $(this).form('validate');
+			if(isValidate){
+				//$('#loading').window('open');
+			}
+			return isValidate;
+		},
+		url:baseURL+"/wms/cigarettedamaged/doSave.json",
+		data:$("#add-fm").serializeArray(),
+		beforeSend : function () {
+			$.messager.progress({
+				text : '正在新增中...',
+			});
+		},
+		success: function(data){
+			//$('#loading').window('close');
+			
+			data = eval('('+data+')');
+			//$('#add-dlg').dialog('close');
+			$('#dataTabel').datagrid('reload'); 
+			$('#cigarettedamagedlineTabel').datagrid('reload');
+    		$.messager.show({
+				title : '提示',
+				msg :  data.total+'个保存'+data.msg+'！',
+			});
+			//$('#loading').window('close');
+		}
+	});
+}

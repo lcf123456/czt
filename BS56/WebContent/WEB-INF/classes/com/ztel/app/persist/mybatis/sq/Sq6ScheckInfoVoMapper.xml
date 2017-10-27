@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.Sq6ScheckInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.Sq6ScheckInfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="BIGITEMFLAG" property="bigitemflag" jdbcType="VARCHAR" />
+    <result column="BIGITEMTSCORE" property="bigitemtscore" jdbcType="DECIMAL" />
+    <result column="BIGITEMSEQ" property="bigitemseq" jdbcType="DECIMAL" />
+    <result column="BIGITEMROWS" property="bigitemrows" jdbcType="DECIMAL" />
+    <result column="LINEINFO" property="lineinfo" jdbcType="VARCHAR" />
+    <result column="SPECCONTENT" property="speccontent" jdbcType="VARCHAR" />
+    <result column="SPECSCORE" property="specscore" jdbcType="DECIMAL" />
+    <result column="SPECSEQ" property="specseq" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FLAG, BIGITEMFLAG, BIGITEMTSCORE, BIGITEMSEQ, BIGITEMROWS, LINEINFO, SPECCONTENT, 
+    SPECSCORE, SPECSEQ, REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_6SCHECKINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_6SCHECKINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.Sq6ScheckInfoVo" >
+    insert into T_SQ_6SCHECKINFO (ID, FLAG, BIGITEMFLAG, 
+      BIGITEMTSCORE, BIGITEMSEQ, BIGITEMROWS, 
+      LINEINFO, SPECCONTENT, SPECSCORE, 
+      SPECSEQ, REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{flag,jdbcType=VARCHAR}, #{bigitemflag,jdbcType=VARCHAR}, 
+      #{bigitemtscore,jdbcType=DECIMAL}, #{bigitemseq,jdbcType=DECIMAL}, #{bigitemrows,jdbcType=DECIMAL}, 
+      #{lineinfo,jdbcType=VARCHAR}, #{speccontent,jdbcType=VARCHAR}, #{specscore,jdbcType=DECIMAL}, 
+      #{specseq,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.Sq6ScheckInfoVo" >
+    insert into T_SQ_6SCHECKINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="bigitemflag != null" >
+        BIGITEMFLAG,
+      </if>
+      <if test="bigitemtscore != null" >
+        BIGITEMTSCORE,
+      </if>
+      <if test="bigitemseq != null" >
+        BIGITEMSEQ,
+      </if>
+      <if test="bigitemrows != null" >
+        BIGITEMROWS,
+      </if>
+      <if test="lineinfo != null" >
+        LINEINFO,
+      </if>
+      <if test="speccontent != null" >
+        SPECCONTENT,
+      </if>
+      <if test="specscore != null" >
+        SPECSCORE,
+      </if>
+      <if test="specseq != null" >
+        SPECSEQ,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="bigitemflag != null" >
+        #{bigitemflag,jdbcType=VARCHAR},
+      </if>
+      <if test="bigitemtscore != null" >
+        #{bigitemtscore,jdbcType=DECIMAL},
+      </if>
+      <if test="bigitemseq != null" >
+        #{bigitemseq,jdbcType=DECIMAL},
+      </if>
+      <if test="bigitemrows != null" >
+        #{bigitemrows,jdbcType=DECIMAL},
+      </if>
+      <if test="lineinfo != null" >
+        #{lineinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="speccontent != null" >
+        #{speccontent,jdbcType=VARCHAR},
+      </if>
+      <if test="specscore != null" >
+        #{specscore,jdbcType=DECIMAL},
+      </if>
+      <if test="specseq != null" >
+        #{specseq,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.Sq6ScheckInfoVo" >
+    update T_SQ_6SCHECKINFO
+    <set >
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="bigitemflag != null" >
+        BIGITEMFLAG = #{bigitemflag,jdbcType=VARCHAR},
+      </if>
+      <if test="bigitemtscore != null" >
+        BIGITEMTSCORE = #{bigitemtscore,jdbcType=DECIMAL},
+      </if>
+      <if test="bigitemseq != null" >
+        BIGITEMSEQ = #{bigitemseq,jdbcType=DECIMAL},
+      </if>
+      <if test="bigitemrows != null" >
+        BIGITEMROWS = #{bigitemrows,jdbcType=DECIMAL},
+      </if>
+      <if test="lineinfo != null" >
+        LINEINFO = #{lineinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="speccontent != null" >
+        SPECCONTENT = #{speccontent,jdbcType=VARCHAR},
+      </if>
+      <if test="specscore != null" >
+        SPECSCORE = #{specscore,jdbcType=DECIMAL},
+      </if>
+      <if test="specseq != null" >
+        SPECSEQ = #{specseq,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.Sq6ScheckInfoVo" >
+    update T_SQ_6SCHECKINFO
+    set FLAG = #{flag,jdbcType=VARCHAR},
+      BIGITEMFLAG = #{bigitemflag,jdbcType=VARCHAR},
+      BIGITEMTSCORE = #{bigitemtscore,jdbcType=DECIMAL},
+      BIGITEMSEQ = #{bigitemseq,jdbcType=DECIMAL},
+      BIGITEMROWS = #{bigitemrows,jdbcType=DECIMAL},
+      LINEINFO = #{lineinfo,jdbcType=VARCHAR},
+      SPECCONTENT = #{speccontent,jdbcType=VARCHAR},
+      SPECSCORE = #{specscore,jdbcType=DECIMAL},
+      SPECSEQ = #{specseq,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

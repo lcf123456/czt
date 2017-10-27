@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.inspur.mybatis.InspurSaleitemVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.inspur.vo.InspurSaleitemVo" >
+    <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="kind" property="kind" jdbcType="VARCHAR" />
+    <result column="brdowner_id" property="brdownerId" jdbcType="VARCHAR" />
+    <result column="pack_bar" property="packBar" jdbcType="VARCHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="is_abnormal" property="isAbnormal" jdbcType="VARCHAR" />
+    <result column="um_id" property="umId" jdbcType="VARCHAR" />
+    <result column="um_name" property="umName" jdbcType="VARCHAR" />
+  </resultMap>
+
+<!-- 获取营销接口中的订单头数据 -->
+  <select id="selectInspursaleitemList"  resultType="com.ztel.app.inspur.vo.InspurSaleitemVo">
+    ${sqlstr}
+</select>
+
+</mapper>

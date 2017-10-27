@@ -1,0 +1,24 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.ItemVoMapper;
+import com.ztel.app.service.wms.ItemService;
+import com.ztel.app.vo.wms.ItemVo;
+
+@Service
+public class ItemServiceImpl implements ItemService {
+
+	@Autowired
+	private ItemVoMapper itemVoMapper = null;
+	
+	@Override
+	public List<ItemVo> selectListByCond(ItemVo itemVo) {
+		// TODO Auto-generated method stub
+		return itemVoMapper.selectListByCond(itemVo);
+	}
+
+}

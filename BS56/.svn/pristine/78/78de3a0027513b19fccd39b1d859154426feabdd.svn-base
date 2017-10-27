@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.OperationlogVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.OperationlogVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="OPERATIONDATE" property="operationdate" jdbcType="TIMESTAMP" />
+    <result column="FUNCTIONID" property="functionid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USERID, OPERATIONDATE, FUNCTIONID, REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_OPERATIONLOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_OPERATIONLOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.OperationlogVo" >
+    insert into T_SYS_OPERATIONLOG (ID, USERID, OPERATIONDATE, 
+      FUNCTIONID, REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, #{operationdate,jdbcType=TIMESTAMP}, 
+      #{functionid,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.OperationlogVo" >
+    insert into T_SYS_OPERATIONLOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="operationdate != null" >
+        OPERATIONDATE,
+      </if>
+      <if test="functionid != null" >
+        FUNCTIONID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="operationdate != null" >
+        #{operationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="functionid != null" >
+        #{functionid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.OperationlogVo" >
+    update T_SYS_OPERATIONLOG
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="operationdate != null" >
+        OPERATIONDATE = #{operationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="functionid != null" >
+        FUNCTIONID = #{functionid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.OperationlogVo" >
+    update T_SYS_OPERATIONLOG
+    set USERID = #{userid,jdbcType=DECIMAL},
+      OPERATIONDATE = #{operationdate,jdbcType=TIMESTAMP},
+      FUNCTIONID = #{functionid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

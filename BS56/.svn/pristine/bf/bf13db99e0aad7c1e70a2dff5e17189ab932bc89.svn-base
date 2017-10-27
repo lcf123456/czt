@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.HiddendangerVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.HiddendangerVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="DANGERDATE" property="dangerdate" jdbcType="TIMESTAMP" />
+    <result column="DANGERTYPE" property="dangertype" jdbcType="DECIMAL" />
+    <result column="DANGERCONTENT" property="dangercontent" jdbcType="VARCHAR" />
+    <result column="VERIFYCONTENT" property="verifycontent" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DANGERSTATUS" property="dangerstatus" jdbcType="VARCHAR" />
+    <result column="VERIFYMEN" property="verifymen" jdbcType="DECIMAL" />
+    <result column="RECTIFYNOTE" property="rectifynote" jdbcType="VARCHAR" />
+    <result column="RECTIFYID" property="rectifyid" jdbcType="DECIMAL" />
+    <result column="HANDLESTATUS" property="handlestatus" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="VERIFYDATE" property="verifydate" jdbcType="TIMESTAMP" />
+    <result column="CHECKID" property="checkid" jdbcType="VARCHAR" />
+    <result column="DEMANDS" property="demands" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+    <result column="RECTIFYNAME" property="rectifyname" jdbcType="VARCHAR" />
+    <result column="VERIFYNAME" property="verifyname" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATEID, DANGERDATE, DANGERTYPE, DANGERCONTENT, VERIFYCONTENT, STATUS, DANGERSTATUS, 
+    VERIFYMEN, RECTIFYNOTE, RECTIFYID, HANDLESTATUS, DEPTID, VERIFYDATE, CHECKID, DEMANDS
+  </sql>
+   <!-- 根据隐患id隐患类型信息 
+  <select id="getHiddendangerListByDangertype" resultType="IndustrialdriverVo" parameterType="Integer">
+    select  a.ID, ctype  from T_SAFE_TYPEINFO a , T_SAFE_HIDDENDANGER b where a.ID = b.dangertype 
+  </select>-->
+    <!-- 获取隐患类型列表 -->
+  <select id="getCtypeList" resultType="TypeinfoVo">
+    select  ID, ctype  from T_SAFE_TYPEINFO  where  flag='10'
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_HIDDENDANGER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select> 
+   <select id="getDangercreatPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+     select a.id,dangercontent, c.ctype as ctype ,decode(status, 10, '已排除', 0, '未排除') as status,dangerdate,b.username as createname
+    , RECTIFYNOTE, f.username as RECTIFYNAME, decode(dangerstatus, 10, '有效隐患', 20, '无效隐患') as dangerstatus, HANDLESTATUS, e.deptname as deptname, VERIFYDATE, d.username as verifyname, DEMANDS,checkid
+    from T_SAFE_HIDDENDANGER a,t_sys_user b ,t_safe_typeinfo c,t_sys_user d ,t_sys_dept e,t_sys_user f where a.createid=b.id and c.id=a.DANGERTYPE 
+ and e.id=a.deptid and f.id=a.RECTIFYID and d.id=a.VERIFYMEN
+   
+    <if test="param != null and param.dangercontent != null and param.dangercontent!= ''">
+        AND (b.username like '%'||#{param.dangercontent}||'%' or dangercontent like '%'||#{param.dangercontent}||'%' )
+    </if>
+     <if test="param != null and param.status != null and  param.status != '20' " >
+        and a.status= #{param.status,jdbcType=VARCHAR}
+      </if>
+      <if test="param.ctype!= null and param.ctype != ''" >
+           and dangertype= #{param.ctype,jdbcType=VARCHAR}
+       </if> 
+      order by dangerdate desc
+  </select>
+   <select id="getDangerverifyPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   
+     select a.id,dangercontent, c.ctype as ctype ,decode(status, 10, '已排除', 0, '未排除') as status,dangerdate,b.username as createname
+    , RECTIFYNOTE, f.username as RECTIFYNAME, decode(dangerstatus, 10, '有效隐患', 20, '无效隐患') as dangerstatus, HANDLESTATUS, e.deptname as deptname, VERIFYDATE, d.username as verifyname, DEMANDS,checkid
+    from T_SAFE_HIDDENDANGER a,t_sys_user b ,t_safe_typeinfo c,t_sys_user d ,t_sys_dept e,t_sys_user f where a.createid=b.id and c.id=a.DANGERTYPE
+ and e.id=a.deptid and f.id=a.RECTIFYID and d.id=a.VERIFYMEN
+   
+    <if test="param != null and param.dangercontent != null and param.dangercontent!= ''">
+        AND (dangercontent like '%'||#{param.dangercontent}||'%'  )
+    </if>
+     <if test="param != null and param.handlestatus != null and  param.handlestatus != '40' " >
+        and a.handlestatus= #{param.handlestatus,jdbcType=VARCHAR}
+      </if>
+      <if test="param.ctype!= null and param.ctype != ''" >
+           and dangertype= #{param.ctype,jdbcType=VARCHAR}
+       </if> 
+      order by dangerdate desc
+  </select>
+  <select id="getDangerrectifyPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   
+      select a.id,dangercontent, c.ctype as ctype ,decode(status, 10, '已排除', 0, '未排除') as status, dangerdate,b.username as createname
+    , RECTIFYNOTE, f.username as RECTIFYNAME, decode(dangerstatus, 10, '有效隐患', 20, '无效隐患') as dangerstatus, HANDLESTATUS, e.deptname as deptname,  VERIFYDATE, d.username as verifyname, DEMANDS,checkid
+    from T_SAFE_HIDDENDANGER a,t_sys_user b ,t_safe_typeinfo c,t_sys_user d ,t_sys_dept e,t_sys_user f where a.createid=b.id and c.id=a.DANGERTYPE 
+ and e.id=a.deptid and f.id=a.RECTIFYID and d.id=a.VERIFYMEN
+    <if test="param != null and param.dangercontent!= null and param.dangercontent!= ''">
+        AND (dangercontent like '%'||#{param.dangercontent}||'%'  )
+    </if>
+     <if test="param != null and param.status != null and  param.status != '20' " >
+        and a.status= #{param.status,jdbcType=VARCHAR}
+      </if>
+      <if test="param.ctype!= null and param.ctype != ''" >
+           and dangertype= #{param.ctype,jdbcType=VARCHAR}
+       </if> 
+      order by dangerdate desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SAFE_HIDDENDANGER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.HiddendangerVo" >
+    insert into T_SAFE_HIDDENDANGER (ID, CREATEID, DANGERDATE, 
+      DANGERTYPE, DANGERCONTENT, VERIFYCONTENT, 
+      STATUS, DANGERSTATUS, VERIFYMEN, 
+      RECTIFYNOTE, RECTIFYID, HANDLESTATUS, 
+      DEPTID, VERIFYDATE, CHECKID, 
+      DEMANDS)
+    values (#{id,jdbcType=DECIMAL}, #{createid,jdbcType=DECIMAL}, #{dangerdate,jdbcType=TIMESTAMP}, 
+      #{dangertype,jdbcType=DECIMAL}, #{dangercontent,jdbcType=VARCHAR}, #{verifycontent,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{dangerstatus,jdbcType=VARCHAR}, #{verifymen,jdbcType=DECIMAL}, 
+      #{rectifynote,jdbcType=VARCHAR}, #{rectifyid,jdbcType=DECIMAL}, #{handlestatus,jdbcType=VARCHAR}, 
+      #{deptid,jdbcType=DECIMAL}, #{verifydate,jdbcType=TIMESTAMP}, #{checkid,jdbcType=VARCHAR}, 
+      #{demands,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.HiddendangerVo" >
+    insert into T_SAFE_HIDDENDANGER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="dangerdate != null" >
+        DANGERDATE,
+      </if>
+      <if test="dangertype != null" >
+        DANGERTYPE,
+      </if>
+      <if test="dangercontent != null" >
+        DANGERCONTENT,
+      </if>
+      <if test="verifycontent != null" >
+        VERIFYCONTENT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="dangerstatus != null" >
+        DANGERSTATUS,
+      </if>
+      <if test="verifymen != null" >
+        VERIFYMEN,
+      </if>
+      <if test="rectifynote != null" >
+        RECTIFYNOTE,
+      </if>
+      <if test="rectifyid != null" >
+        RECTIFYID,
+      </if>
+      <if test="handlestatus != null" >
+        HANDLESTATUS,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="verifydate != null" >
+        VERIFYDATE,
+      </if>
+      <if test="checkid != null" >
+        CHECKID,
+      </if>
+      <if test="demands != null" >
+        DEMANDS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="dangerdate != null" >
+        #{dangerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dangertype != null" >
+        #{dangertype,jdbcType=DECIMAL},
+      </if>
+      <if test="dangercontent != null" >
+        #{dangercontent,jdbcType=VARCHAR},
+      </if>
+      <if test="verifycontent != null" >
+        #{verifycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="dangerstatus != null" >
+        #{dangerstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="verifymen != null" >
+        #{verifymen,jdbcType=DECIMAL},
+      </if>
+      <if test="rectifynote != null" >
+        #{rectifynote,jdbcType=VARCHAR},
+      </if>
+      <if test="rectifyid != null" >
+        #{rectifyid,jdbcType=DECIMAL},
+      </if>
+      <if test="handlestatus != null" >
+        #{handlestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="verifydate != null" >
+        #{verifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkid != null" >
+        #{checkid,jdbcType=VARCHAR},
+      </if>
+      <if test="demands != null" >
+        #{demands,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.HiddendangerVo" >
+    update T_SAFE_HIDDENDANGER
+    <set >
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="dangerdate != null" >
+        DANGERDATE = #{dangerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dangertype != null" >
+        DANGERTYPE = #{dangertype,jdbcType=DECIMAL},
+      </if>
+      <if test="dangercontent != null" >
+        DANGERCONTENT = #{dangercontent,jdbcType=VARCHAR},
+      </if>
+      <if test="verifycontent != null" >
+        VERIFYCONTENT = #{verifycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="dangerstatus != null" >
+        DANGERSTATUS = #{dangerstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="verifymen != null" >
+        VERIFYMEN = #{verifymen,jdbcType=DECIMAL},
+      </if>
+      <if test="rectifynote != null" >
+        RECTIFYNOTE = #{rectifynote,jdbcType=VARCHAR},
+      </if>
+      <if test="rectifyid != null" >
+        RECTIFYID = #{rectifyid,jdbcType=DECIMAL},
+      </if>
+      <if test="handlestatus != null" >
+        HANDLESTATUS = #{handlestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="verifydate != null" >
+        VERIFYDATE = #{verifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkid != null" >
+        CHECKID = #{checkid,jdbcType=VARCHAR},
+      </if>
+      <if test="demands != null" >
+        DEMANDS = #{demands,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.HiddendangerVo" >
+    update T_SAFE_HIDDENDANGER
+    set CREATEID = #{createid,jdbcType=DECIMAL},
+      DANGERDATE = #{dangerdate,jdbcType=TIMESTAMP},
+      DANGERTYPE = #{dangertype,jdbcType=DECIMAL},
+      DANGERCONTENT = #{dangercontent,jdbcType=VARCHAR},
+      VERIFYCONTENT = #{verifycontent,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      DANGERSTATUS = #{dangerstatus,jdbcType=VARCHAR},
+      VERIFYMEN = #{verifymen,jdbcType=DECIMAL},
+      RECTIFYNOTE = #{rectifynote,jdbcType=VARCHAR},
+      RECTIFYID = #{rectifyid,jdbcType=DECIMAL},
+      HANDLESTATUS = #{handlestatus,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      VERIFYDATE = #{verifydate,jdbcType=TIMESTAMP},
+      CHECKID = #{checkid,jdbcType=VARCHAR},
+      DEMANDS = #{demands,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

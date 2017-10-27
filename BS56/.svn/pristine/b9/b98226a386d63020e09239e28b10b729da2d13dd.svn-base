@@ -1,0 +1,204 @@
+<%@page import="com.ztel.framework.util.DateUtil"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %><!doctype html>
+
+<html>
+<title><c:out value="${titleInfo}"/></title>
+<%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/cost/splimp.js"/>"></script>
+  </head>
+  <body>
+	
+	
+	<!-- datagrid页面列表数据 -->
+	<div style="padding:10" id="tabdiv">
+		<table id="dataTable"></table>
+	</div>
+	
+	<!-- 查询-->
+	<div id="toolbar" style="padding:5px;height:auto;border-top:1px solid #95B8E7">
+	<form id="queryForm" style="margin:10;">
+		<div style="margin-bottom:5px">
+			<a href="#" id= "newBtn"  class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openNew()">新增</a>
+			<a href="#"  id="refundBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="openRefund()">退库</a>
+			时间:<input id=begdate name=begdate class="easyui-datebox" style="width:100px;" >到<input id=enddate name=enddate class="easyui-datebox" style="width:100px;" >
+			<input class="easyui-textbox"  name="param"  id=param data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchSPL();},prompt:'请输入物资/类型/供应商...'" style="width:200px;height:24px;">
+			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
+		</div>
+		</form>
+	</div>
+	
+	<!-- 1、新增对话框 --------------------------------------------------------------------------------------->
+	<div id="add-dlg" class="easyui-dialog" style="width:670px;height:300px;padding:5px 10px;align:center;"
+			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<form  id="add-fm" method="post" action=""   >
+		<input id="custid" name="custid" type="hidden" />
+			<div >
+			<tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="2"  class="">
+               <tr><td colspan="6"  class="style2"><font color="blue">物资入库</font></td></tr>
+               </table></td>
+           </tr>   
+           <tr>
+	    	<td >
+		  	 <table width="100%" border="0" cellpadding="2" cellspacing="2" >
+		  	 	<tr>
+	           	<td width="5%"  height="20" align="left" nowrap>物资类别：</td>
+		           	<td width="13%" height="20" align="left" colspan=3  nowrap>
+		               <input name="lvl1" id="lvl1" class="easyui-combobox"style="width:auto;"  >
+						<input name="lvl2" id="lvl2" class="easyui-combobox"style="width:auto;"  >
+						<input name="typeid" id="typeid" class="easyui-combobox"style="width:auto;"  >
+						<input type="hidden" name="servicelife" id="servicelife" value="12"/>
+						<input type="hidden" name="depreciationyear" id="depreciationyear" value="12"/>
+						<input type="hidden" name="splstatus" id="splstatus" value="2"/>
+						<input type="hidden" name="ctype" id="ctype" value="17"/>
+						<input type="hidden" name="warehouseid" id="warehouseid" value="61"/>
+						<input type="hidden" name="stockstatus" id="stockstatus" value="1"/>
+						<input type="hidden" name="settlementflag" id="settlementflag" value="0"/>
+						<input type="hidden" name="printnum" id="printnum" value="0"/>
+		           </td> 
+	           </tr>
+		  	  <tr>
+		  		 	<td width="5%"  height="20" align="left" nowrap>物资名称：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="splname" id="splname" value="" class="easyui-validatebox tb"  data-options="required:true,validType:'length[0,50]'" />
+		           </td> 
+		           <td width="5%"  height="20" align="left" nowrap>供应商：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="supplierid" id="supplierid" class="easyui-combobox"style="width:auto;"  >
+		           </td>
+	           </tr>
+		  	  <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>物资单位：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		                <input name="unitid" id="unitid"  data-options="validType:'length[1,30]'">
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>入库数量：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="initqty" id="initqty" value="" class="easyui-numberbox tb"  data-options="required:true,min:0,precision:2"  />
+		           </td>  
+	           </tr>
+		  	  <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>含税总价：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		                <input name="amount" id="amount"  class="easyui-numberbox tb" data-options="min:0" >
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>税率：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="tax" id="tax" value="" class="easyui-numberbox tb"  data-options="min:0,precision:2,prompt:'例如：增值税税率为1.17'""  />&nbsp;&nbsp;<a href="#" onclick="calcPrice();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">计算</a>
+		           </td>  
+	           </tr>
+		  	  <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>单价：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		                <input name="price" id="price"  class="easyui-numberbox tb" readonly data-options="required:true,min:0,precision:10" >
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>不含税总价：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="totalamount" id="totalamount" value="" class="easyui-numberbox tb"  readonly data-options="required:true,min:0,precision:10"  />
+		           </td>  
+	           </tr>
+	           
+	           </table>
+			</div>
+			<br>
+		</form>
+	</div>
+	</table></td></tr></table></tr></div></form></div>
+	<div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveAdd()">保存</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#add-dlg').dialog('close');">取消</a>
+	</div>
+
+    <!-- end 1、新增对话框 -->
+	
+	
+	<!-- 退库对话框 -->
+	<div id="refund-dlg" class="easyui-dialog" style="width:670px;height:300px;padding:5px 10px;align:center;"
+			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<form  id="refund-fm" method="post" action=""   >
+			<div >
+			<tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="2"  class="">
+               <tr><td colspan="6"  class="style2"><font color="blue">物资退库</font></td></tr>
+               </table></td>
+           </tr>   
+           <tr>
+	    	<td >
+		  	 <table width="100%" border="0" cellpadding="2" cellspacing="2" >
+		  	  <tr>
+		  		 	<td width="5%"  height="20" align="left" nowrap>物资类型：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="typename" id="typename" value="" disabled class="easyui-validatebox tb"   data-options="required:true,validType:'length[0,50]'" />
+		               <input type="hidden" name="id" id="id" />
+		               <input type="hidden" name="typeid" id="typeid" />
+		               <input type="hidden" name="refundamount" id="refundamount" />
+		           </td> 
+		  		 	<td width="5%"  height="20" align="left" nowrap>物资名称：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="splname" id="splname" value="" disabled class="easyui-validatebox tb"   data-options="required:true,validType:'length[0,50]'" />
+		           </td> 
+	           </tr>
+		  	  <tr>
+		           	<td width="5%"  height="20" align="left" nowrap>入库数量：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="initqty" id="initqty" value="" class="easyui-validatebox tb"  data-options="required:true,min:0,precision:2"  disabled/>
+		           </td>  
+		           	<td width="5%"  height="20" align="left" nowrap>当前数量：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="quantity" id="quantity" value="" class="easyui-validatebox tb"  data-options="required:true,min:0,precision:2"  disabled/>
+		           </td>  
+	           </tr>
+		  	  <tr>
+		           	<td width="5%"  height="20" align="left" nowrap>物资单价：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="price" id="price_refund" value="" class="easyui-validatebox tb"  data-options="required:true,min:0,precision:10"  disabled/>
+		           </td>  
+		           	<td width="5%"  height="20" align="left" nowrap>物资总价：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="totalamount" id="totalamount" value="" class="easyui-validatebox tb"  data-options="required:true,min:0,precision:10"  disabled/>
+		           </td>  
+	           </tr>
+		  	  <tr>
+		  		 	<td width="5%"  height="20" align="left" nowrap>供 应 商：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="suppliername" id="suppliername" value="" disabled class="easyui-validatebox tb"   data-options="required:true,validType:'length[0,50]'" />
+		           </td>
+		           	<td width="5%"  height="20" align="left" nowrap>入库时间：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="imptime" id="imptime" value="" disabled class="easyui-validatebox tb"   data-options="required:true,validType:'length[0,50]'" />
+		           </td>
+	           </tr>
+		  	  <tr>
+		           	<td width="5%"  height="20" align="left" nowrap>退库数量：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="refundqty" id="refundqty" value="" class="easyui-numberbox tb"  data-options="required:true,min:0,precision:2"  />
+		           </td>  
+		           	<td width="5%"  height="20" align="left" nowrap>退库时间：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input id="refunddate"  name="refunddate"type="text" class="easyui-datebox" required="required">
+		           </td>  
+	           </tr>
+	           
+	           </table>
+			</div>
+			<br>
+		</form>
+	</div>
+	</table></td></tr></table></tr></div></form></div>
+	<div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveRefund()">保存</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#refund-dlg').dialog('close');">取消</a>
+	</div>
+	
+	<!-- 进度条，建议对于耗时长的操作才启用
+	<div id="loading">
+		<div class="inputdiv" >
+			<img  src="/BS56/img/loading.gif" style="padding-top: 20px; padding-left:72px;"/><br>
+			<h3 style="padding-left: 35px;">&nbsp;&nbsp;&nbsp;&nbsp;数据上传中,请稍候......</h3>
+		</div>
+	 </div>-->
+	
+<c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=SPLImp"></c:import>	
+  </body>
+</html>

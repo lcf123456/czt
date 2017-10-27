@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.perform.UserlevelVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.perform.UserlevelVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="PARENTID" property="parentid" jdbcType="DECIMAL" />
+    <result column="BAK" property="bak" jdbcType="VARCHAR" />
+    <result column="USERLEVEL" property="userlevel" jdbcType="DECIMAL" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="USERCODE" property="usercode" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USERID, PARENTID, BAK, USERLEVEL
+  </sql>
+  
+ <select id="selectUserlevelList"  resultType="com.ztel.app.vo.perform.UserlevelVo">
+		select ul.ID, ul.USERID, ul.PARENTID, ul.BAK, ul.USERLEVEL,us.username,us.usercode,us.deptid 
+		from T_PERFORM_USERLEVEL ul
+		left outer join t_sys_user us on ul.userid=us.id
+		where 1=1 
+	<if test="parentid != null">
+        AND ul.PARENTID = #{parentid,jdbcType=DECIMAL} 
+	</if>
+	order by id desc
+</select>
+
+<!-- 删除父id为userid的已经授权的所有用户，为重新授权做准备 -->
+<delete id="deleteByUserid" >
+    delete from T_PERFORM_USERLEVEL
+    where PARENTID = #{userid,jdbcType=DECIMAL}
+  </delete>
+
+<!-- 删除用户本身及已经授权的所有用户 -->
+<delete id="deleteAllByUserid" >
+    delete from T_PERFORM_USERLEVEL
+    where PARENTID = #{userid,jdbcType=DECIMAL} or USERID = #{userid,jdbcType=DECIMAL}
+  </delete>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PERFORM_USERLEVEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_PERFORM_USERLEVEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ztel.app.vo.perform.UserlevelVo" >
+    insert into T_PERFORM_USERLEVEL (ID, USERID, PARENTID, 
+      BAK, USERLEVEL)
+    values (#{id,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, #{parentid,jdbcType=DECIMAL}, 
+      #{bak,jdbcType=VARCHAR}, #{userlevel,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.perform.UserlevelVo" >
+    insert into T_PERFORM_USERLEVEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="bak != null" >
+        BAK,
+      </if>
+      <if test="userlevel != null" >
+        USERLEVEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_PERFORM_USERLEVEL.nextval,
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=DECIMAL},
+      </if>
+      <if test="bak != null" >
+        #{bak,jdbcType=VARCHAR},
+      </if>
+      <if test="userlevel != null" >
+        #{userlevel,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.perform.UserlevelVo" >
+    update T_PERFORM_USERLEVEL
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="parentid != null" >
+        PARENTID = #{parentid,jdbcType=DECIMAL},
+      </if>
+      <if test="bak != null" >
+        BAK = #{bak,jdbcType=VARCHAR},
+      </if>
+      <if test="userlevel != null" >
+        USERLEVEL = #{userlevel,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.perform.UserlevelVo" >
+    update T_PERFORM_USERLEVEL
+    set USERID = #{userid,jdbcType=DECIMAL},
+      PARENTID = #{parentid,jdbcType=DECIMAL},
+      BAK = #{bak,jdbcType=VARCHAR},
+      USERLEVEL = #{userlevel,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

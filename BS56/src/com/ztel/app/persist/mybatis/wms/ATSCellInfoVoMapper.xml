@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.ATSCellInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ATSCellInfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CELLNO" property="cellno" jdbcType="VARCHAR" />
+    <result column="DISMANTLE" property="dismantle" jdbcType="DECIMAL" />
+    <result column="PALLETNO" property="palletno" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="INBOUNDID" property="inboundid" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CELLNO, DISMANTLE, PALLETNO, STATUS, INBOUNDID, CREATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_ATSCELLINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_ATSCELLINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ATSCellInfoVo" >
+    insert into T_WMS_ATSCELLINFO (ID, CELLNO, DISMANTLE, 
+      PALLETNO, STATUS, INBOUNDID, 
+      CREATETIME)
+    values (#{id,jdbcType=DECIMAL}, #{cellno,jdbcType=VARCHAR}, #{dismantle,jdbcType=DECIMAL}, 
+      #{palletno,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{inboundid,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ATSCellInfoVo" >
+    insert into T_WMS_ATSCELLINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="cellno != null" >
+        CELLNO,
+      </if>
+      <if test="dismantle != null" >
+        DISMANTLE,
+      </if>
+      <if test="palletno != null" >
+        PALLETNO,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="inboundid != null" >
+        INBOUNDID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null" >
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="dismantle != null" >
+        #{dismantle,jdbcType=DECIMAL},
+      </if>
+      <if test="palletno != null" >
+        #{palletno,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="inboundid != null" >
+        #{inboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ATSCellInfoVo" >
+    update T_WMS_ATSCELLINFO
+    <set >
+      <if test="cellno != null" >
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="dismantle != null" >
+        DISMANTLE = #{dismantle,jdbcType=DECIMAL},
+      </if>
+      <if test="palletno != null" >
+        PALLETNO = #{palletno,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="inboundid != null" >
+        INBOUNDID = #{inboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ATSCellInfoVo" >
+    update T_WMS_ATSCELLINFO
+    set CELLNO = #{cellno,jdbcType=VARCHAR},
+      DISMANTLE = #{dismantle,jdbcType=DECIMAL},
+      PALLETNO = #{palletno,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      INBOUNDID = #{inboundid,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

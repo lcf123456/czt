@@ -1,0 +1,192 @@
+package com.ztel.app.vo.cost;
+
+public class SupplierInfoVo {
+    /**
+     * 序号ID
+     */
+    private Integer id;
+
+    /**
+     * 供应商名称
+     */
+    private String supplier;
+
+    /**
+     * 供应商地址
+     */
+    private String addr;
+
+    /**
+     * 联系人
+     */
+    private String contacts;
+
+    /**
+     * 联系电话
+     */
+    private String phone;
+
+    /**
+     * 供货范围
+     */
+    private String range;
+
+    /**
+     * 供应商类型10：生产商 20：流通商 30：代理商 40：其它
+     */
+    private String ctype;
+
+    /**
+     * 删除标识 10:正常  0:删除
+     */
+    private String delstatus;
+
+    /**
+     * 备注信息
+     */
+    private String remarks;
+
+    /**
+     * 序号ID
+     * @return ID 序号ID
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 序号ID
+     * @param id 序号ID
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 供应商名称
+     * @return SUPPLIER 供应商名称
+     */
+    public String getSupplier() {
+        return supplier;
+    }
+
+    /**
+     * 供应商名称
+     * @param supplier 供应商名称
+     */
+    public void setSupplier(String supplier) {
+        this.supplier = supplier == null ? null : supplier.trim();
+    }
+
+    /**
+     * 供应商地址
+     * @return ADDR 供应商地址
+     */
+    public String getAddr() {
+        return addr;
+    }
+
+    /**
+     * 供应商地址
+     * @param addr 供应商地址
+     */
+    public void setAddr(String addr) {
+        this.addr = addr == null ? null : addr.trim();
+    }
+
+    /**
+     * 联系人
+     * @return CONTACTS 联系人
+     */
+    public String getContacts() {
+        return contacts;
+    }
+
+    /**
+     * 联系人
+     * @param contacts 联系人
+     */
+    public void setContacts(String contacts) {
+        this.contacts = contacts == null ? null : contacts.trim();
+    }
+
+    /**
+     * 联系电话
+     * @return PHONE 联系电话
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * 联系电话
+     * @param phone 联系电话
+     */
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    /**
+     * 供货范围
+     * @return RANGE 供货范围
+     */
+    public String getRange() {
+        return range;
+    }
+
+    /**
+     * 供货范围
+     * @param range 供货范围
+     */
+    public void setRange(String range) {
+        this.range = range == null ? null : range.trim();
+    }
+
+    /**
+     * 供应商类型10：生产商 20：流通商 30：代理商 40：其它
+     * @return CTYPE 供应商类型10：生产商 20：流通商 30：代理商 40：其它
+     */
+    public String getCtype() {
+        return ctype;
+    }
+
+    /**
+     * 供应商类型10：生产商 20：流通商 30：代理商 40：其它
+     * @param ctype 供应商类型10：生产商 20：流通商 30：代理商 40：其它
+     */
+    public void setCtype(String ctype) {
+        this.ctype = ctype == null ? null : ctype.trim();
+    }
+
+    /**
+     * 删除标识 10:正常  0:删除
+     * @return DELSTATUS 删除标识 10:正常  0:删除
+     */
+    public String getDelstatus() {
+        return delstatus;
+    }
+
+    /**
+     * 删除标识 10:正常  0:删除
+     * @param delstatus 删除标识 10:正常  0:删除
+     */
+    public void setDelstatus(String delstatus) {
+        this.delstatus = delstatus == null ? null : delstatus.trim();
+    }
+
+    /**
+     * 备注信息
+     * @return REMARKS 备注信息
+     */
+    public String getRemarks() {
+        return remarks;
+    }
+
+    /**
+     * 备注信息
+     * @param remarks 备注信息
+     */
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
+    }
+}

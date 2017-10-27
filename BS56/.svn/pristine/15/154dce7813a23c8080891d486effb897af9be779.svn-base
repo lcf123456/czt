@@ -1,0 +1,861 @@
+package com.ztel.app.vo.sq;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.ztel.app.vo.sys.BasetypeInfoVo;
+
+public class ComplaintVo {
+    /**
+     * null
+     */
+    private Integer id;
+
+    /**
+     * 投诉内容
+     */
+    private String content;
+
+    /**
+     * 被投诉车组
+     */
+    private String croutecode;
+
+    /**
+     * 被投诉人
+     */
+    private Long cuserid;
+
+    /**
+     * 投诉人
+     */
+    private String complainant;
+
+    /**
+     * 联系电话
+     */
+    private String telnum;
+
+    /**
+     * 投诉地址
+     */
+    private String addr;
+
+    /**
+     * 投诉时间
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date ctime;
+
+    /**
+     * 记录人
+     */
+    private Long createid;
+
+    /**
+     * 处理部门
+     */
+    private Integer handledeptid;
+
+    /**
+     * 处理人员
+     */
+    private Long handleid;
+
+    /**
+     * 处理结果
+     */
+    private String results;
+
+    /**
+     * 处理状态：10：受理20：核实前 30：核实 40：处理 50:回访
+     */
+    private String status;
+
+    /**
+     * 备注信息
+     */
+    private String remarks;
+
+    /**
+     * 处理时间（修改为办结时间）
+     */
+    private Date handletime;
+
+    /**
+     * 回访时间
+     */
+    private Date visittime;
+
+    /**
+     * 客户满意度
+     */
+    private String satisfy;
+
+    /**
+     * 是否有效投诉 10：有效 20：无效
+     */
+    private String isvalid;
+
+    /**
+     * 专卖证号
+     */
+    private String licensecode;
+
+    /**
+     * 店名
+     */
+    private String custname;
+
+    /**
+     * 处理时限
+     */
+    private String timelimit;
+
+    /**
+     * 投诉分类
+     */
+    private BigDecimal type;
+
+    /**
+     * 核实人员(修改为审核人员)
+     */
+    private Long auditid;
+
+    /**
+     * 原因分析
+     */
+    private String reason;
+
+    /**
+     * 措施
+     */
+    private String measure;
+
+    /**
+     * 时效
+     */
+    private String limitation;
+
+    /**
+     * 核实时间(修改为审核时间)
+     */
+    private Date audittime;
+
+    /**
+     * 核实前人员
+     */
+    private Long preuserid;
+
+    /**
+     * 核实前情况
+     */
+    private String presituation;
+
+    /**
+     * 核实前时间
+     */
+    private Date pretime;
+
+    /**
+     * 10：直接投诉 20：间接投诉 （电话投诉）
+     */
+    private String source;
+
+    /**
+     * 回访人员
+     */
+    private Long visituserid;
+
+    /**
+     * 录音文件
+     */
+    private String recorderfile;
+
+    /**
+     * 审核情况
+     */
+    private String checknote;
+
+    /**
+     * 回访形式  0:电话  1:实地
+     */
+    private String visittype;
+
+    /**
+     * 核实处理人员名称
+     */
+    private String checkusername;
+    
+    /**
+     * 被投诉人员姓名
+     */
+    private String cusername;
+    /**
+     * 记录人员姓名
+     */
+    private String createname;
+    /**
+     * 核实前人员姓名
+     */
+    private String preusername;
+   
+    /**
+     * 审核人员姓名
+     */
+    private String auditname;
+    /**
+     * 处理人员姓名
+     */
+    private String handlename;
+    /**
+     * 回访人员姓名
+     */
+    private String visitname;
+    private BasetypeInfoVo basetypeInfoVo;
+    private String param;
+
+    /**
+     * null
+     * @return ID null
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * null
+     * @param id null
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 投诉内容
+     * @return CONTENT 投诉内容
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * 投诉内容
+     * @param content 投诉内容
+     */
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
+    /**
+     * 被投诉车组
+     * @return CROUTECODE 被投诉车组
+     */
+    public String getCroutecode() {
+        return croutecode;
+    }
+
+    /**
+     * 被投诉车组
+     * @param croutecode 被投诉车组
+     */
+    public void setCroutecode(String croutecode) {
+        this.croutecode = croutecode == null ? null : croutecode.trim();
+    }
+
+    /**
+     * 被投诉人
+     * @return CUSERID 被投诉人
+     */
+    public Long getCuserid() {
+        return cuserid;
+    }
+
+    /**
+     * 被投诉人
+     * @param cuserid 被投诉人
+     */
+    public void setCuserid(Long cuserid) {
+        this.cuserid = cuserid;
+    }
+
+    /**
+     * 投诉人
+     * @return COMPLAINANT 投诉人
+     */
+    public String getComplainant() {
+        return complainant;
+    }
+
+    /**
+     * 投诉人
+     * @param complainant 投诉人
+     */
+    public void setComplainant(String complainant) {
+        this.complainant = complainant == null ? null : complainant.trim();
+    }
+
+    /**
+     * 联系电话
+     * @return TELNUM 联系电话
+     */
+    public String getTelnum() {
+        return telnum;
+    }
+
+    /**
+     * 联系电话
+     * @param telnum 联系电话
+     */
+    public void setTelnum(String telnum) {
+        this.telnum = telnum == null ? null : telnum.trim();
+    }
+
+    /**
+     * 投诉地址
+     * @return ADDR 投诉地址
+     */
+    public String getAddr() {
+        return addr;
+    }
+
+    /**
+     * 投诉地址
+     * @param addr 投诉地址
+     */
+    public void setAddr(String addr) {
+        this.addr = addr == null ? null : addr.trim();
+    }
+
+    /**
+     * 投诉时间
+     * @return CTIME 投诉时间
+     */
+    public Date getCtime() {
+        return ctime;
+    }
+
+    /**
+     * 投诉时间
+     * @param ctime 投诉时间
+     */
+    public void setCtime(Date ctime) {
+        this.ctime = ctime;
+    }
+
+    /**
+     * 记录人
+     * @return CREATEID 记录人
+     */
+    public Long getCreateid() {
+        return createid;
+    }
+
+    /**
+     * 记录人
+     * @param createid 记录人
+     */
+    public void setCreateid(Long createid) {
+        this.createid = createid;
+    }
+
+    /**
+     * 处理部门
+     * @return HANDLEDEPTID 处理部门
+     */
+    public Integer getHandledeptid() {
+        return handledeptid;
+    }
+
+    /**
+     * 处理部门
+     * @param handledeptid 处理部门
+     */
+    public void setHandledeptid(Integer handledeptid) {
+        this.handledeptid = handledeptid;
+    }
+
+    /**
+     * 处理人员
+     * @return HANDLEID 处理人员
+     */
+    public Long getHandleid() {
+        return handleid;
+    }
+
+    /**
+     * 处理人员
+     * @param handleid 处理人员
+     */
+    public void setHandleid(Long handleid) {
+        this.handleid = handleid;
+    }
+
+    /**
+     * 处理结果
+     * @return RESULTS 处理结果
+     */
+    public String getResults() {
+        return results;
+    }
+
+    /**
+     * 处理结果
+     * @param results 处理结果
+     */
+    public void setResults(String results) {
+        this.results = results == null ? null : results.trim();
+    }
+
+    /**
+     * 处理状态：10：受理20：核实前 30：核实 40：处理 50:回访
+     * @return STATUS 处理状态：10：受理20：核实前 30：核实 40：处理 50:回访
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * 处理状态：10：受理20：核实前 30：核实 40：处理 50:回访
+     * @param status 处理状态：10：受理20：核实前 30：核实 40：处理 50:回访
+     */
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    /**
+     * 备注信息
+     * @return REMARKS 备注信息
+     */
+    public String getRemarks() {
+        return remarks;
+    }
+
+    /**
+     * 备注信息
+     * @param remarks 备注信息
+     */
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
+    }
+
+    /**
+     * 处理时间（修改为办结时间）
+     * @return HANDLETIME 处理时间（修改为办结时间）
+     */
+    public Date getHandletime() {
+        return handletime;
+    }
+
+    /**
+     * 处理时间（修改为办结时间）
+     * @param handletime 处理时间（修改为办结时间）
+     */
+    public void setHandletime(Date handletime) {
+        this.handletime = handletime;
+    }
+
+    /**
+     * 回访时间
+     * @return VISITTIME 回访时间
+     */
+    public Date getVisittime() {
+        return visittime;
+    }
+
+    /**
+     * 回访时间
+     * @param visittime 回访时间
+     */
+    public void setVisittime(Date visittime) {
+        this.visittime = visittime;
+    }
+
+    /**
+     * 客户满意度
+     * @return SATISFY 客户满意度
+     */
+    public String getSatisfy() {
+        return satisfy;
+    }
+
+    /**
+     * 客户满意度
+     * @param satisfy 客户满意度
+     */
+    public void setSatisfy(String satisfy) {
+        this.satisfy = satisfy == null ? null : satisfy.trim();
+    }
+
+    /**
+     * 是否有效投诉 10：有效 20：无效
+     * @return ISVALID 是否有效投诉 10：有效 20：无效
+     */
+    public String getIsvalid() {
+        return isvalid;
+    }
+
+    /**
+     * 是否有效投诉 10：有效 20：无效
+     * @param isvalid 是否有效投诉 10：有效 20：无效
+     */
+    public void setIsvalid(String isvalid) {
+        this.isvalid = isvalid == null ? null : isvalid.trim();
+    }
+
+    /**
+     * 专卖证号
+     * @return LICENSECODE 专卖证号
+     */
+    public String getLicensecode() {
+        return licensecode;
+    }
+
+    /**
+     * 专卖证号
+     * @param licensecode 专卖证号
+     */
+    public void setLicensecode(String licensecode) {
+        this.licensecode = licensecode == null ? null : licensecode.trim();
+    }
+
+    /**
+     * 店名
+     * @return CUSTNAME 店名
+     */
+    public String getCustname() {
+        return custname;
+    }
+
+    /**
+     * 店名
+     * @param custname 店名
+     */
+    public void setCustname(String custname) {
+        this.custname = custname == null ? null : custname.trim();
+    }
+
+    /**
+     * 处理时限
+     * @return TIMELIMIT 处理时限
+     */
+    public String getTimelimit() {
+        return timelimit;
+    }
+
+    /**
+     * 处理时限
+     * @param timelimit 处理时限
+     */
+    public void setTimelimit(String timelimit) {
+        this.timelimit = timelimit == null ? null : timelimit.trim();
+    }
+
+    /**
+     * 投诉分类
+     * @return TYPE 投诉分类
+     */
+    public BigDecimal getType() {
+        return type;
+    }
+
+    /**
+     * 投诉分类
+     * @param type 投诉分类
+     */
+    public void setType(BigDecimal type) {
+        this.type = type;
+    }
+
+    /**
+     * 核实人员(修改为审核人员)
+     * @return AUDITID 核实人员(修改为审核人员)
+     */
+    public Long getAuditid() {
+        return auditid;
+    }
+
+    /**
+     * 核实人员(修改为审核人员)
+     * @param auditid 核实人员(修改为审核人员)
+     */
+    public void setAuditid(Long auditid) {
+        this.auditid = auditid;
+    }
+
+    /**
+     * 原因分析
+     * @return REASON 原因分析
+     */
+    public String getReason() {
+        return reason;
+    }
+
+    /**
+     * 原因分析
+     * @param reason 原因分析
+     */
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
+    }
+
+    /**
+     * 措施
+     * @return MEASURE 措施
+     */
+    public String getMeasure() {
+        return measure;
+    }
+
+    /**
+     * 措施
+     * @param measure 措施
+     */
+    public void setMeasure(String measure) {
+        this.measure = measure == null ? null : measure.trim();
+    }
+
+    /**
+     * 时效
+     * @return LIMITATION 时效
+     */
+    public String getLimitation() {
+        return limitation;
+    }
+
+    /**
+     * 时效
+     * @param limitation 时效
+     */
+    public void setLimitation(String limitation) {
+        this.limitation = limitation == null ? null : limitation.trim();
+    }
+
+    /**
+     * 核实时间(修改为审核时间)
+     * @return AUDITTIME 核实时间(修改为审核时间)
+     */
+    public Date getAudittime() {
+        return audittime;
+    }
+
+    /**
+     * 核实时间(修改为审核时间)
+     * @param audittime 核实时间(修改为审核时间)
+     */
+    public void setAudittime(Date audittime) {
+        this.audittime = audittime;
+    }
+
+    /**
+     * 核实前人员
+     * @return PREUSERID 核实前人员
+     */
+    public Long getPreuserid() {
+        return preuserid;
+    }
+
+    /**
+     * 核实前人员
+     * @param preuserid 核实前人员
+     */
+    public void setPreuserid(Long preuserid) {
+        this.preuserid = preuserid;
+    }
+
+    /**
+     * 核实前情况
+     * @return PRESITUATION 核实前情况
+     */
+    public String getPresituation() {
+        return presituation;
+    }
+
+    /**
+     * 核实前情况
+     * @param presituation 核实前情况
+     */
+    public void setPresituation(String presituation) {
+        this.presituation = presituation == null ? null : presituation.trim();
+    }
+
+    /**
+     * 核实前时间
+     * @return PRETIME 核实前时间
+     */
+    public Date getPretime() {
+        return pretime;
+    }
+
+    /**
+     * 核实前时间
+     * @param pretime 核实前时间
+     */
+    public void setPretime(Date pretime) {
+        this.pretime = pretime;
+    }
+
+    /**
+     * 10：直接投诉 20：间接投诉 （电话投诉）
+     * @return SOURCE 10：直接投诉 20：间接投诉 （电话投诉）
+     */
+    public String getSource() {
+        return source;
+    }
+
+    /**
+     * 10：直接投诉 20：间接投诉 （电话投诉）
+     * @param source 10：直接投诉 20：间接投诉 （电话投诉）
+     */
+    public void setSource(String source) {
+        this.source = source == null ? null : source.trim();
+    }
+
+    /**
+     * 回访人员
+     * @return VISITUSERID 回访人员
+     */
+    public Long getVisituserid() {
+        return visituserid;
+    }
+
+    /**
+     * 回访人员
+     * @param visituserid 回访人员
+     */
+    public void setVisituserid(Long visituserid) {
+        this.visituserid = visituserid;
+    }
+
+    /**
+     * 录音文件
+     * @return RECORDERFILE 录音文件
+     */
+    public String getRecorderfile() {
+        return recorderfile;
+    }
+
+    /**
+     * 录音文件
+     * @param recorderfile 录音文件
+     */
+    public void setRecorderfile(String recorderfile) {
+        this.recorderfile = recorderfile == null ? null : recorderfile.trim();
+    }
+
+    /**
+     * 审核情况
+     * @return CHECKNOTE 审核情况
+     */
+    public String getChecknote() {
+        return checknote;
+    }
+
+    /**
+     * 审核情况
+     * @param checknote 审核情况
+     */
+    public void setChecknote(String checknote) {
+        this.checknote = checknote == null ? null : checknote.trim();
+    }
+
+    /**
+     * 回访形式  0:电话  1:实地
+     * @return VISITTYPE 回访形式  0:电话  1:实地
+     */
+    public String getVisittype() {
+        return visittype;
+    }
+
+    /**
+     * 回访形式  0:电话  1:实地
+     * @param visittype 回访形式  0:电话  1:实地
+     */
+    public void setVisittype(String visittype) {
+        this.visittype = visittype == null ? null : visittype.trim();
+    }
+
+    /**
+     * 核实处理人员名称
+     * @return CHECKUSERNAME 核实处理人员名称
+     */
+    public String getCheckusername() {
+        return checkusername;
+    }
+
+    /**
+     * 核实处理人员名称
+     * @param checkusername 核实处理人员名称
+     */
+    public void setCheckusername(String checkusername) {
+        this.checkusername = checkusername == null ? null : checkusername.trim();
+    }
+
+	public String getCusername() {
+		return cusername;
+	}
+
+	public void setCusername(String cusername) {
+		this.cusername = cusername;
+	}
+
+	public String getCreatename() {
+		return createname;
+	}
+
+	public void setCreatename(String createname) {
+		this.createname = createname;
+	}
+
+	public String getPreusername() {
+		return preusername;
+	}
+
+	public void setPreusername(String preusername) {
+		this.preusername = preusername;
+	}
+
+	public String getAuditname() {
+		return auditname;
+	}
+
+	public void setAuditname(String auditname) {
+		this.auditname = auditname;
+	}
+
+	public String getHandlename() {
+		return handlename;
+	}
+
+	public void setHandlename(String handlename) {
+		this.handlename = handlename;
+	}
+
+	public String getVisitname() {
+		return visitname;
+	}
+
+	public void setVisitname(String visitname) {
+		this.visitname = visitname;
+	}
+
+	public BasetypeInfoVo getBasetypeInfoVo() {
+		return basetypeInfoVo;
+	}
+
+	public void setBasetypeInfoVo(BasetypeInfoVo basetypeInfoVo) {
+		this.basetypeInfoVo = basetypeInfoVo;
+	}
+
+	public String getParam() {
+		return param;
+	}
+
+	public void setParam(String param) {
+		this.param = param;
+	}
+	
+
+}

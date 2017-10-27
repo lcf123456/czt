@@ -1,0 +1,13 @@
+package com.ztel.app.service.safe;
+
+import java.util.List;
+
+import com.ztel.app.vo.safe.HiddendangerVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface HiddendangerService {
+
+	List<HiddendangerVo> searchDangercreatPageList(Pagination<?> page);
+	List<HiddendangerVo> searchDangerverifyPageList(Pagination<?> page);
+	List<HiddendangerVo> searchDangerrectifyPageList(Pagination<?> page);
+}

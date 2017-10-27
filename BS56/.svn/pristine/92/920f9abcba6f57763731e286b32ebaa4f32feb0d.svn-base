@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.VehicleRepairCostVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.VehicleRepairCostVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DID" property="did" jdbcType="VARCHAR" />
+    <result column="VEHICLEID" property="vehicleid" jdbcType="DECIMAL" />
+    <result column="UNITID" property="unitid" jdbcType="DECIMAL" />
+    <result column="RTYPE" property="rtype" jdbcType="VARCHAR" />
+    <result column="ISPAY" property="ispay" jdbcType="VARCHAR" />
+    <result column="ADDR" property="addr" jdbcType="VARCHAR" />
+    <result column="MATERAMOUNT" property="materamount" jdbcType="DECIMAL" />
+    <result column="WORKEAMOUNT" property="workeamount" jdbcType="DECIMAL" />
+    <result column="MANAAMOUNT" property="manaamount" jdbcType="DECIMAL" />
+    <result column="OTHERCOST" property="othercost" jdbcType="DECIMAL" />
+    <result column="PARTCOST" property="partcost" jdbcType="DECIMAL" />
+    <result column="COST" property="cost" jdbcType="DECIMAL" />
+    <result column="TYRECOST" property="tyrecost" jdbcType="DECIMAL" />
+    <result column="BATTERYCOST" property="batterycost" jdbcType="DECIMAL" />
+    <result column="TOTALCOST" property="totalcost" jdbcType="DECIMAL" />
+    <result column="RDATE" property="rdate" jdbcType="TIMESTAMP" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="BELONGID" property="belongid" jdbcType="DECIMAL" />
+    <result column="BELONGDEPTID" property="belongdeptid" jdbcType="DECIMAL" />
+    <result column="BELONGPOSTID" property="belongpostid" jdbcType="DECIMAL" />
+    <result column="SEGID" property="segid" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="AUDITID" property="auditid" jdbcType="DECIMAL" />
+    <result column="AUDITDATE" property="auditdate" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="SUGGESTION" property="suggestion" jdbcType="VARCHAR" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="MILEAGE" property="mileage" jdbcType="DECIMAL" />
+    <result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DID, VEHICLEID, UNITID, RTYPE, ISPAY, ADDR, MATERAMOUNT, WORKEAMOUNT, MANAAMOUNT, 
+    OTHERCOST, PARTCOST, COST, TYRECOST, BATTERYCOST, TOTALCOST, RDATE, CREATEID, BELONGID, 
+    BELONGDEPTID, BELONGPOSTID, SEGID, STATUS, AUDITID, AUDITDATE, REMARKS, SUGGESTION, 
+    ROUTECODE, MILEAGE, DISCOUNT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_VEHICLEREPAIRCOST
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_COST_VEHICLEREPAIRCOST
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.VehicleRepairCostVo" useGeneratedKeys="false" >
+    insert into T_COST_VEHICLEREPAIRCOST (ID, DID, VEHICLEID, 
+      UNITID, RTYPE, ISPAY, 
+      ADDR, MATERAMOUNT, WORKEAMOUNT, 
+      MANAAMOUNT, OTHERCOST, PARTCOST, 
+      COST, TYRECOST, BATTERYCOST, 
+      TOTALCOST, RDATE, CREATEID, 
+      BELONGID, BELONGDEPTID, BELONGPOSTID, 
+      SEGID, STATUS, AUDITID, 
+      AUDITDATE, REMARKS, SUGGESTION, 
+      ROUTECODE, MILEAGE, DISCOUNT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{did,jdbcType=VARCHAR}, #{vehicleid,jdbcType=DECIMAL}, 
+      #{unitid,jdbcType=DECIMAL}, #{rtype,jdbcType=VARCHAR}, #{ispay,jdbcType=VARCHAR}, 
+      #{addr,jdbcType=VARCHAR}, #{materamount,jdbcType=DECIMAL}, #{workeamount,jdbcType=DECIMAL}, 
+      #{manaamount,jdbcType=DECIMAL}, #{othercost,jdbcType=DECIMAL}, #{partcost,jdbcType=DECIMAL}, 
+      #{cost,jdbcType=DECIMAL}, #{tyrecost,jdbcType=DECIMAL}, #{batterycost,jdbcType=DECIMAL}, 
+      #{totalcost,jdbcType=DECIMAL}, #{rdate,jdbcType=TIMESTAMP}, #{createid,jdbcType=DECIMAL}, 
+      #{belongid,jdbcType=DECIMAL}, #{belongdeptid,jdbcType=DECIMAL}, #{belongpostid,jdbcType=DECIMAL}, 
+      #{segid,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{auditid,jdbcType=DECIMAL}, 
+      #{auditdate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, 
+      #{routecode,jdbcType=VARCHAR}, #{mileage,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.VehicleRepairCostVo" useGeneratedKeys="false" >
+    insert into T_COST_VEHICLEREPAIRCOST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="did != null" >
+        DID,
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID,
+      </if>
+      <if test="unitid != null" >
+        UNITID,
+      </if>
+      <if test="rtype != null" >
+        RTYPE,
+      </if>
+      <if test="ispay != null" >
+        ISPAY,
+      </if>
+      <if test="addr != null" >
+        ADDR,
+      </if>
+      <if test="materamount != null" >
+        MATERAMOUNT,
+      </if>
+      <if test="workeamount != null" >
+        WORKEAMOUNT,
+      </if>
+      <if test="manaamount != null" >
+        MANAAMOUNT,
+      </if>
+      <if test="othercost != null" >
+        OTHERCOST,
+      </if>
+      <if test="partcost != null" >
+        PARTCOST,
+      </if>
+      <if test="cost != null" >
+        COST,
+      </if>
+      <if test="tyrecost != null" >
+        TYRECOST,
+      </if>
+      <if test="batterycost != null" >
+        BATTERYCOST,
+      </if>
+      <if test="totalcost != null" >
+        TOTALCOST,
+      </if>
+      <if test="rdate != null" >
+        RDATE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="belongid != null" >
+        BELONGID,
+      </if>
+      <if test="belongdeptid != null" >
+        BELONGDEPTID,
+      </if>
+      <if test="belongpostid != null" >
+        BELONGPOSTID,
+      </if>
+      <if test="segid != null" >
+        SEGID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="auditid != null" >
+        AUDITID,
+      </if>
+      <if test="auditdate != null" >
+        AUDITDATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="suggestion != null" >
+        SUGGESTION,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="mileage != null" >
+        MILEAGE,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="did != null" >
+        #{did,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="unitid != null" >
+        #{unitid,jdbcType=DECIMAL},
+      </if>
+      <if test="rtype != null" >
+        #{rtype,jdbcType=VARCHAR},
+      </if>
+      <if test="ispay != null" >
+        #{ispay,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="materamount != null" >
+        #{materamount,jdbcType=DECIMAL},
+      </if>
+      <if test="workeamount != null" >
+        #{workeamount,jdbcType=DECIMAL},
+      </if>
+      <if test="manaamount != null" >
+        #{manaamount,jdbcType=DECIMAL},
+      </if>
+      <if test="othercost != null" >
+        #{othercost,jdbcType=DECIMAL},
+      </if>
+      <if test="partcost != null" >
+        #{partcost,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="tyrecost != null" >
+        #{tyrecost,jdbcType=DECIMAL},
+      </if>
+      <if test="batterycost != null" >
+        #{batterycost,jdbcType=DECIMAL},
+      </if>
+      <if test="totalcost != null" >
+        #{totalcost,jdbcType=DECIMAL},
+      </if>
+      <if test="rdate != null" >
+        #{rdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="belongid != null" >
+        #{belongid,jdbcType=DECIMAL},
+      </if>
+      <if test="belongdeptid != null" >
+        #{belongdeptid,jdbcType=DECIMAL},
+      </if>
+      <if test="belongpostid != null" >
+        #{belongpostid,jdbcType=DECIMAL},
+      </if>
+      <if test="segid != null" >
+        #{segid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditid != null" >
+        #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="auditdate != null" >
+        #{auditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestion != null" >
+        #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="mileage != null" >
+        #{mileage,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.VehicleRepairCostVo" >
+    update T_COST_VEHICLEREPAIRCOST
+    <set >
+      <if test="did != null" >
+        DID = #{did,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="unitid != null" >
+        UNITID = #{unitid,jdbcType=DECIMAL},
+      </if>
+      <if test="rtype != null" >
+        RTYPE = #{rtype,jdbcType=VARCHAR},
+      </if>
+      <if test="ispay != null" >
+        ISPAY = #{ispay,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        ADDR = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="materamount != null" >
+        MATERAMOUNT = #{materamount,jdbcType=DECIMAL},
+      </if>
+      <if test="workeamount != null" >
+        WORKEAMOUNT = #{workeamount,jdbcType=DECIMAL},
+      </if>
+      <if test="manaamount != null" >
+        MANAAMOUNT = #{manaamount,jdbcType=DECIMAL},
+      </if>
+      <if test="othercost != null" >
+        OTHERCOST = #{othercost,jdbcType=DECIMAL},
+      </if>
+      <if test="partcost != null" >
+        PARTCOST = #{partcost,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        COST = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="tyrecost != null" >
+        TYRECOST = #{tyrecost,jdbcType=DECIMAL},
+      </if>
+      <if test="batterycost != null" >
+        BATTERYCOST = #{batterycost,jdbcType=DECIMAL},
+      </if>
+      <if test="totalcost != null" >
+        TOTALCOST = #{totalcost,jdbcType=DECIMAL},
+      </if>
+      <if test="rdate != null" >
+        RDATE = #{rdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="belongid != null" >
+        BELONGID = #{belongid,jdbcType=DECIMAL},
+      </if>
+      <if test="belongdeptid != null" >
+        BELONGDEPTID = #{belongdeptid,jdbcType=DECIMAL},
+      </if>
+      <if test="belongpostid != null" >
+        BELONGPOSTID = #{belongpostid,jdbcType=DECIMAL},
+      </if>
+      <if test="segid != null" >
+        SEGID = #{segid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditid != null" >
+        AUDITID = #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="auditdate != null" >
+        AUDITDATE = #{auditdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestion != null" >
+        SUGGESTION = #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="mileage != null" >
+        MILEAGE = #{mileage,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.VehicleRepairCostVo" >
+    update T_COST_VEHICLEREPAIRCOST
+    set DID = #{did,jdbcType=VARCHAR},
+      VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      UNITID = #{unitid,jdbcType=DECIMAL},
+      RTYPE = #{rtype,jdbcType=VARCHAR},
+      ISPAY = #{ispay,jdbcType=VARCHAR},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      MATERAMOUNT = #{materamount,jdbcType=DECIMAL},
+      WORKEAMOUNT = #{workeamount,jdbcType=DECIMAL},
+      MANAAMOUNT = #{manaamount,jdbcType=DECIMAL},
+      OTHERCOST = #{othercost,jdbcType=DECIMAL},
+      PARTCOST = #{partcost,jdbcType=DECIMAL},
+      COST = #{cost,jdbcType=DECIMAL},
+      TYRECOST = #{tyrecost,jdbcType=DECIMAL},
+      BATTERYCOST = #{batterycost,jdbcType=DECIMAL},
+      TOTALCOST = #{totalcost,jdbcType=DECIMAL},
+      RDATE = #{rdate,jdbcType=TIMESTAMP},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      BELONGID = #{belongid,jdbcType=DECIMAL},
+      BELONGDEPTID = #{belongdeptid,jdbcType=DECIMAL},
+      BELONGPOSTID = #{belongpostid,jdbcType=DECIMAL},
+      SEGID = #{segid,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      AUDITID = #{auditid,jdbcType=DECIMAL},
+      AUDITDATE = #{auditdate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      SUGGESTION = #{suggestion,jdbcType=VARCHAR},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      MILEAGE = #{mileage,jdbcType=DECIMAL},
+      DISCOUNT = #{discount,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

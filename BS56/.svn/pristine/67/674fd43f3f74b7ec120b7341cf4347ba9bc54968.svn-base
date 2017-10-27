@@ -1,0 +1,20 @@
+package com.ztel.app.service.cost;
+
+import java.util.List;
+
+import com.ztel.app.vo.cost.SPLApplyListLineVo;
+import com.ztel.app.vo.cost.SPLApplyListVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface SPLApplyListService {
+	public List<SPLApplyListVo> getApplyListList(Pagination<?> page);
+	
+	public void doAddApplyList(SPLApplyListVo sPLApplyListVo,SPLApplyListLineVo sPLApplyListLineVo,String reqType);
+	
+	public void doUpdateApplyList(SPLApplyListVo sPLApplyListVo);
+	
+	public void doDelApplyList(SPLApplyListVo sPLApplyListVo);
+	
+	public SPLApplyListVo getSPLApplyListVoByPrimaryKey(String listid);
+
+}

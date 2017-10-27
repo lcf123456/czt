@@ -1,0 +1,185 @@
+package com.ztel.app.service.sys.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.sys.DeptVoMapper;
+import com.ztel.app.service.sys.DeptVoService;
+import com.ztel.app.vo.sys.DeptTreeVo;
+import com.ztel.app.vo.sys.DeptVo;
+
+@Service
+public class DeptVoServiceImpl implements DeptVoService{
+
+	@Autowired
+	private DeptVoMapper deptVoMapper = null;
+    private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public DeptVoServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+        //sortKeyMapping.put(key, value)
+		sortKeyMapping.put("deptcode", "deptcode");
+		sortKeyMapping.put("id", "id");
+		sortKeyMapping.put("deptname", "deptname");
+		sortKeyMapping.put("deptlevel", "deptlevel");
+	}
+	/**
+	 * 获取部门树
+	 */
+	public List<DeptTreeVo> getDeptTree(String id)
+	{
+		List<DeptTreeVo> deptList  =new ArrayList();  
+		//先根据code判断用户是否存在
+		deptList = deptVoMapper.getDeptTree(id);
+		
+		if(deptList!=null&&deptList.size()>0)
+		{
+			for(int i=0;i<deptList.size();i++)
+			{
+				DeptTreeVo deptVoOne = deptList.get(i);
+				Integer deptId = deptVoOne.getId();
+				//System.out.println(deptVoOne.getId()+"--");
+				//System.out.println(deptVoOne.getText()+"--");
+				List<DeptTreeVo> deptChildList = deptVoMapper.getDeptTree(deptId+"");
+				if(deptChildList!=null&&deptChildList.size()>0)
+				{
+					deptVoOne.setState("closed");
+				}
+				else{
+					deptVoOne.setState("open");
+				}
+			}	
+		}
+			 return deptList;
+		}
+
+	/**
+	 * 取部门下拉框
+	 */
+	@Override
+	public List<HashMap<String, String>> getDeptCombobox() {
+		// TODO Auto-generated method stub
+		List<DeptTreeVo> treeList=getDeptTree("");
+		 List<HashMap<String, String>> boxList=new ArrayList<>();
+		 if (treeList!=null&&treeList.size()>0) {
+			 for(int i=0;i<treeList.size();i++){
+				 DeptTreeVo vo=treeList.get(i);
+				 HashMap<String, String> map=new HashMap<String, String>();
+				 map.put("id", vo.getId().toString());
+				 map.put("deptname", vo.getText());
+				 //System.out.println(vo.getId().toString()+"-------------");
+				 //System.out.println(vo.getText()+"-------------");
+				 boxList.add(map);
+			 }
+		}
+		 
+		 return boxList;
+	}
+	
+	@Override
+	//public List<DeptVo> getDeptVoPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		//page.sortKeyToColumn(sortKeyMapping);
+	//	return this.deptVoMapper.getdeptVoPageList(page);
+	//}
+
+	public int delDeptVo(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		if(ids != null && ids.size() > 0) {
+			for (Integer id : ids) {
+				this.deptVoMapper.deleteByPrimaryKey(id);
+			}
+			return ids.size();
+		}
+		return 0;
+	}
+
+	public int insertDeptVo(DeptVo deptVo) {
+		// TODO Auto-generated method stub
+		if (deptVo!=null&&!"".equals(deptVo.getId())) {
+			return deptVoMapper.insertSelective(deptVo);
+		}
+		return 0;
+	}
+
+	public int updateDeptVo(DeptVo deptVo) {
+		// TODO Auto-generated method stub
+		if (deptVo!=null&&!"".equals(deptVo.getId())) {
+			return deptVoMapper.updateByPrimaryKeySelective(deptVo);
+		}
+		return 0;
+	}
+	@Override
+	public List<DeptVo> getDeptinfoList(DeptVo vo,String keywd) {
+		// TODO 自动生成的方法存根
+		//return this.deptVoMapper.getDeptinfoList(vo, keywd);
+		List<DeptVo> deptVoList  = new ArrayList<DeptVo>();
+		
+		List<DeptVo> deptVoListOne = this.deptVoMapper.getDeptinfoList("1","0", keywd);
+		if(deptVoListOne!=null&&deptVoListOne.size()>0){
+			for(int i=0;i<deptVoListOne.size();i++){
+				DeptVo deptVoOne = deptVoListOne.get(i);
+				deptVoList.add(deptVoOne);
+				
+				List<DeptVo> deptVoListTwo = this.deptVoMapper.getDeptinfoList("2",deptVoOne.getId()+"", keywd);
+				if(deptVoListTwo!=null&&deptVoListTwo.size()>0){
+					for(int j=0;j<deptVoListTwo.size();j++){
+						DeptVo deptVoTwo = deptVoListTwo.get(j);
+						deptVoList.add(deptVoTwo);
+						
+						List<DeptVo> deptVoListThree = this.deptVoMapper.getDeptinfoList("3",deptVoTwo.getId()+"", keywd);
+						if(deptVoListThree!=null&&deptVoListThree.size()>0){
+							for(int k=0;k<deptVoListThree.size();k++){
+								DeptVo deptVoThree = deptVoListThree.get(k);
+								deptVoList.add(deptVoThree);
+							}
+							}
+					}
+				}
+				
+			}
+		}
+		return deptVoList;
+	}
+	
+	
+	/**
+	 * 取部门下拉框,库存管理领料时只取二级部门，增加此方法
+	 */
+	@Override
+	public List<HashMap<String, String>> getDeptComboboxByCond(DeptVo vo) {
+		List<DeptVo> treeList= this.deptVoMapper.getDeptinfoList(vo);
+		List<HashMap<String, String>> boxList=new ArrayList<>();
+		 if (treeList!=null&&treeList.size()>0) {
+			 for(int i=0;i<treeList.size();i++){
+				 DeptVo deptVo=treeList.get(i);
+				 HashMap<String, String> map=new HashMap<String, String>();
+				 map.put("id", deptVo.getId().toString());
+				 map.put("deptname", deptVo.getDeptname());
+				 //System.out.println(vo.getId().toString()+"-------------");
+				 //System.out.println(vo.getText()+"-------------");
+				 boxList.add(map);
+			 }
+		}
+		 
+		 return boxList;
+	}
+
+	 /**
+	  * 获取部门信息，用于投诉年报表取车组归宿部门信息
+	  * @return
+	  */
+	public  List<DeptVo> getDeptinfoForReport(){
+		List<DeptVo> deptVoList = new ArrayList<DeptVo>();
+		deptVoList = this.deptVoMapper.getDeptinfoForReport();
+		return deptVoList;
+	}
+
+		 
+	}
+	

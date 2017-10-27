@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %><%@include file="/WEB-INF/jsp/include/taglib.jsp" %>
+  <table class="gridtable" width="100%">
+        <thead>
+            <tr>
+            <th>单位</th>
+            <c:forEach items="${basetypeInfoVoList}" var="base">
+            <th>${base.getContentlist() }&nbsp;</th>
+             </c:forEach>
+             <th>合计</th>
+            </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${complaintList}" var="complaint">
+        <c:set value="${ fn:split(complaint.getCtstr(), ';') }" var="ctSplit" />
+        <tr>
+        <td>${complaint.getDeptname()}&nbsp;</td>
+	        <c:forEach items="${ctSplit}" var="ct">
+	        <td>${ct} &nbsp;</td>
+	         </c:forEach>
+	         <td>${complaint.getCt()} </td>
+        </tr>
+         </c:forEach>
+        </tbody>
+    </table>
+

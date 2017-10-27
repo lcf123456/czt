@@ -1,0 +1,41 @@
+package com.ztel.app.service.sys.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.sys.OperationlogVoMapper;
+import com.ztel.app.service.sys.OperationlogService;
+import com.ztel.app.vo.sys.OperationlogVo;
+
+@Service
+public class OperationlogServiceImpl implements OperationlogService {
+	@Autowired
+	private OperationlogVoMapper operationlogVoMapper = null;
+	
+	/**
+	 * 获取操作日志列表
+	 */
+	public List<OperationlogVo> getOperationlogList() {
+		// TODO Auto-generated method stub
+		return this.operationlogVoMapper.getOperationlogList();
+	}
+
+	/**
+	 * 插入操作日志
+	 */
+	public void insertLog(Long userid, String username, String url, String menu, String point, String remarks) {
+		// TODO Auto-generated method stub
+		OperationlogVo operationlogVo = new OperationlogVo();
+		operationlogVo.setUserid(userid);
+		operationlogVo.setUsername(username);
+		operationlogVo.setUrl(url);
+		operationlogVo.setMenu(menu);
+		operationlogVo.setPoint(point);
+		operationlogVo.setRemarks(remarks);
+		this.operationlogVoMapper.insertSelective(operationlogVo);
+
+	}
+
+}

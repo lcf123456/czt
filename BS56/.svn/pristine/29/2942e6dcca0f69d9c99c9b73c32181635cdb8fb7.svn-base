@@ -1,0 +1,103 @@
+package com.ztel.app.service.sq.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.sq.ComplaintVoMapper;
+import com.ztel.app.service.sq.ComplaintService;
+import com.ztel.app.service.sys.BaseTypeInfoService;
+import com.ztel.app.service.sys.DeptVoService;
+import com.ztel.app.vo.sq.ComplaintVo;
+import com.ztel.app.vo.sys.BasetypeInfoVo;
+import com.ztel.app.vo.sys.DeptVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class ComplaintServiceImpl implements ComplaintService {
+
+	@Autowired
+	private ComplaintVoMapper ComplaintVoMapper = null;
+	
+	@Autowired
+	private BaseTypeInfoService baseTypeInfoService = null;
+	
+	@Autowired
+	private DeptVoService deptVoService = null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public ComplaintServiceImpl(){
+		sortKeyMapping.put("id", "id");
+	}
+	
+	public List<ComplaintVo> getComplaintList(Pagination<?> page){
+		page.sortKeyToColumn(sortKeyMapping);
+		return ComplaintVoMapper.getComplaintPageList(page);
+	}
+	
+	public void doNewComplaint(ComplaintVo complaintVo){
+		if(complaintVo != null ) {
+			this.ComplaintVoMapper.insertSelective(complaintVo);
+	}
+	}
+	
+	public void doUpdate(ComplaintVo complaintVo){
+		this.ComplaintVoMapper.updateByPrimaryKeySelective(complaintVo);
+	}
+	
+
+	/**
+	 * 根据id删除信息
+	 */
+	public void deleteByPrimaryKey(List<Integer> ids)
+	{
+		if(ids != null && ids.size() > 0) {
+			for (Integer id : ids) {
+				this.ComplaintVoMapper.deleteByPrimaryKey(id);
+			}
+		}
+	}
+	
+	/**
+	 * 投诉报表、返回type类型的数量和部门
+	 * @param type
+	 * @return
+	 */
+	public Map<String, Object> getComplaintReport(){
+		Map<String, Object> map=new HashMap<String, Object>(); 
+		List<ComplaintVo> complaintVoList = new ArrayList<ComplaintVo>();
+		List<BasetypeInfoVo> basetypeInfoVoList = baseTypeInfoService.getBaseTypeinfoList("COMPLAINT");
+		List<DeptVo> deptVoList = deptVoService.getDeptinfoForReport();
+		
+		map.put("baseTypeList", basetypeInfoVoList);
+		if(deptVoList!=null&&deptVoList.size()>0){
+			
+			for(int j=0;j<deptVoList.size();j++){
+				ComplaintVo complaintVo = new ComplaintVo();
+				DeptVo deptVo = deptVoList.get(j);
+				complaintVo.setDeptname(deptVo.getDeptname());
+				int deptid = deptVo.getId();
+				
+				int size = basetypeInfoVoList.size();
+				String ctStr = "";
+				if(basetypeInfoVoList!=null&&basetypeInfoVoList.size()>0){
+					for(int i=0;i<size;i++){
+						BasetypeInfoVo basetypeInfoVo = basetypeInfoVoList.get(i);
+						String type = basetypeInfoVo.getId()+"";
+						ctStr = ctStr+this.ComplaintVoMapper.getComplaintReportCt(type, deptid+"")+";";
+					}
+				}
+				complaintVo.setCtstr(ctStr);
+				complaintVoList.add(complaintVo);
+			}
+		}
+		map.put("complaintList", complaintVoList);
+		
+		return map;
+	}
+}

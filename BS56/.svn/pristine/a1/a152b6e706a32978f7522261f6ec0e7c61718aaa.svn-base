@@ -1,0 +1,6 @@
+package com.ztel.app.util;
+
+public class Constant {
+	public static String[] belongSysId= {"1","2","3"};
+	public static String[] belongSysName={"服务考评","成本管理","生产管理"};
+}

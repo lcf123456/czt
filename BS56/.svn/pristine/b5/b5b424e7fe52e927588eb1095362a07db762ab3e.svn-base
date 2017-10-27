@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.perform.TransverseAssessVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.perform.TransverseAssessVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CHECKDEPTID" property="checkdeptid" jdbcType="DECIMAL" />
+    <result column="CHECKEDDEPTID" property="checkeddeptid" jdbcType="DECIMAL" />
+    <result column="CHECKTYPE" property="checktype" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="ASSESSID" property="assessid" jdbcType="DECIMAL" />
+    <result column="SUGGESTION" property="suggestion" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="ASSESSDATE" property="assessdate" jdbcType="TIMESTAMP" />
+    <result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="AUDITID" property="auditid" jdbcType="DECIMAL" />
+    <result column="ASSESSNAME" property="assessname" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="AUDITNAME" property="auditname" jdbcType="VARCHAR" />
+    <result column="CHECKDEPTNAME" property="checkdeptname" jdbcType="VARCHAR" />
+    <result column="CHECKEDDEPTNAME" property="checkeddeptname" jdbcType="VARCHAR" />
+    <result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+    <result column="BEGINTIME" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="CTYPENAME" property="ctypename" jdbcType="VARCHAR" />
+    <result column="FLAGNAME" property="flagname" jdbcType="VARCHAR" />
+    <result column="CHECKTYPENAME" property="checktypename" jdbcType="VARCHAR" />
+    <result column="SORTPARAM" property="sortParam" jdbcType="VARCHAR" />
+    <result column="ASSESSDATESTR" property="assessdatestr" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CHECKDEPTID, CHECKEDDEPTID, CHECKTYPE, CONTENT, REMARKS, AMOUNT, ASSESSID, SUGGESTION, 
+    CREATEID, CREATETIME, ASSESSDATE, CTYPE, FLAG, AUDITID, ASSESSNAME, CREATENAME, AUDITNAME
+  </sql>
+
+  
+  <select id="selectTransverseAssessPageList" parameterType="Pagination" resultType="com.ztel.app.vo.perform.TransverseAssessVo">
+    select ta.ID, ta.CHECKDEPTID, ta.CHECKEDDEPTID, ta.CHECKTYPE, ta.CONTENT, ta.REMARKS, ta.AMOUNT, ta.ASSESSID, ta.SUGGESTION, 
+    ta.CREATEID, ta.CREATETIME, ta.ASSESSDATE, ta.CTYPE, ta.FLAG, ta.AUDITID, ta.ASSESSNAME, ta.CREATENAME, ta.AUDITNAME,
+    dept1.deptname as checkdeptname,dept2.deptname  as checkeddeptname,decode(ta.CTYPE,'10','考核','20','奖励') as ctypename,
+    decode(ta.FLAG,'10','提交','20','考核完成','30','部门分配完成') as flagname ,basetype.contentlist as checktypename,to_char(ta.ASSESSDATE,'yyyy-mm-dd') as assessdatestr
+    from T_PERFORM_TRANSVERSE_ASSESS ta
+    left outer join t_sys_dept dept1 on ta.checkdeptid=dept1.id
+    left outer join t_sys_dept dept2 on ta.checkeddeptid = dept2.id
+    left outer join (select id,contentlist from t_sys_basetypeinfo where typecode='ASSESSTYPE') basetype on ta.checktype=basetype.id
+    where 1=1 
+  <if test="param != null and param.keyword != null and param.keyword != ''">
+        AND (ta.CREATENAME like '%'||#{param.keyword}||'%' or ta.AUDITNAME like '%'||#{param.keyword}||'%' or ta.checkdeptname like '%'||#{param.keyword}||'%'
+         or ta.checkeddeptname like '%'||#{param.keyword}||'%')
+    </if>
+    <if test="param != null and param.begintime != null and param.endtime != null">
+        AND (trunc(ta.CREATETIME) between  #{param.begintime} and #{param.endtime})
+    </if>
+    <if test="param != null and param.ctype != null and param.ctype != ''">
+        AND ta.CTYPE = #{param.ctype}
+    </if>
+    order by ta.id desc
+</select>
+  
+  
+  
+  <select id="selectTransverseAssessList" parameterType="com.ztel.app.vo.perform.TransverseAssessVo" resultType="com.ztel.app.vo.perform.TransverseAssessVo">
+    select ta.ID, ta.CHECKDEPTID, ta.CHECKEDDEPTID, ta.CHECKTYPE, ta.CONTENT, ta.REMARKS, ta.AMOUNT, ta.ASSESSID, ta.SUGGESTION, 
+    ta.CREATEID, ta.CREATETIME, ta.ASSESSDATE, ta.CTYPE, ta.FLAG, ta.AUDITID, ta.ASSESSNAME, ta.CREATENAME, ta.AUDITNAME,
+    dept1.deptname as checkdeptname,dept2.deptname  as checkeddeptname,decode(ta.CTYPE,'10','考核','20','奖励') as ctypename,
+    decode(ta.FLAG,'10','提交','20','考核完成','30','部门分配完成') as flagname ,basetype.contentlist as checktypename,to_char(ta.ASSESSDATE,'yyyy-mm-dd') as assessdatestr
+    from T_PERFORM_TRANSVERSE_ASSESS ta
+    left outer join t_sys_dept dept1 on ta.checkdeptid=dept1.id
+    left outer join t_sys_dept dept2 on ta.checkeddeptid = dept2.id
+    left outer join (select id,contentlist from t_sys_basetypeinfo where typecode='ASSESSTYPE') basetype on ta.checktype=basetype.id
+    where 1=1 
+  <if test="keyword != null and keyword != ''">
+        AND (ta.CREATENAME like '%'||#{keyword}||'%' or ta.AUDITNAME like '%'||#{keyword}||'%' or ta.checkdeptname like '%'||#{keyword}||'%'
+         or ta.checkeddeptname like '%'||#{keyword}||'%')
+    </if>
+    <if test="begintime != null and endtime != null">
+        AND (trunc(ta.CREATETIME) between  #{begintime} and #{endtime})
+    </if>
+    <if test="ctype != null and ctype != ''">
+        AND ta.CTYPE = #{ctype}
+    </if>
+     order by  ${sortParam}
+</select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PERFORM_TRANSVERSE_ASSESS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_PERFORM_TRANSVERSE_ASSESS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.perform.TransverseAssessVo" >
+    insert into T_PERFORM_TRANSVERSE_ASSESS (ID, CHECKDEPTID, CHECKEDDEPTID, 
+      CHECKTYPE, CONTENT, REMARKS, 
+      AMOUNT, ASSESSID, SUGGESTION, 
+      CREATEID, CREATETIME, ASSESSDATE, 
+      CTYPE, FLAG, AUDITID, 
+      ASSESSNAME, CREATENAME, AUDITNAME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{checkdeptid,jdbcType=DECIMAL}, #{checkeddeptid,jdbcType=DECIMAL}, 
+      #{checktype,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{assessid,jdbcType=DECIMAL}, #{suggestion,jdbcType=VARCHAR}, 
+      #{createid,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{assessdate,jdbcType=TIMESTAMP}, 
+      #{ctype,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{auditid,jdbcType=DECIMAL}, 
+      #{assessname,jdbcType=VARCHAR}, #{createname,jdbcType=VARCHAR}, #{auditname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.perform.TransverseAssessVo" >
+    insert into T_PERFORM_TRANSVERSE_ASSESS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="checkdeptid != null" >
+        CHECKDEPTID,
+      </if>
+      <if test="checkeddeptid != null" >
+        CHECKEDDEPTID,
+      </if>
+      <if test="checktype != null" >
+        CHECKTYPE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="assessid != null" >
+        ASSESSID,
+      </if>
+      <if test="suggestion != null" >
+        SUGGESTION,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="assessdate != null" >
+        ASSESSDATE,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="auditid != null" >
+        AUDITID,
+      </if>
+      <if test="assessname != null" >
+        ASSESSNAME,
+      </if>
+      <if test="createname != null" >
+        CREATENAME,
+      </if>
+      <if test="auditname != null" >
+        AUDITNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       S_PERFORM_TRANSVERSE_ASSESS.nextval,
+      <if test="checkdeptid != null" >
+        #{checkdeptid,jdbcType=DECIMAL},
+      </if>
+      <if test="checkeddeptid != null" >
+        #{checkeddeptid,jdbcType=DECIMAL},
+      </if>
+      <if test="checktype != null" >
+        #{checktype,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="assessid != null" >
+        #{assessid,jdbcType=DECIMAL},
+      </if>
+      <if test="suggestion != null" >
+        #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assessdate != null" >
+        #{assessdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="auditid != null" >
+        #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="assessname != null" >
+        #{assessname,jdbcType=VARCHAR},
+      </if>
+      <if test="createname != null" >
+        #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="auditname != null" >
+        #{auditname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.perform.TransverseAssessVo" >
+    update T_PERFORM_TRANSVERSE_ASSESS
+    <set >
+      <if test="checkdeptid != null" >
+        CHECKDEPTID = #{checkdeptid,jdbcType=DECIMAL},
+      </if>
+      <if test="checkeddeptid != null" >
+        CHECKEDDEPTID = #{checkeddeptid,jdbcType=DECIMAL},
+      </if>
+      <if test="checktype != null" >
+        CHECKTYPE = #{checktype,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="assessid != null" >
+        ASSESSID = #{assessid,jdbcType=DECIMAL},
+      </if>
+      <if test="suggestion != null" >
+        SUGGESTION = #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assessdate != null" >
+        ASSESSDATE = #{assessdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="auditid != null" >
+        AUDITID = #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="assessname != null" >
+        ASSESSNAME = #{assessname,jdbcType=VARCHAR},
+      </if>
+      <if test="createname != null" >
+        CREATENAME = #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="auditname != null" >
+        AUDITNAME = #{auditname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.perform.TransverseAssessVo" >
+    update T_PERFORM_TRANSVERSE_ASSESS
+    set CHECKDEPTID = #{checkdeptid,jdbcType=DECIMAL},
+      CHECKEDDEPTID = #{checkeddeptid,jdbcType=DECIMAL},
+      CHECKTYPE = #{checktype,jdbcType=DECIMAL},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      ASSESSID = #{assessid,jdbcType=DECIMAL},
+      SUGGESTION = #{suggestion,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      ASSESSDATE = #{assessdate,jdbcType=TIMESTAMP},
+      CTYPE = #{ctype,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      AUDITID = #{auditid,jdbcType=DECIMAL},
+      ASSESSNAME = #{assessname,jdbcType=VARCHAR},
+      CREATENAME = #{createname,jdbcType=VARCHAR},
+      AUDITNAME = #{auditname,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

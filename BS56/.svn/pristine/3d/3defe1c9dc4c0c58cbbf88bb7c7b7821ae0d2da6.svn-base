@@ -1,0 +1,54 @@
+package com.ztel.app.service.sq.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.sq.ComplaintVoMapper;
+import com.ztel.app.service.sq.ComplaintService;
+import com.ztel.app.vo.sq.ComplaintVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class ComplaintServiceImpl implements ComplaintService {
+
+	@Autowired
+	private ComplaintVoMapper ComplaintVoMapper = null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public ComplaintServiceImpl(){
+		sortKeyMapping.put("id", "id");
+	}
+	
+	public List<ComplaintVo> getComplaintList(Pagination<?> page){
+		page.sortKeyToColumn(sortKeyMapping);
+		return ComplaintVoMapper.getComplaintPageList(page);
+	}
+	
+	public void doNewComplaint(ComplaintVo complaintVo){
+		if(complaintVo != null ) {
+			this.ComplaintVoMapper.insertSelective(complaintVo);
+	}
+	}
+	
+	public void doUpdate(ComplaintVo complaintVo){
+		this.ComplaintVoMapper.updateByPrimaryKeySelective(complaintVo);
+	}
+	
+
+	/**
+	 * 根据id删除信息
+	 */
+	public void deleteByPrimaryKey(List<Integer> ids)
+	{
+		if(ids != null && ids.size() > 0) {
+			for (Integer id : ids) {
+				this.ComplaintVoMapper.deleteByPrimaryKey(id);
+			}
+		}
+	}
+}

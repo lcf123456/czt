@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.FireYearVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.FireYearVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TESTITEM" property="testitem" jdbcType="DECIMAL" />
+    <result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+    <result column="QUESTION" property="question" jdbcType="VARCHAR" />
+    <result column="CHECKNOTE" property="checknote" jdbcType="VARCHAR" />
+    <result column="CHECKTIME" property="checktime" jdbcType="VARCHAR" />
+    <result column="CHECKID" property="checkid" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TESTITEM, CTYPE, QUESTION, CHECKNOTE, CHECKTIME, CHECKID, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_FIRE_YEAR
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SAFE_FIRE_YEAR
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.FireYearVo" >
+    insert into T_SAFE_FIRE_YEAR (ID, TESTITEM, CTYPE, 
+      QUESTION, CHECKNOTE, CHECKTIME, 
+      CHECKID, STATUS)
+    values (#{id,jdbcType=DECIMAL}, #{testitem,jdbcType=DECIMAL}, #{ctype,jdbcType=VARCHAR}, 
+      #{question,jdbcType=VARCHAR}, #{checknote,jdbcType=VARCHAR}, #{checktime,jdbcType=VARCHAR}, 
+      #{checkid,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.FireYearVo" >
+    insert into T_SAFE_FIRE_YEAR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="testitem != null" >
+        TESTITEM,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="question != null" >
+        QUESTION,
+      </if>
+      <if test="checknote != null" >
+        CHECKNOTE,
+      </if>
+      <if test="checktime != null" >
+        CHECKTIME,
+      </if>
+      <if test="checkid != null" >
+        CHECKID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="testitem != null" >
+        #{testitem,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="checknote != null" >
+        #{checknote,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=VARCHAR},
+      </if>
+      <if test="checkid != null" >
+        #{checkid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.FireYearVo" >
+    update T_SAFE_FIRE_YEAR
+    <set >
+      <if test="testitem != null" >
+        TESTITEM = #{testitem,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        QUESTION = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="checknote != null" >
+        CHECKNOTE = #{checknote,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null" >
+        CHECKTIME = #{checktime,jdbcType=VARCHAR},
+      </if>
+      <if test="checkid != null" >
+        CHECKID = #{checkid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.FireYearVo" >
+    update T_SAFE_FIRE_YEAR
+    set TESTITEM = #{testitem,jdbcType=DECIMAL},
+      CTYPE = #{ctype,jdbcType=VARCHAR},
+      QUESTION = #{question,jdbcType=VARCHAR},
+      CHECKNOTE = #{checknote,jdbcType=VARCHAR},
+      CHECKTIME = #{checktime,jdbcType=VARCHAR},
+      CHECKID = #{checkid,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

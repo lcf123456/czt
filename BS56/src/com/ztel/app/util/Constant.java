@@ -1,0 +1,24 @@
+package com.ztel.app.util;
+
+import java.math.BigDecimal;
+
+public class Constant {
+	public static String[] belongSysId= {"1","2","3","4","5"};
+	public static String[] belongSysName={"服务考评","成本管理","生产管理","绩效管理","综合管理"};
+	
+	public static String storagearea_lk = "1";//立库
+	public static String storagearea_zlshj = "2";//重力式货架
+	public static String storagearea_fj = "3";//分拣
+	public static String storagearea_sy = "4";//散烟区
+	public static String storagearea_virtual = "5";//虚拟区
+	
+	//绩效中部门考核部分
+	public static String keywork="KPI指标 (60%)";
+	public static BigDecimal keyworkweight = new BigDecimal("60");//重点工作占比
+	public static BigDecimal safeweight = new BigDecimal("15");//关键隐患控制占比
+	public static BigDecimal contentwkweight = new BigDecimal("15");//日常工作占比
+	public static BigDecimal tmpworkweight = new BigDecimal("10");//临时性工作占比
+	public static String safe = "1";//关键隐患控制
+	public static String contentwk = "2";//日常工作
+	public static String tmpwork = "3";//临时性工作占比
+}

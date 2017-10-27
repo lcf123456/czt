@@ -1,0 +1,200 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %>
+<!DOCTYPE html >
+<html>
+
+<%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/sq/complaint.js"/>"></script>
+  <head>
+  </head>
+  
+  <body>
+  <!-- 查询
+  <div id="searchDiv">
+    <form id="queryForm" style="margin:10;text-align: center;">
+		<table width="100%">
+			<tr>
+			<td>角色名称：<input class="easyui-textbox"  name="rolename"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchUser();},prompt:'请输入角色名称...'" style="width:450px;height:26px;">
+            &nbsp;&nbsp;
+            <a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search">清空</a></td>
+			<td align="center"><a href="#" onclick="searchUser();" class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+			</tr>
+		</table>
+	</form>
+	</div>
+   -->
+	
+	
+	<!-- datagrid页面列表数据 -->
+	<div style="padding:10" id="tabdiv">
+		<table id="dataTabel"></table>
+	</div>
+	
+	<!-- 查询-->
+	<div id="toolbar" style="padding:5px;height:auto;border-top:1px solid #95B8E7">
+	<form id="queryForm" style="margin:10;">
+		<div style="margin-bottom:5px">
+		    <a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="viewD()">受理</a>
+			<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openCreate()">受理</a>
+			<a href="#" id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openPre()">核实</a>
+			<a href="#" id="settingBtn" class="easyui-linkbutton" iconCls="icon-mysetting" plain="true" onclick="audit()">审核</a>
+			<a href="#" id="grantBtn" class="easyui-linkbutton" iconCls="icon-mygroup" plain="true" onclick="handle()">处理</a>
+			<a href="#" id="opBtn" class="easyui-linkbutton" iconCls="icon-mygroup" plain="true" onclick="visit()">回访</a>
+			<a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
+			<input class="easyui-textbox"  name="rolename"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchUser();},prompt:'请输入角色名称...'" style="width:450px;height:24px;">
+			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
+		</div>
+		</form>
+	</div>
+	
+
+    <!-- 新增对话框 -->
+	<div id="add-dlg" class="easyui-dialog" style="width:800px;height:420px;padding:10px 20px;align:center;"
+			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<div class="ftitle"></div>
+		<form  id="add-fm" method="post" action="" novalidate  >
+			<div class="fitem">
+			<tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
+               <tr><td colspan="6"  class="style2"><font color="blue">被投诉车组信息</font></td></tr>
+               </table></td>
+           </tr>  
+           <tr>
+	    	<td >
+		  	 <table width="100%" border="0" cellpadding="2" cellspacing="2" class="">
+		  	  <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>被投诉车组：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+					<select id="croutecode" name="croutecode"><option value="">---请选择---</option></select>
+					<strong><font color="red" >*</font></strong>
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>被投诉人：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		              <select id="cuser" name="cuser"><option>---请选择---</option></select>
+		           </td>  
+		           <td width="5%"  height="20" align="left" nowrap>投诉来源：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <select id="source" name="source">
+		               <option value="10" selected>直接投诉</option>
+		               <option value="20">96368</option>
+		               </select>
+		           </td> 
+	           </tr>
+		 	 </table>
+		     </td>
+	  	   </tr>
+	  	   <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
+               <tr><td colspan="6"  class="style2"><font color="blue">投诉信息</font></td></tr>
+               </table></td>
+           </tr>  
+           
+           <tr>
+           <td height="120px">
+           <div style="WIDTH: 100%; HEIGHT: 120px; BACKGROUND-COLOR: transparent; OVERFLOW: scroll; scrollbar-face-color:#c1d9f5; scrollbar-arrow-color:#ffffff; scrollbar-highlight-color:#ffffff; scrollbar-3dlight-color:#70807d; scrollbar-shadow-color:#ffffff; scrollbar-darkshadow-color:#70807d; scrollbar-track-color:#ffffff">
+          <table width="100%" border="0" cellpadding="2" cellspacing="2" class="">
+          <tr>
+			  <td colspan="5">
+                     <input class="easyui-textbox"  name="rolename"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchCustomer();},prompt:'请输入专卖证、店面或电话...'" style="width:450px;height:24px;"></td>
+					                      
+            </tr>
+                  <tr >
+                   <td align="center">零售户名称</td>
+                   <td  align="center">专卖证号</td>
+				    <td  align="center">联系人</td>
+					<td  align="center">联系电话</td>
+				   <td  align="center">选择</td>
+                 </tr>
+                  <tr >
+                   <td align="center">零售户名称</td>
+                   <td  align="center">专卖证号</td>
+				    <td  align="center">联系人</td>
+					<td  align="center">联系电话</td>
+				   <td  align="center">选择</td>
+                 </tr>
+                    <tr >
+                   <td align="center">零售户名称</td>
+                   <td  align="center">专卖证号</td>
+				    <td  align="center">联系人</td>
+					<td  align="center">联系电话</td>
+				   <td  align="center">选择</td>
+                 </tr>
+          </table>
+           </div>
+           </td>
+           </tr>
+           
+           
+           <tr>
+	    	<td >
+		  	 <table width="100%" border="0" cellpadding="2" cellspacing="2" class="">
+		  	  <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>客户代码：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="licensecode" id="licensecode" class="easyui-validatebox tb" data-options="validType:'length[2,10]'"><strong><font color="red" >*</font></strong>
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>店名：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="custname" id="custname" value="" maxlength="18"  class="easyui-validatebox tb" data-options="validType:'length[1,80]'" style="ime-mode:Disabled"/>
+		           </td>  
+		           <td width="5%"  height="20" align="left" nowrap>处理时限：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="timelimit" id="timelimit" value="" maxlength="18"  class="easyui-validatebox tb" data-options="validType:'length[1,5]'" style="ime-mode:Disabled"/>
+		           </td> 
+	           </tr>
+	           <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>投诉人：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="complainant" id="complainant" class="easyui-validatebox tb" data-options="validType:'length[2,10]'">
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>投诉人电话：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="telnum" id="telnum" value="" maxlength="18"  class="easyui-validatebox tb" data-options="validType:'length[1,18]'" style="ime-mode:Disabled"/>
+		           </td>  
+		           <td width="5%"  height="20" align="left" nowrap>投诉人地址：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="addr" id="addr" value="" maxlength="18"  class="easyui-validatebox tb" data-options="validType:'length[1,100]'" style="ime-mode:Disabled"/>
+		           </td> 
+	           </tr>
+	           <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>投诉内容：</td>
+		           	<td width="14%" height="20" align="left" colspan="5" nowrap>
+		           	<textarea id="content" value="content" rows="2" cols="75"></textarea>
+		           	</td>
+	           </tr>
+	            <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>投诉分类：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		           	<select id="type" name="type"><option value="">---请选择---</option></select>
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>核实人员：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <select id="preuserid" name="preuserid"><option value="">---请选择---</option></select>
+		           </td>  
+		           <td width="5%"  height="20" align="left" nowrap>受理时间：</td>
+		           	<td width="13%" height="20" align="left" nowrap>
+		               <input name="ctime" id="ctime" value="" maxlength="18"  class="easyui-datetimebox"  style="ime-mode:Disabled"/>
+		           </td> 
+	           </tr>
+		 	 </table>
+		     </td>
+	  	   </tr>
+			</div>
+		</form>
+	</div>
+	<div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="savePlan()">保存</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#add-dlg').dialog('close')">取消</a>
+	</div>
+    <!-- end新增对话框 -->
+    
+	<!-- 进度条，建议对于耗时长的操作才启用
+	<div id="loading">
+		<div class="inputdiv" >
+			<img  src="/BS56/img/loading.gif" style="padding-top: 20px; padding-left:72px;"/><br>
+			<h3 style="padding-left: 35px;">&nbsp;&nbsp;&nbsp;&nbsp;数据上传中,请稍候......</h3>
+		</div>
+	 </div>
+	  -->
+  </body>
+</html>

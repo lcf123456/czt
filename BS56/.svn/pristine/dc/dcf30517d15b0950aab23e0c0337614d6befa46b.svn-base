@@ -1,0 +1,52 @@
+package com.ztel.app.persist.mybatis.cost;
+
+import java.util.List;
+
+import com.ztel.app.vo.cost.SuppliesImpVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface SuppliesImpVoMapper {
+	
+	/**
+	 * 取入库物资列表信息
+	 * @param page
+	 * @return
+	 */
+	List<SuppliesImpVo> getSuppliesImpPageList(Pagination<?> page);
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int deleteByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insert(SuppliesImpVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insertSelective(SuppliesImpVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    SuppliesImpVo selectByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int updateByPrimaryKeySelective(SuppliesImpVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int updateByPrimaryKey(SuppliesImpVo record);
+    
+}

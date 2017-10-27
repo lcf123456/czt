@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.FireFacilitynameVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.FireFacilitynameVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DEVICE" property="device" jdbcType="VARCHAR" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DEVICE, MODEL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_FIRE_FACILITYNAME
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SAFE_FIRE_FACILITYNAME
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.FireFacilitynameVo" >
+    insert into T_SAFE_FIRE_FACILITYNAME (ID, DEVICE, MODEL
+      )
+    values (#{id,jdbcType=DECIMAL}, #{device,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.FireFacilitynameVo" >
+    insert into T_SAFE_FIRE_FACILITYNAME
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="device != null" >
+        DEVICE,
+      </if>
+      <if test="model != null" >
+        MODEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="device != null" >
+        #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.FireFacilitynameVo" >
+    update T_SAFE_FIRE_FACILITYNAME
+    <set >
+      <if test="device != null" >
+        DEVICE = #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        MODEL = #{model,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.FireFacilitynameVo" >
+    update T_SAFE_FIRE_FACILITYNAME
+    set DEVICE = #{device,jdbcType=VARCHAR},
+      MODEL = #{model,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

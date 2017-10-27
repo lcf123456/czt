@@ -1,0 +1,176 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- 调拨出库界面 -->
+<%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/perform/kwmonthplanadjust.js"/>"></script>
+  <head>
+  <script type="text/javascript">
+  var username = "${userVo.username}";
+  var deptname = "${userVo.deptname}";
+  var deptid = "${userVo.deptid}";
+</script>
+  </head>
+  
+  <body>
+	
+	<!-- datagrid页面列表数据 -->
+	<div style="padding:10" id="tabdiv">
+		<table id="dataTabel"></table>
+	</div>
+	
+	<!-- 查询-->
+	<div id="toolbar" style="padding:5px;height:auto;border-top:1px solid #95B8E7">
+	<form id="queryForm" style="margin:10;">
+	<input type="hidden" name="datetype" id="datetype" value="10"></input>
+		<div style="margin-bottom:5px">
+		<a href="#" id="viewBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="viewD()">查看</a>
+		<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openCreate()">新增</a>
+		<a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
+		
+		时间选择：<input name="searchtime" id="searchtime"  style="width:120px" >&nbsp;
+		
+		部门：<input name="searchdept" id="searchdept" class="easyui-textbox" style="width:120px" >
+		<input class="easyui-textbox"  name="keyword" id="keyword" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入实施人或责任人'" style="width:300px;height:24px;">
+			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
+		</div>
+		</form>
+	</div>
+	
+    <!-- 1、新增--------------------------------------------------------------------------------------->
+	<div id="add-dlg" class="easyui-dialog" style="width:800px;height:420px;padding:5px 10px;align:center;"
+			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<form  id="add-fm" method="post" action="" novalidate  >
+			<div >
+			<tr>
+			<td>
+			<table>
+			<tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>工作时间：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="workdate_new" id="workdate_new" style="width:120px"  >
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>计划调整部门：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		               <input name="deptid_new" id="deptid_new" style="width:120px" />
+		           </td>  
+		            <td width="5%" height="20" align="left" nowrap>权重：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="weight_new" id="weight_new" class="easyui-numberbox" data-options="precision:2,max:1,min:0" style="width:120px" >
+		           	</td>
+	         </tr>
+	          <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>工作内容：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="content_new" id="content_new" class="easyui-textbox"  style="width:630px"  >
+		           	</td>
+	         </tr>
+	         <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>完成期限：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="finishdate_new" id="finishdate_new" class="easyui-textbox"  style="width:630px"  >
+		           	</td>
+	         </tr>
+	         <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>过程进度：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="process_new" id="process_new" class="easyui-textbox"  style="width:630px"  >
+		           	</td>
+	         </tr>
+	         <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>要求及目标：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="target_new" id="target_new" class="easyui-textbox"  style="width:630px"  >
+		           	</td>
+	         </tr>
+	         <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>实施人：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="partake_new" id="partake_new" class="easyui-textbox" style="width:630px"  >
+		           	</td>
+	         </tr>
+			</table>
+			</td>
+			</tr>
+			<tr>
+				<td>
+				<table width="100%" id="kwlist"><!-- 本月已有列表 -->
+				</table>
+				</td>
+				</tr>
+			</div>
+			<input type="hidden" name="ctype" id="ctype" class="easyui-textbox" >
+		</form>
+		
+	 <div id="dlg-buttons">
+	    <a href="#" class="easyui-linkbutton" id="btn-done" iconCls="icon-ok" onclick="toSave()">保存</a>
+		<a href="#" class="easyui-linkbutton" id="btn-done" iconCls="icon-cancel" onclick="javascript:$('#add-dlg').dialog('close')">关闭</a>
+	</div>
+	</div>
+	
+	    <!-- 1、查看--------------------------------------------------------------------------------------->
+	<div id="view-dlg" class="easyui-dialog" style="width:800px;height:320px;padding:5px 10px;align:center;"
+			 closed="true" buttons="#view-buttons"  data-options="modal:true,draggable:false">
+		<form  id="view-fm" method="post" action="" novalidate  >
+			<div >
+			<tr>
+			<td>
+			<table>
+			<tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>工作时间：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="workdate" id="workdate" style="width:120px"  >
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>计划调整部门：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		               <input name="deptname" id="deptname" style="width:120px" />
+		           </td>  
+		            <td width="5%" height="20" align="left" nowrap>权重：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="weight" id="weight" class="easyui-numberbox" data-options="precision:2,max:1" style="width:120px" >
+		           	</td>
+	         </tr>
+	          <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>工作内容：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="content" id="content" class="easyui-textbox"  style="width:630px"  >
+		           	</td>
+	         </tr>
+	         <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>完成期限：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="finishdate" id="finishdate" class="easyui-textbox"  style="width:630px"  >
+		           	</td>
+	         </tr>
+	         <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>过程进度：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="process" id="process" class="easyui-textbox"  style="width:630px"  >
+		           	</td>
+	         </tr>
+	         <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>要求及目标：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="target" id="target" class="easyui-textbox"  style="width:630px"  >
+		           	</td>
+	         </tr>
+	         <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>实施人：</td>
+		           	<td width="14%" height="20" align="left" nowrap colspan="5">
+		                <input name="partake" id="partake" class="easyui-textbox" style="width:630px"  >
+		           	</td>
+	         </tr>
+			</table>
+			</td>
+			</tr>
+			</div>
+			
+		</form>
+	 <div id="view-buttons">
+		<a href="#" class="easyui-linkbutton" id="btn-done" iconCls="icon-cancel" onclick="javascript:$('#view-dlg').dialog('close')">关闭</a>
+	</div>
+	</div>
+	
+  </body>
+</html>

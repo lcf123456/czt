@@ -1,0 +1,35 @@
+package com.ztel.app.service.perform;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.ztel.app.vo.perform.DeptmonthLineVo;
+import com.ztel.app.vo.perform.DeptmonthsumVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface DeptmonthsumService {
+	
+	public List<DeptmonthsumVo>  selectDeptmonthsumPageList(Pagination<?> page);
+	
+	public void insertDeptmonthsum(DeptmonthsumVo deptmonthsumVo,List<DeptmonthLineVo> deptmonthLineVoList,String obid);
+	
+	/**
+	 * 修改
+	 * @param deptmonthsumVo
+	 */
+	public void doEdit(DeptmonthsumVo deptmonthsumVo);
+	
+	/**
+	 * 部长审核
+	 * @param deptmonthsumVo
+	 */
+	public void doOneAudit(DeptmonthsumVo deptmonthsumVo);
+	
+	/**
+	 * 总经理评
+	 * @param deptmonthsumVo
+	 */
+	public void doEndAudit(DeptmonthsumVo deptmonthsumVo);
+	
+	public void doDel(BigDecimal inboundid);
+}

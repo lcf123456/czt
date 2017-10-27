@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.TouchVehicleinspectionVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.TouchVehicleinspectionVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="VEHICLENO" property="vehicleno" jdbcType="VARCHAR" />
+    <result column="CHECKDATE" property="checkdate" jdbcType="TIMESTAMP" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="SURFACE" property="surface" jdbcType="VARCHAR" />
+    <result column="RAINWIPER" property="rainwiper" jdbcType="VARCHAR" />
+    <result column="FRONTDIRE" property="frontdire" jdbcType="VARCHAR" />
+    <result column="AFTERDIRE" property="afterdire" jdbcType="VARCHAR" />
+    <result column="LSTOPLIGHT" property="lstoplight" jdbcType="VARCHAR" />
+    <result column="RSTOPLIGHT" property="rstoplight" jdbcType="VARCHAR" />
+    <result column="BRAKETRAIL" property="braketrail" jdbcType="VARCHAR" />
+    <result column="BRAKEOIL" property="brakeoil" jdbcType="VARCHAR" />
+    <result column="WATERLEVEL" property="waterlevel" jdbcType="VARCHAR" />
+    <result column="JARPILEHEAD" property="jarpilehead" jdbcType="VARCHAR" />
+    <result column="TOTALPUMPPRESSURE" property="totalpumppressure" jdbcType="VARCHAR" />
+    <result column="PUMPPRESSURE" property="pumppressure" jdbcType="VARCHAR" />
+    <result column="STEERWHEEL" property="steerwheel" jdbcType="VARCHAR" />
+    <result column="HORNCOVER" property="horncover" jdbcType="VARCHAR" />
+    <result column="DRAGLINK" property="draglink" jdbcType="VARCHAR" />
+    <result column="TIERODJOINT" property="tierodjoint" jdbcType="VARCHAR" />
+    <result column="ENGINESUMP" property="enginesump" jdbcType="VARCHAR" />
+    <result column="CLUTCH" property="clutch" jdbcType="VARCHAR" />
+    <result column="TRAN" property="tran" jdbcType="VARCHAR" />
+    <result column="SHAFT" property="shaft" jdbcType="VARCHAR" />
+    <result column="MUFFLER" property="muffler" jdbcType="VARCHAR" />
+    <result column="DIFFERENT" property="different" jdbcType="VARCHAR" />
+    <result column="PLATERUBBER" property="platerubber" jdbcType="VARCHAR" />
+    <result column="SPARETIERRACK" property="sparetierrack" jdbcType="VARCHAR" />
+    <result column="BACKUP1" property="backup1" jdbcType="VARCHAR" />
+    <result column="BACKUP2" property="backup2" jdbcType="VARCHAR" />
+    <result column="BACKUP3" property="backup3" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, VEHICLENO, CHECKDATE, CREATEID, SURFACE, RAINWIPER, FRONTDIRE, AFTERDIRE, LSTOPLIGHT, 
+    RSTOPLIGHT, BRAKETRAIL, BRAKEOIL, WATERLEVEL, JARPILEHEAD, TOTALPUMPPRESSURE, PUMPPRESSURE, 
+    STEERWHEEL, HORNCOVER, DRAGLINK, TIERODJOINT, ENGINESUMP, CLUTCH, TRAN, SHAFT, MUFFLER, 
+    DIFFERENT, PLATERUBBER, SPARETIERRACK, BACKUP1, BACKUP2, BACKUP3, REMARKS, DELSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_TOUCH_VEHICLEINSPECTION
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SQ_TOUCH_VEHICLEINSPECTION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.TouchVehicleinspectionVo" >
+    insert into T_SQ_TOUCH_VEHICLEINSPECTION (ID, VEHICLENO, CHECKDATE, 
+      CREATEID, SURFACE, RAINWIPER, 
+      FRONTDIRE, AFTERDIRE, LSTOPLIGHT, 
+      RSTOPLIGHT, BRAKETRAIL, BRAKEOIL, 
+      WATERLEVEL, JARPILEHEAD, TOTALPUMPPRESSURE, 
+      PUMPPRESSURE, STEERWHEEL, HORNCOVER, 
+      DRAGLINK, TIERODJOINT, ENGINESUMP, 
+      CLUTCH, TRAN, SHAFT, 
+      MUFFLER, DIFFERENT, PLATERUBBER, 
+      SPARETIERRACK, BACKUP1, BACKUP2, 
+      BACKUP3, REMARKS, DELSTATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{vehicleno,jdbcType=VARCHAR}, #{checkdate,jdbcType=TIMESTAMP}, 
+      #{createid,jdbcType=DECIMAL}, #{surface,jdbcType=VARCHAR}, #{rainwiper,jdbcType=VARCHAR}, 
+      #{frontdire,jdbcType=VARCHAR}, #{afterdire,jdbcType=VARCHAR}, #{lstoplight,jdbcType=VARCHAR}, 
+      #{rstoplight,jdbcType=VARCHAR}, #{braketrail,jdbcType=VARCHAR}, #{brakeoil,jdbcType=VARCHAR}, 
+      #{waterlevel,jdbcType=VARCHAR}, #{jarpilehead,jdbcType=VARCHAR}, #{totalpumppressure,jdbcType=VARCHAR}, 
+      #{pumppressure,jdbcType=VARCHAR}, #{steerwheel,jdbcType=VARCHAR}, #{horncover,jdbcType=VARCHAR}, 
+      #{draglink,jdbcType=VARCHAR}, #{tierodjoint,jdbcType=VARCHAR}, #{enginesump,jdbcType=VARCHAR}, 
+      #{clutch,jdbcType=VARCHAR}, #{tran,jdbcType=VARCHAR}, #{shaft,jdbcType=VARCHAR}, 
+      #{muffler,jdbcType=VARCHAR}, #{different,jdbcType=VARCHAR}, #{platerubber,jdbcType=VARCHAR}, 
+      #{sparetierrack,jdbcType=VARCHAR}, #{backup1,jdbcType=VARCHAR}, #{backup2,jdbcType=VARCHAR}, 
+      #{backup3,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.TouchVehicleinspectionVo" >
+    insert into T_SQ_TOUCH_VEHICLEINSPECTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="vehicleno != null" >
+        VEHICLENO,
+      </if>
+      <if test="checkdate != null" >
+        CHECKDATE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="surface != null" >
+        SURFACE,
+      </if>
+      <if test="rainwiper != null" >
+        RAINWIPER,
+      </if>
+      <if test="frontdire != null" >
+        FRONTDIRE,
+      </if>
+      <if test="afterdire != null" >
+        AFTERDIRE,
+      </if>
+      <if test="lstoplight != null" >
+        LSTOPLIGHT,
+      </if>
+      <if test="rstoplight != null" >
+        RSTOPLIGHT,
+      </if>
+      <if test="braketrail != null" >
+        BRAKETRAIL,
+      </if>
+      <if test="brakeoil != null" >
+        BRAKEOIL,
+      </if>
+      <if test="waterlevel != null" >
+        WATERLEVEL,
+      </if>
+      <if test="jarpilehead != null" >
+        JARPILEHEAD,
+      </if>
+      <if test="totalpumppressure != null" >
+        TOTALPUMPPRESSURE,
+      </if>
+      <if test="pumppressure != null" >
+        PUMPPRESSURE,
+      </if>
+      <if test="steerwheel != null" >
+        STEERWHEEL,
+      </if>
+      <if test="horncover != null" >
+        HORNCOVER,
+      </if>
+      <if test="draglink != null" >
+        DRAGLINK,
+      </if>
+      <if test="tierodjoint != null" >
+        TIERODJOINT,
+      </if>
+      <if test="enginesump != null" >
+        ENGINESUMP,
+      </if>
+      <if test="clutch != null" >
+        CLUTCH,
+      </if>
+      <if test="tran != null" >
+        TRAN,
+      </if>
+      <if test="shaft != null" >
+        SHAFT,
+      </if>
+      <if test="muffler != null" >
+        MUFFLER,
+      </if>
+      <if test="different != null" >
+        DIFFERENT,
+      </if>
+      <if test="platerubber != null" >
+        PLATERUBBER,
+      </if>
+      <if test="sparetierrack != null" >
+        SPARETIERRACK,
+      </if>
+      <if test="backup1 != null" >
+        BACKUP1,
+      </if>
+      <if test="backup2 != null" >
+        BACKUP2,
+      </if>
+      <if test="backup3 != null" >
+        BACKUP3,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleno != null" >
+        #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="surface != null" >
+        #{surface,jdbcType=VARCHAR},
+      </if>
+      <if test="rainwiper != null" >
+        #{rainwiper,jdbcType=VARCHAR},
+      </if>
+      <if test="frontdire != null" >
+        #{frontdire,jdbcType=VARCHAR},
+      </if>
+      <if test="afterdire != null" >
+        #{afterdire,jdbcType=VARCHAR},
+      </if>
+      <if test="lstoplight != null" >
+        #{lstoplight,jdbcType=VARCHAR},
+      </if>
+      <if test="rstoplight != null" >
+        #{rstoplight,jdbcType=VARCHAR},
+      </if>
+      <if test="braketrail != null" >
+        #{braketrail,jdbcType=VARCHAR},
+      </if>
+      <if test="brakeoil != null" >
+        #{brakeoil,jdbcType=VARCHAR},
+      </if>
+      <if test="waterlevel != null" >
+        #{waterlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="jarpilehead != null" >
+        #{jarpilehead,jdbcType=VARCHAR},
+      </if>
+      <if test="totalpumppressure != null" >
+        #{totalpumppressure,jdbcType=VARCHAR},
+      </if>
+      <if test="pumppressure != null" >
+        #{pumppressure,jdbcType=VARCHAR},
+      </if>
+      <if test="steerwheel != null" >
+        #{steerwheel,jdbcType=VARCHAR},
+      </if>
+      <if test="horncover != null" >
+        #{horncover,jdbcType=VARCHAR},
+      </if>
+      <if test="draglink != null" >
+        #{draglink,jdbcType=VARCHAR},
+      </if>
+      <if test="tierodjoint != null" >
+        #{tierodjoint,jdbcType=VARCHAR},
+      </if>
+      <if test="enginesump != null" >
+        #{enginesump,jdbcType=VARCHAR},
+      </if>
+      <if test="clutch != null" >
+        #{clutch,jdbcType=VARCHAR},
+      </if>
+      <if test="tran != null" >
+        #{tran,jdbcType=VARCHAR},
+      </if>
+      <if test="shaft != null" >
+        #{shaft,jdbcType=VARCHAR},
+      </if>
+      <if test="muffler != null" >
+        #{muffler,jdbcType=VARCHAR},
+      </if>
+      <if test="different != null" >
+        #{different,jdbcType=VARCHAR},
+      </if>
+      <if test="platerubber != null" >
+        #{platerubber,jdbcType=VARCHAR},
+      </if>
+      <if test="sparetierrack != null" >
+        #{sparetierrack,jdbcType=VARCHAR},
+      </if>
+      <if test="backup1 != null" >
+        #{backup1,jdbcType=VARCHAR},
+      </if>
+      <if test="backup2 != null" >
+        #{backup2,jdbcType=VARCHAR},
+      </if>
+      <if test="backup3 != null" >
+        #{backup3,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.TouchVehicleinspectionVo" >
+    update T_SQ_TOUCH_VEHICLEINSPECTION
+    <set >
+      <if test="vehicleno != null" >
+        VEHICLENO = #{vehicleno,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        CHECKDATE = #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="surface != null" >
+        SURFACE = #{surface,jdbcType=VARCHAR},
+      </if>
+      <if test="rainwiper != null" >
+        RAINWIPER = #{rainwiper,jdbcType=VARCHAR},
+      </if>
+      <if test="frontdire != null" >
+        FRONTDIRE = #{frontdire,jdbcType=VARCHAR},
+      </if>
+      <if test="afterdire != null" >
+        AFTERDIRE = #{afterdire,jdbcType=VARCHAR},
+      </if>
+      <if test="lstoplight != null" >
+        LSTOPLIGHT = #{lstoplight,jdbcType=VARCHAR},
+      </if>
+      <if test="rstoplight != null" >
+        RSTOPLIGHT = #{rstoplight,jdbcType=VARCHAR},
+      </if>
+      <if test="braketrail != null" >
+        BRAKETRAIL = #{braketrail,jdbcType=VARCHAR},
+      </if>
+      <if test="brakeoil != null" >
+        BRAKEOIL = #{brakeoil,jdbcType=VARCHAR},
+      </if>
+      <if test="waterlevel != null" >
+        WATERLEVEL = #{waterlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="jarpilehead != null" >
+        JARPILEHEAD = #{jarpilehead,jdbcType=VARCHAR},
+      </if>
+      <if test="totalpumppressure != null" >
+        TOTALPUMPPRESSURE = #{totalpumppressure,jdbcType=VARCHAR},
+      </if>
+      <if test="pumppressure != null" >
+        PUMPPRESSURE = #{pumppressure,jdbcType=VARCHAR},
+      </if>
+      <if test="steerwheel != null" >
+        STEERWHEEL = #{steerwheel,jdbcType=VARCHAR},
+      </if>
+      <if test="horncover != null" >
+        HORNCOVER = #{horncover,jdbcType=VARCHAR},
+      </if>
+      <if test="draglink != null" >
+        DRAGLINK = #{draglink,jdbcType=VARCHAR},
+      </if>
+      <if test="tierodjoint != null" >
+        TIERODJOINT = #{tierodjoint,jdbcType=VARCHAR},
+      </if>
+      <if test="enginesump != null" >
+        ENGINESUMP = #{enginesump,jdbcType=VARCHAR},
+      </if>
+      <if test="clutch != null" >
+        CLUTCH = #{clutch,jdbcType=VARCHAR},
+      </if>
+      <if test="tran != null" >
+        TRAN = #{tran,jdbcType=VARCHAR},
+      </if>
+      <if test="shaft != null" >
+        SHAFT = #{shaft,jdbcType=VARCHAR},
+      </if>
+      <if test="muffler != null" >
+        MUFFLER = #{muffler,jdbcType=VARCHAR},
+      </if>
+      <if test="different != null" >
+        DIFFERENT = #{different,jdbcType=VARCHAR},
+      </if>
+      <if test="platerubber != null" >
+        PLATERUBBER = #{platerubber,jdbcType=VARCHAR},
+      </if>
+      <if test="sparetierrack != null" >
+        SPARETIERRACK = #{sparetierrack,jdbcType=VARCHAR},
+      </if>
+      <if test="backup1 != null" >
+        BACKUP1 = #{backup1,jdbcType=VARCHAR},
+      </if>
+      <if test="backup2 != null" >
+        BACKUP2 = #{backup2,jdbcType=VARCHAR},
+      </if>
+      <if test="backup3 != null" >
+        BACKUP3 = #{backup3,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.TouchVehicleinspectionVo" >
+    update T_SQ_TOUCH_VEHICLEINSPECTION
+    set VEHICLENO = #{vehicleno,jdbcType=VARCHAR},
+      CHECKDATE = #{checkdate,jdbcType=TIMESTAMP},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      SURFACE = #{surface,jdbcType=VARCHAR},
+      RAINWIPER = #{rainwiper,jdbcType=VARCHAR},
+      FRONTDIRE = #{frontdire,jdbcType=VARCHAR},
+      AFTERDIRE = #{afterdire,jdbcType=VARCHAR},
+      LSTOPLIGHT = #{lstoplight,jdbcType=VARCHAR},
+      RSTOPLIGHT = #{rstoplight,jdbcType=VARCHAR},
+      BRAKETRAIL = #{braketrail,jdbcType=VARCHAR},
+      BRAKEOIL = #{brakeoil,jdbcType=VARCHAR},
+      WATERLEVEL = #{waterlevel,jdbcType=VARCHAR},
+      JARPILEHEAD = #{jarpilehead,jdbcType=VARCHAR},
+      TOTALPUMPPRESSURE = #{totalpumppressure,jdbcType=VARCHAR},
+      PUMPPRESSURE = #{pumppressure,jdbcType=VARCHAR},
+      STEERWHEEL = #{steerwheel,jdbcType=VARCHAR},
+      HORNCOVER = #{horncover,jdbcType=VARCHAR},
+      DRAGLINK = #{draglink,jdbcType=VARCHAR},
+      TIERODJOINT = #{tierodjoint,jdbcType=VARCHAR},
+      ENGINESUMP = #{enginesump,jdbcType=VARCHAR},
+      CLUTCH = #{clutch,jdbcType=VARCHAR},
+      TRAN = #{tran,jdbcType=VARCHAR},
+      SHAFT = #{shaft,jdbcType=VARCHAR},
+      MUFFLER = #{muffler,jdbcType=VARCHAR},
+      DIFFERENT = #{different,jdbcType=VARCHAR},
+      PLATERUBBER = #{platerubber,jdbcType=VARCHAR},
+      SPARETIERRACK = #{sparetierrack,jdbcType=VARCHAR},
+      BACKUP1 = #{backup1,jdbcType=VARCHAR},
+      BACKUP2 = #{backup2,jdbcType=VARCHAR},
+      BACKUP3 = #{backup3,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

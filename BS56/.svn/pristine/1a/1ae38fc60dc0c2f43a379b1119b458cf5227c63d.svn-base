@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.gis.OrderlineinfoVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.gis.OrderlineinfoVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ORDER_DETAIL_ID" jdbcType="VARCHAR" property="orderDetailId" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+    <result column="TRUCK_NUM" jdbcType="VARCHAR" property="truckNum" />
+    <result column="CGT_MP_NUM" jdbcType="VARCHAR" property="cgtMpNum" />
+    <result column="CGT_CONT_NUM" jdbcType="VARCHAR" property="cgtContNum" />
+    <result column="IS_ARRIVED" jdbcType="CHAR" property="isArrived" />
+    <result column="OUT_DATE" jdbcType="VARCHAR" property="outDate" />
+    <result column="ORG_ORG_CODE" jdbcType="VARCHAR" property="orgOrgCode" />
+    <result column="ORG_ORG_NAME" jdbcType="VARCHAR" property="orgOrgName" />
+    <result column="ORG_STO_CODE" jdbcType="VARCHAR" property="orgStoCode" />
+    <result column="ORG_STO_NAME" jdbcType="VARCHAR" property="orgStoName" />
+    <result column="DEST_ORG_CODE" jdbcType="VARCHAR" property="destOrgCode" />
+    <result column="DEST_ORG_NAME" jdbcType="VARCHAR" property="destOrgName" />
+    <result column="DEST_STO_CODE" jdbcType="VARCHAR" property="destStoCode" />
+    <result column="DEST_STO_NAME" jdbcType="VARCHAR" property="destStoName" />
+    <result column="ORG_LINKMAN" jdbcType="VARCHAR" property="orgLinkman" />
+    <result column="DEST_LINKMAN" jdbcType="VARCHAR" property="destLinkman" />
+    <result column="ARRIVED_ADRESS" jdbcType="VARCHAR" property="arrivedAdress" />
+    <result column="DEST_LINKMAN_TEL" jdbcType="VARCHAR" property="destLinkmanTel" />
+    <result column="ORG_LINKMAN_TEL" jdbcType="VARCHAR" property="orgLinkmanTel" />
+    <result column="TRANS_MODE" jdbcType="VARCHAR" property="transMode" />
+    <result column="TRAN_ORG_NAME" jdbcType="VARCHAR" property="tranOrgName" />
+    <result column="BUSINESS_TYPE" jdbcType="VARCHAR" property="businessType" />
+    <result column="CGT_BRAND_CODE" jdbcType="VARCHAR" property="cgtBrandCode" />
+    <result column="TRADE_NAME" jdbcType="VARCHAR" property="tradeName" />
+    <result column="CGT_PUR_QTY1" jdbcType="DECIMAL" property="cgtPurQty1" />
+    <result column="CGT_PUR_QTY2" jdbcType="DECIMAL" property="cgtPurQty2" />
+    <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="ARRIVED_DATE" jdbcType="VARCHAR" property="arrivedDate" />
+    <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="ROWSTATUS" jdbcType="VARCHAR" property="rowstatus" />
+    <result column="ITIME" jdbcType="TIMESTAMP" property="itime" />
+    <result column="KEYWORD" jdbcType="VARCHAR" property="keyword" />
+    <result column="ISARRIVEDNAME" jdbcType="VARCHAR" property="isArrivedname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ORDER_DETAIL_ID, ORDER_ID, BATCH_ID, TRUCK_NUM, CGT_MP_NUM, CGT_CONT_NUM, IS_ARRIVED, 
+    OUT_DATE, ORG_ORG_CODE, ORG_ORG_NAME, ORG_STO_CODE, ORG_STO_NAME, DEST_ORG_CODE, 
+    DEST_ORG_NAME, DEST_STO_CODE, DEST_STO_NAME, ORG_LINKMAN, DEST_LINKMAN, ARRIVED_ADRESS, 
+    DEST_LINKMAN_TEL, ORG_LINKMAN_TEL, TRANS_MODE, TRAN_ORG_NAME, BUSINESS_TYPE, CGT_BRAND_CODE, 
+    TRADE_NAME, CGT_PUR_QTY1, CGT_PUR_QTY2, ORG_CODE, ARRIVED_DATE, UPDATETIME, ROWSTATUS, 
+    ITIME
+  </sql>
+  
+   <select id="getOrderlineinfoPageList" parameterType="Pagination" resultType="com.ztel.app.vo.gis.OrderlineinfoVo">
+    select 
+     ID, ORDER_DETAIL_ID, ORDER_ID, BATCH_ID, TRUCK_NUM, CGT_MP_NUM, CGT_CONT_NUM, IS_ARRIVED, 
+    OUT_DATE, ORG_ORG_CODE, ORG_ORG_NAME, ORG_STO_CODE, ORG_STO_NAME, DEST_ORG_CODE, 
+    DEST_ORG_NAME, DEST_STO_CODE, DEST_STO_NAME, ORG_LINKMAN, DEST_LINKMAN, ARRIVED_ADRESS, 
+    DEST_LINKMAN_TEL, ORG_LINKMAN_TEL, TRANS_MODE, TRAN_ORG_NAME, BUSINESS_TYPE, CGT_BRAND_CODE, 
+    TRADE_NAME, CGT_PUR_QTY1, CGT_PUR_QTY2, ORG_CODE, ARRIVED_DATE, UPDATETIME, ROWSTATUS, 
+    ITIME,
+    decode(IS_ARRIVED,'00','在途','01','到货','未知') as isArrivedname 
+    from T_GIS_ORDERONLINEINFO olinfo 
+    where 1=1
+  <if test="param != null and param.isArrived != null and param.isArrived != ''">
+        AND olinfo.IS_ARRIVED = #{param.isArrived}
+    </if>
+    <if test="param != null and param.keyword != null and param.keyword != ''">
+        AND (olinfo.BATCH_ID like '%'||#{param.keyword}||'%' or olinfo.CGT_CONT_NUM like '%'||#{param.keyword}||'%' 
+        or olinfo.ORDER_ID like '%'||#{param.keyword}||'%' or olinfo.trade_name like '%'||#{param.keyword}||'%')
+    </if>
+    order by olinfo.TRUCK_NUM
+</select>
+
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GIS_ORDERONLINEINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_GIS_ORDERONLINEINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.gis.OrderlineinfoVo">
+    insert into T_GIS_ORDERONLINEINFO (ID, ORDER_DETAIL_ID, ORDER_ID, 
+      BATCH_ID, TRUCK_NUM, CGT_MP_NUM, 
+      CGT_CONT_NUM, IS_ARRIVED, OUT_DATE, 
+      ORG_ORG_CODE, ORG_ORG_NAME, ORG_STO_CODE, 
+      ORG_STO_NAME, DEST_ORG_CODE, DEST_ORG_NAME, 
+      DEST_STO_CODE, DEST_STO_NAME, ORG_LINKMAN, 
+      DEST_LINKMAN, ARRIVED_ADRESS, DEST_LINKMAN_TEL, 
+      ORG_LINKMAN_TEL, TRANS_MODE, TRAN_ORG_NAME, 
+      BUSINESS_TYPE, CGT_BRAND_CODE, TRADE_NAME, 
+      CGT_PUR_QTY1, CGT_PUR_QTY2, ORG_CODE, 
+      ARRIVED_DATE, UPDATETIME, ROWSTATUS, 
+      ITIME)
+    values (#{id,jdbcType=DECIMAL}, #{orderDetailId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{batchId,jdbcType=VARCHAR}, #{truckNum,jdbcType=VARCHAR}, #{cgtMpNum,jdbcType=VARCHAR}, 
+      #{cgtContNum,jdbcType=VARCHAR}, #{isArrived,jdbcType=CHAR}, #{outDate,jdbcType=VARCHAR}, 
+      #{orgOrgCode,jdbcType=VARCHAR}, #{orgOrgName,jdbcType=VARCHAR}, #{orgStoCode,jdbcType=VARCHAR}, 
+      #{orgStoName,jdbcType=VARCHAR}, #{destOrgCode,jdbcType=VARCHAR}, #{destOrgName,jdbcType=VARCHAR}, 
+      #{destStoCode,jdbcType=VARCHAR}, #{destStoName,jdbcType=VARCHAR}, #{orgLinkman,jdbcType=VARCHAR}, 
+      #{destLinkman,jdbcType=VARCHAR}, #{arrivedAdress,jdbcType=VARCHAR}, #{destLinkmanTel,jdbcType=VARCHAR}, 
+      #{orgLinkmanTel,jdbcType=VARCHAR}, #{transMode,jdbcType=VARCHAR}, #{tranOrgName,jdbcType=VARCHAR}, 
+      #{businessType,jdbcType=VARCHAR}, #{cgtBrandCode,jdbcType=VARCHAR}, #{tradeName,jdbcType=VARCHAR}, 
+      #{cgtPurQty1,jdbcType=DECIMAL}, #{cgtPurQty2,jdbcType=DECIMAL}, #{orgCode,jdbcType=VARCHAR}, 
+      #{arrivedDate,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{rowstatus,jdbcType=VARCHAR}, 
+      #{itime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.gis.OrderlineinfoVo">
+    insert into T_GIS_ORDERONLINEINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="orderDetailId != null">
+        ORDER_DETAIL_ID,
+      </if>
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="batchId != null">
+        BATCH_ID,
+      </if>
+      <if test="truckNum != null">
+        TRUCK_NUM,
+      </if>
+      <if test="cgtMpNum != null">
+        CGT_MP_NUM,
+      </if>
+      <if test="cgtContNum != null">
+        CGT_CONT_NUM,
+      </if>
+      <if test="isArrived != null">
+        IS_ARRIVED,
+      </if>
+      <if test="outDate != null">
+        OUT_DATE,
+      </if>
+      <if test="orgOrgCode != null">
+        ORG_ORG_CODE,
+      </if>
+      <if test="orgOrgName != null">
+        ORG_ORG_NAME,
+      </if>
+      <if test="orgStoCode != null">
+        ORG_STO_CODE,
+      </if>
+      <if test="orgStoName != null">
+        ORG_STO_NAME,
+      </if>
+      <if test="destOrgCode != null">
+        DEST_ORG_CODE,
+      </if>
+      <if test="destOrgName != null">
+        DEST_ORG_NAME,
+      </if>
+      <if test="destStoCode != null">
+        DEST_STO_CODE,
+      </if>
+      <if test="destStoName != null">
+        DEST_STO_NAME,
+      </if>
+      <if test="orgLinkman != null">
+        ORG_LINKMAN,
+      </if>
+      <if test="destLinkman != null">
+        DEST_LINKMAN,
+      </if>
+      <if test="arrivedAdress != null">
+        ARRIVED_ADRESS,
+      </if>
+      <if test="destLinkmanTel != null">
+        DEST_LINKMAN_TEL,
+      </if>
+      <if test="orgLinkmanTel != null">
+        ORG_LINKMAN_TEL,
+      </if>
+      <if test="transMode != null">
+        TRANS_MODE,
+      </if>
+      <if test="tranOrgName != null">
+        TRAN_ORG_NAME,
+      </if>
+      <if test="businessType != null">
+        BUSINESS_TYPE,
+      </if>
+      <if test="cgtBrandCode != null">
+        CGT_BRAND_CODE,
+      </if>
+      <if test="tradeName != null">
+        TRADE_NAME,
+      </if>
+      <if test="cgtPurQty1 != null">
+        CGT_PUR_QTY1,
+      </if>
+      <if test="cgtPurQty2 != null">
+        CGT_PUR_QTY2,
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE,
+      </if>
+      <if test="arrivedDate != null">
+        ARRIVED_DATE,
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME,
+      </if>
+      <if test="rowstatus != null">
+        ROWSTATUS,
+      </if>
+      <if test="itime != null">
+        ITIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDetailId != null">
+        #{orderDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="truckNum != null">
+        #{truckNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cgtMpNum != null">
+        #{cgtMpNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cgtContNum != null">
+        #{cgtContNum,jdbcType=VARCHAR},
+      </if>
+      <if test="isArrived != null">
+        #{isArrived,jdbcType=CHAR},
+      </if>
+      <if test="outDate != null">
+        #{outDate,jdbcType=VARCHAR},
+      </if>
+      <if test="orgOrgCode != null">
+        #{orgOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgOrgName != null">
+        #{orgOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgStoCode != null">
+        #{orgStoCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgStoName != null">
+        #{orgStoName,jdbcType=VARCHAR},
+      </if>
+      <if test="destOrgCode != null">
+        #{destOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destOrgName != null">
+        #{destOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="destStoCode != null">
+        #{destStoCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destStoName != null">
+        #{destStoName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgLinkman != null">
+        #{orgLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="destLinkman != null">
+        #{destLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivedAdress != null">
+        #{arrivedAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="destLinkmanTel != null">
+        #{destLinkmanTel,jdbcType=VARCHAR},
+      </if>
+      <if test="orgLinkmanTel != null">
+        #{orgLinkmanTel,jdbcType=VARCHAR},
+      </if>
+      <if test="transMode != null">
+        #{transMode,jdbcType=VARCHAR},
+      </if>
+      <if test="tranOrgName != null">
+        #{tranOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="cgtBrandCode != null">
+        #{cgtBrandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeName != null">
+        #{tradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cgtPurQty1 != null">
+        #{cgtPurQty1,jdbcType=DECIMAL},
+      </if>
+      <if test="cgtPurQty2 != null">
+        #{cgtPurQty2,jdbcType=DECIMAL},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivedDate != null">
+        #{arrivedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rowstatus != null">
+        #{rowstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="itime != null">
+        #{itime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.gis.OrderlineinfoVo">
+    update T_GIS_ORDERONLINEINFO
+    <set>
+      <if test="orderDetailId != null">
+        ORDER_DETAIL_ID = #{orderDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null">
+        BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="truckNum != null">
+        TRUCK_NUM = #{truckNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cgtMpNum != null">
+        CGT_MP_NUM = #{cgtMpNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cgtContNum != null">
+        CGT_CONT_NUM = #{cgtContNum,jdbcType=VARCHAR},
+      </if>
+      <if test="isArrived != null">
+        IS_ARRIVED = #{isArrived,jdbcType=CHAR},
+      </if>
+      <if test="outDate != null">
+        OUT_DATE = #{outDate,jdbcType=VARCHAR},
+      </if>
+      <if test="orgOrgCode != null">
+        ORG_ORG_CODE = #{orgOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgOrgName != null">
+        ORG_ORG_NAME = #{orgOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgStoCode != null">
+        ORG_STO_CODE = #{orgStoCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgStoName != null">
+        ORG_STO_NAME = #{orgStoName,jdbcType=VARCHAR},
+      </if>
+      <if test="destOrgCode != null">
+        DEST_ORG_CODE = #{destOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destOrgName != null">
+        DEST_ORG_NAME = #{destOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="destStoCode != null">
+        DEST_STO_CODE = #{destStoCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destStoName != null">
+        DEST_STO_NAME = #{destStoName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgLinkman != null">
+        ORG_LINKMAN = #{orgLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="destLinkman != null">
+        DEST_LINKMAN = #{destLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivedAdress != null">
+        ARRIVED_ADRESS = #{arrivedAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="destLinkmanTel != null">
+        DEST_LINKMAN_TEL = #{destLinkmanTel,jdbcType=VARCHAR},
+      </if>
+      <if test="orgLinkmanTel != null">
+        ORG_LINKMAN_TEL = #{orgLinkmanTel,jdbcType=VARCHAR},
+      </if>
+      <if test="transMode != null">
+        TRANS_MODE = #{transMode,jdbcType=VARCHAR},
+      </if>
+      <if test="tranOrgName != null">
+        TRAN_ORG_NAME = #{tranOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="cgtBrandCode != null">
+        CGT_BRAND_CODE = #{cgtBrandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeName != null">
+        TRADE_NAME = #{tradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cgtPurQty1 != null">
+        CGT_PUR_QTY1 = #{cgtPurQty1,jdbcType=DECIMAL},
+      </if>
+      <if test="cgtPurQty2 != null">
+        CGT_PUR_QTY2 = #{cgtPurQty2,jdbcType=DECIMAL},
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivedDate != null">
+        ARRIVED_DATE = #{arrivedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rowstatus != null">
+        ROWSTATUS = #{rowstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="itime != null">
+        ITIME = #{itime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.gis.OrderlineinfoVo">
+    update T_GIS_ORDERONLINEINFO
+    set ORDER_DETAIL_ID = #{orderDetailId,jdbcType=VARCHAR},
+      ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      TRUCK_NUM = #{truckNum,jdbcType=VARCHAR},
+      CGT_MP_NUM = #{cgtMpNum,jdbcType=VARCHAR},
+      CGT_CONT_NUM = #{cgtContNum,jdbcType=VARCHAR},
+      IS_ARRIVED = #{isArrived,jdbcType=CHAR},
+      OUT_DATE = #{outDate,jdbcType=VARCHAR},
+      ORG_ORG_CODE = #{orgOrgCode,jdbcType=VARCHAR},
+      ORG_ORG_NAME = #{orgOrgName,jdbcType=VARCHAR},
+      ORG_STO_CODE = #{orgStoCode,jdbcType=VARCHAR},
+      ORG_STO_NAME = #{orgStoName,jdbcType=VARCHAR},
+      DEST_ORG_CODE = #{destOrgCode,jdbcType=VARCHAR},
+      DEST_ORG_NAME = #{destOrgName,jdbcType=VARCHAR},
+      DEST_STO_CODE = #{destStoCode,jdbcType=VARCHAR},
+      DEST_STO_NAME = #{destStoName,jdbcType=VARCHAR},
+      ORG_LINKMAN = #{orgLinkman,jdbcType=VARCHAR},
+      DEST_LINKMAN = #{destLinkman,jdbcType=VARCHAR},
+      ARRIVED_ADRESS = #{arrivedAdress,jdbcType=VARCHAR},
+      DEST_LINKMAN_TEL = #{destLinkmanTel,jdbcType=VARCHAR},
+      ORG_LINKMAN_TEL = #{orgLinkmanTel,jdbcType=VARCHAR},
+      TRANS_MODE = #{transMode,jdbcType=VARCHAR},
+      TRAN_ORG_NAME = #{tranOrgName,jdbcType=VARCHAR},
+      BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      CGT_BRAND_CODE = #{cgtBrandCode,jdbcType=VARCHAR},
+      TRADE_NAME = #{tradeName,jdbcType=VARCHAR},
+      CGT_PUR_QTY1 = #{cgtPurQty1,jdbcType=DECIMAL},
+      CGT_PUR_QTY2 = #{cgtPurQty2,jdbcType=DECIMAL},
+      ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      ARRIVED_DATE = #{arrivedDate,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      ROWSTATUS = #{rowstatus,jdbcType=VARCHAR},
+      ITIME = #{itime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

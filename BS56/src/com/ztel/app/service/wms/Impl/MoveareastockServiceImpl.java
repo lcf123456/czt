@@ -1,0 +1,343 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.wms.MoveareastockLineVoMapper;
+import com.ztel.app.persist.mybatis.wms.MoveareastockVoMapper;
+import com.ztel.app.persist.mybatis.wms.StorageAreaInOutVoMapper;
+import com.ztel.app.service.wms.InventoryLineVoService;
+import com.ztel.app.service.wms.MoveareastockService;
+import com.ztel.app.service.wms.StorageAreaService;
+import com.ztel.app.util.Constant;
+import com.ztel.app.vo.wms.InventoryLineVo;
+import com.ztel.app.vo.wms.MoveareastockLineVo;
+import com.ztel.app.vo.wms.MoveareastockVo;
+import com.ztel.app.vo.wms.StorageAreaInOutVo;
+import com.ztel.app.vo.wms.StorageAreaVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class MoveareastockServiceImpl implements MoveareastockService {
+
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	@Autowired
+	MoveareastockVoMapper moveareastockVoMapper = null;
+	
+	@Autowired
+	MoveareastockLineVoMapper moveareastockLineVoMapper = null;
+	
+	@Autowired 
+	InventoryLineVoService inventoryLineVoService = null;
+	
+	@Autowired
+	StorageAreaInOutVoMapper storageAreaInOutVoMapper = null;
+	
+	@Autowired
+	StorageAreaService storageAreaService = null;//区域表接口
+	
+	public MoveareastockServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+//		sortKeyMapping.put(key, value)
+		sortKeyMapping.put("createtime", "createtime");
+		sortKeyMapping.put("id", "id");
+	}
+	
+	@Override
+	public List<MoveareastockVo> selectMoveareastockPageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		page.sortKeyToColumn(sortKeyMapping);
+		return moveareastockVoMapper.selectMoveareastockPageList(page);
+	}
+
+	/**
+	 * 新增
+	 * @param moveareastockVo 主表
+	 * @param moveareastockLineVo 明细
+	 * @param obid 用于判断是第一次还是第二次插入
+	 */
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void insertMoveareastock(MoveareastockVo moveareastockVo, MoveareastockLineVo moveareastockLineVo,String obid) {
+		// TODO Auto-generated method stub
+		//设置原区域名称
+		BigDecimal sourceareaid = moveareastockVo.getSourceareaid();
+		StorageAreaVo StorageAreaVo1 = storageAreaService.selectByPrimaryKey(sourceareaid);
+		if(StorageAreaVo1!=null)moveareastockVo.setSourceareaname(StorageAreaVo1.getAreaname()+"");
+		//设置目标区域名称
+		BigDecimal targetareaid = moveareastockVo.getTargetareaid();
+		StorageAreaVo StorageAreaVo2 = storageAreaService.selectByPrimaryKey(targetareaid);
+		if(StorageAreaVo2!=null)moveareastockVo.setTargetareaname(StorageAreaVo2.getAreaname()+"");	
+		
+		if(obid.equals("0")||obid.equals(""))//第一次插入
+		{
+			moveareastockVoMapper.insertSelective(moveareastockVo);
+		}
+		moveareastockLineVoMapper.insertSelective(moveareastockLineVo);
+	}
+
+	@Override
+	public void doAudit(MoveareastockVo moveareastockVo) {
+		// TODO Auto-generated method stub
+		String auditflag = moveareastockVo.getAuditflag()+"";
+		String movetype = moveareastockVo.getMovetype();
+		if(movetype.equals("10") && auditflag.equals("20")){//散烟区至分拣，出库则形成调拨
+			sytofjdb(moveareastockVo);
+		}
+		if(movetype.equals("20") && auditflag.equals("20")){//散烟区至分拣，出库则形成调拨
+			sytolkdb(moveareastockVo);
+		}
+		moveareastockVoMapper.updateByPrimaryKeySelective(moveareastockVo);
+
+	}
+	
+	/**
+	 * 散烟区至分拣调拨
+	 * @param moveareastockVo
+	 */
+	public void sytofjdb(MoveareastockVo moveareastockVo){
+		MoveareastockVo moveareastockVo1 = moveareastockVoMapper.selectByPrimaryKey(moveareastockVo.getId());
+		BigDecimal sourceAreaid = moveareastockVo1.getSourceareaid();
+		BigDecimal targetAreaid = moveareastockVo1.getTargetareaid();
+		
+		List<MoveareastockLineVo> moveareastockLineVoList = moveareastockLineVoMapper.selectByParentid(moveareastockVo.getId());
+		if(moveareastockLineVoList!=null&&moveareastockLineVoList.size()>0){
+			for(int i=0;i<moveareastockLineVoList.size();i++){
+				MoveareastockLineVo moveareastockLineVo = moveareastockLineVoList.get(i);
+				BigDecimal id = moveareastockLineVo.getId();
+				BigDecimal qty = moveareastockLineVo.getBarqty();
+				String cigarettecode = moveareastockLineVo.getCigarettecode();
+				String cigarettename = moveareastockLineVo.getCigarettename();
+				String barcode = moveareastockLineVo.getBarcode();
+				//散烟区出
+				StorageAreaInOutVo storageAreaInOutVo_sy = new StorageAreaInOutVo();
+				storageAreaInOutVo_sy.setAreaid(sourceAreaid);//储区编号
+				storageAreaInOutVo_sy.setQty(qty.multiply(new BigDecimal("-1")));//数量  数量为出时为负数
+				storageAreaInOutVo_sy.setInouttype(new BigDecimal("10"));//'类型（出 10  入 20）
+				storageAreaInOutVo_sy.setTaskno(id+"");
+				storageAreaInOutVo_sy.setCigarettecode(cigarettecode);
+				storageAreaInOutVo_sy.setCigarettename(cigarettename);
+				storageAreaInOutVo_sy.setCreatetime(new Date());
+				storageAreaInOutVo_sy.setStatus(new BigDecimal("20"));//10 入库中  20 完成出入库  默认插入20
+				storageAreaInOutVo_sy.setCigarattetype(new BigDecimal("50"));//10 来烟破损  20 机损烟（针对散烟区）30 退货 40 称重异常 50：移库
+				storageAreaInOutVo_sy.setCreatename(moveareastockVo1.getCreateuser());
+				storageAreaInOutVo_sy.setBarcode(barcode);
+				storageAreaInOutVoMapper.insertSelective(storageAreaInOutVo_sy);
+				//分拣区入
+				StorageAreaInOutVo storageAreaInOutVo_fj = new StorageAreaInOutVo();
+				storageAreaInOutVo_fj.setAreaid(targetAreaid);//储区编号
+				storageAreaInOutVo_fj.setCellno(moveareastockLineVo.getTroughnum());//储位编号 分拣区需要设置
+				storageAreaInOutVo_fj.setQty(qty);//数量 
+				storageAreaInOutVo_fj.setInouttype(new BigDecimal("10"));//'类型（出 10  入 20）
+				storageAreaInOutVo_fj.setTaskno(id+"");
+				storageAreaInOutVo_fj.setCigarettecode(cigarettecode);
+				storageAreaInOutVo_fj.setCigarettename(cigarettename);
+				storageAreaInOutVo_fj.setCreatetime(new Date());
+				storageAreaInOutVo_fj.setStatus(new BigDecimal("20"));//10 入库中  20 完成出入库  默认插入20
+				storageAreaInOutVo_fj.setCigarattetype(new BigDecimal("50"));//10 来烟破损  20 机损烟（针对散烟区）30 退货 40 称重异常 50：移库
+				storageAreaInOutVo_fj.setCreatename(moveareastockVo1.getCreateuser());
+				storageAreaInOutVo_fj.setBarcode(barcode);
+				storageAreaInOutVoMapper.insertSelective(storageAreaInOutVo_fj);
+			}
+		}
+	}
+
+	/**
+	 * 散烟区至立库调拨
+	 * @param moveareastockVo
+	 */
+	public void sytolkdb(MoveareastockVo moveareastockVo){
+		MoveareastockVo moveareastockVo1 = moveareastockVoMapper.selectByPrimaryKey(moveareastockVo.getId());
+		BigDecimal sourceAreaid = moveareastockVo1.getSourceareaid();
+		BigDecimal targetAreaid = moveareastockVo1.getTargetareaid();
+
+		
+		List<MoveareastockLineVo> moveareastockLineVoList = moveareastockLineVoMapper.selectByParentid(moveareastockVo.getId());
+		if(moveareastockLineVoList!=null&&moveareastockLineVoList.size()>0){
+			for(int i=0;i<moveareastockLineVoList.size();i++){
+				MoveareastockLineVo moveareastockLineVo = moveareastockLineVoList.get(i);
+				BigDecimal id = moveareastockLineVo.getId();
+				BigDecimal qty = moveareastockLineVo.getBarqty();
+				String cigarettecode = moveareastockLineVo.getCigarettecode();
+				String cigarettename = moveareastockLineVo.getCigarettename();
+				String barcode = moveareastockLineVo.getBarcode();
+				//散烟区出
+				StorageAreaInOutVo storageAreaInOutVo_sy = new StorageAreaInOutVo();
+				storageAreaInOutVo_sy.setAreaid(sourceAreaid);//储区编号
+				storageAreaInOutVo_sy.setQty(qty.multiply(new BigDecimal("-1")));//数量  数量为出时为负数
+				storageAreaInOutVo_sy.setInouttype(new BigDecimal("10"));//'类型（出 10  入 20）
+				storageAreaInOutVo_sy.setTaskno(id+"");
+				storageAreaInOutVo_sy.setCigarettecode(cigarettecode);
+				storageAreaInOutVo_sy.setCigarettename(cigarettename);
+				storageAreaInOutVo_sy.setCreatetime(new Date());
+				storageAreaInOutVo_sy.setStatus(new BigDecimal("20"));//10 入库中  20 完成出入库  默认插入20
+				storageAreaInOutVo_sy.setCigarattetype(new BigDecimal("50"));//10 来烟破损  20 机损烟（针对散烟区）30 退货 40 称重异常 50：移库
+				storageAreaInOutVo_sy.setCreatename(moveareastockVo1.getCreateuser());
+				storageAreaInOutVo_sy.setBarcode(barcode);
+				storageAreaInOutVoMapper.insertSelective(storageAreaInOutVo_sy);
+				//立库可不进行调拨表处理
+			}
+		}
+	}
+	
+	@Override
+	public void doDel(BigDecimal id) {
+		// TODO Auto-generated method stub
+		MoveareastockVo moveareastockVo = new MoveareastockVo();
+		moveareastockVo.setId(id);
+		moveareastockVo.setDelstatus(new BigDecimal("0"));
+		moveareastockVoMapper.updateByPrimaryKeySelective(moveareastockVo);
+	}
+	
+	/**
+	 * 检查移库的品牌数量是否合理：需要不大于库存数量
+	 * @param cigarettecode 卷烟code
+	 * @param areaid 区域id
+	 * @param cellno 通道号
+	 * @return
+	 */
+	@Override
+	public BigDecimal doCheckqty(String cigarettecode,String areaid,String cellno) {
+		// TODO Auto-generated method stub
+		BigDecimal result = new BigDecimal("0");
+
+		//取最近次日清日结散烟区的品牌数据
+		BigDecimal inventoryListNum = new BigDecimal("0");//记录日清日结数量
+		InventoryLineVo inventoryLineVo = new InventoryLineVo();
+		inventoryLineVo.setInventorytype(new BigDecimal(10));//盘点类型  10日清日结
+		inventoryLineVo.setAreaid(new BigDecimal(areaid));//区域id 
+		inventoryLineVo.setCigarettecode(cigarettecode);
+		List<InventoryLineVo> inventoryLineVoList = inventoryLineVoService.getLastInventoryInfoByCond(inventoryLineVo); 
+		if(inventoryLineVoList!=null&&inventoryLineVoList.size()>0){
+			for(int i=0;i<inventoryLineVoList.size();i++){
+				InventoryLineVo inventoryLineVo1 = inventoryLineVoList.get(i);
+				if(areaid.equals(Constant.storagearea_sy)||areaid.equals(Constant.storagearea_fj)){
+					if(inventoryLineVo1!=null && inventoryLineVo1.getItemqty()!=null)
+					inventoryListNum = inventoryListNum.add(inventoryLineVo1.getItemqty());//散烟区、分拣为条
+				}else
+				{
+					if(inventoryLineVo1!=null && inventoryLineVo1.getBoxqty()!=null)
+					inventoryListNum = inventoryListNum.add(inventoryLineVo1.getBoxqty());//立库、重力式货架为件
+				}
+				
+			}
+		}
+		
+		//取调拨表数据
+		BigDecimal storageAreaInOutNum = new BigDecimal("0");//记录调拨数量(条)
+		StorageAreaInOutVo storageAreaInOutVo = new StorageAreaInOutVo();
+		storageAreaInOutVo.setAreaid(new BigDecimal(areaid));
+		storageAreaInOutVo.setCigarettecode(cigarettecode);
+		storageAreaInOutVo.setCellno(cellno);
+		List<StorageAreaInOutVo> storageAreaInOutVoList = new ArrayList<StorageAreaInOutVo>();
+		if(areaid.equals(Constant.storagearea_fj))
+		{
+			storageAreaInOutVoList = storageAreaInOutVoMapper.selectLastCellInOutInfoByCond(storageAreaInOutVo);//取条件内最近的调拨记录合计，以通道为单位统计 
+		}
+		else
+			{
+			storageAreaInOutVoList = storageAreaInOutVoMapper.selectLastStorageAreaInOutInfoByCond(storageAreaInOutVo);//取条件内最近的调拨记录合计，以品牌为单位统计
+			}
+		if(storageAreaInOutVoList!=null&&storageAreaInOutVoList.size()>0){
+			for(int i=0;i<storageAreaInOutVoList.size();i++){
+				StorageAreaInOutVo storageAreaInOutVo1 = storageAreaInOutVoList.get(i);
+				if(storageAreaInOutVo1!=null && storageAreaInOutVo1.getQty()!=null){
+					storageAreaInOutNum = storageAreaInOutNum.add(storageAreaInOutVo1.getQty());
+				}
+				
+			}
+		}
+		
+		result = inventoryListNum.add(storageAreaInOutNum); //返回数据为日清日结的位数加上调拨数据
+		return result;
+
+	}
+
+	/**
+	 * 通用移库审核
+	 * @param moveareastockVo
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public void doAuditUniversal(MoveareastockVo moveareastockVo){
+		String auditflag = moveareastockVo.getAuditflag()+"";
+		moveUniversal(moveareastockVo);//通用移库调拨
+		moveareastockVoMapper.updateByPrimaryKeySelective(moveareastockVo);
+
+	}
+	
+	/**
+	 * 通用移库调拨
+	 * @param moveareastockVo
+	 */
+	public void moveUniversal(MoveareastockVo moveareastockVo){
+		MoveareastockVo moveareastockVo1 = moveareastockVoMapper.selectByPrimaryKey(moveareastockVo.getId());
+		BigDecimal sourceAreaid = moveareastockVo1.getSourceareaid();
+		BigDecimal targetAreaid = moveareastockVo1.getTargetareaid();
+		
+		List<MoveareastockLineVo> moveareastockLineVoList = moveareastockLineVoMapper.selectByParentid(moveareastockVo.getId());
+		if(moveareastockLineVoList!=null&&moveareastockLineVoList.size()>0){
+			for(int i=0;i<moveareastockLineVoList.size();i++){
+				MoveareastockLineVo moveareastockLineVo = moveareastockLineVoList.get(i);
+				BigDecimal id = moveareastockLineVo.getId();
+				BigDecimal barqty = moveareastockLineVo.getBarqty();
+				BigDecimal boxqty = moveareastockLineVo.getBoxqty();
+				String cigarettecode = moveareastockLineVo.getCigarettecode();
+				String cigarettename = moveareastockLineVo.getCigarettename();
+				String barcode = moveareastockLineVo.getBarcode();
+				String troughnum = moveareastockLineVo.getTroughnum();//原区域通道编号
+				String targettroughnum=moveareastockLineVo.getTargettroughnum();//目标区域通道编号
+				//出
+				StorageAreaInOutVo storageAreaInOutVo_out = new StorageAreaInOutVo();
+				storageAreaInOutVo_out.setAreaid(sourceAreaid);//储区编号
+				if((sourceAreaid.toString()).equals(Constant.storagearea_sy)||(sourceAreaid.toString()).equals(Constant.storagearea_fj)){//散烟区或分拣区为条
+					storageAreaInOutVo_out.setQty(barqty.multiply(new BigDecimal("-1")));//数量  数量为出时为负数
+				}
+				else{//立库或重力式货架为件
+					storageAreaInOutVo_out.setQty(boxqty.multiply(new BigDecimal("-1")));//数量  数量为出时为负数
+				}
+				storageAreaInOutVo_out.setInouttype(new BigDecimal("10"));//'类型（出 10  入 20）
+				storageAreaInOutVo_out.setTaskno(id+"");
+				storageAreaInOutVo_out.setCigarettecode(cigarettecode);
+				storageAreaInOutVo_out.setCigarettename(cigarettename);
+				storageAreaInOutVo_out.setCreatetime(new Date());
+				storageAreaInOutVo_out.setStatus(new BigDecimal("20"));//10 入库中  20 完成出入库  默认插入20
+				storageAreaInOutVo_out.setCigarattetype(new BigDecimal("50"));//10 来烟破损  20 机损烟（针对散烟区）30 退货 40 称重异常 50：移库
+				storageAreaInOutVo_out.setCreatename(moveareastockVo1.getCreateuser());
+				storageAreaInOutVo_out.setBarcode(barcode);
+				storageAreaInOutVo_out.setCellno(troughnum);//通道号
+				storageAreaInOutVoMapper.insertSelective(storageAreaInOutVo_out);
+				//入
+				StorageAreaInOutVo storageAreaInOutVo_in = new StorageAreaInOutVo();
+				storageAreaInOutVo_in.setAreaid(targetAreaid);//储区编号
+				storageAreaInOutVo_in.setCellno(moveareastockLineVo.getTroughnum());//储位编号 分拣区需要设置
+				if((targetAreaid.toString()).equals(Constant.storagearea_sy)||(targetAreaid.toString()).equals(Constant.storagearea_fj)){//散烟区或分拣区为条
+					storageAreaInOutVo_in.setQty(barqty);//数量 
+				}
+				else{//立库或重力式货架为件
+					storageAreaInOutVo_in.setQty(boxqty);//数量 
+				}
+				storageAreaInOutVo_in.setInouttype(new BigDecimal("10"));//'类型（出 10  入 20）
+				storageAreaInOutVo_in.setTaskno(id+"");
+				storageAreaInOutVo_in.setCigarettecode(cigarettecode);
+				storageAreaInOutVo_in.setCigarettename(cigarettename);
+				storageAreaInOutVo_in.setCreatetime(new Date());
+				storageAreaInOutVo_in.setStatus(new BigDecimal("20"));//10 入库中  20 完成出入库  默认插入20
+				storageAreaInOutVo_in.setCigarattetype(new BigDecimal("50"));//10 来烟破损  20 机损烟（针对散烟区）30 退货 40 称重异常 50：移库
+				storageAreaInOutVo_in.setCreatename(moveareastockVo1.getCreateuser());
+				storageAreaInOutVo_in.setBarcode(barcode);
+				storageAreaInOutVo_in.setCellno(targettroughnum);//通道号
+				storageAreaInOutVoMapper.insertSelective(storageAreaInOutVo_in);
+			}
+		}
+	}
+
+}

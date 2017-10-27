@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.AutocallscoredemoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.AutocallscoredemoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CUSTID" property="custid" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="ROUTESCORE" property="routescore" jdbcType="DECIMAL" />
+    <result column="DRIVERSCORE" property="driverscore" jdbcType="DECIMAL" />
+    <result column="CASHIERSCORE" property="cashierscore" jdbcType="DECIMAL" />
+    <result column="SOURCEID" property="sourceid" jdbcType="DECIMAL" />
+    <result column="SCORETIME" property="scoretime" jdbcType="TIMESTAMP" />
+    <result column="PLANID" property="planid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="CASHIERID" property="cashierid" jdbcType="DECIMAL" />
+    <result column="COMPANYSCORE" property="companyscore" jdbcType="DECIMAL" />
+    <result column="RECORDFILE" property="recordfile" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUSTID, ROUTECODE, CREATEID, ROUTESCORE, DRIVERSCORE, CASHIERSCORE, SOURCEID, 
+    SCORETIME, PLANID, REMARKS, DRIVERID, CASHIERID, COMPANYSCORE, RECORDFILE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_AUTOCALLSCOREDEMO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SQ_AUTOCALLSCOREDEMO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.AutocallscoredemoVo" >
+    insert into T_SQ_AUTOCALLSCOREDEMO (ID, CUSTID, ROUTECODE, 
+      CREATEID, ROUTESCORE, DRIVERSCORE, 
+      CASHIERSCORE, SOURCEID, SCORETIME, 
+      PLANID, REMARKS, DRIVERID, 
+      CASHIERID, COMPANYSCORE, RECORDFILE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{custid,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, 
+      #{createid,jdbcType=DECIMAL}, #{routescore,jdbcType=DECIMAL}, #{driverscore,jdbcType=DECIMAL}, 
+      #{cashierscore,jdbcType=DECIMAL}, #{sourceid,jdbcType=DECIMAL}, #{scoretime,jdbcType=TIMESTAMP}, 
+      #{planid,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, #{driverid,jdbcType=DECIMAL}, 
+      #{cashierid,jdbcType=DECIMAL}, #{companyscore,jdbcType=DECIMAL}, #{recordfile,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.AutocallscoredemoVo" >
+    insert into T_SQ_AUTOCALLSCOREDEMO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="custid != null" >
+        CUSTID,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="routescore != null" >
+        ROUTESCORE,
+      </if>
+      <if test="driverscore != null" >
+        DRIVERSCORE,
+      </if>
+      <if test="cashierscore != null" >
+        CASHIERSCORE,
+      </if>
+      <if test="sourceid != null" >
+        SOURCEID,
+      </if>
+      <if test="scoretime != null" >
+        SCORETIME,
+      </if>
+      <if test="planid != null" >
+        PLANID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="driverid != null" >
+        DRIVERID,
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID,
+      </if>
+      <if test="companyscore != null" >
+        COMPANYSCORE,
+      </if>
+      <if test="recordfile != null" >
+        RECORDFILE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="custid != null" >
+        #{custid,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="routescore != null" >
+        #{routescore,jdbcType=DECIMAL},
+      </if>
+      <if test="driverscore != null" >
+        #{driverscore,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierscore != null" >
+        #{cashierscore,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceid != null" >
+        #{sourceid,jdbcType=DECIMAL},
+      </if>
+      <if test="scoretime != null" >
+        #{scoretime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planid != null" >
+        #{planid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="companyscore != null" >
+        #{companyscore,jdbcType=DECIMAL},
+      </if>
+      <if test="recordfile != null" >
+        #{recordfile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.AutocallscoredemoVo" >
+    update T_SQ_AUTOCALLSCOREDEMO
+    <set >
+      <if test="custid != null" >
+        CUSTID = #{custid,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="routescore != null" >
+        ROUTESCORE = #{routescore,jdbcType=DECIMAL},
+      </if>
+      <if test="driverscore != null" >
+        DRIVERSCORE = #{driverscore,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierscore != null" >
+        CASHIERSCORE = #{cashierscore,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceid != null" >
+        SOURCEID = #{sourceid,jdbcType=DECIMAL},
+      </if>
+      <if test="scoretime != null" >
+        SCORETIME = #{scoretime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planid != null" >
+        PLANID = #{planid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        DRIVERID = #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="companyscore != null" >
+        COMPANYSCORE = #{companyscore,jdbcType=DECIMAL},
+      </if>
+      <if test="recordfile != null" >
+        RECORDFILE = #{recordfile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.AutocallscoredemoVo" >
+    update T_SQ_AUTOCALLSCOREDEMO
+    set CUSTID = #{custid,jdbcType=DECIMAL},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      ROUTESCORE = #{routescore,jdbcType=DECIMAL},
+      DRIVERSCORE = #{driverscore,jdbcType=DECIMAL},
+      CASHIERSCORE = #{cashierscore,jdbcType=DECIMAL},
+      SOURCEID = #{sourceid,jdbcType=DECIMAL},
+      SCORETIME = #{scoretime,jdbcType=TIMESTAMP},
+      PLANID = #{planid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DRIVERID = #{driverid,jdbcType=DECIMAL},
+      CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      COMPANYSCORE = #{companyscore,jdbcType=DECIMAL},
+      RECORDFILE = #{recordfile,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

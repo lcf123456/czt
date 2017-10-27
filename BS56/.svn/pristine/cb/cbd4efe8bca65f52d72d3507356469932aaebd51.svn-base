@@ -1,0 +1,293 @@
+package com.ztel.app.vo.cost;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class EquipmentRepairVo {
+    /**
+     * 序号ID
+     */
+    private BigDecimal id;
+
+    /**
+     * 设备id（对应T_COST_EQUIPMENT的id）
+     */
+    private BigDecimal equipid;
+
+    /**
+     * 维修原因
+     */
+    private String reason;
+
+    /**
+     * 维修内容
+     */
+    private String contentlist;
+
+    /**
+     * 维修时间
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date repairtime;
+
+    /**
+     * 消耗备件
+     */
+    private String spareparts;
+
+    /**
+     * 维修金额
+     */
+    private BigDecimal amount;
+
+    /**
+     * 维修结果
+     */
+    private String repairresult;
+
+    /**
+     * 是否核算：0：未核算 10：已核算
+     */
+    private BigDecimal auditflag;
+
+    /**
+     * 创建日期
+     */
+    private Date createtime;
+
+    /**
+     * 创建用户id
+     */
+    private Long userid;
+
+    /**
+     * 创建用户姓名
+     */
+    private String username;
+
+    /**
+     * 0:删除  10：启用
+     */
+    private BigDecimal delstatus;
+    /**
+     * 设备名称
+     */
+    private String equipname;
+    public String getEquipname() {
+		return equipname;
+	}
+
+	public void setEquipname(String equipname) {
+		this.equipname = equipname;
+	}
+
+	/**
+     * 序号ID
+     * @return ID 序号ID
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * 序号ID
+     * @param id 序号ID
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 设备id（对应T_COST_EQUIPMENT的id）
+     * @return EQUIPID 设备id（对应T_COST_EQUIPMENT的id）
+     */
+    public BigDecimal getEquipid() {
+        return equipid;
+    }
+
+    /**
+     * 设备id（对应T_COST_EQUIPMENT的id）
+     * @param equipid 设备id（对应T_COST_EQUIPMENT的id）
+     */
+    public void setEquipid(BigDecimal equipid) {
+        this.equipid = equipid;
+    }
+
+    /**
+     * 维修原因
+     * @return REASON 维修原因
+     */
+    public String getReason() {
+        return reason;
+    }
+
+    /**
+     * 维修原因
+     * @param reason 维修原因
+     */
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
+    }
+
+    /**
+     * 维修内容
+     * @return CONTENTLIST 维修内容
+     */
+    public String getContentlist() {
+        return contentlist;
+    }
+
+    /**
+     * 维修内容
+     * @param contentlist 维修内容
+     */
+    public void setContentlist(String contentlist) {
+        this.contentlist = contentlist == null ? null : contentlist.trim();
+    }
+
+    /**
+     * 维修时间
+     * @return REPAIRTIME 维修时间
+     */
+    public Date getRepairtime() {
+        return repairtime;
+    }
+
+    /**
+     * 维修时间
+     * @param repairtime 维修时间
+     */
+    public void setRepairtime(Date repairtime) {
+        this.repairtime = repairtime;
+    }
+
+    /**
+     * 消耗备件
+     * @return SPAREPARTS 消耗备件
+     */
+    public String getSpareparts() {
+        return spareparts;
+    }
+
+    /**
+     * 消耗备件
+     * @param spareparts 消耗备件
+     */
+    public void setSpareparts(String spareparts) {
+        this.spareparts = spareparts == null ? null : spareparts.trim();
+    }
+
+    /**
+     * 维修金额
+     * @return AMOUNT 维修金额
+     */
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    /**
+     * 维修金额
+     * @param amount 维修金额
+     */
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * 维修结果
+     * @return REPAIRRESULT 维修结果
+     */
+    public String getRepairresult() {
+        return repairresult;
+    }
+
+    /**
+     * 维修结果
+     * @param repairresult 维修结果
+     */
+    public void setRepairresult(String repairresult) {
+        this.repairresult = repairresult == null ? null : repairresult.trim();
+    }
+
+    /**
+     * 是否核算：0：未核算 10：已核算
+     * @return AUDITFLAG 是否核算：0：未核算 10：已核算
+     */
+    public BigDecimal getAuditflag() {
+        return auditflag;
+    }
+
+    /**
+     * 是否核算：0：未核算 10：已核算
+     * @param auditflag 是否核算：0：未核算 10：已核算
+     */
+    public void setAuditflag(BigDecimal auditflag) {
+        this.auditflag = auditflag;
+    }
+
+    /**
+     * 创建日期
+     * @return CREATETIME 创建日期
+     */
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    /**
+     * 创建日期
+     * @param createtime 创建日期
+     */
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    /**
+     * 创建用户id
+     * @return USERID 创建用户id
+     */
+    public Long getUserid() {
+        return userid;
+    }
+
+    /**
+     * 创建用户id
+     * @param userid 创建用户id
+     */
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
+
+    /**
+     * 创建用户姓名
+     * @return USERNAME 创建用户姓名
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * 创建用户姓名
+     * @param username 创建用户姓名
+     */
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    /**
+     * 0:删除  10：启用
+     * @return DELSTATUS 0:删除  10：启用
+     */
+    public BigDecimal getDelstatus() {
+        return delstatus;
+    }
+
+    /**
+     * 0:删除  10：启用
+     * @param delstatus 0:删除  10：启用
+     */
+    public void setDelstatus(BigDecimal delstatus) {
+        this.delstatus = delstatus;
+    }
+}

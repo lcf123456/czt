@@ -1,0 +1,51 @@
+package com.ztel.app.service.cost.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.cost.SuppliesImpVoMapper;
+import com.ztel.app.service.cost.SuppliesImpVoService;
+import com.ztel.app.vo.cost.SuppliesImpVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class SuppliesImpVoServiceImpl implements SuppliesImpVoService{
+
+@Autowired
+    private SuppliesImpVoMapper suppliesImpVoMapper =null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public SuppliesImpVoServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+        //sortKeyMapping.put(key, value)
+		sortKeyMapping.put("imptime", "imptime");
+		sortKeyMapping.put("typename", "typename");
+		sortKeyMapping.put("suppliername", "suppliername");
+	}
+
+	@Override
+	public List<SuppliesImpVo> getSuppliesImpPageList(Pagination<?> page) {
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.suppliesImpVoMapper.getSuppliesImpPageList(page);
+	}
+
+	@Override
+	public int doRefundSupplies(SuppliesImpVo suppliesImpVo) {
+		// TODO Auto-generated method stub
+		return this.suppliesImpVoMapper.updateByPrimaryKeySelective(suppliesImpVo);
+	}
+
+	@Override
+	public int doInsertSuppliesImp(SuppliesImpVo suppliesImpVo) {
+		// TODO Auto-generated method stub
+		return this.suppliesImpVoMapper.insertSelective(suppliesImpVo);
+	}
+
+		 
+	}
+	

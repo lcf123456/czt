@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.TouchSysInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.TouchSysInfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PUBLISHID" property="publishid" jdbcType="DECIMAL" />
+    <result column="PUBLISHDATE" property="publishdate" jdbcType="TIMESTAMP" />
+    <result column="BEGDATA" property="begdata" jdbcType="TIMESTAMP" />
+    <result column="ENDDATA" property="enddata" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DISPLAY" property="display" jdbcType="VARCHAR" />
+    <result column="LOCATION" property="location" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ztel.app.vo.sq.TouchSysInfoVo" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PUBLISHID, PUBLISHDATE, BEGDATA, ENDDATA, STATUS, DISPLAY, LOCATION, TITLE
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_SQ_TOUCH_SYSINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SQ_TOUCH_SYSINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.TouchSysInfoVo" >
+    insert into T_SQ_TOUCH_SYSINFO (ID, PUBLISHID, PUBLISHDATE, 
+      BEGDATA, ENDDATA, STATUS, 
+      DISPLAY, LOCATION, TITLE, 
+      CONTENT)
+    values (#{id,jdbcType=DECIMAL}, #{publishid,jdbcType=DECIMAL}, #{publishdate,jdbcType=TIMESTAMP}, 
+      #{begdata,jdbcType=TIMESTAMP}, #{enddata,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{display,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.TouchSysInfoVo" >
+    insert into T_SQ_TOUCH_SYSINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="publishid != null" >
+        PUBLISHID,
+      </if>
+      <if test="publishdate != null" >
+        PUBLISHDATE,
+      </if>
+      <if test="begdata != null" >
+        BEGDATA,
+      </if>
+      <if test="enddata != null" >
+        ENDDATA,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="display != null" >
+        DISPLAY,
+      </if>
+      <if test="location != null" >
+        LOCATION,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="publishid != null" >
+        #{publishid,jdbcType=DECIMAL},
+      </if>
+      <if test="publishdate != null" >
+        #{publishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begdata != null" >
+        #{begdata,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddata != null" >
+        #{enddata,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null" >
+        #{display,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.TouchSysInfoVo" >
+    update T_SQ_TOUCH_SYSINFO
+    <set >
+      <if test="publishid != null" >
+        PUBLISHID = #{publishid,jdbcType=DECIMAL},
+      </if>
+      <if test="publishdate != null" >
+        PUBLISHDATE = #{publishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begdata != null" >
+        BEGDATA = #{begdata,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddata != null" >
+        ENDDATA = #{enddata,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null" >
+        DISPLAY = #{display,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        LOCATION = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ztel.app.vo.sq.TouchSysInfoVo" >
+    update T_SQ_TOUCH_SYSINFO
+    set PUBLISHID = #{publishid,jdbcType=DECIMAL},
+      PUBLISHDATE = #{publishdate,jdbcType=TIMESTAMP},
+      BEGDATA = #{begdata,jdbcType=TIMESTAMP},
+      ENDDATA = #{enddata,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      DISPLAY = #{display,jdbcType=VARCHAR},
+      LOCATION = #{location,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=CLOB}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.TouchSysInfoVo" >
+    update T_SQ_TOUCH_SYSINFO
+    set PUBLISHID = #{publishid,jdbcType=DECIMAL},
+      PUBLISHDATE = #{publishdate,jdbcType=TIMESTAMP},
+      BEGDATA = #{begdata,jdbcType=TIMESTAMP},
+      ENDDATA = #{enddata,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      DISPLAY = #{display,jdbcType=VARCHAR},
+      LOCATION = #{location,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

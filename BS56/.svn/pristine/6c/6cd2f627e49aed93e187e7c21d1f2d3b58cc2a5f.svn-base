@@ -1,0 +1,90 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.service.sys.impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.sys.BasetypeInfoVoMapper;
+import com.ztel.app.service.sys.BaseTypeInfoService;
+import com.ztel.app.vo.sys.BasetypeInfoVo;
+
+/**
+ * @author NJ
+ * @since 2017年4月27日
+ */
+@Service
+public class BaseTypeInfoImpl implements BaseTypeInfoService {
+	
+	@Autowired
+	private BasetypeInfoVoMapper basetypeInfoVoMapper = null;
+	
+	
+	@Override
+	public List<BasetypeInfoVo> getBaseTypeinfoList(String typeCode) {
+		List<BasetypeInfoVo>list = new ArrayList<>();
+		if(typeCode!=null&&!"".equals(typeCode)){
+			list=basetypeInfoVoMapper.getBaseTypeInfoList(typeCode);
+		}
+		return list;
+	}
+
+	@Override
+	public List<HashMap<String, String>> getBaseTypeinfoCombobox(String typeCode) {
+		// TODO Auto-generated method stub
+		List<BasetypeInfoVo> treeList=getBaseTypeinfoList(typeCode);
+		 List<HashMap<String, String>> boxList=new ArrayList<>();
+		 if (treeList!=null&&treeList.size()>0) {
+			 for(int i=0;i<treeList.size();i++){
+				 BasetypeInfoVo vo=treeList.get(i);
+				 HashMap<String, String> map=new HashMap<String, String>();
+				 map.put("id", vo.getId().toString());
+				 map.put("contentlist", vo.getContentlist());
+				 //System.out.println(vo.getId().toString()+"-------------");
+				 //System.out.println(vo.getText()+"-------------");
+				 boxList.add(map);
+			 }
+		}
+		 
+		 return boxList;
+	}
+
+	/**
+	 * 取typecode列表
+	 */
+	@Override
+	public List<BasetypeInfoVo> getTypeList() {
+		// TODO Auto-generated method stub
+		return basetypeInfoVoMapper.getTypeList();
+	}
+
+	@Override
+	public void doBasetypeInfoNew(BasetypeInfoVo basetypeInfoVo) {
+		// TODO Auto-generated method stub
+		basetypeInfoVoMapper.insertSelective(basetypeInfoVo);
+	}
+
+	@Override
+	public void doBasetypeInfoUpdate(BasetypeInfoVo basetypeInfoVo) {
+		// TODO Auto-generated method stub
+		basetypeInfoVoMapper.updateByPrimaryKeySelective(basetypeInfoVo);
+	}
+
+	@Override
+	public void doBasetypeInfoDel(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		if(ids!=null&&ids.size()>0){
+			for(int id : ids){
+				basetypeInfoVoMapper.deleteByPrimaryKey(id);
+			}
+		}
+	}
+	
+
+}

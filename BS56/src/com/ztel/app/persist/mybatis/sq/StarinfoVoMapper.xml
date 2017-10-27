@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.StarinfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.StarinfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="STARNAME" property="starname" jdbcType="VARCHAR" />
+    <result column="MINSCORE" property="minscore" jdbcType="DECIMAL" />
+    <result column="MAXSCORE" property="maxscore" jdbcType="DECIMAL" />
+     <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, STARNAME, MINSCORE, MAXSCORE, CREATEID, UPDATETIME, REMARKS, DELSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_STARINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update T_SQ_STARINFO set delstatus='0'
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sq.StarinfoVo" >
+    insert into T_SQ_STARINFO (ID, STARNAME, MINSCORE, MAXSCORE, CREATEID, 
+      UPDATETIME, REMARKS, DELSTATUS)
+    values (#{id,jdbcType=DECIMAL}, #{starname,jdbcType=VARCHAR}, #{minscore,jdbcType=DECIMAL}, 
+      #{maxscore,jdbcType=DECIMAL}, '1',#{updatetime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR},  #{delstatus,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sq.StarinfoVo" >
+    insert into T_SQ_STARINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,updatetime,delstatus,
+      <if test="starname != null" >
+        STARNAME,
+      </if>
+      <if test="minscore != null" >
+        MINSCORE,
+      </if>
+      <if test="maxscore != null" >
+        MAXSCORE,
+      </if>
+       <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        s_sq_starinfo.nextval,sysdate,'10',
+      <if test="starname != null" >
+        #{starname,jdbcType=VARCHAR},
+      </if>
+      <if test="minscore != null" >
+        #{minscore,jdbcType=DECIMAL},
+      </if>
+      <if test="maxscore != null" >
+        #{maxscore,jdbcType=DECIMAL},
+      </if>
+         <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+       <if test="createid != null" >
+       #{createid,jdbcType=DECIMAL},
+       </if>
+      </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.StarinfoVo" >
+    update T_SQ_STARINFO
+    <set >
+      <if test="starname != null" >
+        STARNAME = #{starname,jdbcType=VARCHAR},
+      </if>
+      <if test="minscore != null" >
+        MINSCORE = #{minscore,jdbcType=DECIMAL},
+      </if>
+      <if test="maxscore != null" >
+        MAXSCORE = #{maxscore,jdbcType=DECIMAL},
+      </if>
+      <if test="createid != null" >
+       CREATEID =#{createid,jdbcType=DECIMAL},
+       </if>
+       UPDATETIME = sysdate,
+       <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.StarinfoVo" >
+    update T_SQ_STARINFO
+    set STARNAME = #{starname,jdbcType=VARCHAR},
+      MINSCORE = #{minscore,jdbcType=DECIMAL},
+      MAXSCORE = #{maxscore,jdbcType=DECIMAL},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      UPDATETIME = sysdate
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      where ID = #{id,jdbcType=DECIMAL}
+  </update>
+<select id="getStarinfoPageList" parameterType="Pagination" resultType="com.ztel.app.vo.sq.StarinfoVo">
+ select a.ID, STARNAME, MINSCORE, MAXSCORE, b.username,UPDATETIME,  REMARKS
+     from T_SQ_STARINFO a ,t_sys_user b where a.delstatus=10 and a.createid=b.id
+      <if test="param != null and param.starname != null and param.starname != ''" >
+        and (STARNAME like'%'||#{param.starname}||'%' or MINSCORE like'%'||#{param.starname}||'%' or REMARKS like'%'||#{param.starname}||'%')
+      </if> 
+</select>
+
+<select id="getStarinfo" resultType="com.ztel.app.vo.sq.StarinfoVo">
+ select a.ID, STARNAME, MINSCORE, MAXSCORE, b.username,UPDATETIME,  REMARKS
+     from T_SQ_STARINFO a ,t_sys_user b where a.delstatus=10 and a.createid=b.id
+      order by id 
+</select>
+</mapper>

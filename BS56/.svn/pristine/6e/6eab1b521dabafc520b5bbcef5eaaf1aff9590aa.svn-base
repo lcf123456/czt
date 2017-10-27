@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SPLTypeStockByDateVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SPLTypeStockByDateVo" >
+    <result column="TYPEID" property="typeid" jdbcType="DECIMAL" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+    <result column="MAINTYPEID" property="maintypeid" jdbcType="DECIMAL" />
+    <result column="MAINTYPENAME" property="maintypename" jdbcType="VARCHAR" />
+    <!-- <result column="SUPPLIERID" property="supplierid" jdbcType="DECIMAL" />
+    <result column="SUPPLIERNAME" property="suppliername" jdbcType="VARCHAR" /> -->
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" />
+    <result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+    <result column="LASTQTY" property="lastqty" jdbcType="DECIMAL" />
+    <result column="LASTAMOUNT" property="lastamount" jdbcType="DECIMAL" />
+    <result column="CURRQTY" property="currqty" jdbcType="DECIMAL" />
+    <result column="CURRAMOUNT" property="curramount" jdbcType="DECIMAL" />
+    <result column="IMPQTY" property="impqty" jdbcType="DECIMAL" />
+    <result column="IMPAMOUNT" property="impamount" jdbcType="DECIMAL" />
+    <result column="CONSUMEQTY" property="consumeqty" jdbcType="DECIMAL" />
+    <result column="CONSUMEAMOUNT" property="consumeamount" jdbcType="DECIMAL" />
+  </resultMap>
+  <!-- 时间段物资类型库存信息 -->
+  <select id="getSPLTypeStockByDate" parameterType="com.ztel.app.vo.cost.SPLTypeStockByDateVo" resultMap="BaseResultMap">
+		select * from (select a.typeid,lvl4.typename,a.unit,
+		decode(a.surplusqty,'',0,a.surplusqty)+decode(e.diffconsume,'',0,e.diffconsume)-decode(d.diffimp,'',0,d.diffimp)+decode(g.diffrefund,'',0,g.diffrefund) as currqty,
+		round(decode(a.totalamount,'',0,a.totalamount)+decode(e.diffcsamount,'',0,e.diffcsamount)-decode(d.diffimpamount,'',0,d.diffimpamount)+decode(g.diffrefamount,'',0,g.diffrefamount),3) as curramount,         
+		decode(a.surplusqty,'',0,a.surplusqty)+decode(e.diffconsume,'',0,e.diffconsume)-decode(d.diffimp,'',0,d.diffimp)+decode(g.diffrefund,'',0,g.diffrefund)
+		+decode(c.consumeqty,'',0,c.consumeqty)-decode(b.impqty,'',0,b.impqty) as lastqty,
+		round(decode(a.totalamount,'',0,a.totalamount)+decode(e.diffcsamount,'',0,e.diffcsamount)-decode(d.diffimpamount,'',0,d.diffimpamount)
+		+decode(g.diffrefamount,'',0,g.diffrefamount)+decode(c.consumeamount,'',0,c.consumeamount)-decode(b.impamount,'',0,b.impamount),3) as lastamount,
+		decode(b.impqty,'',0,b.impqty)as impqty,round(decode(b.impamount,'',0,b.impamount),3)as impamount,
+		decode(c.consumeqty,'',0,c.consumeqty)as consumeqty,round(decode(c.consumeamount,'',0,c.consumeamount),3)as consumeamount,
+		lvl2.id as maintypeid,lvl2.typename as maintypename 
+		from t_cost_spltypeinfo lvl4,t_cost_spltypeinfo lvl3,t_cost_spltypeinfo lvl2,   
+		t_cost_spltypestock a left outer join    
+		(select typeid,sum(initqty)as impqty,round(sum(totalamount),3)as impamount from t_cost_suppliesimp    
+		where imptime>=to_date(#{begdate},'yyyy-MM-dd') and imptime&lt;to_date(#{enddate},'yyyy-MM-dd')+1 group by typeid)b    
+		on a.typeid=b.typeid left outer join    
+		(select typeid,sum(quantity) as consumeqty,round(sum(quantity*price),3)as consumeamount from t_cost_splconsume    
+		where issuedate>=to_date(#{begdate},'yyyy-MM-dd') and issuedate&lt;=to_date(#{enddate},'yyyy-MM-dd')group by typeid)c    
+		on a.typeid=c.typeid left outer join    (select typeid,sum(initqty)as diffimp,round(sum(totalamount),3)as diffimpamount from t_cost_suppliesimp    
+		where imptime>=to_date(#{enddate},'yyyy-MM-dd')+1 group by typeid)d    
+		on a.typeid=d.typeid left outer join    
+		(select typeid,sum(quantity) as diffconsume,round(sum(quantity*price),3)as diffcsamount from t_cost_splconsume    
+		where issuedate>to_date(#{enddate},'yyyy-MM-dd') group by typeid)e    
+		on a.typeid=e.typeid left outer join    
+		(select typeid,sum(refundqty)as refundqty,round(sum(refundqty*price),3)as refundamount from t_cost_suppliesimp    
+		where refunddate>=to_date(#{begdate},'yyyy-MM-dd') and refunddate&lt;to_date(#{enddate},'yyyy-MM-dd')+1 group by typeid)f    
+		on a.typeid=f.typeid  left outer join    
+		(select typeid,sum(refundqty)as diffrefund,round(sum(refundqty*price),3)as diffrefamount from t_cost_suppliesimp    
+		where refunddate>=to_date(#{enddate},'yyyy-MM-dd')+1 group by typeid)g    
+		on a.typeid=g.typeid where a.typeid=lvl4.id and lvl4.fid=lvl3.id and lvl3.fid=lvl2.id
+		<if test="param != null and param != '' " >
+        	and lvl4.typename like '%'||#{param}||'%'
+	    </if>
+	    <if test="maintypeid != null and maintypeid !=0" >
+            and lvl2.id=#{maintypeid}
+        </if>
+		)
+		where (lastqty&lt;>0 or impqty>0)
+		order by maintypeid,typename
+  </select>
+</mapper>

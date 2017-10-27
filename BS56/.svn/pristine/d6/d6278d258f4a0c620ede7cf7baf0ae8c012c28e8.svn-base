@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.perform.KeyworkVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.perform.KeyworkVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="TARGET" property="target" jdbcType="VARCHAR" />
+    <result column="FINISHDATE" property="finishdate" jdbcType="VARCHAR" />
+    <result column="PROCESS" property="process" jdbcType="VARCHAR" />
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+    <result column="FINISHNOTE" property="finishnote" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="APPRAISE" property="appraise" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="WORKDATE" property="workdate" jdbcType="TIMESTAMP" />
+    <result column="CHECKWAY" property="checkway" jdbcType="VARCHAR" />
+    <result column="COORDINATE" property="coordinate" jdbcType="VARCHAR" />
+    <result column="SUGGESTION" property="suggestion" jdbcType="VARCHAR" />
+    <result column="SELFSCORE" property="selfscore" jdbcType="DECIMAL" />
+    <result column="OTHERSCORE" property="otherscore" jdbcType="DECIMAL" />
+    <result column="PARTAKE" property="partake" jdbcType="VARCHAR" />
+    <result column="ISSUEFLAG" property="issueflag" jdbcType="VARCHAR" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+    <result column="PLANFINISHNOTE" property="planfinishnote" jdbcType="VARCHAR" />
+    <result column="ACTUALNOTE" property="actualnote" jdbcType="VARCHAR" />
+    <result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+    <result column="STATUSNAME" property="statusname" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CONTENT, TARGET, FINISHDATE, PROCESS, WEIGHT, FINISHNOTE, STATUS, APPRAISE, DEPTID, 
+    CREATEID, CREATEDATE, REMARKS, USERID, WORKDATE, CHECKWAY, COORDINATE, SUGGESTION, 
+    SELFSCORE, OTHERSCORE, PARTAKE, ISSUEFLAG, FID, CTYPE, PLANFINISHNOTE, ACTUALNOTE
+  </sql>
+  
+       <!-- 根据输入条件获取列表 -->
+  <select id="selectListByCond" resultType="com.ztel.app.vo.perform.KeyworkVo" parameterType="com.ztel.app.vo.perform.KeyworkVo" >
+    select 
+     k.ID, k.CONTENT, k.TARGET, k.FINISHDATE, k.PROCESS,k.WEIGHT, k.FINISHNOTE, k.STATUS, k.APPRAISE, k.DEPTID, 
+    k.CREATEID, k.CREATEDATE, k.REMARKS, k.USERID, k.WORKDATE, k.CHECKWAY, k.COORDINATE, k.SUGGESTION, 
+    k.SELFSCORE, k.OTHERSCORE, k.PARTAKE, k.ISSUEFLAG, k.FID, k.CTYPE, k.PLANFINISHNOTE, k.ACTUALNOTE,
+    decode(k.STATUS,'0','新增',' 10','部长审核','20','总经理审核',' 30','办公室下发') as STATUSNAME,
+    u.username as createname,d.deptname 
+      from T_PERFORM_KEYWORK k 
+      left outer join t_sys_user u on k.CREATEID=u.id 
+      left outer join t_sys_dept d on k.deptid = d.id
+    where 1=1 
+    <if test="fid != null ">
+        AND  k.FID = #{fid,jdbcType=DECIMAL}
+    </if>
+    <if test="ctype != null and ctype != '' ">
+        AND  k.CTYPE = #{ctype,jdbcType=VARCHAR}
+    </if>
+    <if test="keyword != null and keyword != '' ">
+        AND  (k.createname like '%'||#{keyword,jdbcType=VARCHAR}||'%' or k.PARTAKE like '%'||#{keyword,jdbcType=VARCHAR})
+    </if>
+    <if test="deptid != null ">
+        AND  k.DEPTID = #{deptid,jdbcType=DECIMAL}
+    </if>
+    <if test="workdate != null ">
+        AND  trunc(k.WORKDATE) = #{workdate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createid != null ">
+        AND  k.CREATEID = #{createid,jdbcType=DECIMAL}
+    </if>
+    order by id desc
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PERFORM_KEYWORK
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_PERFORM_KEYWORK
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.perform.KeyworkVo" >
+    insert into T_PERFORM_KEYWORK (ID, CONTENT, TARGET, 
+      FINISHDATE, PROCESS, WEIGHT, 
+      FINISHNOTE, STATUS, APPRAISE, 
+      DEPTID, CREATEID, CREATEDATE, 
+      REMARKS, USERID, WORKDATE, 
+      CHECKWAY, COORDINATE, SUGGESTION, 
+      SELFSCORE, OTHERSCORE, PARTAKE, 
+      ISSUEFLAG, FID, CTYPE, 
+      PLANFINISHNOTE, ACTUALNOTE)
+    values (#{id,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR}, 
+      #{finishdate,jdbcType=VARCHAR}, #{process,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, 
+      #{finishnote,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{appraise,jdbcType=VARCHAR}, 
+      #{deptid,jdbcType=DECIMAL}, #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{userid,jdbcType=DECIMAL}, #{workdate,jdbcType=TIMESTAMP}, 
+      #{checkway,jdbcType=VARCHAR}, #{coordinate,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, 
+      #{selfscore,jdbcType=DECIMAL}, #{otherscore,jdbcType=DECIMAL}, #{partake,jdbcType=VARCHAR}, 
+      #{issueflag,jdbcType=VARCHAR}, #{fid,jdbcType=DECIMAL}, #{ctype,jdbcType=VARCHAR}, 
+      #{planfinishnote,jdbcType=VARCHAR}, #{actualnote,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.perform.KeyworkVo" >
+    insert into T_PERFORM_KEYWORK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="target != null" >
+        TARGET,
+      </if>
+      <if test="finishdate != null" >
+        FINISHDATE,
+      </if>
+      <if test="process != null" >
+        PROCESS,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="finishnote != null" >
+        FINISHNOTE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="appraise != null" >
+        APPRAISE,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="workdate != null" >
+        WORKDATE,
+      </if>
+      <if test="checkway != null" >
+        CHECKWAY,
+      </if>
+      <if test="coordinate != null" >
+        COORDINATE,
+      </if>
+      <if test="suggestion != null" >
+        SUGGESTION,
+      </if>
+      <if test="selfscore != null" >
+        SELFSCORE,
+      </if>
+      <if test="otherscore != null" >
+        OTHERSCORE,
+      </if>
+      <if test="partake != null" >
+        PARTAKE,
+      </if>
+      <if test="issueflag != null" >
+        ISSUEFLAG,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="planfinishnote != null" >
+        PLANFINISHNOTE,
+      </if>
+      <if test="actualnote != null" >
+        ACTUALNOTE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       S_PERFORM_KEYWORK.nextval,
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null" >
+        #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="finishdate != null" >
+        #{finishdate,jdbcType=VARCHAR},
+      </if>
+      <if test="process != null" >
+        #{process,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="finishnote != null" >
+        #{finishnote,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="appraise != null" >
+        #{appraise,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="workdate != null" >
+        #{workdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkway != null" >
+        #{checkway,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinate != null" >
+        #{coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestion != null" >
+        #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="selfscore != null" >
+        #{selfscore,jdbcType=DECIMAL},
+      </if>
+      <if test="otherscore != null" >
+        #{otherscore,jdbcType=DECIMAL},
+      </if>
+      <if test="partake != null" >
+        #{partake,jdbcType=VARCHAR},
+      </if>
+      <if test="issueflag != null" >
+        #{issueflag,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="planfinishnote != null" >
+        #{planfinishnote,jdbcType=VARCHAR},
+      </if>
+      <if test="actualnote != null" >
+        #{actualnote,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.perform.KeyworkVo" >
+    update T_PERFORM_KEYWORK
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null" >
+        TARGET = #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="finishdate != null" >
+        FINISHDATE = #{finishdate,jdbcType=VARCHAR},
+      </if>
+      <if test="process != null" >
+        PROCESS = #{process,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="finishnote != null" >
+        FINISHNOTE = #{finishnote,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="appraise != null" >
+        APPRAISE = #{appraise,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="workdate != null" >
+        WORKDATE = #{workdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkway != null" >
+        CHECKWAY = #{checkway,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinate != null" >
+        COORDINATE = #{coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestion != null" >
+        SUGGESTION = #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="selfscore != null" >
+        SELFSCORE = #{selfscore,jdbcType=DECIMAL},
+      </if>
+      <if test="otherscore != null" >
+        OTHERSCORE = #{otherscore,jdbcType=DECIMAL},
+      </if>
+      <if test="partake != null" >
+        PARTAKE = #{partake,jdbcType=VARCHAR},
+      </if>
+      <if test="issueflag != null" >
+        ISSUEFLAG = #{issueflag,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="planfinishnote != null" >
+        PLANFINISHNOTE = #{planfinishnote,jdbcType=VARCHAR},
+      </if>
+      <if test="actualnote != null" >
+        ACTUALNOTE = #{actualnote,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.perform.KeyworkVo" >
+    update T_PERFORM_KEYWORK
+    set CONTENT = #{content,jdbcType=VARCHAR},
+      TARGET = #{target,jdbcType=VARCHAR},
+      FINISHDATE = #{finishdate,jdbcType=VARCHAR},
+      PROCESS = #{process,jdbcType=VARCHAR},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      FINISHNOTE = #{finishnote,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      APPRAISE = #{appraise,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      USERID = #{userid,jdbcType=DECIMAL},
+      WORKDATE = #{workdate,jdbcType=TIMESTAMP},
+      CHECKWAY = #{checkway,jdbcType=VARCHAR},
+      COORDINATE = #{coordinate,jdbcType=VARCHAR},
+      SUGGESTION = #{suggestion,jdbcType=VARCHAR},
+      SELFSCORE = #{selfscore,jdbcType=DECIMAL},
+      OTHERSCORE = #{otherscore,jdbcType=DECIMAL},
+      PARTAKE = #{partake,jdbcType=VARCHAR},
+      ISSUEFLAG = #{issueflag,jdbcType=VARCHAR},
+      FID = #{fid,jdbcType=DECIMAL},
+      CTYPE = #{ctype,jdbcType=VARCHAR},
+      PLANFINISHNOTE = #{planfinishnote,jdbcType=VARCHAR},
+      ACTUALNOTE = #{actualnote,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

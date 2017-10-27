@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SuppliesImpVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SuppliesImpVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="SPLNAME" property="splname" jdbcType="VARCHAR" />
+    <result column="SPLBRAND" property="splbrand" jdbcType="VARCHAR" />
+    <result column="TYPEID" property="typeid" jdbcType="DECIMAL" />
+    <result column="SPEC" property="spec" jdbcType="VARCHAR" />
+    <result column="TOTALAMOUNT" property="totalamount" jdbcType="DECIMAL" />
+    <result column="UNITID" property="unitid" jdbcType="VARCHAR" />
+    <result column="SUPPLIERID" property="supplierid" jdbcType="DECIMAL" />
+    <result column="SERVICELIFE" property="servicelife" jdbcType="DECIMAL" />
+    <result column="DEPRECIATIONYEAR" property="depreciationyear" jdbcType="DECIMAL" />
+    <result column="SPLSTATUS" property="splstatus" jdbcType="DECIMAL" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="INITQTY" property="initqty" jdbcType="DECIMAL" />
+    <result column="CTYPE" property="ctype" jdbcType="DECIMAL" />
+    <result column="IMPTIME" property="imptime" jdbcType="TIMESTAMP" />
+    <result column="WAREHOUSEID" property="warehouseid" jdbcType="DECIMAL" />
+    <result column="STOCKSTATUS" property="stockstatus" jdbcType="DECIMAL" />
+    <result column="SETTLEMENTFLAG" property="settlementflag" jdbcType="VARCHAR" />
+    <result column="PRINTNUM" property="printnum" jdbcType="DECIMAL" />
+    <result column="SETTLEDATE" property="settledate" jdbcType="TIMESTAMP" />
+    <result column="REFUNDQTY" property="refundqty" jdbcType="DECIMAL" />
+    <result column="REFUNDDATE" property="refunddate" jdbcType="TIMESTAMP" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="LOCKQTY" property="lockqty" jdbcType="DECIMAL" />
+    <result column="SUPPLIERNAME" property="suppliername" jdbcType="VARCHAR" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+    <result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CODE, SPLNAME, SPLBRAND, TYPEID, SPEC, TOTALAMOUNT, UNITID, SUPPLIERID, SERVICELIFE, 
+    DEPRECIATIONYEAR, SPLSTATUS, UPDATETIME, PRICE, QUANTITY, INITQTY, CTYPE, IMPTIME, 
+    WAREHOUSEID, STOCKSTATUS, SETTLEMENTFLAG, PRINTNUM, SETTLEDATE, REFUNDQTY, REFUNDDATE, 
+    CREATEID, CREATEDATE, LOCKQTY
+  </sql>
+  <!-- 物资入库 -->
+  <select id="getSuppliesImpPageList" resultMap="BaseResultMap" parameterType="Pagination" >
+    select a.ID, CODE, SPLNAME, SPLBRAND, TYPEID, SPEC, TOTALAMOUNT, UNITID, SUPPLIERID, SERVICELIFE,      
+				DEPRECIATIONYEAR, SPLSTATUS, UPDATETIME, a.PRICE, QUANTITY, INITQTY, a.CTYPE, IMPTIME,      
+				WAREHOUSEID, STOCKSTATUS, SETTLEMENTFLAG, PRINTNUM, SETTLEDATE, REFUNDQTY, REFUNDDATE,      
+				CREATEID, CREATEDATE, LOCKQTY,b.supplier as SUPPLIERNAME,c.TYPENAME 
+    from t_cost_suppliesimp a,T_COST_SUPPLIERINFO b,T_COST_SPLTYPEINFO c
+	where a.supplierid=b.id and a.typeid=c.id and a.stockstatus=1 
+	<if test="param != null and param.param != null and param.param != ''" >
+        and (a.SPLNAME like'%'||#{param.param}||'%' or c.TYPENAME like'%'||#{param.param}||'%' or b.supplier like'%'||#{param.param}||'%'  )
+      </if>
+       <if test="param != null and param.begdate != null " >
+        and a.imptime>=to_date(#{param.begdate},'yyyy-MM-dd')
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and a.imptime &lt;= to_date(#{param.enddate},'yyyy-MM-dd') +1
+      </if>
+	order by a.imptime desc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_SUPPLIESIMP
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_COST_SUPPLIESIMP
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.SuppliesImpVo" >
+    insert into T_COST_SUPPLIESIMP (ID, CODE, SPLNAME, 
+      SPLBRAND, TYPEID, SPEC, 
+      TOTALAMOUNT, UNITID, SUPPLIERID, 
+      SERVICELIFE, DEPRECIATIONYEAR, SPLSTATUS, 
+      UPDATETIME, PRICE, QUANTITY, 
+      INITQTY, CTYPE, IMPTIME, 
+      WAREHOUSEID, STOCKSTATUS, SETTLEMENTFLAG, 
+      PRINTNUM, SETTLEDATE, REFUNDQTY, 
+      REFUNDDATE, CREATEID, CREATEDATE, 
+      LOCKQTY)
+    values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{splname,jdbcType=VARCHAR}, 
+      #{splbrand,jdbcType=VARCHAR}, #{typeid,jdbcType=DECIMAL}, #{spec,jdbcType=VARCHAR}, 
+      #{totalamount,jdbcType=DECIMAL}, #{unitid,jdbcType=VARCHAR}, #{supplierid,jdbcType=DECIMAL}, 
+      #{servicelife,jdbcType=DECIMAL}, #{depreciationyear,jdbcType=DECIMAL}, #{splstatus,jdbcType=DECIMAL}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{price,jdbcType=DECIMAL}, #{quantity,jdbcType=DECIMAL}, 
+      #{initqty,jdbcType=DECIMAL}, #{ctype,jdbcType=DECIMAL}, #{imptime,jdbcType=TIMESTAMP}, 
+      #{warehouseid,jdbcType=DECIMAL}, #{stockstatus,jdbcType=DECIMAL}, #{settlementflag,jdbcType=VARCHAR}, 
+      #{printnum,jdbcType=DECIMAL}, #{settledate,jdbcType=TIMESTAMP}, #{refundqty,jdbcType=DECIMAL}, 
+      #{refunddate,jdbcType=TIMESTAMP}, #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{lockqty,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.SuppliesImpVo" >
+    insert into T_COST_SUPPLIESIMP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="splname != null" >
+        SPLNAME,
+      </if>
+      <if test="splbrand != null" >
+        SPLBRAND,
+      </if>
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+      <if test="spec != null" >
+        SPEC,
+      </if>
+      <if test="totalamount != null" >
+        TOTALAMOUNT,
+      </if>
+      <if test="unitid != null" >
+        UNITID,
+      </if>
+      <if test="supplierid != null" >
+        SUPPLIERID,
+      </if>
+      <if test="servicelife != null" >
+        SERVICELIFE,
+      </if>
+      <if test="depreciationyear != null" >
+        DEPRECIATIONYEAR,
+      </if>
+      <if test="splstatus != null" >
+        SPLSTATUS,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="initqty != null" >
+        INITQTY,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="imptime != null" >
+        IMPTIME,
+      </if>
+      <if test="warehouseid != null" >
+        WAREHOUSEID,
+      </if>
+      <if test="stockstatus != null" >
+        STOCKSTATUS,
+      </if>
+      <if test="settlementflag != null" >
+        SETTLEMENTFLAG,
+      </if>
+      <if test="printnum != null" >
+        PRINTNUM,
+      </if>
+      <if test="settledate != null" >
+        SETTLEDATE,
+      </if>
+      <if test="refundqty != null" >
+        REFUNDQTY,
+      </if>
+      <if test="refunddate != null" >
+        REFUNDDATE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="lockqty != null" >
+        LOCKQTY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="splname != null" >
+        #{splname,jdbcType=VARCHAR},
+      </if>
+      <if test="splbrand != null" >
+        #{splbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=DECIMAL},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="totalamount != null" >
+        #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="unitid != null" >
+        #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null" >
+        #{supplierid,jdbcType=DECIMAL},
+      </if>
+      <if test="servicelife != null" >
+        #{servicelife,jdbcType=DECIMAL},
+      </if>
+      <if test="depreciationyear != null" >
+        #{depreciationyear,jdbcType=DECIMAL},
+      </if>
+      <if test="splstatus != null" >
+        #{splstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="initqty != null" >
+        #{initqty,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="imptime != null" >
+        #{imptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseid != null" >
+        #{warehouseid,jdbcType=DECIMAL},
+      </if>
+      <if test="stockstatus != null" >
+        #{stockstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementflag != null" >
+        #{settlementflag,jdbcType=VARCHAR},
+      </if>
+      <if test="printnum != null" >
+        #{printnum,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate != null" >
+        #{settledate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundqty != null" >
+        #{refundqty,jdbcType=DECIMAL},
+      </if>
+      <if test="refunddate != null" >
+        #{refunddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockqty != null" >
+        #{lockqty,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.SuppliesImpVo" >
+    update T_COST_SUPPLIESIMP
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="splname != null" >
+        SPLNAME = #{splname,jdbcType=VARCHAR},
+      </if>
+      <if test="splbrand != null" >
+        SPLBRAND = #{splbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        TYPEID = #{typeid,jdbcType=DECIMAL},
+      </if>
+      <if test="spec != null" >
+        SPEC = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="totalamount != null" >
+        TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="unitid != null" >
+        UNITID = #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null" >
+        SUPPLIERID = #{supplierid,jdbcType=DECIMAL},
+      </if>
+      <if test="servicelife != null" >
+        SERVICELIFE = #{servicelife,jdbcType=DECIMAL},
+      </if>
+      <if test="depreciationyear != null" >
+        DEPRECIATIONYEAR = #{depreciationyear,jdbcType=DECIMAL},
+      </if>
+      <if test="splstatus != null" >
+        SPLSTATUS = #{splstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="initqty != null" >
+        INITQTY = #{initqty,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="imptime != null" >
+        IMPTIME = #{imptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseid != null" >
+        WAREHOUSEID = #{warehouseid,jdbcType=DECIMAL},
+      </if>
+      <if test="stockstatus != null" >
+        STOCKSTATUS = #{stockstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementflag != null" >
+        SETTLEMENTFLAG = #{settlementflag,jdbcType=VARCHAR},
+      </if>
+      <if test="printnum != null" >
+        PRINTNUM = #{printnum,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate != null" >
+        SETTLEDATE = #{settledate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundqty != null" >
+        REFUNDQTY = #{refundqty,jdbcType=DECIMAL},
+      </if>
+      <if test="refunddate != null" >
+        REFUNDDATE = #{refunddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockqty != null" >
+        LOCKQTY = #{lockqty,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.SuppliesImpVo" >
+    update T_COST_SUPPLIESIMP
+    set CODE = #{code,jdbcType=VARCHAR},
+      SPLNAME = #{splname,jdbcType=VARCHAR},
+      SPLBRAND = #{splbrand,jdbcType=VARCHAR},
+      TYPEID = #{typeid,jdbcType=DECIMAL},
+      SPEC = #{spec,jdbcType=VARCHAR},
+      TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      UNITID = #{unitid,jdbcType=VARCHAR},
+      SUPPLIERID = #{supplierid,jdbcType=DECIMAL},
+      SERVICELIFE = #{servicelife,jdbcType=DECIMAL},
+      DEPRECIATIONYEAR = #{depreciationyear,jdbcType=DECIMAL},
+      SPLSTATUS = #{splstatus,jdbcType=DECIMAL},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      PRICE = #{price,jdbcType=DECIMAL},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      INITQTY = #{initqty,jdbcType=DECIMAL},
+      CTYPE = #{ctype,jdbcType=DECIMAL},
+      IMPTIME = #{imptime,jdbcType=TIMESTAMP},
+      WAREHOUSEID = #{warehouseid,jdbcType=DECIMAL},
+      STOCKSTATUS = #{stockstatus,jdbcType=DECIMAL},
+      SETTLEMENTFLAG = #{settlementflag,jdbcType=VARCHAR},
+      PRINTNUM = #{printnum,jdbcType=DECIMAL},
+      SETTLEDATE = #{settledate,jdbcType=TIMESTAMP},
+      REFUNDQTY = #{refundqty,jdbcType=DECIMAL},
+      REFUNDDATE = #{refunddate,jdbcType=TIMESTAMP},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      LOCKQTY = #{lockqty,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

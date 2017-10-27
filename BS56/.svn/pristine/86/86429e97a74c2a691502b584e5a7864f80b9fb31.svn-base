@@ -1,0 +1,16 @@
+package com.ztel.app.service.wms;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.ztel.app.vo.wms.OutBoundVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface OutBoundService {
+
+	public List<OutBoundVo> selectOutboundList(Pagination<?> page);;
+	
+	public void doSave(OutBoundVo outBoundVo);
+	
+	public void deleteOubboundById(List<BigDecimal> ids);
+}

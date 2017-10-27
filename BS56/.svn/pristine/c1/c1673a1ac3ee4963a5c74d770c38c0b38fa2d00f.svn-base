@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.CigarettedamagedVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.CigarettedamagedVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="INBOUNDID" property="inboundid" jdbcType="DECIMAL" />
+    <result column="CREATEUSER" property="createuser" jdbcType="DECIMAL" />
+    <result column="DAMAGEDDESCRIBE" property="damageddescribe" jdbcType="OTHER" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CHECKUSER" property="checkuser" jdbcType="DECIMAL" />
+    <result column="CHECKDESCRIBE" property="checkdescribe" jdbcType="OTHER" />
+    <result column="CHECKTIME" property="checktime" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="OTHER" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="CREATEUSERNAME" property="createusername" jdbcType="VARCHAR" />
+    <result column="CHECKUSERNAME" property="checkusername" jdbcType="VARCHAR" />
+    <result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+     <result column="NAVICERT" property="navicert" jdbcType="VARCHAR" />
+    <result column="CONTRACTNO" property="contractno" jdbcType="VARCHAR" />
+    <result column="CHECKFLAG" property="checkflag" jdbcType="VARCHAR" />
+    <result column="CHECKFLAGNAME" property="checkflagname" jdbcType="VARCHAR" />
+    <result column="TROUGHNUM" property="troughnum" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="OTHER" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="VARCHAR" />
+    <result column="ACTUALQTY" property="actualqty" jdbcType="DECIMAL" />
+    <result column="DAMAGEDTYPE" property="damagedtype" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="selectCigarettedamagedPageList" parameterType="Pagination" resultType="com.ztel.app.vo.wms.CigarettedamagedVo">
+    select c.ID, c.INBOUNDID, c.CREATEUSER, c.ACTUALQTY,
+      c.DAMAGEDDESCRIBE, c.CREATETIME, c.CHECKUSER, 
+      c.CHECKDESCRIBE, c.CHECKTIME, c.REMARKS, c.checkflag,decode(c.checkflag,'10','新增','20','审核通过','30','审核驳回','新增') as checkflagname,ib.NAVICERT,ib.CONTRACTNO,
+       c.QTY,u1.username as createusername,u2.username as checkusername
+    from T_WMS_CIGARETTEDAMAGED c left outer join t_sys_user u1 on c.createuser=u1.id
+    left outer join t_sys_user u2 on c.checkuser=u2.id
+    left outer join T_WMS_INBOUND ib on c.INBOUNDID=ib.INBOUNDID
+     where c.DELSTATUS=10 
+  <if test="param != null and param.keyword != null and param.keyword != ''">
+        AND (u1.username like '%'||#{param.keyword}||'%' or u2.username like '%'||#{param.keyword}||'%')
+    </if>
+    <if test="param != null and param.inboundid != null and param.inboundid != ''">
+        AND (c.INBOUNDID=#{param.inboundid} or ib.NAVICERT like '%'||#{param.inboundid}||'%' or ib.CONTRACTNO like '%'||#{param.inboundid}||'%')
+    </if>
+    <if test="param != null and param.damagedtype != null">
+        AND c.DAMAGEDTYPE = #{param.damagedtype}
+    </if>
+</select>
+
+  <!-- 根据输入条件获取列表 -->
+  <select id="selectListByCond" resultType="com.ztel.app.vo.wms.CigarettedamagedVo" parameterType="com.ztel.app.vo.wms.CigarettedamagedVo" >
+    select 
+    ID, INBOUNDID, CREATEUSER, ACTUALQTY
+      DAMAGEDDESCRIBE, CREATETIME, CHECKUSER, 
+      CHECKDESCRIBE, CHECKTIME, REMARKS, 
+      DELSTATUS, QTY,CHECKFLAG
+    from T_WMS_CIGARETTEDAMAGED
+    where delstatus=10 
+    <if test="inboundid != null and inboundid != ''">
+        AND  INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+    </if>
+  </select>
+
+<delete id="deleteByInboundid" parameterType="java.math.BigDecimal">
+    delete from T_WMS_CIGARETTEDAMAGED
+    where INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.CigarettedamagedVo" >
+    insert into T_WMS_CIGARETTEDAMAGED (ID, INBOUNDID, CREATEUSER, 
+      DAMAGEDDESCRIBE, CREATETIME, CHECKUSER, 
+      CHECKDESCRIBE, CHECKTIME, REMARKS, 
+      DELSTATUS, QTY,CHECKFLAG)
+    values (#{id,jdbcType=DECIMAL}, #{inboundid,jdbcType=DECIMAL}, #{createuser,jdbcType=DECIMAL}, 
+      #{damageddescribe,jdbcType=OTHER}, #{createtime,jdbcType=TIMESTAMP}, #{checkuser,jdbcType=DECIMAL}, 
+      #{checkdescribe,jdbcType=OTHER}, #{checktime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=OTHER}, 
+      #{delstatus,jdbcType=DECIMAL}, #{qty,jdbcType=DECIMAL}, '10')
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.wms.CigarettedamagedVo" >
+    insert into T_WMS_CIGARETTEDAMAGED
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="inboundid != null" >
+        INBOUNDID,
+      </if>
+      <if test="createuser != null" >
+        CREATEUSER,
+      </if>
+      <if test="damageddescribe != null" >
+        DAMAGEDDESCRIBE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="checkuser != null" >
+        CHECKUSER,
+      </if>
+      <if test="checkdescribe != null" >
+        CHECKDESCRIBE,
+      </if>
+      <if test="checktime != null" >
+        CHECKTIME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+        DELSTATUS,
+      <if test="qty != null" >
+        QTY,
+      </if>
+        CHECKFLAG,
+       <if test="actualqty != null" >
+        ACTUALQTY,
+        </if>
+       <if test="damagedtype != null" >
+        DAMAGEDTYPE,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_WMS_CIGARETTEDAMAGED.NEXTVAL,
+      <if test="inboundid != null" >
+        #{inboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=DECIMAL},
+      </if>
+      <if test="damageddescribe != null" >
+        #{damageddescribe,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkuser != null" >
+        #{checkuser,jdbcType=DECIMAL},
+      </if>
+      <if test="checkdescribe != null" >
+        #{checkdescribe,jdbcType=OTHER},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=OTHER},
+      </if>
+       '10',
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+       '10',
+       <if test="actualqty != null" >
+        #{actualqty,jdbcType=DECIMAL},
+      </if>
+      <if test="damagedtype != null" >
+        #{damagedtype,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+    <update id="updateByInboundidSelective" parameterType="com.ztel.app.vo.wms.CigarettedamagedVo" >
+    update T_WMS_CIGARETTEDAMAGED
+    <set >
+      <if test="checkuser != null" >
+       checkuser = #{checkuser,jdbcType=DECIMAL},
+      </if>
+      <if test="checkdescribe != null" >
+        checkdescribe = #{checkdescribe,jdbcType=OTHER},
+      </if>
+      <if test="checktime != null" >
+        checktime = sysdate,
+      </if>
+      <if test="checkflag != null" >
+        checkflag = #{checkflag,jdbcType=OTHER},
+      </if>
+      <if test="qty != null" >
+        QTY = QTY + #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="actualqty != null" >
+        ACTUALQTY = ACTUALQTY + #{actualqty,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS =  #{delstatus},
+      </if>
+    </set>
+    where INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

@@ -1,0 +1,10 @@
+package com.ztel.app.service.cost;
+
+import java.util.List;
+
+import com.ztel.app.vo.cost.SPLTypeInfoVo;
+
+public interface SPLTypeServcie {
+
+	public List<SPLTypeInfoVo> getSPLTypeList(String id);
+}

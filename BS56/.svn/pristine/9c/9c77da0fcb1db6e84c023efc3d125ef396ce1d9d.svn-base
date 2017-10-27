@@ -1,0 +1,42 @@
+package com.ztel.app.persist.mybatis.sq;
+
+import com.ztel.app.vo.sq.RouteMonthstarVo;
+import java.math.BigDecimal;
+
+public interface RouteMonthstarVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int insert(RouteMonthstarVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int insertSelective(RouteMonthstarVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    RouteMonthstarVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int updateByPrimaryKeySelective(RouteMonthstarVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-04-18
+     */
+    int updateByPrimaryKey(RouteMonthstarVo record);
+}

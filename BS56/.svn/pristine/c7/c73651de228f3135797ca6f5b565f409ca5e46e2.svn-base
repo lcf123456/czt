@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.MoveareastockVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.MoveareastockVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SOURCEAREAID" property="sourceareaid" jdbcType="DECIMAL" />
+    <result column="SOURCEAREANAME" property="sourceareaname" jdbcType="VARCHAR" />
+    <result column="TARGETAREAID" property="targetareaid" jdbcType="DECIMAL" />
+    <result column="TARGETAREANAME" property="targetareaname" jdbcType="VARCHAR" />
+    <result column="BOXQTY" property="boxqty" jdbcType="DECIMAL" />
+    <result column="BARQTY" property="barqty" jdbcType="DECIMAL" />
+    <result column="CREATEUSER" property="createuser" jdbcType="DECIMAL" />
+    <result column="CREATEUSERNAME" property="createusername" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="AUDITFLAG" property="auditflag" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+    <result column="OUTCHECKUSER" property="outcheckuser" jdbcType="DECIMAL" />
+    <result column="OUTCHECKUSERNAME" property="outcheckusername" jdbcType="VARCHAR" />
+    <result column="OUTCHECKTIME" property="outchecktime" jdbcType="TIMESTAMP" />
+    <result column="RECEIVECHECKUSER" property="receivecheckuser" jdbcType="DECIMAL" />
+    <result column="RECEIVECHECKUSERNAME" property="receivecheckusername" jdbcType="VARCHAR" />
+    <result column="RECEIVECHECKTIME" property="receivechecktime" jdbcType="TIMESTAMP" />
+    <result column="MOVETYPE" property="movetype" jdbcType="VARCHAR" />
+    <result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+    <result column="AUDITFLAGNAME" property="auditflagname" jdbcType="VARCHAR" />
+    <result column="MOVETYPENAME" property="movetypename" jdbcType="VARCHAR" />
+    <result column="CREATETIMESTR" property="createtimestr" jdbcType="VARCHAR" />
+    <result column="OUTCHECKTIMESTR" property="outchecktimestr" jdbcType="VARCHAR" />
+    <result column="RECEIVECHECKTIMESTR" property="receivechecktimestr" jdbcType="VARCHAR" />
+  </resultMap>
+
+   <select id="selectMoveareastockPageList" parameterType="Pagination" resultType="com.ztel.app.vo.wms.MoveareastockVo">
+    select ID, SOURCEAREAID, SOURCEAREANAME, 
+      TARGETAREAID, TARGETAREANAME, BOXQTY, 
+      BARQTY, CREATEUSER, CREATEUSERNAME, 
+      CREATETIME, AUDITFLAG, DELSTATUS, 
+      OUTCHECKUSER, OUTCHECKUSERNAME, OUTCHECKTIME, 
+      RECEIVECHECKUSER, RECEIVECHECKUSERNAME, 
+      RECEIVECHECKTIME,decode(AUDITFLAG,'10','新增','20','出库完成','30','收货完成') as AUDITFLAGNAME,
+      decode(MOVETYPE,'10','散烟区至分拣','20','散烟区至立库','30','通用移库')  as movetypename
+    from T_WMS_MOVEAREASTOCK
+     where DELSTATUS=10 
+  <if test="param != null and param.keyword != null and param.keyword != ''">
+        AND (SOURCEAREANAME like '%'||#{param.keyword}||'%' or TARGETAREANAME like '%'||#{param.keyword}||'%' 
+        or CREATEUSERNAME like '%'||#{param.keyword}||'%' or OUTCHECKUSERNAME like '%'||#{param.keyword}||'%' or RECEIVECHECKUSERNAME like '%'||#{param.keyword}||'%')
+    </if>
+    <if test="param != null and param.movetype != null">
+        AND MOVETYPE = #{param.movetype}
+    </if>
+</select>
+
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.MoveareastockVo" >
+    insert into T_WMS_MOVEAREASTOCK (ID, SOURCEAREAID, SOURCEAREANAME, 
+      TARGETAREAID, TARGETAREANAME, BOXQTY, 
+      BARQTY, CREATEUSER, CREATEUSERNAME, 
+      CREATETIME, AUDITFLAG, DELSTATUS, 
+      OUTCHECKUSER, OUTCHECKUSERNAME, OUTCHECKTIME, 
+      RECEIVECHECKUSER, RECEIVECHECKUSERNAME, 
+      RECEIVECHECKTIME)
+    values (#{id,jdbcType=DECIMAL}, #{sourceareaid,jdbcType=DECIMAL}, #{sourceareaname,jdbcType=VARCHAR}, 
+      #{targetareaid,jdbcType=DECIMAL}, #{targetareaname,jdbcType=VARCHAR}, #{boxqty,jdbcType=DECIMAL}, 
+      #{barqty,jdbcType=DECIMAL}, #{createuser,jdbcType=DECIMAL}, #{createusername,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{auditflag,jdbcType=DECIMAL}, #{delstatus,jdbcType=DECIMAL}, 
+      #{outcheckuser,jdbcType=DECIMAL}, #{outcheckusername,jdbcType=VARCHAR}, #{outchecktime,jdbcType=TIMESTAMP}, 
+      #{receivecheckuser,jdbcType=DECIMAL}, #{receivecheckusername,jdbcType=VARCHAR}, 
+      #{receivechecktime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.wms.MoveareastockVo" >
+    insert into T_WMS_MOVEAREASTOCK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="sourceareaid != null" >
+        SOURCEAREAID,
+      </if>
+      <if test="sourceareaname != null" >
+        SOURCEAREANAME,
+      </if>
+      <if test="targetareaid != null" >
+        TARGETAREAID,
+      </if>
+      <if test="targetareaname != null" >
+        TARGETAREANAME,
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY,
+      </if>
+      <if test="barqty != null" >
+        BARQTY,
+      </if>
+      <if test="createuser != null" >
+        CREATEUSER,
+      </if>
+      <if test="createusername != null" >
+        CREATEUSERNAME,
+      </if>
+        CREATETIME,
+      <if test="auditflag != null" >
+        AUDITFLAG,
+      </if>
+        DELSTATUS,
+      <if test="outcheckuser != null" >
+        OUTCHECKUSER,
+      </if>
+      <if test="outcheckusername != null" >
+        OUTCHECKUSERNAME,
+      </if>
+      <if test="outchecktime != null" >
+        OUTCHECKTIME,
+      </if>
+      <if test="receivecheckuser != null" >
+        RECEIVECHECKUSER,
+      </if>
+      <if test="receivecheckusername != null" >
+        RECEIVECHECKUSERNAME,
+      </if>
+      <if test="receivechecktime != null" >
+        RECEIVECHECKTIME,
+      </if>
+      <if test="movetype != null" >
+        MOVETYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceareaid != null" >
+        #{sourceareaid,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceareaname != null" >
+        #{sourceareaname,jdbcType=VARCHAR},
+      </if>
+      <if test="targetareaid != null" >
+        #{targetareaid,jdbcType=DECIMAL},
+      </if>
+      <if test="targetareaname != null" >
+        #{targetareaname,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="barqty != null" >
+        #{barqty,jdbcType=DECIMAL},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=DECIMAL},
+      </if>
+      <if test="createusername != null" >
+        #{createusername,jdbcType=VARCHAR},
+      </if>
+       sysdate,
+      <if test="auditflag != null" >
+        #{auditflag,jdbcType=DECIMAL},
+      </if>
+        10,
+      <if test="outcheckuser != null" >
+        #{outcheckuser,jdbcType=DECIMAL},
+      </if>
+      <if test="outcheckusername != null" >
+        #{outcheckusername,jdbcType=VARCHAR},
+      </if>
+      <if test="outchecktime != null" >
+        #{outchecktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivecheckuser != null" >
+        #{receivecheckuser,jdbcType=DECIMAL},
+      </if>
+      <if test="receivecheckusername != null" >
+        #{receivecheckusername,jdbcType=VARCHAR},
+      </if>
+      <if test="receivechecktime != null" >
+        #{receivechecktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="movetype != null" >
+        #{movetype,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

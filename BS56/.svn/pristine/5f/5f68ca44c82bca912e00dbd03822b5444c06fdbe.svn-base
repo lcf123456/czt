@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.EquipmentRpairVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.EquipmentRpairVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EQUIPID" property="equipid" jdbcType="DECIMAL" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="CONTENTLIST" property="contentlist" jdbcType="VARCHAR" />
+    <result column="REPAIRTIME" property="repairtime" jdbcType="TIMESTAMP" />
+    <result column="SPAREPARTS" property="spareparts" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="REPAIRRESULT" property="repairresult" jdbcType="VARCHAR" />
+    <result column="AUDITFLAG" property="auditflag" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.EquipmentRpairVo" >
+    insert into T_COST_EQUIPMENTREPAIR (ID, EQUIPID, REASON, 
+      CONTENTLIST, REPAIRTIME, SPAREPARTS, 
+      AMOUNT, REPAIRRESULT, AUDITFLAG, 
+      CREATETIME, USERID, USERNAME, 
+      DELSTATUS)
+    values (#{id,jdbcType=DECIMAL}, #{equipid,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, 
+      #{contentlist,jdbcType=VARCHAR}, #{repairtime,jdbcType=TIMESTAMP}, #{spareparts,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{repairresult,jdbcType=VARCHAR}, #{auditflag,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, 
+      #{delstatus,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.EquipmentRpairVo" >
+    insert into T_COST_EQUIPMENTREPAIR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="equipid != null" >
+        EQUIPID,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="contentlist != null" >
+        CONTENTLIST,
+      </if>
+      <if test="repairtime != null" >
+        REPAIRTIME,
+      </if>
+      <if test="spareparts != null" >
+        SPAREPARTS,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="repairresult != null" >
+        REPAIRRESULT,
+      </if>
+      <if test="auditflag != null" >
+        AUDITFLAG,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="equipid != null" >
+        #{equipid,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="contentlist != null" >
+        #{contentlist,jdbcType=VARCHAR},
+      </if>
+      <if test="repairtime != null" >
+        #{repairtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareparts != null" >
+        #{spareparts,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repairresult != null" >
+        #{repairresult,jdbcType=VARCHAR},
+      </if>
+      <if test="auditflag != null" >
+        #{auditflag,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

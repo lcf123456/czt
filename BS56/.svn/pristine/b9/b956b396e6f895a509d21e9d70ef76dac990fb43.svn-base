@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.MenurolerelativeVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.MenurolerelativeVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MENUID" property="menuid" jdbcType="DECIMAL" />
+    <result column="SYSROLEID" property="sysroleid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+    <result column="ISSTARTUP" property="isstartup" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MENUID, SYSROLEID, REMARKS, SEQ, ISSTARTUP
+  </sql>
+  
+    <!-- 根据menuid和sysroleid，检查记录是否存在 -->
+  <select id="checkSetting" resultType="Integer" >
+    select 
+    count(*) as cnt
+    from T_SYS_MENUROLERELATIVE
+    where menuid = #{menuid} and sysroleid = #{sysroleid}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_MENUROLERELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_MENUROLERELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.MenurolerelativeVo" >
+    insert into T_SYS_MENUROLERELATIVE (ID, MENUID, SYSROLEID, 
+      REMARKS, SEQ, ISSTARTUP
+      )
+    values (#{id,jdbcType=DECIMAL}, #{menuid,jdbcType=DECIMAL}, #{sysroleid,jdbcType=DECIMAL}, 
+      #{remarks,jdbcType=VARCHAR}, #{seq,jdbcType=DECIMAL}, #{isstartup,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.MenurolerelativeVo" >
+    insert into T_SYS_MENUROLERELATIVE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="menuid != null" >
+        MENUID,
+      </if>
+      <if test="sysroleid != null" >
+        SYSROLEID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+      <if test="isstartup != null" >
+        ISSTARTUP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       S_SYS_PUB.nextval,
+      <if test="menuid != null" >
+        #{menuid,jdbcType=DECIMAL},
+      </if>
+      <if test="sysroleid != null" >
+        #{sysroleid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="isstartup != null" >
+        #{isstartup,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.MenurolerelativeVo" >
+    update T_SYS_MENUROLERELATIVE
+    <set >
+      <if test="menuid != null" >
+        MENUID = #{menuid,jdbcType=DECIMAL},
+      </if>
+      <if test="sysroleid != null" >
+        SYSROLEID = #{sysroleid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="isstartup != null" >
+        ISSTARTUP = #{isstartup,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.MenurolerelativeVo" >
+    update T_SYS_MENUROLERELATIVE
+    set MENUID = #{menuid,jdbcType=DECIMAL},
+      SYSROLEID = #{sysroleid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      SEQ = #{seq,jdbcType=DECIMAL},
+      ISSTARTUP = #{isstartup,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.MachinedamagedLineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.MachinedamagedLineVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="TROUGHNUM" property="troughnum" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="OTHER" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="VARCHAR" />
+    <result column="DAMAGEDQTY" property="damagedqty" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FID, TROUGHNUM, BARCODE, CIGARETTENAME, CIGARETTECODE, DAMAGEDQTY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_MACHINEDAMAGED_LINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_MACHINEDAMAGED_LINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.MachinedamagedLineVo" >
+    insert into T_WMS_MACHINEDAMAGED_LINE (ID, FID, TROUGHNUM, 
+      BARCODE, CIGARETTENAME, CIGARETTECODE, 
+      DAMAGEDQTY)
+    values (#{id,jdbcType=DECIMAL}, #{fid,jdbcType=DECIMAL}, #{troughnum,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=OTHER}, #{cigarettecode,jdbcType=VARCHAR}, 
+      #{damagedqty,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.MachinedamagedLineVo" >
+    insert into T_WMS_MACHINEDAMAGED_LINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="troughnum != null" >
+        TROUGHNUM,
+      </if>
+      <if test="barcode != null" >
+        BARCODE,
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME,
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE,
+      </if>
+      <if test="damagedqty != null" >
+        DAMAGEDQTY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="troughnum != null" >
+        #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null" >
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="damagedqty != null" >
+        #{damagedqty,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.MachinedamagedLineVo" >
+    update T_WMS_MACHINEDAMAGED_LINE
+    <set >
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="troughnum != null" >
+        TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        BARCODE = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="damagedqty != null" >
+        DAMAGEDQTY = #{damagedqty,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.MachinedamagedLineVo" >
+    update T_WMS_MACHINEDAMAGED_LINE
+    set FID = #{fid,jdbcType=DECIMAL},
+      TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      BARCODE = #{barcode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      DAMAGEDQTY = #{damagedqty,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

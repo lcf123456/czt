@@ -1,0 +1,84 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.wms.OutBoundLineVoMapper;
+import com.ztel.app.persist.mybatis.wms.OutBoundVoMapper;
+import com.ztel.app.service.wms.OutBoundService;
+import com.ztel.app.vo.wms.OutBoundLineVo;
+import com.ztel.app.vo.wms.OutBoundVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class OutBoundServiceImpl implements OutBoundService {
+
+	@Autowired
+	private OutBoundVoMapper outBoundVoMapper = null;
+	
+	@Autowired
+	private OutBoundLineVoMapper outBoundLineVoMapper = null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	public OutBoundServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+//		sortKeyMapping.put(key, value)
+		sortKeyMapping.put("outboundid", "outboundid");
+		sortKeyMapping.put("orderdate", "orderdate");
+		sortKeyMapping.put("outtime", "outtime");
+		sortKeyMapping.put("consignsor", "consignsor");
+		sortKeyMapping.put("createtime", "createtime");
+	}
+	
+	@Override
+	public List<OutBoundVo> selectOutboundList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		page.sortKeyToColumn(sortKeyMapping);
+		return outBoundVoMapper.selectOutoundPageList(page);
+	}
+
+	@Transactional(rollbackFor=Exception.class)
+	public void doSave(OutBoundVo outBoundVo){
+		//插入主表
+		outBoundVoMapper.insertSelective(outBoundVo);
+		
+		//插入明细
+		BigDecimal outboundid = outBoundVo.getOutboundid();
+		List<OutBoundLineVo> outBoundLineVoList = outBoundLineVoMapper.selectOrderLineList(outBoundVo);
+		if(outBoundLineVoList!=null && outBoundLineVoList.size()>0){
+			for(int i=0;i<outBoundLineVoList.size();i++){
+				OutBoundLineVo outBoundLineVo = outBoundLineVoList.get(i);
+				
+				OutBoundLineVo outBoundLineVo1 = new OutBoundLineVo();
+				outBoundLineVo1.setOutboundid(outboundid);
+				outBoundLineVo1.setItemqty(outBoundLineVo.getItemqty());
+				outBoundLineVo1.setCigarettecode(outBoundLineVo.getCigarettecode());
+				outBoundLineVo1.setCigarettename(outBoundLineVo.getCigarettename());
+				
+				 java.text.DecimalFormat   df   =new   java.text.DecimalFormat("#.00");
+				   String boxqty = df.format(outBoundLineVo.getItemqty().divide(outBoundLineVo.getJtsize()));
+				   
+				outBoundLineVo1.setBoxqty(new BigDecimal(boxqty));
+				
+				outBoundLineVoMapper.insertSelective(outBoundLineVo1);
+			}
+		}
+	}
+	
+	public void deleteOubboundById(List<BigDecimal> ids){
+		if(ids != null && ids.size() > 0) {
+			for (BigDecimal id : ids) {
+				OutBoundVo outBoundVo = new OutBoundVo();
+				outBoundVo.setOutboundid(id);
+				outBoundVo.setDelstatus(new BigDecimal("0"));
+				outBoundVoMapper.updateByPrimaryKeySelective(outBoundVo);
+			}
+		}
+	}
+}

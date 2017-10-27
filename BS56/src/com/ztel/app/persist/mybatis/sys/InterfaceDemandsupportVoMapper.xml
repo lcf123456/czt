@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.InterfaceDemandsupportVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.InterfaceDemandsupportVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DEMANDCONTENT" property="demandcontent" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="RESOURCES" property="resources" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="HEADERCONTENT" property="headercontent" jdbcType="VARCHAR" />
+    <result column="HEADERID" property="headerid" jdbcType="DECIMAL" />
+    <result column="REPLYCONTENT" property="replycontent" jdbcType="VARCHAR" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="DEMANDDATE" property="demanddate" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="AUDITFLAG" property="auditflag" jdbcType="VARCHAR" />
+    <result column="SBTFLAG" property="sbtflag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DEMANDCONTENT, DEPTID, RESOURCES, CREATEID, CREATEDATE, HEADERCONTENT, HEADERID, 
+    REPLYCONTENT, USERID, DEMANDDATE, REMARKS, AUDITFLAG, SBTFLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_INTERFACE_DEMANDSUPPORT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SYS_INTERFACE_DEMANDSUPPORT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.InterfaceDemandsupportVo" >
+    insert into T_SYS_INTERFACE_DEMANDSUPPORT (ID, DEMANDCONTENT, DEPTID, 
+      RESOURCES, CREATEID, CREATEDATE, 
+      HEADERCONTENT, HEADERID, REPLYCONTENT, 
+      USERID, DEMANDDATE, REMARKS, 
+      AUDITFLAG, SBTFLAG)
+    values (#{id,jdbcType=DECIMAL}, #{demandcontent,jdbcType=VARCHAR}, #{deptid,jdbcType=VARCHAR}, 
+      #{resources,jdbcType=VARCHAR}, #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{headercontent,jdbcType=VARCHAR}, #{headerid,jdbcType=DECIMAL}, #{replycontent,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=DECIMAL}, #{demanddate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, 
+      #{auditflag,jdbcType=VARCHAR}, #{sbtflag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.InterfaceDemandsupportVo" >
+    insert into T_SYS_INTERFACE_DEMANDSUPPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="demandcontent != null" >
+        DEMANDCONTENT,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="resources != null" >
+        RESOURCES,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="headercontent != null" >
+        HEADERCONTENT,
+      </if>
+      <if test="headerid != null" >
+        HEADERID,
+      </if>
+      <if test="replycontent != null" >
+        REPLYCONTENT,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="demanddate != null" >
+        DEMANDDATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="auditflag != null" >
+        AUDITFLAG,
+      </if>
+      <if test="sbtflag != null" >
+        SBTFLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="demandcontent != null" >
+        #{demandcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="resources != null" >
+        #{resources,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headercontent != null" >
+        #{headercontent,jdbcType=VARCHAR},
+      </if>
+      <if test="headerid != null" >
+        #{headerid,jdbcType=DECIMAL},
+      </if>
+      <if test="replycontent != null" >
+        #{replycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="demanddate != null" >
+        #{demanddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="auditflag != null" >
+        #{auditflag,jdbcType=VARCHAR},
+      </if>
+      <if test="sbtflag != null" >
+        #{sbtflag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.InterfaceDemandsupportVo" >
+    update T_SYS_INTERFACE_DEMANDSUPPORT
+    <set >
+      <if test="demandcontent != null" >
+        DEMANDCONTENT = #{demandcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="resources != null" >
+        RESOURCES = #{resources,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headercontent != null" >
+        HEADERCONTENT = #{headercontent,jdbcType=VARCHAR},
+      </if>
+      <if test="headerid != null" >
+        HEADERID = #{headerid,jdbcType=DECIMAL},
+      </if>
+      <if test="replycontent != null" >
+        REPLYCONTENT = #{replycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="demanddate != null" >
+        DEMANDDATE = #{demanddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="auditflag != null" >
+        AUDITFLAG = #{auditflag,jdbcType=VARCHAR},
+      </if>
+      <if test="sbtflag != null" >
+        SBTFLAG = #{sbtflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.InterfaceDemandsupportVo" >
+    update T_SYS_INTERFACE_DEMANDSUPPORT
+    set DEMANDCONTENT = #{demandcontent,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=VARCHAR},
+      RESOURCES = #{resources,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      HEADERCONTENT = #{headercontent,jdbcType=VARCHAR},
+      HEADERID = #{headerid,jdbcType=DECIMAL},
+      REPLYCONTENT = #{replycontent,jdbcType=VARCHAR},
+      USERID = #{userid,jdbcType=DECIMAL},
+      DEMANDDATE = #{demanddate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      AUDITFLAG = #{auditflag,jdbcType=VARCHAR},
+      SBTFLAG = #{sbtflag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

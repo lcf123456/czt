@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.gis.CurrlocationVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.gis.CurrlocationVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+    <result column="LOCK_NO" jdbcType="VARCHAR" property="lockNo" />
+    <result column="TRUCK_NUM" jdbcType="VARCHAR" property="truckNum" />
+    <result column="OUT_DATE" jdbcType="VARCHAR" property="outDate" />
+    <result column="ONLINE_TIME" jdbcType="DECIMAL" property="onlineTime" />
+    <result column="ONLINE_DISTANCE" jdbcType="DECIMAL" property="onlineDistance" />
+    <result column="AVG_SPEED" jdbcType="DECIMAL" property="avgSpeed" />
+    <result column="CURRENT_POS" jdbcType="VARCHAR" property="currentPos" />
+    <result column="LONGITUDE" jdbcType="DECIMAL" property="longitude" />
+    <result column="LATITUDE" jdbcType="DECIMAL" property="latitude" />
+    <result column="SPEED" jdbcType="DECIMAL" property="speed" />
+    <result column="DIRECTION" jdbcType="DECIMAL" property="direction" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="DEST_STO_CODE" jdbcType="VARCHAR" property="destStoCode" />
+    <result column="DEST_STO_NAME" jdbcType="VARCHAR" property="destStoName" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="ARRIVED_DATE" jdbcType="VARCHAR" property="arrivedDate" />
+    <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="ROWSTATUS" jdbcType="VARCHAR" property="rowstatus" />
+    <result column="ITIME" jdbcType="TIMESTAMP" property="itime" />
+    <result column="STATUSNAME" jdbcType="VARCHAR" property="statusname" />
+    <result column="KEYWORD" jdbcType="VARCHAR" property="keyword" />
+    <result column="ROWSTATUSNAME" jdbcType="VARCHAR" property="rowstatusname" />
+    
+     <result column="ORG_ORG_CODE" jdbcType="VARCHAR" property="orgOrgCode" />
+    <result column="ORG_ORG_NAME" jdbcType="VARCHAR" property="orgOrgName" />
+    <result column="TRAN_ORG_CODE" jdbcType="VARCHAR" property="tranOrgCode" />
+    <result column="TRAN_ORG_NAME" jdbcType="VARCHAR" property="tranOrgName" />
+    <result column="DRIVER_NAME" jdbcType="VARCHAR" property="driverName" />
+    <result column="TRANS_MODE" jdbcType="VARCHAR" property="transMode" />
+    <result column="IS_UNBIND" jdbcType="CHAR" property="isUnbind" />
+    <result column="MOBILE_TEL" jdbcType="VARCHAR" property="mobileTel" />
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BATCH_ID, LOCK_NO, TRUCK_NUM, OUT_DATE, ONLINE_TIME, ONLINE_DISTANCE, AVG_SPEED, 
+    CURRENT_POS, LONGITUDE, LATITUDE, SPEED, DIRECTION, ORDER_ID, DEST_STO_CODE, DEST_STO_NAME, 
+    STATUS, ARRIVED_DATE, UPDATETIME, ROWSTATUS, ITIME
+  </sql>
+  
+  <select id="getCurrlocationPageList" parameterType="Pagination" resultType="com.ztel.app.vo.gis.CurrlocationVo">
+    select 
+    curl.ID, curl.BATCH_ID, curl.LOCK_NO, curl.TRUCK_NUM, curl.OUT_DATE, curl.ONLINE_TIME,curl.ONLINE_DISTANCE, curl.AVG_SPEED, 
+    curl.CURRENT_POS, LONGITUDE, LATITUDE, SPEED, DIRECTION, curl.ORDER_ID, curl.DEST_STO_CODE, curl.DEST_STO_NAME, 
+    curl.STATUS, curl.ARRIVED_DATE, curl.UPDATETIME, curl.ROWSTATUS, curl.ITIME,decode(curl.STATUS,'00','在途','01','到货','到货') as statusname,
+    decode(curl.ROWSTATUS,'10','最新数据','20','历史数据','历史数据') as rowstatusname ,tinfo.ORG_ORG_CODE, tinfo.ORG_ORG_NAME, tinfo.TRAN_ORG_CODE, 
+    tinfo.TRAN_ORG_NAME, tinfo.DRIVER_NAME, decode(tinfo.TRANS_MODE,'01','汽车','02','03','飞机','04','轮船','05','其他','其他') as transMode, 
+    decode(tinfo.IS_UNBIND,'00','结束','01','在途','02','启运前') as isUnbind, tinfo.MOBILE_TEL
+     from T_GIS_CURRLOCATION curl left outer join T_GIS_TRUCKINFO tinfo
+     on curl.BATCH_ID=tinfo.BATCH_ID
+      where 1=1
+  <if test="param != null and param.status != null and param.status != ''">
+        AND curl.STATUS = #{param.status}
+    </if>
+    <if test="param != null and param.keyword != null and param.keyword != ''">
+        AND (curl.BATCH_ID like '%'||#{param.keyword}||'%' or curl.TRUCK_NUM like '%'||#{param.keyword}||'%' or curl.ORDER_ID like '%'||#{param.keyword}||'%')
+    </if>
+    order by curl.TRUCK_NUM
+</select>
+
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GIS_CURRLOCATION
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_GIS_CURRLOCATION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.gis.CurrlocationVo">
+    insert into T_GIS_CURRLOCATION (ID, BATCH_ID, LOCK_NO, 
+      TRUCK_NUM, OUT_DATE, ONLINE_TIME, 
+      ONLINE_DISTANCE, AVG_SPEED, CURRENT_POS, 
+      LONGITUDE, LATITUDE, SPEED, 
+      DIRECTION, ORDER_ID, DEST_STO_CODE, 
+      DEST_STO_NAME, STATUS, ARRIVED_DATE, 
+      UPDATETIME, ROWSTATUS, ITIME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{batchId,jdbcType=VARCHAR}, #{lockNo,jdbcType=VARCHAR}, 
+      #{truckNum,jdbcType=VARCHAR}, #{outDate,jdbcType=VARCHAR}, #{onlineTime,jdbcType=DECIMAL}, 
+      #{onlineDistance,jdbcType=DECIMAL}, #{avgSpeed,jdbcType=DECIMAL}, #{currentPos,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{speed,jdbcType=DECIMAL}, 
+      #{direction,jdbcType=DECIMAL}, #{orderId,jdbcType=VARCHAR}, #{destStoCode,jdbcType=VARCHAR}, 
+      #{destStoName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{arrivedDate,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{rowstatus,jdbcType=VARCHAR}, #{itime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.gis.CurrlocationVo">
+    insert into T_GIS_CURRLOCATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="batchId != null">
+        BATCH_ID,
+      </if>
+      <if test="lockNo != null">
+        LOCK_NO,
+      </if>
+      <if test="truckNum != null">
+        TRUCK_NUM,
+      </if>
+      <if test="outDate != null">
+        OUT_DATE,
+      </if>
+      <if test="onlineTime != null">
+        ONLINE_TIME,
+      </if>
+      <if test="onlineDistance != null">
+        ONLINE_DISTANCE,
+      </if>
+      <if test="avgSpeed != null">
+        AVG_SPEED,
+      </if>
+      <if test="currentPos != null">
+        CURRENT_POS,
+      </if>
+      <if test="longitude != null">
+        LONGITUDE,
+      </if>
+      <if test="latitude != null">
+        LATITUDE,
+      </if>
+      <if test="speed != null">
+        SPEED,
+      </if>
+      <if test="direction != null">
+        DIRECTION,
+      </if>
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="destStoCode != null">
+        DEST_STO_CODE,
+      </if>
+      <if test="destStoName != null">
+        DEST_STO_NAME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="arrivedDate != null">
+        ARRIVED_DATE,
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME,
+      </if>
+      <if test="rowstatus != null">
+        ROWSTATUS,
+      </if>
+      <if test="itime != null">
+        ITIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="lockNo != null">
+        #{lockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="truckNum != null">
+        #{truckNum,jdbcType=VARCHAR},
+      </if>
+      <if test="outDate != null">
+        #{outDate,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineTime != null">
+        #{onlineTime,jdbcType=DECIMAL},
+      </if>
+      <if test="onlineDistance != null">
+        #{onlineDistance,jdbcType=DECIMAL},
+      </if>
+      <if test="avgSpeed != null">
+        #{avgSpeed,jdbcType=DECIMAL},
+      </if>
+      <if test="currentPos != null">
+        #{currentPos,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="speed != null">
+        #{speed,jdbcType=DECIMAL},
+      </if>
+      <if test="direction != null">
+        #{direction,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="destStoCode != null">
+        #{destStoCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destStoName != null">
+        #{destStoName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivedDate != null">
+        #{arrivedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rowstatus != null">
+        #{rowstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="itime != null">
+        #{itime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.gis.CurrlocationVo">
+    update T_GIS_CURRLOCATION
+    <set>
+      <if test="batchId != null">
+        BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="lockNo != null">
+        LOCK_NO = #{lockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="truckNum != null">
+        TRUCK_NUM = #{truckNum,jdbcType=VARCHAR},
+      </if>
+      <if test="outDate != null">
+        OUT_DATE = #{outDate,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineTime != null">
+        ONLINE_TIME = #{onlineTime,jdbcType=DECIMAL},
+      </if>
+      <if test="onlineDistance != null">
+        ONLINE_DISTANCE = #{onlineDistance,jdbcType=DECIMAL},
+      </if>
+      <if test="avgSpeed != null">
+        AVG_SPEED = #{avgSpeed,jdbcType=DECIMAL},
+      </if>
+      <if test="currentPos != null">
+        CURRENT_POS = #{currentPos,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        LONGITUDE = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        LATITUDE = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="speed != null">
+        SPEED = #{speed,jdbcType=DECIMAL},
+      </if>
+      <if test="direction != null">
+        DIRECTION = #{direction,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="destStoCode != null">
+        DEST_STO_CODE = #{destStoCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destStoName != null">
+        DEST_STO_NAME = #{destStoName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivedDate != null">
+        ARRIVED_DATE = #{arrivedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rowstatus != null">
+        ROWSTATUS = #{rowstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="itime != null">
+        ITIME = #{itime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.gis.CurrlocationVo">
+    update T_GIS_CURRLOCATION
+    set BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      LOCK_NO = #{lockNo,jdbcType=VARCHAR},
+      TRUCK_NUM = #{truckNum,jdbcType=VARCHAR},
+      OUT_DATE = #{outDate,jdbcType=VARCHAR},
+      ONLINE_TIME = #{onlineTime,jdbcType=DECIMAL},
+      ONLINE_DISTANCE = #{onlineDistance,jdbcType=DECIMAL},
+      AVG_SPEED = #{avgSpeed,jdbcType=DECIMAL},
+      CURRENT_POS = #{currentPos,jdbcType=VARCHAR},
+      LONGITUDE = #{longitude,jdbcType=DECIMAL},
+      LATITUDE = #{latitude,jdbcType=DECIMAL},
+      SPEED = #{speed,jdbcType=DECIMAL},
+      DIRECTION = #{direction,jdbcType=DECIMAL},
+      ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      DEST_STO_CODE = #{destStoCode,jdbcType=VARCHAR},
+      DEST_STO_NAME = #{destStoName,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ARRIVED_DATE = #{arrivedDate,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      ROWSTATUS = #{rowstatus,jdbcType=VARCHAR},
+      ITIME = #{itime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

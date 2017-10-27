@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.OutBoundLineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.OutBoundLineVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="OUTBOUNDID" property="outboundid" jdbcType="DECIMAL" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="OTHER" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="VARCHAR" />
+    <result column="BOXQTY" property="boxqty" jdbcType="DECIMAL" />
+    <result column="ITEMQTY" property="itemqty" jdbcType="DECIMAL" />
+    <result column="JTSIZE" property="jtsize" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, OUTBOUNDID, CIGARETTENAME, CIGARETTECODE, BOXQTY, ITEMQTY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_OUTBOUND_LINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectByOutboundid" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_OUTBOUND_LINE
+    where OUTBOUNDID = #{outboundid,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 根据车组编码routecode和订单日期orderdate 获取订单明细汇总，汇总根据品牌进行 -->
+  <select id="selectOrderLineList" resultType="com.ztel.app.vo.wms.OutBoundLineVo" parameterType="com.ztel.app.vo.wms.OutBoundVo" >
+ select ol.itemname as cigarettename,sum(ol.qty) as itemqty,item.itemno as cigarettecode,item.jt_size as jtsize from t_wms_shiporderline ol,t_wms_item item
+ where ol.orderno in (select orderno from t_wms_shiporder where orderdate=#{orderdate} and routecode=#{vehicleno})
+ and ol.item_id=item.id
+group by ol.itemname,item.itemno,item.jt_size
+ </select>
+
+  <!-- 取出库所有品牌的库存量 -->
+<select id="selectOutboundListForStock" resultType="com.ztel.app.vo.wms.OutBoundLineVo" parameterType="com.ztel.app.vo.wms.OutBoundVo" >
+   select cigarettecode,cigarettename,sum(boxqty) as boxqty,sum(itemqty) as itemqty,jt_size as jtsize
+   from t_wms_outbound_line obline,t_wms_outbound ob,t_wms_item item
+   where obline.outboundid=ob.outboundid and ob.delstatus=10  and obline.cigarettecode=item.itemno 
+   <if test="consignsor != null and consignsor != ''">
+       and ob.consignsor= #{consignsor}
+    </if>
+    <if test="begintime != null and endtime != null">
+       and ob.outtime between #{begintime} and #{endtime}
+    </if>
+   group by cigarettecode,cigarettename,jt_size order by cigarettename
+  </select>
+  	
+  	<delete id="deleteByOutboundid" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_OUTBOUND_LINE
+    where OUTBOUNDID = #{outboundid,jdbcType=DECIMAL}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_OUTBOUND_LINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.OutBoundLineVo" >
+    insert into T_WMS_OUTBOUND_LINE (ID, OUTBOUNDID, CIGARETTENAME, 
+      CIGARETTECODE, BOXQTY, ITEMQTY
+      )
+    values (#{id,jdbcType=DECIMAL}, #{outboundid,jdbcType=DECIMAL}, #{cigarettename,jdbcType=OTHER}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{boxqty,jdbcType=DECIMAL}, #{itemqty,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.OutBoundLineVo" >
+    insert into T_WMS_OUTBOUND_LINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="outboundid != null" >
+        OUTBOUNDID,
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME,
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE,
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY,
+      </if>
+      <if test="itemqty != null" >
+        ITEMQTY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_WMS_OUTBOUND_LINE.nextval,
+      <if test="outboundid != null" >
+        #{outboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettename != null" >
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemqty != null" >
+        #{itemqty,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.OutBoundLineVo" >
+    update T_WMS_OUTBOUND_LINE
+    <set >
+      <if test="outboundid != null" >
+        OUTBOUNDID = #{outboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemqty != null" >
+        ITEMQTY = #{itemqty,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.OutBoundLineVo" >
+    update T_WMS_OUTBOUND_LINE
+    set OUTBOUNDID = #{outboundid,jdbcType=DECIMAL},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      ITEMQTY = #{itemqty,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

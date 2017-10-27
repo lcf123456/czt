@@ -1,0 +1,16 @@
+package com.ztel.app.service.perform;
+
+import java.util.List;
+
+import com.ztel.app.vo.perform.KeyworkVo;
+
+public interface KeyworkService {
+
+public List<KeyworkVo>  selectKeyworkList(KeyworkVo keyworkVo);
+
+public List<KeyworkVo>  selectAllKeyworkList(KeyworkVo keyworkVo);
+	
+	public void insertKeywork(KeyworkVo keyworkVo);
+	
+	public void doDel(Integer id);
+}

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.OperationinfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.OperationinfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="MENUCODE" property="menucode" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CODE, NAME, MENUCODE, REMARKS
+  </sql>
+  
+<select id="getOperationinfoList"  resultType="OperationinfoVo">
+    select id,code,name,menucode,remarks from T_SYS_OPERATIONINFO where 1=1 
+  <if test="menucode != null and menucode != ''">
+        AND menucode = #{menucode}
+    </if>
+</select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_OPERATIONINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+    <select id="getOperationBySysid" resultMap="BaseResultMap"  >
+    select o.* from t_sys_operationinfo o,t_sys_menuinfo m where m.menucode=o.menucode and m.belongsys=#{belongsys}
+  </select>
+  
+
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_SYS_OPERATIONINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.OperationinfoVo" >
+    insert into T_SYS_OPERATIONINFO (ID, CODE, NAME, 
+      MENUCODE, REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{menucode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.OperationinfoVo" >
+    insert into T_SYS_OPERATIONINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="menucode != null" >
+        MENUCODE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_SYS_PUB.nextval,
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="menucode != null" >
+        #{menucode,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.OperationinfoVo" >
+    update T_SYS_OPERATIONINFO
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="menucode != null" >
+        MENUCODE = #{menucode,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.OperationinfoVo" >
+    update T_SYS_OPERATIONINFO
+    set CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      MENUCODE = #{menucode,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,100 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %><!doctype html>
+
+<html>
+
+<script type="text/javascript" src="<spring:url value="/easyui/jquery.min.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/easyui/jquery.easyui.min.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/easyui/locale/easyui-lang-zh_CN.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/js/index.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/js/jsp/pub/tableExport.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/js/jsp/pub/jquery.base64.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/js/jsp/sys/role.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<spring:url value="/easyui/themes/default/easyui.css"/>">
+<link rel="stylesheet" type="text/css" href="<spring:url value="/easyui/themes/icon.css"/>">
+<link rel="stylesheet" type="text/css" href="<spring:url value="/css/common.css"/>">
+
+  <head>
+  
+  <script type="text/javascript">
+  var fileIndex=2;
+  function add(o)
+  {
+	  var str='<div id="uploadDiv'+fileIndex+'"><input class="easyui-filebox" name="file'+(fileIndex++)+'"  style="width:200;margin-top:10px"></div><br/>'
+	  
+	  $(str).appendTo('#uploadDiv');
+	  $.parser.parse($('#uploadDiv'+(fileIndex-1))); 
+  }
+  function submit()
+  {
+	 
+	  $("#uploadForm").submit();
+  }
+  
+ 
+  function doprint(){
+	var  bdhtml=window.document.body.innerHTML;//获取当前页的html代码 
+	  var obj=$("#printArea");
+    
+    var docStr = obj[0].innerHTML;
+    window.document.body.innerHTML=docStr; 
+    window.print(); 
+    window.document.body.innerHTML=bdhtml; 
+  }
+
+ 
+          
+          function exportxls()
+          {
+        	  
+         
+        	  $('#tabexport').tableExport({type:'excel', separator:';', escape:'false'});
+          }
+     	 
+          
+    
+
+  </script>
+  </head>
+  
+  <body>
+  
+	<form id="uploadForm"  action="/BS56/sys/attach" style="margin:10;" method="post"   enctype="multipart/form-data">
+		<div id="uploadDiv" style="margin-bottom:20px">
+		
+		<div>
+		<input class="easyui-filebox" name="file1"  style="width:200;margin-top:10px">
+		</div>
+		<br/>
+		</div>
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add(this)">Add</a>
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="submit()">提交</a>
+
+      <div id="printArea">
+      <table id="tabexport">
+      <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      </tR>
+      <tr>
+      <td>单元格1</td>
+      <td>单元格2</td>
+      <td>单元格3</td>
+      <td>单元格4</td>
+      </tR>
+      <tr>
+      <td>单元格1</td>
+      <td>单元格2</td>
+      <td>单元格3</td>
+      <td>单元格4</td>
+      </tR>
+      </table>
+      </div>
+      <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'" onclick="exportxls()">导出</a>
+</form>
+	
+	  
+  </body>
+</html>

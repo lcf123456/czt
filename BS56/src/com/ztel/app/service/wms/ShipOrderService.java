@@ -1,0 +1,53 @@
+package com.ztel.app.service.wms;
+
+import java.util.List;
+
+import com.ztel.app.vo.wms.ShipOrderVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface ShipOrderService {
+	public List<ShipOrderVo> selectShiporderPageList(Pagination<?> page);
+	
+	public List<ShipOrderVo> selectShiporderAnalyzeList(ShipOrderVo shipOrderVo);
+
+	public List<ShipOrderVo> selectRoutecodeList(ShipOrderVo shipOrderVo);
+	
+	/**
+	 * 工商协同：品牌销售汇总
+	 * @param shipOrderVo
+	 * @return
+	 */
+	public List<ShipOrderVo>  selectShiporderBrandSaleReport(ShipOrderVo shipOrderVo);
+	
+	public int doUpdateShipOrder(ShipOrderVo shipOrderVo);
+	
+	public ShipOrderVo getShipOrderByOrderNo(String orderNo);
+	
+	/**
+	 * 取预付款客户订单 ,用于货款核算预付款客户车组查看
+	 * @param shipOrderVo
+	 * @return
+	 */
+	public List<ShipOrderVo> selectShiporderPerpayList(ShipOrderVo shipOrderVo);
+	
+	/**
+	 * 预付款车组统计
+	 * @param shipOrderVo
+	 * @return
+	 */
+	public List<ShipOrderVo> selectShiporderPerpayCountList(ShipOrderVo shipOrderVo);
+	
+	/**
+	 * 货款核算中 ：预付款订单查看
+	 * @param shipOrderVo
+	 * @return
+	 */
+	public List<ShipOrderVo> selectShiporderPerpayOrderList(ShipOrderVo shipOrderVo);
+	
+	/**
+	 * 根据传入参数查询订单信息
+	 * @param shipOrderVo
+	 * @return
+	 */
+	public List<ShipOrderVo> selectShiporderByCondition(ShipOrderVo shipOrderVo);
+}

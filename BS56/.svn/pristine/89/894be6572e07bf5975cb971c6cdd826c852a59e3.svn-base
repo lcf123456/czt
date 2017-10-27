@@ -1,0 +1,22 @@
+package com.ztel.app.service.produce.impl;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.produce.OrderVoMapper;
+import com.ztel.app.service.produce.OrderService;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+	@Autowired
+	private OrderVoMapper orderVoMapper = null;
+
+	@Override
+	public Date selectOrderdate() {
+		// TODO Auto-generated method stub
+		return orderVoMapper.selectOrderdate();
+	}
+
+}

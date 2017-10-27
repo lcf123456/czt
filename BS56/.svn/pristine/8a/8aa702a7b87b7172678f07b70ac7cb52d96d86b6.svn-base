@@ -1,0 +1,17 @@
+package com.ztel.app.persist.mybatis.sys;
+
+import com.ztel.app.vo.sys.BusinessRoleRelativeVo;
+
+public interface BusinessRoleRelativeVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insert(BusinessRoleRelativeVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insertSelective(BusinessRoleRelativeVo record);
+}

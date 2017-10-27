@@ -1,0 +1,118 @@
+package com.ztel.app.service.perform.impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.perform.DeptmonthLineVoMapper;
+import com.ztel.app.service.perform.DeptmonthLineService;
+import com.ztel.app.util.Constant;
+import com.ztel.app.vo.perform.DeptmonthLineVo;
+
+@Service
+public class DeptmonthLineServiceImpl implements DeptmonthLineService {
+	@Autowired 
+	private DeptmonthLineVoMapper deptmonthLineVoMapper = null;
+
+	/**
+	 * 绩效考核修改或审核时需要选择列表
+	 */
+	@Override
+	public List<DeptmonthLineVo> selectDeptmonthLineByCond(DeptmonthLineVo deptmonthLineVo) {
+		// TODO Auto-generated method stub
+		List<DeptmonthLineVo> result = new ArrayList<DeptmonthLineVo>();
+		List<DeptmonthLineVo> kwList = deptmonthLineVoMapper.selectDeptmonthLineKWByCond(deptmonthLineVo);
+		if(kwList!=null&&kwList.size()>0){
+			for(int i=0;i<kwList.size();i++){
+				DeptmonthLineVo deptmonthLineVo1 = kwList.get(i);
+				deptmonthLineVo1.setTypename(Constant.keywork);
+				deptmonthLineVo1.setScorevalue(deptmonthLineVo1.getWeight().multiply(Constant.keyworkweight));
+				if(deptmonthLineVo1.getOtherscore()==null)
+				deptmonthLineVo1.setOtherscore(deptmonthLineVo1.getWeight().multiply(Constant.keyworkweight));//权重*分值
+				result.add(deptmonthLineVo1);
+			}
+		}
+		
+//		 int safecount=0;//临时计数，用于判断是否存在记录，没有需要特殊处理
+//		 int contentwk = 0;
+//		 int tmpwork=0;
+		 BigDecimal needCount = new BigDecimal("0");
+		List<DeptmonthLineVo> wcList = deptmonthLineVoMapper.selectDeptmonthLineWCByCond(deptmonthLineVo);
+		BigDecimal weight = new BigDecimal("0");
+		
+		if(wcList!=null&&wcList.size()>0){
+			for(int i=0;i<wcList.size();i++){
+				DeptmonthLineVo deptmonthLineVo2 = wcList.get(i);
+				weight = deptmonthLineVo2.getWeight();
+				if(weight==null||weight.equals(""))weight = new BigDecimal("0");
+				deptmonthLineVo2.setTypename(Constant.keywork);
+				deptmonthLineVo2.setScorevalue(Constant.keyworkweight);
+				deptmonthLineVo2.setSelfscore(deptmonthLineVo2.getSelfscore());
+				 if(deptmonthLineVo2.getProperty()!=null&&deptmonthLineVo2.getProperty().equals(Constant.safe)){
+					 deptmonthLineVo2.setTypename("关键隐患控制");
+					 deptmonthLineVo2.setScorevalue(deptmonthLineVo2.getWeight().multiply(Constant.safeweight));
+					 if(deptmonthLineVo2.getOtherscore()==null)
+					 deptmonthLineVo2.setOtherscore(deptmonthLineVo2.getWeight().multiply(Constant.safeweight));//权重*分值
+//					 safecount++;
+				 }else if(deptmonthLineVo2.getProperty()!=null&&deptmonthLineVo2.getProperty().equals(Constant.contentwk)){
+					 deptmonthLineVo2.setTypename("日常工作");
+					 deptmonthLineVo2.setScorevalue(deptmonthLineVo2.getWeight().multiply(Constant.contentwkweight));
+					 if(deptmonthLineVo2.getOtherscore()==null)
+					 deptmonthLineVo2.setOtherscore(deptmonthLineVo2.getWeight().multiply(Constant.contentwkweight));//权重*分值
+//					 contentwk++;
+				 }else if(deptmonthLineVo2.getProperty()!=null&&deptmonthLineVo2.getProperty().equals(Constant.tmpwork)){
+					 deptmonthLineVo2.setTypename("临时性工作");
+					 deptmonthLineVo2.setScorevalue(deptmonthLineVo2.getWeight().multiply(Constant.tmpworkweight));
+					 if(deptmonthLineVo2.getOtherscore()==null)
+					 deptmonthLineVo2.setOtherscore(deptmonthLineVo2.getWeight().multiply(Constant.tmpworkweight));//权重*分值
+//					 tmpwork++;
+				 }
+				 result.add(deptmonthLineVo2);
+			}
+		}
+//		if(safecount==0){
+//			 needCount =needCount.add(Constant.safeweight);
+//		 }
+//		 if(contentwk==0){
+//			 needCount =needCount.add(Constant.contentwkweight);
+//		 }
+//		 if(tmpwork==0){
+//			 needCount =needCount.add(Constant.tmpworkweight);
+//		 }
+//		 if(result!=null&&result.size()>0){
+//			 for(int i=0;i<result.size();i++){
+//				 DeptmonthLineVo deptmonthaddVo = result.get(i);
+//				 deptmonthaddVo.setTmpscore(needCount);
+//			 }
+//		 }
+		return result;
+	}
+
+	@Override
+	public void doEdit(DeptmonthLineVo deptmonthLineVo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void doOneAudit(DeptmonthLineVo deptmonthLineVo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void doEndAudit(DeptmonthLineVo deptmonthLineVo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void doDel(BigDecimal inboundid) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

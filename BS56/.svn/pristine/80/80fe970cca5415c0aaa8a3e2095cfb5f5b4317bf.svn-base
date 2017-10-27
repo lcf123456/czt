@@ -1,0 +1,28 @@
+package com.ztel.app.service.sq.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.sq.ComplaintVoMapper;
+import com.ztel.app.service.sq.ComplaintService;
+import com.ztel.app.vo.sq.ComplaintVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class ComplaintServiceImpl implements ComplaintService {
+
+	@Autowired
+	private ComplaintVoMapper ComplaintVoMapper = null;
+	
+	public List<ComplaintVo> getComplaintList(Pagination<?> page){
+		return ComplaintVoMapper.getComplaintPageList(page);
+	}
+	
+	public void doNewComplaint(ComplaintVo complaintVo){
+		if(complaintVo != null ) {
+			this.ComplaintVoMapper.insertSelective(complaintVo);
+	}
+	}
+}

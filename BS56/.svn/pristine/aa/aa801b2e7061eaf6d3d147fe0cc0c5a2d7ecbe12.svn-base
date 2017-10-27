@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.account.TimebydmVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.account.TimebydmVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ORDERDATE" jdbcType="TIMESTAMP" property="orderdate" />
+    <result column="UPTIME" jdbcType="TIMESTAMP" property="uptime" />
+    <result column="DELIVERYDATE" jdbcType="TIMESTAMP" property="deliverydate" />
+    <result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ORDERDATE, UPTIME, DELIVERYDATE
+  </sql>
+    <select id="selectTimebydmdatePageList" parameterType="com.ztel.app.vo.account.TimebydmVo" resultType="com.ztel.app.vo.account.TimebydmVo">
+    select orderdate,deliverydate
+   from T_ACCOUNT_TIMEBYDM
+    where 1=1 
+    <if test="param != null and param.begdate != null " >
+        and orderdate>=to_date(#{param.begdate},'yyyy-MM-dd')
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and orderdate &lt;= to_date(#{param.enddate},'yyyy-MM-dd') +1
+      </if>
+      order by orderdate desc
+  </select>
+  
+  <!-- 根据送货日期取订单日期 -->
+  <select id="selectOrderdateByDDate"  resultType="com.ztel.app.vo.account.TimebydmVo">
+    select 
+     max(orderdate) as orderdate
+   from T_ACCOUNT_TIMEBYDM
+    where trunc(DELIVERYDATE) = to_date(#{ddate},'yyyy-MM-dd')
+  </select>
+  
+  <!-- 根据订单日期取配送日期 -->
+  <select id="selectDeliverydateByODate" resultType="com.ztel.app.vo.account.TimebydmVo">
+    select 
+    max(DELIVERYDATE) as deliverydate
+    from T_ACCOUNT_TIMEBYDM
+    where ORDERDATE = to_date(#{orderdate},'yyyy-MM-dd')
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_ACCOUNT_TIMEBYDM
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_ACCOUNT_TIMEBYDM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.account.TimebydmVo">
+    insert into T_ACCOUNT_TIMEBYDM (ID, ORDERDATE, UPTIME, 
+      DELIVERYDATE)
+    values (#{id,jdbcType=DECIMAL}, #{orderdate,jdbcType=TIMESTAMP}, #{uptime,jdbcType=TIMESTAMP}, 
+      #{deliverydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.account.TimebydmVo">
+    insert into T_ACCOUNT_TIMEBYDM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="orderdate != null">
+        ORDERDATE,
+      </if>
+      <if test="uptime != null">
+        UPTIME,
+      </if>
+      <if test="deliverydate != null">
+        DELIVERYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orderdate != null">
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptime != null">
+        #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverydate != null">
+        #{deliverydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.account.TimebydmVo">
+    update T_ACCOUNT_TIMEBYDM
+    <set>
+      <if test="orderdate != null">
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptime != null">
+        UPTIME = #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverydate != null">
+        DELIVERYDATE = #{deliverydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.account.TimebydmVo">
+    update T_ACCOUNT_TIMEBYDM
+    set ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      UPTIME = #{uptime,jdbcType=TIMESTAMP},
+      DELIVERYDATE = #{deliverydate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  </mapper>

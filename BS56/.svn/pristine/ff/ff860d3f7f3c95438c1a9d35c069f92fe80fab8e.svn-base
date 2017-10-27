@@ -1,0 +1,33 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.ShipOrderVoMapper;
+import com.ztel.app.service.wms.ShipOrderService;
+import com.ztel.app.vo.wms.ShipOrderVo;
+
+@Service
+public class ShipOrderServiceImpl implements ShipOrderService {
+
+	@Autowired
+	private ShipOrderVoMapper shipOrderVoMapper = null;
+	@Override
+	public List<ShipOrderVo> selectRoutecodeList(ShipOrderVo shipOrderVo) {
+		// TODO Auto-generated method stub
+		return shipOrderVoMapper.selectRoutecodeList(shipOrderVo);
+	}
+	@Override
+	public int doUpdateShipOrder(ShipOrderVo shipOrderVo) {
+		// TODO Auto-generated method stub
+		return shipOrderVoMapper.updateByPrimaryKeySelective(shipOrderVo);
+	}
+	@Override
+	public ShipOrderVo getShipOrderByOrderNo(String orderNo) {
+		// TODO Auto-generated method stub
+		return shipOrderVoMapper.selectByPrimaryKey(orderNo);
+	}
+
+}

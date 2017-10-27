@@ -1,0 +1,33 @@
+package com.ztel.app.web.ctrl.cost;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.cost.SPLTypeServcie;
+import com.ztel.app.vo.cost.SPLTypeInfoVo;
+import com.ztel.app.vo.sys.MenuInfoVo;
+
+@Controller
+@RequestMapping("/cost/SPLTypeInfo")
+public class SPLTypeInfoCtrl {
+	@Autowired
+	private SPLTypeServcie sPLTypeServcie = null;
+
+	/**
+	  * 根据系统模块名称获取栏目信息
+	  * @return
+	  */
+	 @RequestMapping(value="getSPLTypeInfoList")
+	 @ResponseBody
+	 public  List<SPLTypeInfoVo> getSPLTypeInfoList(String id)
+	 {
+		 if(id==null||id.equals(""))id="0";
+		 //System.out.println("menuCtrl getSysMenuRight :sysid----"+sysid+",id----"+id);
+		 List<SPLTypeInfoVo> SPLTypeInfoList=sPLTypeServcie.getSPLTypeList(id);
+		 return SPLTypeInfoList;
+	 }
+}

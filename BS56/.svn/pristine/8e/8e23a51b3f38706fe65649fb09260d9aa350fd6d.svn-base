@@ -1,0 +1,10 @@
+package com.ztel.app.inspur.mybatis;
+
+import java.util.List;
+
+import com.ztel.app.inspur.vo.SalecustomerVo;
+
+public interface SalecustomerVoMapper {
+	
+	List<SalecustomerVo> getSalecustomerList();
+}

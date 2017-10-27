@@ -1,0 +1,106 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.service.sq.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.ztel.app.persist.mybatis.sq.RouteMonthstarVoMapper;
+import com.ztel.app.persist.mybatis.sq.StarinfoVoMapper;
+import com.ztel.app.service.sq.RouteMonthstarService;
+import com.ztel.app.vo.sq.ComplaintVo;
+import com.ztel.app.vo.sq.RouteMonthstarVo;
+import com.ztel.app.vo.sq.StarinfoVo;
+import com.ztel.app.vo.sys.BasetypeInfoVo;
+import com.ztel.app.vo.sys.DeptVo;
+import com.ztel.framework.util.FileUtil;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public  class RouteMonthstarServiceImpl implements RouteMonthstarService {
+	
+	@Autowired
+	private RouteMonthstarVoMapper RouteMonthstarMapper = null;
+	
+	@Autowired
+	private StarinfoVoMapper starinfoVoMapper= null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public RouteMonthstarServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+//		sortKeyMapping.put(key, value)
+		sortKeyMapping.put("driverid", "driverid");
+		sortKeyMapping.put("id", "id");
+		sortKeyMapping.put("dstarid", "dstarid");
+		sortKeyMapping.put("cstarid", "cstarid");
+		//sortKeyMapping.put("id", "id");
+	
+	}
+	
+	public List<RouteMonthstarVo> searchRouteMonthstarList(Pagination<?> page) {
+		
+		page.sortKeyToColumn(sortKeyMapping);
+		System.out.println("driverid =  "+((RouteMonthstarVo)page.getParam()).getDriverid());
+		return this.RouteMonthstarMapper.getRouteMonthstarPageList(page);
+	}
+
+
+
+	//@Override
+	//public List<RouteMonthstarVo> getRouteMonthstarsum1PageList(Pagination<?> page) {
+		
+		//创建返回的List容器
+//		List<RouteMonthstarVo> resultList=new ArrayList<>();
+		
+		//取收款员星级人数
+	//	List<RouteMonthstarVo> clist=this.RouteMonthstarMapper.getRouteMonthstarsumPageList(page);
+		
+		//取司机星级人数
+	//	List<RouteMonthstarVo> dlist=this.RouteMonthstarMapper.getRouteMonthstarsum1PageList(page);
+		
+		//取出starinfo信息
+		//List<StarinfoVo> starinfoList=starinfoVoMapper.getStarinfo();
+		
+		//循环取值,拼接需要的vo
+		//for(int i=0;i<starinfoList.size();i++){
+		//	StarinfoVo starinfoVo=new StarinfoVo();
+		//	RouteMonthstarVo monthstarVo=new RouteMonthstarVo();
+		//	starinfoVo=starinfoList.get(i);
+		//	monthstarVo.setStarid(starinfoVo.getId());
+		//	monthstarVo.setStarname(starinfoVo.getStarname());
+		//}
+		
+	//	return null;
+//	}
+
+	@Override
+	public List<RouteMonthstarVo> getRouteMonthstarsumPageList(Pagination<?> page) {
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.RouteMonthstarMapper.getRouteMonthstarsumPageList(page);
+	}
+
+
+	@Override
+	public List<RouteMonthstarVo> getRoutestarbymonthList(Pagination<?> page) {
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.RouteMonthstarMapper.getRoutestarbymonthPageList(page);
+	}
+
+	@Override
+	public List<RouteMonthstarVo> getRoutestarbymonthPageList(Pagination<?> page) {
+		// TODO 自动生成的方法存根
+		page.sortKeyToColumn(sortKeyMapping);
+		return this.RouteMonthstarMapper.getRoutestarbymonthList(page);
+	}
+
+}
+
+

@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.wms.ItemVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ItemVo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="DCNO" jdbcType="VARCHAR" property="dcno" />
+    <result column="SHIPPER_ID" jdbcType="DECIMAL" property="shipperId" />
+    <result column="ITEMNO" jdbcType="VARCHAR" property="itemno" />
+    <result column="ITEMNAME" jdbcType="VARCHAR" property="itemname" />
+    <result column="SHORTNAME" jdbcType="VARCHAR" property="shortname" />
+    <result column="SPEC" jdbcType="VARCHAR" property="spec" />
+    <result column="ABCCODE" jdbcType="DECIMAL" property="abccode" />
+    <result column="ITEMPRICE" jdbcType="DECIMAL" property="itemprice" />
+    <result column="SHIPTYPE" jdbcType="CHAR" property="shiptype" />
+    <result column="ITEMTYPE_ID" jdbcType="OTHER" property="itemtypeId" />
+    <result column="PRODUCEAREA" jdbcType="OTHER" property="producearea" />
+    <result column="MANUFACTURER_ID" jdbcType="DECIMAL" property="manufacturerId" />
+    <result column="VENDOR_ID" jdbcType="DECIMAL" property="vendorId" />
+    <result column="BASEUOM_ID" jdbcType="VARCHAR" property="baseuomId" />
+    <result column="DEFAULTUOM_ID" jdbcType="VARCHAR" property="defaultuomId" />
+    <result column="STORAGECONDITION" jdbcType="VARCHAR" property="storagecondition" />
+    <result column="ISLOTCTRL" jdbcType="DECIMAL" property="islotctrl" />
+    <result column="SHELFLIFE" jdbcType="DECIMAL" property="shelflife" />
+    <result column="SHELFLIFETYPE" jdbcType="VARCHAR" property="shelflifetype" />
+    <result column="PALLETRATIO" jdbcType="DECIMAL" property="palletratio" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="CREATEUSER" jdbcType="VARCHAR" property="createuser" />
+    <result column="MODIFYTIME" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="MODIFYUSER" jdbcType="VARCHAR" property="modifyuser" />
+    <result column="ROWSTATUS" jdbcType="DECIMAL" property="rowstatus" />
+    <result column="CATID" jdbcType="DECIMAL" property="catid" />
+    <result column="BIGBOX_BAR" jdbcType="VARCHAR" property="bigboxBar" />
+    <result column="PACK_BAR" jdbcType="VARCHAR" property="packBar" />
+    <result column="ITEM_KIND" jdbcType="CHAR" property="itemKind" />
+    <result column="KIND" jdbcType="CHAR" property="kind" />
+    <result column="H_SIZE" jdbcType="DECIMAL" property="hSize" />
+    <result column="T_SIZE" jdbcType="DECIMAL" property="tSize" />
+    <result column="J_SIZE" jdbcType="DECIMAL" property="jSize" />
+    <result column="W_SIZE" jdbcType="DECIMAL" property="wSize" />
+    <result column="X_SIZE" jdbcType="DECIMAL" property="xSize" />
+    <result column="WEIGHT" jdbcType="DECIMAL" property="weight" />
+    <result column="FULLCOUNT" jdbcType="DECIMAL" property="fullcount" />
+    <result column="CDTYPE" jdbcType="DECIMAL" property="cdtype" />
+    <result column="ISCANSCANCODE" jdbcType="DECIMAL" property="iscanscancode" />
+    <result column="DXTYPE" jdbcType="VARCHAR" property="dxtype" />
+    <result column="JT_SIZE" jdbcType="DECIMAL" property="jtSize" />
+    <result column="WZ_SIZE" jdbcType="DECIMAL" property="wzSize" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DCNO, SHIPPER_ID, ITEMNO, ITEMNAME, SHORTNAME, SPEC, ABCCODE, ITEMPRICE, SHIPTYPE, 
+    ITEMTYPE_ID, PRODUCEAREA, MANUFACTURER_ID, VENDOR_ID, BASEUOM_ID, DEFAULTUOM_ID, 
+    STORAGECONDITION, ISLOTCTRL, SHELFLIFE, SHELFLIFETYPE, PALLETRATIO, CREATETIME, CREATEUSER, 
+    MODIFYTIME, MODIFYUSER, ROWSTATUS, CATID, BIGBOX_BAR, PACK_BAR, ITEM_KIND, KIND, 
+    H_SIZE, T_SIZE, J_SIZE, W_SIZE, X_SIZE, WEIGHT, FULLCOUNT, CDTYPE, ISCANSCANCODE, 
+    DXTYPE, JT_SIZE, WZ_SIZE
+  </sql>
+  
+  <!-- 根据已知条件获取列表 -->
+  <select id="selectListByCond" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_ITEM
+    where 1=1 
+    <if test="itemno != null and itemno != ''">
+        AND  ITEMNO = #{itemno,jdbcType=VARCHAR}
+    </if>
+    <if test="id != null and id != ''">
+        AND  ID = #{id,jdbcType=DECIMAL}
+    </if>
+    order by id desc
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_ITEM
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_WMS_ITEM
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ItemVo">
+    insert into T_WMS_ITEM (ID, DCNO, SHIPPER_ID, 
+      ITEMNO, ITEMNAME, SHORTNAME, 
+      SPEC, ABCCODE, ITEMPRICE, 
+      SHIPTYPE, ITEMTYPE_ID, PRODUCEAREA, 
+      MANUFACTURER_ID, VENDOR_ID, BASEUOM_ID, 
+      DEFAULTUOM_ID, STORAGECONDITION, ISLOTCTRL, 
+      SHELFLIFE, SHELFLIFETYPE, PALLETRATIO, 
+      CREATETIME, CREATEUSER, MODIFYTIME, 
+      MODIFYUSER, ROWSTATUS, CATID, 
+      BIGBOX_BAR, PACK_BAR, ITEM_KIND, 
+      KIND, H_SIZE, T_SIZE, J_SIZE, 
+      W_SIZE, X_SIZE, WEIGHT, 
+      FULLCOUNT, CDTYPE, ISCANSCANCODE, 
+      DXTYPE, JT_SIZE, WZ_SIZE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{dcno,jdbcType=VARCHAR}, #{shipperId,jdbcType=DECIMAL}, 
+      #{itemno,jdbcType=VARCHAR}, #{itemname,jdbcType=VARCHAR}, #{shortname,jdbcType=VARCHAR}, 
+      #{spec,jdbcType=VARCHAR}, #{abccode,jdbcType=DECIMAL}, #{itemprice,jdbcType=DECIMAL}, 
+      #{shiptype,jdbcType=CHAR}, #{itemtypeId,jdbcType=OTHER}, #{producearea,jdbcType=OTHER}, 
+      #{manufacturerId,jdbcType=DECIMAL}, #{vendorId,jdbcType=DECIMAL}, #{baseuomId,jdbcType=VARCHAR}, 
+      #{defaultuomId,jdbcType=VARCHAR}, #{storagecondition,jdbcType=VARCHAR}, #{islotctrl,jdbcType=DECIMAL}, 
+      #{shelflife,jdbcType=DECIMAL}, #{shelflifetype,jdbcType=VARCHAR}, #{palletratio,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, #{modifytime,jdbcType=TIMESTAMP}, 
+      #{modifyuser,jdbcType=VARCHAR}, #{rowstatus,jdbcType=DECIMAL}, #{catid,jdbcType=DECIMAL}, 
+      #{bigboxBar,jdbcType=VARCHAR}, #{packBar,jdbcType=VARCHAR}, #{itemKind,jdbcType=CHAR}, 
+      #{kind,jdbcType=CHAR}, #{hSize,jdbcType=DECIMAL}, #{tSize,jdbcType=DECIMAL}, #{jSize,jdbcType=DECIMAL}, 
+      #{wSize,jdbcType=DECIMAL}, #{xSize,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
+      #{fullcount,jdbcType=DECIMAL}, #{cdtype,jdbcType=DECIMAL}, #{iscanscancode,jdbcType=DECIMAL}, 
+      #{dxtype,jdbcType=VARCHAR}, #{jtSize,jdbcType=DECIMAL}, #{wzSize,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ItemVo">
+    insert into T_WMS_ITEM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="dcno != null">
+        DCNO,
+      </if>
+      <if test="shipperId != null">
+        SHIPPER_ID,
+      </if>
+      <if test="itemno != null">
+        ITEMNO,
+      </if>
+      <if test="itemname != null">
+        ITEMNAME,
+      </if>
+      <if test="shortname != null">
+        SHORTNAME,
+      </if>
+      <if test="spec != null">
+        SPEC,
+      </if>
+      <if test="abccode != null">
+        ABCCODE,
+      </if>
+      <if test="itemprice != null">
+        ITEMPRICE,
+      </if>
+      <if test="shiptype != null">
+        SHIPTYPE,
+      </if>
+      <if test="itemtypeId != null">
+        ITEMTYPE_ID,
+      </if>
+      <if test="producearea != null">
+        PRODUCEAREA,
+      </if>
+      <if test="manufacturerId != null">
+        MANUFACTURER_ID,
+      </if>
+      <if test="vendorId != null">
+        VENDOR_ID,
+      </if>
+      <if test="baseuomId != null">
+        BASEUOM_ID,
+      </if>
+      <if test="defaultuomId != null">
+        DEFAULTUOM_ID,
+      </if>
+      <if test="storagecondition != null">
+        STORAGECONDITION,
+      </if>
+      <if test="islotctrl != null">
+        ISLOTCTRL,
+      </if>
+      <if test="shelflife != null">
+        SHELFLIFE,
+      </if>
+      <if test="shelflifetype != null">
+        SHELFLIFETYPE,
+      </if>
+      <if test="palletratio != null">
+        PALLETRATIO,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="createuser != null">
+        CREATEUSER,
+      </if>
+      <if test="modifytime != null">
+        MODIFYTIME,
+      </if>
+      <if test="modifyuser != null">
+        MODIFYUSER,
+      </if>
+      <if test="rowstatus != null">
+        ROWSTATUS,
+      </if>
+      <if test="catid != null">
+        CATID,
+      </if>
+      <if test="bigboxBar != null">
+        BIGBOX_BAR,
+      </if>
+      <if test="packBar != null">
+        PACK_BAR,
+      </if>
+      <if test="itemKind != null">
+        ITEM_KIND,
+      </if>
+      <if test="kind != null">
+        KIND,
+      </if>
+      <if test="hSize != null">
+        H_SIZE,
+      </if>
+      <if test="tSize != null">
+        T_SIZE,
+      </if>
+      <if test="jSize != null">
+        J_SIZE,
+      </if>
+      <if test="wSize != null">
+        W_SIZE,
+      </if>
+      <if test="xSize != null">
+        X_SIZE,
+      </if>
+      <if test="weight != null">
+        WEIGHT,
+      </if>
+      <if test="fullcount != null">
+        FULLCOUNT,
+      </if>
+      <if test="cdtype != null">
+        CDTYPE,
+      </if>
+      <if test="iscanscancode != null">
+        ISCANSCANCODE,
+      </if>
+      <if test="dxtype != null">
+        DXTYPE,
+      </if>
+      <if test="jtSize != null">
+        JT_SIZE,
+      </if>
+      <if test="wzSize != null">
+        WZ_SIZE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dcno != null">
+        #{dcno,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null">
+        #{shipperId,jdbcType=DECIMAL},
+      </if>
+      <if test="itemno != null">
+        #{itemno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null">
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="shortname != null">
+        #{shortname,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null">
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="abccode != null">
+        #{abccode,jdbcType=DECIMAL},
+      </if>
+      <if test="itemprice != null">
+        #{itemprice,jdbcType=DECIMAL},
+      </if>
+      <if test="shiptype != null">
+        #{shiptype,jdbcType=CHAR},
+      </if>
+      <if test="itemtypeId != null">
+        #{itemtypeId,jdbcType=OTHER},
+      </if>
+      <if test="producearea != null">
+        #{producearea,jdbcType=OTHER},
+      </if>
+      <if test="manufacturerId != null">
+        #{manufacturerId,jdbcType=DECIMAL},
+      </if>
+      <if test="vendorId != null">
+        #{vendorId,jdbcType=DECIMAL},
+      </if>
+      <if test="baseuomId != null">
+        #{baseuomId,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultuomId != null">
+        #{defaultuomId,jdbcType=VARCHAR},
+      </if>
+      <if test="storagecondition != null">
+        #{storagecondition,jdbcType=VARCHAR},
+      </if>
+      <if test="islotctrl != null">
+        #{islotctrl,jdbcType=DECIMAL},
+      </if>
+      <if test="shelflife != null">
+        #{shelflife,jdbcType=DECIMAL},
+      </if>
+      <if test="shelflifetype != null">
+        #{shelflifetype,jdbcType=VARCHAR},
+      </if>
+      <if test="palletratio != null">
+        #{palletratio,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuser != null">
+        #{modifyuser,jdbcType=VARCHAR},
+      </if>
+      <if test="rowstatus != null">
+        #{rowstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="catid != null">
+        #{catid,jdbcType=DECIMAL},
+      </if>
+      <if test="bigboxBar != null">
+        #{bigboxBar,jdbcType=VARCHAR},
+      </if>
+      <if test="packBar != null">
+        #{packBar,jdbcType=VARCHAR},
+      </if>
+      <if test="itemKind != null">
+        #{itemKind,jdbcType=CHAR},
+      </if>
+      <if test="kind != null">
+        #{kind,jdbcType=CHAR},
+      </if>
+      <if test="hSize != null">
+        #{hSize,jdbcType=DECIMAL},
+      </if>
+      <if test="tSize != null">
+        #{tSize,jdbcType=DECIMAL},
+      </if>
+      <if test="jSize != null">
+        #{jSize,jdbcType=DECIMAL},
+      </if>
+      <if test="wSize != null">
+        #{wSize,jdbcType=DECIMAL},
+      </if>
+      <if test="xSize != null">
+        #{xSize,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="fullcount != null">
+        #{fullcount,jdbcType=DECIMAL},
+      </if>
+      <if test="cdtype != null">
+        #{cdtype,jdbcType=DECIMAL},
+      </if>
+      <if test="iscanscancode != null">
+        #{iscanscancode,jdbcType=DECIMAL},
+      </if>
+      <if test="dxtype != null">
+        #{dxtype,jdbcType=VARCHAR},
+      </if>
+      <if test="jtSize != null">
+        #{jtSize,jdbcType=DECIMAL},
+      </if>
+      <if test="wzSize != null">
+        #{wzSize,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ItemVo">
+    update T_WMS_ITEM
+    <set>
+      <if test="dcno != null">
+        DCNO = #{dcno,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null">
+        SHIPPER_ID = #{shipperId,jdbcType=DECIMAL},
+      </if>
+      <if test="itemno != null">
+        ITEMNO = #{itemno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null">
+        ITEMNAME = #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="shortname != null">
+        SHORTNAME = #{shortname,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null">
+        SPEC = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="abccode != null">
+        ABCCODE = #{abccode,jdbcType=DECIMAL},
+      </if>
+      <if test="itemprice != null">
+        ITEMPRICE = #{itemprice,jdbcType=DECIMAL},
+      </if>
+      <if test="shiptype != null">
+        SHIPTYPE = #{shiptype,jdbcType=CHAR},
+      </if>
+      <if test="itemtypeId != null">
+        ITEMTYPE_ID = #{itemtypeId,jdbcType=OTHER},
+      </if>
+      <if test="producearea != null">
+        PRODUCEAREA = #{producearea,jdbcType=OTHER},
+      </if>
+      <if test="manufacturerId != null">
+        MANUFACTURER_ID = #{manufacturerId,jdbcType=DECIMAL},
+      </if>
+      <if test="vendorId != null">
+        VENDOR_ID = #{vendorId,jdbcType=DECIMAL},
+      </if>
+      <if test="baseuomId != null">
+        BASEUOM_ID = #{baseuomId,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultuomId != null">
+        DEFAULTUOM_ID = #{defaultuomId,jdbcType=VARCHAR},
+      </if>
+      <if test="storagecondition != null">
+        STORAGECONDITION = #{storagecondition,jdbcType=VARCHAR},
+      </if>
+      <if test="islotctrl != null">
+        ISLOTCTRL = #{islotctrl,jdbcType=DECIMAL},
+      </if>
+      <if test="shelflife != null">
+        SHELFLIFE = #{shelflife,jdbcType=DECIMAL},
+      </if>
+      <if test="shelflifetype != null">
+        SHELFLIFETYPE = #{shelflifetype,jdbcType=VARCHAR},
+      </if>
+      <if test="palletratio != null">
+        PALLETRATIO = #{palletratio,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        CREATEUSER = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null">
+        MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuser != null">
+        MODIFYUSER = #{modifyuser,jdbcType=VARCHAR},
+      </if>
+      <if test="rowstatus != null">
+        ROWSTATUS = #{rowstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="catid != null">
+        CATID = #{catid,jdbcType=DECIMAL},
+      </if>
+      <if test="bigboxBar != null">
+        BIGBOX_BAR = #{bigboxBar,jdbcType=VARCHAR},
+      </if>
+      <if test="packBar != null">
+        PACK_BAR = #{packBar,jdbcType=VARCHAR},
+      </if>
+      <if test="itemKind != null">
+        ITEM_KIND = #{itemKind,jdbcType=CHAR},
+      </if>
+      <if test="kind != null">
+        KIND = #{kind,jdbcType=CHAR},
+      </if>
+      <if test="hSize != null">
+        H_SIZE = #{hSize,jdbcType=DECIMAL},
+      </if>
+      <if test="tSize != null">
+        T_SIZE = #{tSize,jdbcType=DECIMAL},
+      </if>
+      <if test="jSize != null">
+        J_SIZE = #{jSize,jdbcType=DECIMAL},
+      </if>
+      <if test="wSize != null">
+        W_SIZE = #{wSize,jdbcType=DECIMAL},
+      </if>
+      <if test="xSize != null">
+        X_SIZE = #{xSize,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="fullcount != null">
+        FULLCOUNT = #{fullcount,jdbcType=DECIMAL},
+      </if>
+      <if test="cdtype != null">
+        CDTYPE = #{cdtype,jdbcType=DECIMAL},
+      </if>
+      <if test="iscanscancode != null">
+        ISCANSCANCODE = #{iscanscancode,jdbcType=DECIMAL},
+      </if>
+      <if test="dxtype != null">
+        DXTYPE = #{dxtype,jdbcType=VARCHAR},
+      </if>
+      <if test="jtSize != null">
+        JT_SIZE = #{jtSize,jdbcType=DECIMAL},
+      </if>
+      <if test="wzSize != null">
+        WZ_SIZE = #{wzSize,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ItemVo">
+    update T_WMS_ITEM
+    set DCNO = #{dcno,jdbcType=VARCHAR},
+      SHIPPER_ID = #{shipperId,jdbcType=DECIMAL},
+      ITEMNO = #{itemno,jdbcType=VARCHAR},
+      ITEMNAME = #{itemname,jdbcType=VARCHAR},
+      SHORTNAME = #{shortname,jdbcType=VARCHAR},
+      SPEC = #{spec,jdbcType=VARCHAR},
+      ABCCODE = #{abccode,jdbcType=DECIMAL},
+      ITEMPRICE = #{itemprice,jdbcType=DECIMAL},
+      SHIPTYPE = #{shiptype,jdbcType=CHAR},
+      ITEMTYPE_ID = #{itemtypeId,jdbcType=OTHER},
+      PRODUCEAREA = #{producearea,jdbcType=OTHER},
+      MANUFACTURER_ID = #{manufacturerId,jdbcType=DECIMAL},
+      VENDOR_ID = #{vendorId,jdbcType=DECIMAL},
+      BASEUOM_ID = #{baseuomId,jdbcType=VARCHAR},
+      DEFAULTUOM_ID = #{defaultuomId,jdbcType=VARCHAR},
+      STORAGECONDITION = #{storagecondition,jdbcType=VARCHAR},
+      ISLOTCTRL = #{islotctrl,jdbcType=DECIMAL},
+      SHELFLIFE = #{shelflife,jdbcType=DECIMAL},
+      SHELFLIFETYPE = #{shelflifetype,jdbcType=VARCHAR},
+      PALLETRATIO = #{palletratio,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      CREATEUSER = #{createuser,jdbcType=VARCHAR},
+      MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      MODIFYUSER = #{modifyuser,jdbcType=VARCHAR},
+      ROWSTATUS = #{rowstatus,jdbcType=DECIMAL},
+      CATID = #{catid,jdbcType=DECIMAL},
+      BIGBOX_BAR = #{bigboxBar,jdbcType=VARCHAR},
+      PACK_BAR = #{packBar,jdbcType=VARCHAR},
+      ITEM_KIND = #{itemKind,jdbcType=CHAR},
+      KIND = #{kind,jdbcType=CHAR},
+      H_SIZE = #{hSize,jdbcType=DECIMAL},
+      T_SIZE = #{tSize,jdbcType=DECIMAL},
+      J_SIZE = #{jSize,jdbcType=DECIMAL},
+      W_SIZE = #{wSize,jdbcType=DECIMAL},
+      X_SIZE = #{xSize,jdbcType=DECIMAL},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      FULLCOUNT = #{fullcount,jdbcType=DECIMAL},
+      CDTYPE = #{cdtype,jdbcType=DECIMAL},
+      ISCANSCANCODE = #{iscanscancode,jdbcType=DECIMAL},
+      DXTYPE = #{dxtype,jdbcType=VARCHAR},
+      JT_SIZE = #{jtSize,jdbcType=DECIMAL},
+      WZ_SIZE = #{wzSize,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

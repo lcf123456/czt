@@ -1,0 +1,178 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.sq;
+
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+//import com.fsj.spring.web.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.ztel.app.service.sq.RoutescoreVoService;
+import com.ztel.app.vo.sq.RoutescoreVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author SN
+ * @since 2017年5月24日
+ * 星级参数表
+ */
+@Controller
+@RequestMapping("/sq/routescore")
+public class RoutescoreCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(RoutescoreCtrl.class);
+	
+	@Autowired
+	private RoutescoreVoService routescoreVoService = null;
+	
+	@RequestMapping("toRoutescore")
+	public String index(HttpServletRequest request) {
+		
+		return "/sq/v_routescore";
+	}
+	@RequestMapping(value="/toRoutescoreNew",method=RequestMethod.GET)
+	public String popWindow() throws Exception{
+		return "/sq/v_routescore_new";
+	}
+	/**
+	  * 获取参数信息列表
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping("getRoutescore")
+	 @ResponseBody
+	 public  Map<String, Object> getRoutescorePageList(RoutescoreVo routescoreVo,HttpServletRequest request) throws Exception {
+		 Pagination<?> page = this.getPagination(request);
+	//	 String time=request.getParameter("scoringtime1");
+	//	 if(time!=null && !time.equals(""))
+	//	 {
+	//		 routescoreVo.setScoringtime(Date.valueOf(time)); 
+	//	 }
+//	/	// System.out.println("重置之前numPerPage="+page.getNumPerPage()+","+page.getSortColumn()+",isSortAsc="+page.isSortAsc()); 
+//		 //按照DataGrid的分页重新设置分页参数
+//		 if (dgm!=null&&dgm.getSort()!=null&&dgm.getSort()!="") {
+//			 page.setSortKey(dgm.getSort());//设置排序字段
+//			
+//			 boolean isSortAsc=false;
+//			 if(dgm.getOrder()!=null&&dgm.getOrder()!=""&&dgm.getOrder().equals("asc"))isSortAsc=true;
+//			 page.setSortAsc(isSortAsc);//设置是否正序排练
+//			// System.out.println("dgm sort= "+dgm.getSort()+",order ="+dgm.getOrder()+",isSortAsc="+isSortAsc+",pageNum="+dgm.getPage()+",getRows="+dgm.getRows()); 
+//			 page.setNumPerPage(dgm.getRows());//设置每页显示记录数
+//		}
+
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		
+		 if (routescoreVo!=null) {
+			 System.out.println("routescoreVo="+routescoreVo.getId()); 
+			 page.setParam(routescoreVo);
+		}
+		 
+		 List<RoutescoreVo> paras = routescoreVoService.getRoutescorePageList(page);
+		 System.out.println(paras.size());
+		 //System.out.println(paras.get(0).getParanameE());
+		 result.put("rows",paras);  
+		 result.put("total",page.getTotalCount());  
+
+		 return result;
+	 }
+	 	
+	 /**
+	  * 自动语音-删除
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="dodelRoutescore",method=RequestMethod.POST)
+	 @ResponseBody
+	 public   Map<String, Object> deleteRoutescore(@RequestParam("id") List<Integer> ids) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+		 if (ids!=null&&ids.size()>0) {
+			 total = ids.size();
+		}
+		 try {
+			 routescoreVoService.delRoutescoreline(ids);
+			 routescoreVoService.delRoutescore(ids);
+			 map.put("msg", "成功");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 
+		 return map;
+	 }
+    
+	 /**
+	  * 自动语音-查看
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doviewRoutescore",method=RequestMethod.POST)
+	 //@ResponseBody
+	 public   void viewRoutescore(RoutescoreVo routescoreVo,HttpServletResponse response) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+        
+		 try {
+			 routescoreVoService.viewRoutescore(routescoreVo);
+			 map.put("msg", "成功");
+			 total=1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);
+		 //return map;
+	 }
+	 
+	 @RequestMapping("getViewRoutescore")
+	 @ResponseBody 
+public  Map<String, Object> getViewRoutescoreList(RoutescoreVo routescoreVo,HttpServletRequest request) throws Exception {
+	 Pagination<?> page = this.getPagination(request);
+	 Map<String, Object> result=new HashMap<String, Object>();  
+		String id=request.getParameter("id");
+	 if (routescoreVo!=null) {
+		 routescoreVo.setId(Long.parseLong(id));
+		 System.out.println("routescoreVo="+routescoreVo.getId()); 
+		 page.setParam(routescoreVo);
+	}
+	 else
+	 {
+		 routescoreVo=new RoutescoreVo();
+		 routescoreVo.setId(Long.parseLong(id));
+		 page.setParam(routescoreVo);
+	 }
+	 
+	 List<RoutescoreVo> paras = routescoreVoService.getViewRoutescorePageList(page);
+	 System.out.println(paras.size());
+	 System.out.println(paras.get(0).getAssessweight());
+	 System.out.println(paras.get(1).getAssessweight());
+	 System.out.println(paras.get(2).getAssessweight());
+	 System.out.println(paras.get(3).getAssessweight());
+	 result.put("rows",paras);  
+	 result.put("total",page.getTotalCount());  
+
+	 return result;
+ }
+}

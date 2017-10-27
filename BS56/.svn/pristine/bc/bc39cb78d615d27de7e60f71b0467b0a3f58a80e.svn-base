@@ -1,0 +1,19 @@
+package com.ztel.app.service.gis;
+
+import java.util.List;
+
+import com.ztel.app.vo.gis.TruckseqVo;
+import com.ztel.framework.vo.Pagination;
+
+/**
+ * 车辆排队
+ * @author lcf
+ *
+ */
+public interface TruckseqVoService {
+	public List<TruckseqVo> getTruckseqPageList(Pagination<?> page);
+	
+	public List<TruckseqVo> getTruckseqTodayPageList(Pagination<?> page);
+	
+	public void updateTruckseqByPrimarykey(TruckseqVo truckseqVo);
+}

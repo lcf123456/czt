@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.InterfaceImportantVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.InterfaceImportantVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="MATTERS" property="matters" jdbcType="VARCHAR" />
+    <result column="HANDLEMEANS" property="handlemeans" jdbcType="VARCHAR" />
+    <result column="SUGGESTION" property="suggestion" jdbcType="VARCHAR" />
+    <result column="QUESTION" property="question" jdbcType="VARCHAR" />
+    <result column="REPORTDATE" property="reportdate" jdbcType="TIMESTAMP" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DEPTID, MATTERS, HANDLEMEANS, SUGGESTION, QUESTION, REPORTDATE, CREATEID, CREATEDATE, 
+    FLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_INTERFACE_IMPORTANT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_INTERFACE_IMPORTANT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.InterfaceImportantVo" >
+    insert into T_SYS_INTERFACE_IMPORTANT (ID, DEPTID, MATTERS, 
+      HANDLEMEANS, SUGGESTION, QUESTION, 
+      REPORTDATE, CREATEID, CREATEDATE, 
+      FLAG)
+    values (#{id,jdbcType=DECIMAL}, #{deptid,jdbcType=DECIMAL}, #{matters,jdbcType=VARCHAR}, 
+      #{handlemeans,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
+      #{reportdate,jdbcType=TIMESTAMP}, #{createid,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.InterfaceImportantVo" >
+    insert into T_SYS_INTERFACE_IMPORTANT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="matters != null" >
+        MATTERS,
+      </if>
+      <if test="handlemeans != null" >
+        HANDLEMEANS,
+      </if>
+      <if test="suggestion != null" >
+        SUGGESTION,
+      </if>
+      <if test="question != null" >
+        QUESTION,
+      </if>
+      <if test="reportdate != null" >
+        REPORTDATE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="matters != null" >
+        #{matters,jdbcType=VARCHAR},
+      </if>
+      <if test="handlemeans != null" >
+        #{handlemeans,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestion != null" >
+        #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="reportdate != null" >
+        #{reportdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.InterfaceImportantVo" >
+    update T_SYS_INTERFACE_IMPORTANT
+    <set >
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="matters != null" >
+        MATTERS = #{matters,jdbcType=VARCHAR},
+      </if>
+      <if test="handlemeans != null" >
+        HANDLEMEANS = #{handlemeans,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestion != null" >
+        SUGGESTION = #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        QUESTION = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="reportdate != null" >
+        REPORTDATE = #{reportdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.InterfaceImportantVo" >
+    update T_SYS_INTERFACE_IMPORTANT
+    set DEPTID = #{deptid,jdbcType=DECIMAL},
+      MATTERS = #{matters,jdbcType=VARCHAR},
+      HANDLEMEANS = #{handlemeans,jdbcType=VARCHAR},
+      SUGGESTION = #{suggestion,jdbcType=VARCHAR},
+      QUESTION = #{question,jdbcType=VARCHAR},
+      REPORTDATE = #{reportdate,jdbcType=TIMESTAMP},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      FLAG = #{flag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

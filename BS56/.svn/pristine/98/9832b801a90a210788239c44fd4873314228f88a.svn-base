@@ -1,0 +1,88 @@
+package com.ztel.app.web.ctrl.sq;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.sq.ComplaintService;
+import com.ztel.app.service.sys.RouteInfoService;
+import com.ztel.app.vo.sq.ComplaintVo;
+import com.ztel.app.vo.sys.RouteInfoVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+
+/**
+ * @author lcf
+ * @since 2017年3月16日
+ * 菜单控制
+ */
+@Controller
+@RequestMapping("/sq/complaint")
+public class ComplaintCtrl extends BaseCtrl{
+	private static Logger logger = LogManager.getLogger(ComplaintCtrl.class);
+	
+	@Autowired
+	private ComplaintService complaintService = null;
+	
+	@Autowired 
+	private RouteInfoService routeInfoService = null;
+	
+	@RequestMapping("toComplaint")
+	public String toComplaint(HttpServletRequest request) {
+		return "/sq/v_complaint";
+	}
+	
+	@RequestMapping("toComplaintNew")
+	public String toComplaintNew(HttpServletRequest request,HttpServletResponse resp) throws Exception{
+		//resp.sendRedirect("/BS56/sq/complaint/openComplaintNew");
+		return "/sq/v_complaintNew";
+	}
+	
+	@RequestMapping("openComplaintNew")
+	public String openComplaintNew(HttpServletRequest request) {
+		return "redirect:/sq/v_complaintNew";
+	}
+	
+	@RequestMapping(value="getComplaintList")
+	 @ResponseBody
+	 public Map<String, Object> getComplaintList(ComplaintVo complaintVo, HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		Pagination<?> page = this.getPagination(request);
+		if (complaintVo!=null) {
+			 page.setParam(complaintVo);
+		}
+		List<ComplaintVo> complaintVoList = new ArrayList<ComplaintVo>();
+		complaintVoList = complaintService.getComplaintList(page);
+		
+		int totals=0;
+
+		 result.put("rows",complaintVoList);  
+		 result.put("total",page.getTotalCount());  
+		 
+		return result;
+	}
+	
+	/**
+	 * 根据车组code获取
+	 * @param routecode
+	 * @return
+	 */
+	 @RequestMapping("getDriverAndCashierByRotecode")
+	 @ResponseBody
+	 public RouteInfoVo getDriverAndCashierByRotecode(String routecode){
+		 return  routeInfoService.getDriverAndCashierByRotecode(routecode);
+	 }
+}

@@ -1,0 +1,78 @@
+package com.ztel.app.persist.mybatis.cost;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.ztel.app.vo.cost.SuppliesImpVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface SuppliesImpVoMapper {
+	
+	String getMaxSuppliesCode(String dateStr);
+	
+	/**
+	 * 物资退库
+	 * @param suppliesImpVo
+	 * @return
+	 */
+	int doSuppliesRefund(SuppliesImpVo suppliesImpVo);
+	
+	/**
+	 * 取入库物资列表信息
+	 * @param page
+	 * @return
+	 */
+	List<SuppliesImpVo> getSuppliesImpPageList(Pagination<?> page);
+	
+	/**
+	 * 取物资退库列表信息
+	 * @param page
+	 * @return
+	 */
+	List<SuppliesImpVo> getSuppliesRefundPageList(Pagination<?> page);
+	
+	/**
+	 * 根据物资类别取物资列表
+	 * @param typeid
+	 * @return
+	 */
+	List<SuppliesImpVo> getSuppliesImpList(@Param("typeid")String typeid);
+	
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int deleteByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insert(SuppliesImpVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insertSelective(SuppliesImpVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    SuppliesImpVo selectByPrimaryKey(Integer id);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int updateByPrimaryKeySelective(SuppliesImpVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int updateByPrimaryKey(SuppliesImpVo record);
+    
+}

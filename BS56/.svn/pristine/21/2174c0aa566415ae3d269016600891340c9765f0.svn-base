@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.PostInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.PostInfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+    <result column="POSTNAME" property="postname" jdbcType="VARCHAR" />
+    <result column="LVL" property="lvl" jdbcType="VARCHAR" />
+    <result column="SUPERIORSID" property="superiorsid" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, POSTCODE, POSTNAME, LVL, SUPERIORSID, DELSTATUS, REMARKS, DEPTID
+  </sql>
+  <select id="getPostinfoList"  resultType="com.ztel.app.vo.sys.PostInfoVo">
+		select a.ID, POSTCODE, POSTNAME, LVL, SUPERIORSID, DELSTATUS, REMARKS, DEPTID,b.DEPTNAME from t_sys_postinfo a,t_sys_dept b where a.deptid=b.id and a.delstatus='10'
+	<if test="superiorsid != null and superiorsid != ''">
+        AND SUPERIORSID = #{superiorsid} 
+	</if>
+	<if test="lvl != null and lvl != ''">
+        AND LVL = #{lvl}
+	</if>
+	order by  a.id
+</select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_POSTINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update  T_SYS_POSTINFO set delstatus='0' 
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.PostInfoVo" >
+    insert into T_SYS_POSTINFO (ID, POSTCODE, POSTNAME, 
+      LVL, SUPERIORSID, DELSTATUS, 
+      REMARKS, DEPTID)
+    values (#{id,jdbcType=DECIMAL}, #{postcode,jdbcType=VARCHAR}, #{postname,jdbcType=VARCHAR}, 
+      #{lvl,jdbcType=VARCHAR}, #{superiorsid,jdbcType=DECIMAL}, #{delstatus,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{deptid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.PostInfoVo" >
+    insert into T_SYS_POSTINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="postcode != null" >
+        POSTCODE,
+      </if>
+      <if test="postname != null" >
+        POSTNAME,
+      </if>
+      <if test="lvl != null" >
+        LVL,
+      </if>
+      <if test="superiorsid != null" >
+        SUPERIORSID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        s_sys_postinfo.nextval,
+      <if test="postcode != null" >
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="postname != null" >
+        #{postname,jdbcType=VARCHAR},
+      </if>
+      <if test="lvl != null" >
+        #{lvl,jdbcType=VARCHAR},
+      </if>
+      <if test="superiorsid != null" >
+        #{superiorsid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.PostInfoVo" >
+    update T_SYS_POSTINFO
+    <set >
+      <if test="postcode != null" >
+        POSTCODE = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="postname != null" >
+        POSTNAME = #{postname,jdbcType=VARCHAR},
+      </if>
+      <if test="lvl != null" >
+        LVL = #{lvl,jdbcType=VARCHAR},
+      </if>
+      <if test="superiorsid != null" >
+        SUPERIORSID = #{superiorsid,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.PostInfoVo" >
+    update T_SYS_POSTINFO
+    set POSTCODE = #{postcode,jdbcType=VARCHAR},
+      POSTNAME = #{postname,jdbcType=VARCHAR},
+      LVL = #{lvl,jdbcType=VARCHAR},
+      SUPERIORSID = #{superiorsid,jdbcType=DECIMAL},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

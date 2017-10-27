@@ -1,0 +1,106 @@
+package com.ztel.app.service.perform.impl;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.perform.KeyworkVoMapper;
+import com.ztel.app.persist.mybatis.perform.WorkcontentVoMapper;
+import com.ztel.app.service.perform.KeyworkService;
+import com.ztel.app.util.Constant;
+import com.ztel.app.vo.perform.KeyworkVo;
+import com.ztel.app.vo.perform.WorkcontentVo;
+
+@Service
+public class KeyworkServiceImpl implements KeyworkService {
+
+	@Autowired
+	private KeyworkVoMapper keyworkVoMapper = null;
+	
+	@Autowired
+	private WorkcontentVoMapper workcontentVoMapper = null;
+
+	
+	@Override
+	public List<KeyworkVo> selectKeyworkList(KeyworkVo keyworkVo) {
+		// TODO Auto-generated method stub
+		return keyworkVoMapper.selectListByCond(keyworkVo);
+	}
+
+	/**
+	 * 获取考核列表，包括重点工作及日常工作
+	 */
+	@Override
+	public List<KeyworkVo> selectAllKeyworkList(KeyworkVo keyworkVo) {
+		// TODO Auto-generated method stub
+		List<KeyworkVo> resultList = new ArrayList<KeyworkVo>();
+		
+		//重点工作
+		List<KeyworkVo> keyworkList = keyworkVoMapper.selectListByCond(keyworkVo);
+		if(keyworkList!=null&&keyworkList.size()>0){
+			for(int i =0;i<keyworkList.size();i++){
+				KeyworkVo KeyworkVo1 = keyworkList.get(i);
+				KeyworkVo1.setTypename(Constant.keywork);
+				KeyworkVo1.setScorevalue(Constant.keyworkweight);
+				KeyworkVo1.setSelfscore(KeyworkVo1.getWeight().multiply(Constant.keyworkweight));//权重*分值
+				KeyworkVo1.setCtype("10");//此处10：重点工作 20:日常工作
+				resultList.add(KeyworkVo1);
+			}
+		} 
+		//日常工作
+		WorkcontentVo workcontentVo = new WorkcontentVo();
+		if(keyworkVo.getWorkdate()!=null){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM"); 
+			String workdate = sdf.format(keyworkVo.getWorkdate());
+			workcontentVo.setWorkdatestr(workdate);
+		 }
+		 if(keyworkVo.getDeptid()!=null){
+			 workcontentVo.setDeptid(keyworkVo.getDeptid());
+		 }
+		 List<WorkcontentVo> workcontentList = new ArrayList<WorkcontentVo>();
+		 workcontentList = workcontentVoMapper.selectListByCond(workcontentVo);
+		 if(workcontentList!=null && workcontentList.size()>0){
+			 for(int i=0;i<workcontentList.size();i++){
+				 KeyworkVo KeyworkVo = new KeyworkVo();
+				 WorkcontentVo workcontentVo1 = workcontentList.get(i);
+				 KeyworkVo.setId(workcontentVo1.getId());
+				 KeyworkVo.setContent(workcontentVo1.getMatters());//考核项目、考核内容
+				 KeyworkVo.setProcess(workcontentVo1.getStandard());//考核标准、考核进度
+				 KeyworkVo.setCtype("20");//此处10：重点工作 20:日常工作
+				 
+				 if(workcontentVo1.getProperty()!=null&&workcontentVo1.getProperty().equals(Constant.safe)){
+					 KeyworkVo.setTypename("关键隐患控制");
+					 KeyworkVo.setScorevalue(Constant.safeweight);
+					 KeyworkVo.setSelfscore(workcontentVo1.getWeight().multiply(Constant.safeweight));//权重*分值
+				 }else if(workcontentVo1.getProperty()!=null&&workcontentVo1.getProperty().equals(Constant.contentwk)){
+					 KeyworkVo.setTypename("日常工作");
+					 KeyworkVo.setScorevalue(Constant.contentwkweight);
+					 KeyworkVo.setSelfscore(workcontentVo1.getWeight().multiply(Constant.contentwkweight));//权重*分值
+				 }else if(workcontentVo1.getProperty()!=null&&workcontentVo1.getProperty().equals(Constant.tmpwork)){
+					 KeyworkVo.setTypename("临时性工作");
+					 KeyworkVo.setScorevalue(Constant.tmpworkweight);
+					 KeyworkVo.setSelfscore(workcontentVo1.getWeight().multiply(Constant.tmpworkweight));//权重*分值
+				 }
+				 resultList.add(KeyworkVo);
+			 }
+		 }
+		return resultList;
+	}
+	
+	@Override
+	public void insertKeywork(KeyworkVo keyworkVo) {
+		// TODO Auto-generated method stub
+		keyworkVoMapper.insertSelective(keyworkVo);
+	}
+
+	@Override
+	public void doDel(Integer id) {
+		// TODO Auto-generated method stub
+		keyworkVoMapper.deleteByPrimaryKey(id);
+	}
+
+}

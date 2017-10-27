@@ -1,0 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/include/taglib.jsp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- 预付款客户：预付车组 -->
+<%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/account/prepayreturn.js"/>"></script>
+  <head>
+  <script type="text/javascript">
+  var tsid;//id主键
+  var groupcode;//装卸组code
+</script>
+  </head>
+  
+  <body>
+	
+	<!-- datagrid页面列表数据 -->
+	<div style="padding:10" id="tabdiv">
+		<table id="dataTabel"></table>
+	</div>
+	
+<!-- 查询-->
+	<div id="toolbar" style="padding:5px;height:auto;border-top:1px solid #95B8E7">
+	<form id="queryForm" style="margin:10;">
+		<div style="margin-bottom:5px">
+		订单日期从：<input name="orderdateStart" id="orderdateStart" class="easyui-datebox" style="width:100px" >&nbsp;
+		到<input name="orderdateEnd" id="orderdateEnd" class="easyui-datebox" style="width:100px" >&nbsp;
+		<input class="easyui-textbox"  name="keywd" id="keywd" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入店名、专卖证、送货车组...'" style="width:450px;height:24px;">
+		<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
+		</div>
+		</form>
+	</div>
+
+  </body>
+</html>

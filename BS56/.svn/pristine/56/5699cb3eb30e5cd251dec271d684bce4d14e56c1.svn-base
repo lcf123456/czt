@@ -1,0 +1,119 @@
+/*
+ * Copyright (c) 2016, All rights reserved.
+ */
+package com.ztel.framework.web.config;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.transform.Source;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.xml.SourceHttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.ztel.app.web.interceptor.SystemSessionInterceptor;
+import com.ztel.framework.web.coverter.FastJsonHttpMessageConverter;
+
+/**
+ * Provide some fault settings for spring mvc
+ * @author Zeal
+ * @since 2016年4月27日
+ */
+public abstract class WebConfigSupport extends WebMvcConfigurerAdapter {
+	
+	/**
+	 * Content negotiation
+	 */
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+		configurer.ignoreAcceptHeader(true);
+		configurer.defaultContentType(MediaType.TEXT_HTML);
+		//<property name="favorParameter" value="false"/>
+		//<!-- 用于开启 /userinfo/123?format=json 的支持 -->.parameterName("format")
+		configurer.favorParameter(false);
+		//这里是是否启用扩展名支持，默认就是true,例如  /user/{userid}.json
+		configurer.favorPathExtension(true).useJaf(false);
+		//index.json, index.xml
+		configurer.mediaType("xml", MediaType.APPLICATION_XML);
+		//configurer.mediaType("json", MediaType.APPLICATION_JSON);
+		configurer.mediaType("json", MediaType.APPLICATION_JSON);
+	}
+	
+	/**
+	 * Message converters
+	 */
+	public void configureMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
+		//Default converts copied from WebMvcConfigurationSupport.java
+		StringHttpMessageConverter stringConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
+		stringConverter.setWriteAcceptCharset(false);
+//		List<MediaType> mediaTypeList = new ArrayList<MediaType>();  
+//        mediaTypeList.add(new MediaType("text", "plain"));  
+//        mediaTypeList.add(MediaType.ALL); 
+//		stringConverter.setSupportedMediaTypes(mediaTypeList);
+		messageConverters.add(new ByteArrayHttpMessageConverter());
+		messageConverters.add(stringConverter);
+		messageConverters.add(new ResourceHttpMessageConverter());
+		messageConverters.add(new SourceHttpMessageConverter<Source>());
+		//messageConverters.add(new AllEncompassingFormHttpMessageConverter());
+		messageConverters.add(new FormHttpMessageConverter());
+		//Only support fast json right now
+		FastJsonHttpMessageConverter json = new FastJsonHttpMessageConverter();
+		//JSONUtils.defaultSettings();
+		messageConverters.add(json);
+	}
+	
+	/**
+	 * Use jsp default servlet to handle static resources
+	 */
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+	
+	/**
+	 * By default we use messages.properties, override it when it's necessary
+	 * @return
+	 */
+	@Bean(name="messageSource")
+	public ResourceBundleMessageSource resourceBundleMessageSource() {
+		ResourceBundleMessageSource r = new ResourceBundleMessageSource();
+		r.setBasename("messages");
+		return r;
+	}
+	
+	/**
+	 * By default we use jsp to render view
+	 * @return
+	 */
+	@Bean
+	public InternalResourceViewResolver getInternalResourceViewResolver() {
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		resolver.setPrefix("/WEB-INF/jsp/");
+		resolver.setSuffix(".jsp");
+		return resolver;
+	}
+
+	/**
+	 * 配置自定义拦截器
+	 */
+	@Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 多个拦截器组成一个拦截器链
+        // addPathPatterns 用于添加拦截规则
+        // excludePathPatterns 用户排除拦截
+        registry.addInterceptor(new SystemSessionInterceptor()).addPathPatterns("/**").excludePathPatterns("/*");//登录页面不被拦截http://localhost:8001/BS56/
+        super.addInterceptors(registry);
+    }
+
+}

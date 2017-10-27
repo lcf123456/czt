@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.ATSCellInfoDetailVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ATSCellInfoDetailVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="VARCHAR" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="OTHER" />
+    <result column="PALLETNO" property="palletno" jdbcType="VARCHAR" />
+    <result column="REQUESTQTY" property="requestqty" jdbcType="DECIMAL" />
+    <result column="SEARCHDATE" property="searchdate" jdbcType="VARCHAR" />
+    <result column="JTSIZE" property="jtsize" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, QTY, CIGARETTECODE, CIGARETTENAME, PALLETNO, REQUESTQTY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_ATSCELLINFO_DETAIL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 取立库件烟库存 -->
+  <select id="getATSCellInfoSummary" resultMap="BaseResultMap"  parameterType="com.ztel.app.vo.wms.ATSCellInfoDetailVo" >
+    select cigarettecode,cigarettename,sum(qty) as qty,jt_size as jtsize from t_wms_atscellinfo_detail a,t_wms_atscellinfo b,t_wms_item c 
+	where a.cellno=b.cellno and b.status=30 and a.cigarettecode=c.itemno
+	<if test="searchdate != null and searchdate != ''" >
+        and b.createtime &lt;to_date(#{searchdate},'yyyy-MM-dd')+1
+      </if>
+	group by cigarettecode,cigarettename,jt_size order by cigarettename
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_ATSCELLINFO_DETAIL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ATSCellInfoDetailVo" >
+    insert into T_WMS_ATSCELLINFO_DETAIL (ID, QTY, CIGARETTECODE, 
+      CIGARETTENAME, PALLETNO, REQUESTQTY
+      )
+    values (#{id,jdbcType=DECIMAL}, #{qty,jdbcType=DECIMAL}, #{cigarettecode,jdbcType=VARCHAR}, 
+      #{cigarettename,jdbcType=OTHER}, #{palletno,jdbcType=VARCHAR}, #{requestqty,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ATSCellInfoDetailVo" >
+    insert into T_WMS_ATSCELLINFO_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="qty != null" >
+        QTY,
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME,
+      </if>
+      <if test="palletno != null" >
+        PALLETNO,
+      </if>
+      <if test="requestqty != null" >
+        REQUESTQTY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null" >
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null" >
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="palletno != null" >
+        #{palletno,jdbcType=VARCHAR},
+      </if>
+      <if test="requestqty != null" >
+        #{requestqty,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ATSCellInfoDetailVo" >
+    update T_WMS_ATSCELLINFO_DETAIL
+    <set >
+      <if test="qty != null" >
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="palletno != null" >
+        PALLETNO = #{palletno,jdbcType=VARCHAR},
+      </if>
+      <if test="requestqty != null" >
+        REQUESTQTY = #{requestqty,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ATSCellInfoDetailVo" >
+    update T_WMS_ATSCELLINFO_DETAIL
+    set QTY = #{qty,jdbcType=DECIMAL},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      PALLETNO = #{palletno,jdbcType=VARCHAR},
+      REQUESTQTY = #{requestqty,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

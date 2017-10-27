@@ -1,0 +1,3 @@
+jdbc.url=jdbc:oracle:thin:@10.75.109.2:1521:BSWL
+jdbc.username=bswlsq
+jdbc.password=1

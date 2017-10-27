@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.CigaretteimpInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.CigaretteimpInfoVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDERQTY" property="orderqty" jdbcType="DECIMAL" />
+    <result column="IMPQTY" property="impqty" jdbcType="DECIMAL" />
+    <result column="IMPDATE" property="impdate" jdbcType="TIMESTAMP" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORDERQTY, IMPQTY, IMPDATE, UNIT, CREATEDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_CIGARETTEIMPINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_CIGARETTEIMPINFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.CigaretteimpInfoVo" >
+    insert into T_SYS_CIGARETTEIMPINFO (ID, ORDERQTY, IMPQTY, 
+      IMPDATE, UNIT, CREATEDATE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{orderqty,jdbcType=DECIMAL}, #{impqty,jdbcType=DECIMAL}, 
+      #{impdate,jdbcType=TIMESTAMP}, #{unit,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.CigaretteimpInfoVo" >
+    insert into T_SYS_CIGARETTEIMPINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderqty != null" >
+        ORDERQTY,
+      </if>
+      <if test="impqty != null" >
+        IMPQTY,
+      </if>
+      <if test="impdate != null" >
+        IMPDATE,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orderqty != null" >
+        #{orderqty,jdbcType=DECIMAL},
+      </if>
+      <if test="impqty != null" >
+        #{impqty,jdbcType=DECIMAL},
+      </if>
+      <if test="impdate != null" >
+        #{impdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.CigaretteimpInfoVo" >
+    update T_SYS_CIGARETTEIMPINFO
+    <set >
+      <if test="orderqty != null" >
+        ORDERQTY = #{orderqty,jdbcType=DECIMAL},
+      </if>
+      <if test="impqty != null" >
+        IMPQTY = #{impqty,jdbcType=DECIMAL},
+      </if>
+      <if test="impdate != null" >
+        IMPDATE = #{impdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.CigaretteimpInfoVo" >
+    update T_SYS_CIGARETTEIMPINFO
+    set ORDERQTY = #{orderqty,jdbcType=DECIMAL},
+      IMPQTY = #{impqty,jdbcType=DECIMAL},
+      IMPDATE = #{impdate,jdbcType=TIMESTAMP},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

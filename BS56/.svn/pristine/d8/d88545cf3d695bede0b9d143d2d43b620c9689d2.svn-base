@@ -1,0 +1,19 @@
+package com.ztel.app.service.wms;
+
+import java.util.List;
+
+import com.ztel.app.vo.wms.CigarettedamagedLineVo;
+import com.ztel.app.vo.wms.CigarettedamagedVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface CigarettedamagedService {
+
+	public List<CigarettedamagedVo>  selectCigarettedamagedPageList(Pagination<?> page);
+	
+	/**
+	 * 破损录入
+	 * @param cigarettedamagedLineVo
+	 * @param cigarettedamagedVo
+	 */
+	public void insertCigarettedamaged(CigarettedamagedLineVo cigarettedamagedLineVo,CigarettedamagedVo cigarettedamagedVo);
+}

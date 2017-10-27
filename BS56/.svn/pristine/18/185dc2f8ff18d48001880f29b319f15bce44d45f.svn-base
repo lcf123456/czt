@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.RoutescoreVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.RoutescoreVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CUSTID" property="custid" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="ROUTESCORE" property="routescore" jdbcType="DECIMAL" />
+    <result column="DSCORE" property="dscore" jdbcType="DECIMAL" />
+    <result column="CSCORE" property="cscore" jdbcType="DECIMAL" />
+    <result column="SOURCEID" property="sourceid" jdbcType="DECIMAL" />
+    <result column="SCORINGTIME" property="scoringtime" jdbcType="TIMESTAMP" />
+    <result column="PLANID" property="planid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="CASHIERID" property="cashierid" jdbcType="DECIMAL" />
+    <result column="COMPANYCORE" property="companycore" jdbcType="DECIMAL" />
+    <result column="RECORD" property="record" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="CNAME" property="cname" jdbcType="VARCHAR" />
+	<result column="DNAME" property="dname" jdbcType="VARCHAR" />
+	<result column="ASSESSWEIGHT" property="assessweight" jdbcType="DECIMAL" />
+	<result column="ACTUALSCORE" property="actualscore" jdbcType="DECIMAL" />
+	<result column="EVALITEMID" property="evalitemid" jdbcType="DECIMAL" />
+	<result column="CONTENTSHORT" property="contentshort" jdbcType="VARCHAR" />
+	<result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+	<result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+	<result column="CUSTCODE" property="custcode" jdbcType="VARCHAR" />
+	<result column="CUSTNAME" property="custname" jdbcType="VARCHAR" />
+	<result column="CUSTADDR" property="custaddr" jdbcType="VARCHAR" />
+	<result column="CONTACT" property="contact" jdbcType="VARCHAR" />
+	<result column="TELNUM" property="telnum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUSTID, ROUTECODE, CREATEID, ROUTESCORE, DSCORE, CSCORE, SOURCEID, SCORINGTIME, 
+    PLANID, REMARKS, DRIVERID, CASHIERID, COMPANYCORE, RECORD
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_ROUTE_SCORESUMMARY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getRoutescorePageList" parameterType="Pagination" resultType="com.ztel.app.vo.sq.RoutescoreVo">
+    select  a.ID, CUSTID, ROUTECODE, creater.username as createname, a.CREATEID, ROUTESCORE, DSCORE, CSCORE, SOURCEID, SCORINGTIME, 
+    PLANID, REMARKS, driver.username as dname, a.DRIVERID, cashier.username as cname, a.CASHIERID, COMPANYCORE, RECORD
+    from T_SQ_ROUTE_SCORESUMMARY a ,t_sys_user creater,t_sys_user cashier,t_sys_user driver  
+    where SOURCEID=4 and a.createid=creater.id and a.cashierid=cashier.id and a.driverid=driver.id
+      <if test="param != null and param.keywd != null and param.keywd != ''" >
+        and (ROUTECODE like'%'||#{param.keywd}||'%'  )
+      </if>
+       <if test="param != null and param.scoringtime != null " >
+        and (to_char(SCORINGTIME,'yyyy-MM-dd') =to_char(#{param.scoringtime},'yyyy-MM-dd') )
+      </if>
+      order by SCORINGTIME DESC
+</select>
+
+<!-- 市场督察列表 -->
+  <select id="getRoutescoreMarketPageList" parameterType="Pagination" resultType="com.ztel.app.vo.sq.RoutescoreVo">
+    select  a.ID, CUSTID, a.ROUTECODE, creater.username as createname, a.CREATEID, ROUTESCORE, DSCORE, CSCORE, SOURCEID, SCORINGTIME, 
+    PLANID, a.REMARKS, driver.username as dname, a.DRIVERID, cashier.username as cname, a.CASHIERID, COMPANYCORE, RECORD,
+    cust.code as custcode,cust.name as custname,cust.contact,cust.contactphone as telnum,cust.contactaddress as custaddr
+    from T_SQ_ROUTE_SCORESUMMARY a ,t_sys_user creater,t_sys_user cashier,t_sys_user driver,t_wms_customer cust  
+    where SOURCEID=3 and a.createid=creater.id and a.cashierid=cashier.id and a.driverid=driver.id and a.custid=cust.id
+      <if test="param != null and param.keywd != null and param.keywd != ''" >
+        and (ROUTECODE like'%'||#{param.keywd}||'%' or driver.username like'%'||#{param.keywd}||'%' or cashier.username like'%'||#{param.keywd}||'%' or creater.username like'%'||#{param.keywd}||'%' or cust.name like'%'||#{param.keywd}||'%' )
+      </if>
+       <if test="param != null and param.begdate != null " >
+        and SCORINGTIME>=to_date(#{param.begdate},'yyyy-MM-dd') 
+      </if>
+       <if test="param != null and param.enddate != null " >
+        and SCORINGTIME &lt; to_date(#{param.enddate},'yyyy-MM-dd') +1
+      </if>
+      order by SCORINGTIME DESC
+</select>
+  <select id="getViewRoutescorePageList" parameterType="Pagination" resultType="com.ztel.app.vo.sq.RoutescoreVo">
+		select b.id,b.fid,b.assessweight,b.actualscore,c.contentshort 
+		from T_SQ_ROUTE_SCORESUMMARY a,t_sq_route_scoreline b ,T_SQ_EVALITEM c  
+		where   b.evalitemid=c.id and a.id=b.fid and b.fid=#{param.id}
+</select>
+
+  <delete id="deleteLineKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_ROUTE_SCORELINE
+    where FID = #{id,jdbcType=DECIMAL}
+  </delete>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_ROUTE_SCORESUMMARY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- 取序列id -->
+  <select id="getRouteScoreId" resultType="java.lang.Long">
+		select S_SQ_ROUTE_SCORESUMMARY.nextval from dual
+  </select>
+  
+  <!-- 新增主表信息 -->
+  <insert id="insertSummarySelective"  useGeneratedKeys="false"  parameterType="com.ztel.app.vo.sq.RoutescoreVo" >
+    insert into T_SQ_ROUTE_SCORESUMMARY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="custid != null" >
+        CUSTID,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="routescore != null" >
+        ROUTESCORE,
+      </if>
+      <if test="dscore != null" >
+        DSCORE,
+      </if>
+      <if test="cscore != null" >
+        CSCORE,
+      </if>
+      <if test="sourceid != null" >
+        SOURCEID,
+      </if>
+      <if test="scoringtime != null" >
+        SCORINGTIME,
+      </if>
+      <if test="planid != null" >
+        PLANID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="driverid != null" >
+        DRIVERID,
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID,
+      </if>
+      <if test="companycore != null" >
+        COMPANYCORE,
+      </if>
+      <if test="record != null" >
+        RECORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="custid != null" >
+        #{custid,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="routescore != null" >
+        #{routescore,jdbcType=DECIMAL},
+      </if>
+      <if test="dscore != null" >
+        #{dscore,jdbcType=DECIMAL},
+      </if>
+      <if test="cscore != null" >
+        #{cscore,jdbcType=DECIMAL},
+      </if>
+      <if test="sourceid != null" >
+        #{sourceid,jdbcType=DECIMAL},
+      </if>
+      <if test="scoringtime != null" >
+        #{scoringtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planid != null" >
+        #{planid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="companycore != null" >
+        #{companycore,jdbcType=DECIMAL},
+      </if>
+      <if test="record != null" >
+        #{record,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 新增从表信息 -->
+  <insert id="insertLineSelective"   useGeneratedKeys="false"  parameterType="com.ztel.app.vo.sq.RoutescoreVo" >
+    insert into T_SQ_ROUTE_SCORELINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="evalitemid != null" >
+        EVALITEMID,
+      </if>
+      <if test="assessweight != null" >
+        ASSESSWEIGHT,
+      </if>
+      <if test="actualscore != null" >
+        ACTUALSCORE,
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      S_SQ_ROUTE_SCORELINE.nextval,
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="evalitemid != null" >
+        #{evalitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="assessweight != null" >
+        #{assessweight,jdbcType=DECIMAL},
+      </if>
+      <if test="actualscore != null" >
+        #{actualscore,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+</mapper>

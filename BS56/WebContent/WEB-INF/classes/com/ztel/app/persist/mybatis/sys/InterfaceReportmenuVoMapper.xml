@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.InterfaceReportmenuVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.InterfaceReportmenuVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="REPORTNAME" property="reportname" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="MENULEVEL" property="menulevel" jdbcType="VARCHAR" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, REPORTNAME, URL, MENULEVEL, FID, SEQ, REMARKS, FLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_INTERFACE_REPORTMENU
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from T_SYS_INTERFACE_REPORTMENU
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.InterfaceReportmenuVo" >
+    insert into T_SYS_INTERFACE_REPORTMENU (ID, REPORTNAME, URL, 
+      MENULEVEL, FID, SEQ, 
+      REMARKS, FLAG)
+    values (#{id,jdbcType=DECIMAL}, #{reportname,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{menulevel,jdbcType=VARCHAR}, #{fid,jdbcType=DECIMAL}, #{seq,jdbcType=DECIMAL}, 
+      #{remarks,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.InterfaceReportmenuVo" >
+    insert into T_SYS_INTERFACE_REPORTMENU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="reportname != null" >
+        REPORTNAME,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="menulevel != null" >
+        MENULEVEL,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="reportname != null" >
+        #{reportname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menulevel != null" >
+        #{menulevel,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.InterfaceReportmenuVo" >
+    update T_SYS_INTERFACE_REPORTMENU
+    <set >
+      <if test="reportname != null" >
+        REPORTNAME = #{reportname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menulevel != null" >
+        MENULEVEL = #{menulevel,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.InterfaceReportmenuVo" >
+    update T_SYS_INTERFACE_REPORTMENU
+    set REPORTNAME = #{reportname,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      MENULEVEL = #{menulevel,jdbcType=VARCHAR},
+      FID = #{fid,jdbcType=DECIMAL},
+      SEQ = #{seq,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.InterfaceKpirelativeVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.InterfaceKpirelativeVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="KPIID" property="kpiid" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, KPIID, USERID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_INTERFACE_KPIRELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_INTERFACE_KPIRELATIVE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.InterfaceKpirelativeVo" >
+    insert into T_SYS_INTERFACE_KPIRELATIVE (ID, KPIID, USERID
+      )
+    values (#{id,jdbcType=DECIMAL}, #{kpiid,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.InterfaceKpirelativeVo" >
+    insert into T_SYS_INTERFACE_KPIRELATIVE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="kpiid != null" >
+        KPIID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiid != null" >
+        #{kpiid,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.InterfaceKpirelativeVo" >
+    update T_SYS_INTERFACE_KPIRELATIVE
+    <set >
+      <if test="kpiid != null" >
+        KPIID = #{kpiid,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.InterfaceKpirelativeVo" >
+    update T_SYS_INTERFACE_KPIRELATIVE
+    set KPIID = #{kpiid,jdbcType=DECIMAL},
+      USERID = #{userid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

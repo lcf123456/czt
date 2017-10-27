@@ -1,0 +1,27 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.CustomerVoMapper;
+import com.ztel.app.service.wms.CustomerService;
+import com.ztel.app.vo.wms.CustomerVo;
+
+@Service
+public class CustomerServiceImpl implements CustomerService {
+	
+	@Autowired
+	private CustomerVoMapper customerVoMapper = null;
+	
+	/**
+	 * 根据条件查询零售户，暂时传入了routecode参数，用于投诉受理零售户查询
+	 */
+	public List<CustomerVo>  getListByCond(CustomerVo customerVo){
+		List<CustomerVo> custList = null;
+		custList = customerVoMapper.selectListByCond(customerVo);
+		return custList;
+	}
+
+}

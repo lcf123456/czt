@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.mobile.OrdersignVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.mobile.OrdersignVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDERNO" property="orderno" jdbcType="VARCHAR" />
+    <result column="LAT" property="lat" jdbcType="DECIMAL" />
+    <result column="LNG" property="lng" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="IMGNAME" property="imgname" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DETAILADDR" property="detailaddr" jdbcType="VARCHAR" />
+    <result column="CTYPE" property="ctype" jdbcType="VARCHAR" />
+    <result column="ORDERDATE" property="orderdate" jdbcType="TIMESTAMP" />
+    
+    <result column="CREATETIMESTR" property="createtimestr" jdbcType="VARCHAR" />
+    <result column="KEYWD" property="keywd" jdbcType="VARCHAR" />
+    <result column="KEYWDNUMBER" property="keywdnumber" jdbcType="VARCHAR" />
+    <result column="ORDERDATESTR" property="orderdatestr" jdbcType="VARCHAR" />
+    <result column="CUSTID" property="custid" jdbcType="VARCHAR" />
+    <result column="CUSTNAME" property="custname" jdbcType="VARCHAR" />
+    <result column="BEGINTIME" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="DELEVERYCOUNT" property="deleverycount" jdbcType="DECIMAL" />
+    <result column="DELIVERYTIME" property="deliverytime" jdbcType="DECIMAL" />
+    <result column="AVGCOUNT" property="avgcount" jdbcType="DECIMAL" />
+    
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORDERNO, LAT, LNG, ROUTECODE, CREATEID, CREATETIME, IMGNAME, REMARKS, DETAILADDR, 
+    CTYPE, ORDERDATE
+  </sql>
+  
+  <!-- keywdnumber引入是为了查询数量、金额等数字型 -->
+  <select id="selectOrdersignPageList" parameterType="Pagination" resultType="com.ztel.app.vo.mobile.OrdersignVo">
+    select 
+  odsign.ID, odsign.orderno, odsign.LAT, odsign.LNG, odsign.ROUTECODE, odsign.CREATEID, odsign.CREATETIME, odsign.IMGNAME, 
+  odsign.REMARKS, odsign.DETAILADDR,  odsign.CTYPE, odsign.ORDERDATE,sorder.customername,sorder.customer_id as custid,
+  to_char(odsign.CREATETIME,'yyyy-mm-dd hh-mi-ss') as createtimestr,to_char(odsign.ORDERDATE,'yyyy-mm-dd') as orderdatestr
+    from T_MOBILE_ORDERSIGN odsign
+    left outer join t_wms_shiporder sorder on odsign.orderno=sorder.orderno
+    where 1=1 
+  <if test="param != null and param.keywd != null and param.keywd != ''">
+        AND sorder.customername like '%'||#{param.keywd}||'%'
+    </if>
+    <if test="param != null and param.keywdnumber != null and param.keywdnumber != ''">
+        AND (sorder.customer_id = #{param.keywdnumber} or odsign.routecode = #{param.keywdnumber})
+    </if>
+    <if test="param != null and param.begintime != null and param.endtime != null">
+        AND (trunc(odsign.CREATETIME) between  #{param.begintime} and #{param.endtime})
+    </if>
+    order by odsign.CREATETIME desc
+</select>
+  
+  <!-- 签收报表 -->
+    <select id="selectOrdersignReportList" parameterType="com.ztel.app.vo.mobile.OrdersignVo" resultType="com.ztel.app.vo.mobile.OrdersignVo">
+   select count(*) as deleverycount,routecode,round((max(createtime)-min(createtime))*24,2) as deliverytime, 
+   round(count(*)/((max(createtime)-min(createtime))*24),2) as avgcount 
+	from t_mobile_ordersign 
+    where 1=1 
+    <if test="createtime != null">
+        AND trunc(createtime) = #{createtime}
+    </if>
+   group by routecode 
+   order by routecode
+	</select>
+
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_MOBILE_ORDERSIGN
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_MOBILE_ORDERSIGN
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.mobile.OrdersignVo" >
+    insert into T_MOBILE_ORDERSIGN (ID, ORDERNO, LAT, 
+      LNG, ROUTECODE, CREATEID, 
+      CREATETIME, IMGNAME, REMARKS, 
+      DETAILADDR, CTYPE, ORDERDATE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{orderno,jdbcType=VARCHAR}, #{lat,jdbcType=DECIMAL}, 
+      #{lng,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, #{createid,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{imgname,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{detailaddr,jdbcType=VARCHAR}, #{ctype,jdbcType=VARCHAR}, #{orderdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.mobile.OrdersignVo" >
+    insert into T_MOBILE_ORDERSIGN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="lat != null" >
+        LAT,
+      </if>
+      <if test="lng != null" >
+        LNG,
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="imgname != null" >
+        IMGNAME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="detailaddr != null" >
+        DETAILADDR,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgname != null" >
+        #{imgname,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="detailaddr != null" >
+        #{detailaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.mobile.OrdersignVo" >
+    update T_MOBILE_ORDERSIGN
+    <set >
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        LAT = #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="lng != null" >
+        LNG = #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgname != null" >
+        IMGNAME = #{imgname,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="detailaddr != null" >
+        DETAILADDR = #{detailaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.mobile.OrdersignVo" >
+    update T_MOBILE_ORDERSIGN
+    set ORDERNO = #{orderno,jdbcType=VARCHAR},
+      LAT = #{lat,jdbcType=DECIMAL},
+      LNG = #{lng,jdbcType=DECIMAL},
+      ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      IMGNAME = #{imgname,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DETAILADDR = #{detailaddr,jdbcType=VARCHAR},
+      CTYPE = #{ctype,jdbcType=VARCHAR},
+      ORDERDATE = #{orderdate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

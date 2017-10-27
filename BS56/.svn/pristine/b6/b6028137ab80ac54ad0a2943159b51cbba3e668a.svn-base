@@ -1,0 +1,42 @@
+package com.ztel.app.persist.mybatis.gis;
+
+import com.ztel.app.vo.gis.GroupinfoVo;
+import java.math.BigDecimal;
+
+public interface GroupinfoVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int insert(GroupinfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int insertSelective(GroupinfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    GroupinfoVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int updateByPrimaryKeySelective(GroupinfoVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int updateByPrimaryKey(GroupinfoVo record);
+}

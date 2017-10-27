@@ -1,0 +1,88 @@
+/*
+ * Copyright (c) 2017, All rights reserved.
+ */
+package com.ztel.app.web.ctrl.wms;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ztel.app.service.wms.ConsignorService;
+import com.ztel.app.vo.sq.StarinfoVo;
+import com.ztel.app.vo.wms.ConsignorVo;
+import com.ztel.framework.vo.Pagination;
+import com.ztel.framework.web.ctrl.BaseCtrl;
+
+/**
+ * @author sn
+ * @since 2017年8月6日
+ */
+@Controller
+@RequestMapping("/wms/consignor")
+public class ConsignorCtrl extends BaseCtrl {
+	
+	private static Logger logger = LogManager.getLogger(ConsignorCtrl.class);
+	
+	@Autowired
+	private ConsignorService consignorService = null;
+	
+	@RequestMapping("toConsignor")
+	public String index(HttpServletRequest request) {
+		
+		return "/wms/v_consignor";
+	}
+	
+	
+	/**
+	  * 获取货户信息列表
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping("getConsignorList")
+	 @ResponseBody
+	 public  Map<String, Object> getConsignorList(ConsignorVo consignorVo,HttpServletRequest request) throws Exception {
+		 Pagination<?> page = this.getPagination(request);
+
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		
+		 if (consignorVo!=null) {
+			// System.out.println("consignorVo="+consignorVo.getId()); 
+			 page.setParam(consignorVo);
+		}
+		 
+		 List<ConsignorVo> paras = consignorService.getConsignorList(consignorVo);
+		 System.out.println(paras.size());
+		 //System.out.println(paras.get(0).getParanameE());
+		 result.put("rows",paras);  
+		 result.put("total",page.getTotalCount());  
+
+		 return result;
+	 }
+	 	
+//	 @RequestMapping("getConsignorPageList")
+//	 @ResponseBody
+//	 public  Map<String, Object> getConsignorPageList(ConsignorVo consignorVo,HttpServletRequest request) throws Exception {
+//		 Pagination<?> page = this.getPagination(request);
+//		 Map<String, Object> result=new HashMap<String, Object>();  
+//		 if (consignorVo!=null) {
+//			 page.setParam(consignorVo);
+//		}
+//		 List<ConsignorVo> paras = consignorService.getConsignorPageList(page);
+//		 //System.out.println(paras.size());
+//		 //System.out.println(paras.get(0).getParanameE());
+//		 result.put("rows",paras);  
+//		 result.put("total",page.getTotalCount());  
+//
+//		 return result;
+//	 }
+}
+	
+    

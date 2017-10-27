@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.produce.OrderVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.produce.OrderVo" >
+    <id column="BILLCODE" property="billcode" jdbcType="VARCHAR" />
+    <result column="COMPANYCODE" property="companycode" jdbcType="VARCHAR" />
+    <result column="COMPANYNAME" property="companyname" jdbcType="VARCHAR" />
+    <result column="BATCHCODE" property="batchcode" jdbcType="VARCHAR" />
+    <result column="SYNSEQ" property="synseq" jdbcType="DECIMAL" />
+    <result column="ORDERQUANTITY" property="orderquantity" jdbcType="DECIMAL" />
+    <result column="ORDERMONEY" property="ordermoney" jdbcType="DECIMAL" />
+    <result column="CUSTOMERCODE" property="customercode" jdbcType="VARCHAR" />
+    <result column="CUSTOMERNAME" property="customername" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="PRIORITY" property="priority" jdbcType="DECIMAL" />
+    <result column="REGIONCODE" property="regioncode" jdbcType="VARCHAR" />
+    <result column="TASKNUMBERS" property="tasknumbers" jdbcType="VARCHAR" />
+    <result column="TASKBOXIES" property="taskboxies" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="DEVSEQ" property="devseq" jdbcType="DECIMAL" />
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="ORDERDATE" property="orderdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BILLCODE, COMPANYCODE, COMPANYNAME, BATCHCODE, SYNSEQ, ORDERQUANTITY, ORDERMONEY, 
+    CUSTOMERCODE, CUSTOMERNAME, ADDRESS, TELEPHONE, PRIORITY, REGIONCODE, TASKNUMBERS, 
+    TASKBOXIES, STATE, DEVSEQ, ID, CREATETIME, ORDERDATE
+  </sql>
+  
+  <select id="selectOrderdate" resultType="com.ztel.app.vo.produce.OrderVo"  >
+    select min(orderdate) as orderdate from t_produce_order
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PRODUCE_ORDER
+    where BILLCODE = #{billcode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_PRODUCE_ORDER
+    where BILLCODE = #{billcode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.produce.OrderVo" >
+    insert into T_PRODUCE_ORDER (BILLCODE, COMPANYCODE, COMPANYNAME, 
+      BATCHCODE, SYNSEQ, ORDERQUANTITY, 
+      ORDERMONEY, CUSTOMERCODE, CUSTOMERNAME, 
+      ADDRESS, TELEPHONE, PRIORITY, 
+      REGIONCODE, TASKNUMBERS, TASKBOXIES, 
+      STATE, DEVSEQ, ID, 
+      CREATETIME, ORDERDATE)
+    values (#{billcode,jdbcType=VARCHAR}, #{companycode,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, 
+      #{batchcode,jdbcType=VARCHAR}, #{synseq,jdbcType=DECIMAL}, #{orderquantity,jdbcType=DECIMAL}, 
+      #{ordermoney,jdbcType=DECIMAL}, #{customercode,jdbcType=VARCHAR}, #{customername,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{priority,jdbcType=DECIMAL}, 
+      #{regioncode,jdbcType=VARCHAR}, #{tasknumbers,jdbcType=VARCHAR}, #{taskboxies,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{devseq,jdbcType=DECIMAL}, #{id,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{orderdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.produce.OrderVo" >
+    insert into T_PRODUCE_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billcode != null" >
+        BILLCODE,
+      </if>
+      <if test="companycode != null" >
+        COMPANYCODE,
+      </if>
+      <if test="companyname != null" >
+        COMPANYNAME,
+      </if>
+      <if test="batchcode != null" >
+        BATCHCODE,
+      </if>
+      <if test="synseq != null" >
+        SYNSEQ,
+      </if>
+      <if test="orderquantity != null" >
+        ORDERQUANTITY,
+      </if>
+      <if test="ordermoney != null" >
+        ORDERMONEY,
+      </if>
+      <if test="customercode != null" >
+        CUSTOMERCODE,
+      </if>
+      <if test="customername != null" >
+        CUSTOMERNAME,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE,
+      </if>
+      <if test="priority != null" >
+        PRIORITY,
+      </if>
+      <if test="regioncode != null" >
+        REGIONCODE,
+      </if>
+      <if test="tasknumbers != null" >
+        TASKNUMBERS,
+      </if>
+      <if test="taskboxies != null" >
+        TASKBOXIES,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="devseq != null" >
+        DEVSEQ,
+      </if>
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billcode != null" >
+        #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="batchcode != null" >
+        #{batchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="synseq != null" >
+        #{synseq,jdbcType=DECIMAL},
+      </if>
+      <if test="orderquantity != null" >
+        #{orderquantity,jdbcType=DECIMAL},
+      </if>
+      <if test="ordermoney != null" >
+        #{ordermoney,jdbcType=DECIMAL},
+      </if>
+      <if test="customercode != null" >
+        #{customercode,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=DECIMAL},
+      </if>
+      <if test="regioncode != null" >
+        #{regioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="tasknumbers != null" >
+        #{tasknumbers,jdbcType=VARCHAR},
+      </if>
+      <if test="taskboxies != null" >
+        #{taskboxies,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="devseq != null" >
+        #{devseq,jdbcType=DECIMAL},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.produce.OrderVo" >
+    update T_PRODUCE_ORDER
+    <set >
+      <if test="companycode != null" >
+        COMPANYCODE = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        COMPANYNAME = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="batchcode != null" >
+        BATCHCODE = #{batchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="synseq != null" >
+        SYNSEQ = #{synseq,jdbcType=DECIMAL},
+      </if>
+      <if test="orderquantity != null" >
+        ORDERQUANTITY = #{orderquantity,jdbcType=DECIMAL},
+      </if>
+      <if test="ordermoney != null" >
+        ORDERMONEY = #{ordermoney,jdbcType=DECIMAL},
+      </if>
+      <if test="customercode != null" >
+        CUSTOMERCODE = #{customercode,jdbcType=VARCHAR},
+      </if>
+      <if test="customername != null" >
+        CUSTOMERNAME = #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        PRIORITY = #{priority,jdbcType=DECIMAL},
+      </if>
+      <if test="regioncode != null" >
+        REGIONCODE = #{regioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="tasknumbers != null" >
+        TASKNUMBERS = #{tasknumbers,jdbcType=VARCHAR},
+      </if>
+      <if test="taskboxies != null" >
+        TASKBOXIES = #{taskboxies,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="devseq != null" >
+        DEVSEQ = #{devseq,jdbcType=DECIMAL},
+      </if>
+      <if test="id != null" >
+        ID = #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BILLCODE = #{billcode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.produce.OrderVo" >
+    update T_PRODUCE_ORDER
+    set COMPANYCODE = #{companycode,jdbcType=VARCHAR},
+      COMPANYNAME = #{companyname,jdbcType=VARCHAR},
+      BATCHCODE = #{batchcode,jdbcType=VARCHAR},
+      SYNSEQ = #{synseq,jdbcType=DECIMAL},
+      ORDERQUANTITY = #{orderquantity,jdbcType=DECIMAL},
+      ORDERMONEY = #{ordermoney,jdbcType=DECIMAL},
+      CUSTOMERCODE = #{customercode,jdbcType=VARCHAR},
+      CUSTOMERNAME = #{customername,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      PRIORITY = #{priority,jdbcType=DECIMAL},
+      REGIONCODE = #{regioncode,jdbcType=VARCHAR},
+      TASKNUMBERS = #{tasknumbers,jdbcType=VARCHAR},
+      TASKBOXIES = #{taskboxies,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      DEVSEQ = #{devseq,jdbcType=DECIMAL},
+      ID = #{id,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      ORDERDATE = #{orderdate,jdbcType=TIMESTAMP}
+    where BILLCODE = #{billcode,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.ErrerlogVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.ErrerlogVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="ERRCODE" property="errcode" jdbcType="DECIMAL" />
+    <result column="ERRMSG" property="errmsg" jdbcType="VARCHAR" />
+    <result column="ERRMODULE" property="errmodule" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATEDATE, ERRCODE, ERRMSG, ERRMODULE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_ERRERLOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_ERRERLOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.ErrerlogVo" >
+    insert into T_SYS_ERRERLOG (ID, CREATEDATE, ERRCODE, 
+      ERRMSG, ERRMODULE)
+    values (#{id,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, #{errcode,jdbcType=DECIMAL}, 
+      #{errmsg,jdbcType=VARCHAR}, #{errmodule,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sys.ErrerlogVo" >
+    insert into T_SYS_ERRERLOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="errcode != null" >
+        ERRCODE,
+      </if>
+      <if test="errmsg != null" >
+        ERRMSG,
+      </if>
+      <if test="errmodule != null" >
+        ERRMODULE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errcode != null" >
+        #{errcode,jdbcType=DECIMAL},
+      </if>
+      <if test="errmsg != null" >
+        #{errmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="errmodule != null" >
+        #{errmodule,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.ErrerlogVo" >
+    update T_SYS_ERRERLOG
+    <set >
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errcode != null" >
+        ERRCODE = #{errcode,jdbcType=DECIMAL},
+      </if>
+      <if test="errmsg != null" >
+        ERRMSG = #{errmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="errmodule != null" >
+        ERRMODULE = #{errmodule,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.ErrerlogVo" >
+    update T_SYS_ERRERLOG
+    set CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      ERRCODE = #{errcode,jdbcType=DECIMAL},
+      ERRMSG = #{errmsg,jdbcType=VARCHAR},
+      ERRMODULE = #{errmodule,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

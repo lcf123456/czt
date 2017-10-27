@@ -1,0 +1,32 @@
+package com.ztel.app.service.sys;
+
+import java.util.HashMap;
+import java.util.List;
+
+import com.ztel.app.vo.sys.BlockcustomerVo;
+import com.ztel.app.vo.wms.CustomerVo;
+import com.ztel.framework.vo.Pagination;
+
+
+/**
+ * 
+ * @author yy
+ *
+ */
+public interface BlockcustomerService {
+	
+	public int delBlockcustomer(List<Integer> ids);
+
+	public int insertBlockcustomer(BlockcustomerVo blockcustomerVo);
+
+	public int updateBlockcustomer(BlockcustomerVo blockcustomerVo);
+
+	public int BlockcustomerView(BlockcustomerVo blockcustomerVo);
+
+	public List<BlockcustomerVo> searchBlockcustomerPageList(Pagination<?> page);
+
+	public int handleBlockcustomer(BlockcustomerVo blockcustomerVo);
+
+
+	
+}

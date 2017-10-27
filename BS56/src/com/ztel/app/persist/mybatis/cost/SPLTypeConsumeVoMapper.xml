@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SPLTypeConsumeVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SPLTypeConsumeVo" >
+    <result column="TYPEID" property="typeid" jdbcType="DECIMAL" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+    <result column="BEGDATE" property="begdate" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+    <result column="TOTALAMOUNT" property="totalamount" jdbcType="DECIMAL" />
+  </resultMap>
+  <!-- 部门领料耗用 -->
+  <select id="getSPLConsumeByDept" parameterType="com.ztel.app.vo.cost.SPLTypeConsumeVo" resultType="java.util.HashMap">
+    select a.deptid,lvl2.id as typeid,round(sum(a.price*a.quantity),3) as totalamount
+    
+    from t_cost_splconsume a,t_cost_spltypeinfo lvl4,t_cost_spltypeinfo lvl3,t_cost_spltypeinfo lvl2,t_sys_dept d
+    		  
+	  where a.typeid=lvl4.id and lvl4.fid=lvl3.id and lvl3.fid=lvl2.id and a.deptid=d.id
+       <if test="begdate != null and begdate != '' " >
+        and a.issuedate>=to_date(#{begdate},'yyyy-MM-dd')
+      </if>
+       <if test="enddate != null and enddate != '' " >
+        and a.issuedate &lt; to_date(#{enddate},'yyyy-MM-dd') +1
+      </if>
+       <if test="typeid != null and typeid != '' " >
+        and lvl2.id=#{typeid}
+      </if>
+       <if test="deptid != null and deptid != '' " >
+        and a.deptid=#{deptid}
+      </if>
+      group by a.deptid,lvl2.id
+        order by a.deptid,lvl2.id
+  </select>
+</mapper>

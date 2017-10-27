@@ -1,0 +1,53 @@
+package com.ztel.app.service.wms.Impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.wms.ConsignorVoMapper;
+import com.ztel.app.service.wms.ConsignorService;
+import com.ztel.app.vo.wms.ConsignorVo;
+import com.ztel.framework.vo.Pagination;
+
+@Service
+public class ConsignorServiceImpl implements ConsignorService {
+	
+	@Autowired
+	private ConsignorVoMapper consignorVoMapper = null;
+	
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+	
+	public ConsignorServiceImpl() {
+		//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+        //sortKeyMapping.put(key, value)
+		//sortKeyMapping.put("deliveryseq", "deliveryseq");
+	}
+
+	/**
+	 * 取货主列表信息
+	 */
+//	@Override
+//	public List<ConsignorVo> getConsignorPageList(Pagination<?> page) {
+//		// TODO Auto-generated method stub
+//		//page.sortKeyToColumn(sortKeyMapping);
+//		List<ConsignorVo> consignorList = consignorVoMapper.getConsignorPageList(page);
+//		return consignorList;
+//	}
+	
+
+	@Override
+	public List<ConsignorVo> getConsignorList(ConsignorVo consignorVo) {
+		List<ConsignorVo> custList = null;
+		custList = consignorVoMapper.getConsignorList(consignorVo);
+		return custList;
+	}
+
+	//@Override
+	//public void viewConsignorVo(ConsignorVo consignorvo) {
+		// TODO 自动生成的方法存根
+		
+	
+}

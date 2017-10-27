@@ -1,0 +1,42 @@
+package com.ztel.app.persist.mybatis.wms;
+
+import com.ztel.app.vo.wms.MachinedamagedLineVo;
+import java.math.BigDecimal;
+
+public interface MachinedamagedLineVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-08-08
+     */
+    int deleteByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-08
+     */
+    int insert(MachinedamagedLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-08
+     */
+    int insertSelective(MachinedamagedLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-08
+     */
+    MachinedamagedLineVo selectByPrimaryKey(BigDecimal id);
+
+    /**
+     *
+     * @mbggenerated 2017-08-08
+     */
+    int updateByPrimaryKeySelective(MachinedamagedLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-08-08
+     */
+    int updateByPrimaryKey(MachinedamagedLineVo record);
+}

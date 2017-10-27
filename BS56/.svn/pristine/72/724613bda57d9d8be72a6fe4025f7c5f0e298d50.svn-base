@@ -1,0 +1,14 @@
+package com.ztel.app.service.produce;
+
+import java.util.HashMap;
+import java.util.List;
+
+import com.ztel.app.vo.produce.SortTroughVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface SortTroughService {
+	public List<SortTroughVo> getSortTroughPageList(Pagination<?> page);
+	public void updateByPrimaryKeySelective(SortTroughVo vo);
+	public List<SortTroughVo> selectListByCond(SortTroughVo sortTroughVo);
+	
+}

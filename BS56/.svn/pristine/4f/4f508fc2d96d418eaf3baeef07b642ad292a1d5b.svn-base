@@ -1,0 +1,12 @@
+//全局服务名
+var baseURL="/BS56";
+
+//功能点列表
+//var opList = "";
+
+
+
+//删除左右两端的空格
+function trim(str){
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}

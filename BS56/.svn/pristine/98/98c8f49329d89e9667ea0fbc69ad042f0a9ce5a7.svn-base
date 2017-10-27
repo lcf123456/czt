@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sys.RouteInfoVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.RouteInfoVo" >
+    <id column="ROUTEID" property="routeid" jdbcType="DECIMAL" />
+    <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
+    <result column="ROUTENAME" property="routename" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="ROUTETYPE" property="routetype" jdbcType="DECIMAL" />
+    <result column="DEPTID" property="deptid" jdbcType="VARCHAR" />
+    <result column="AREATYPE" property="areatype" jdbcType="DECIMAL" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+    <result column="GISAREA" property="gisarea" jdbcType="DECIMAL" />
+    <result column="VEHICLEID" property="vehicleid" jdbcType="DECIMAL" />
+    <result column="DRIVERID" property="driverid" jdbcType="DECIMAL" />
+    <result column="CASHIERID" property="cashierid" jdbcType="DECIMAL" />
+    <result column="WAREHOUSE" property="warehouse" jdbcType="DECIMAL" />
+    <result column="VEHICLENO" property="vehicleno" jdbcType="DECIMAL" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="DRIVERNAME" property="drivername" jdbcType="VARCHAR" />
+    <result column="CASHIERNAME" property="cashiername" jdbcType="VARCHAR" />
+    <result column="CALCNAME" property="calcname" jdbcType="VARCHAR" />
+    <result column="ROUTETYPENAME" property="routetypename" jdbcType="VARCHAR" />
+    <result column="AREATYPENAME" property="areatypename" jdbcType="VARCHAR" />
+    <result column="GISAREANAME" property="gisareaname" jdbcType="VARCHAR" />
+    <result column="WAREHOUSENAME" property="warehousename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ROUTEID, ROUTECODE, ROUTENAME, REMARKS, ROUTETYPE, DEPTID, AREATYPE, DELSTATUS, GISAREA, 
+    VEHICLEID, DRIVERID, CASHIERID, WAREHOUSE, CALCID
+  </sql>
+  
+  <!-- 取用车组列表信息-->
+  <select id="getRoutesPageList" parameterType="Pagination" resultType="com.ztel.app.vo.sys.RouteInfoVo">
+    select a.*,b.vehicleno,c.deptname,d.username as drivername,e.username as cashiername,f.username as calcname,g.name as gisareaname,
+    		   h.contentlist as warehousename,decode(a.routetype,'1','干线','非干线')as routetypename,decode(a.areatype,'1','城网','农网')as areatypename,decode(a.delstatus,'10','启用','停用')as delstatusname 
+    from t_sys_routeinfo a left outer join t_sys_vehicle b on a.vehicleid=b.id left outer join t_sys_dept c on a.deptid=c.id left outer join t_sys_user d
+              on a.driverid=d.id left outer join t_sys_user e on a.cashierid=e.id left outer join t_sys_user f on a.calcid=f.id left outer join t_gis_region g
+              on a.gisarea=g.id left outer join t_sys_basetypeinfo h on a.warehouse=h.id where 1=1    
+    <if test="param != null and param.routecode != null and param.routecode != ''" >
+        and (routecode like'%'||#{param.routecode}||'%' or vehicleno like'%'||#{param.routecode}||'%' or DEPTNAME like'%'||#{param.routecode}||'%' or d.username like'%'||#{param.routecode}||'%' or e.username like'%'||#{param.routecode}||'%' or f.username like'%'||#{param.routecode}||'%')
+      </if>
+      <if test="param != null and param.delstatus != null ">
+        and a.delstatus= #{param.delstatus}
+      </if>
+    <if test="param.delstatus== null" >
+        	and a.delstatus= '10'
+      </if>
+      order  by  a.routecode
+ </select>
+  
+  <!-- 根据部门取用车组列表-->
+  <select id="getRoutesList" parameterType="java.lang.Integer" resultType="com.ztel.app.vo.sys.RouteInfoVo">
+    select a.*,b.vehicleno,c.deptname,d.username as drivername,e.username as cashiername,f.username as calcname,g.name as gisareaname,
+    		   h.contentlist as warehousename,decode(a.routetype,'1','干线','非干线')as routetypename,decode(a.areatype,'1','城网','农网')as areatypename,decode(a.delstatus,'10','启用','停用')as delstatusname 
+    from t_sys_routeinfo a left outer join t_sys_vehicle b on a.vehicleid=b.id left outer join t_sys_dept c on a.deptid=c.id left outer join t_sys_user d
+              on a.driverid=d.id left outer join t_sys_user e on a.cashierid=e.id left outer join t_sys_user f on a.calcid=f.id left outer join t_gis_region g
+              on a.gisarea=g.id left outer join t_sys_basetypeinfo h on a.warehouse=h.id where 1=1    
+      <if test="deptid != null ">
+        and a.deptid= #{deptid}
+      </if>
+      order by a.routecode
+ </select>
+ 
+ <!-- 取车组所属的几个部门，用于下拉框选择部门后显示所有车组 ，暂用于预付款车组查看的下拉框-->
+ <select id="getRoutesDeptList" parameterType="java.lang.Integer" resultType="com.ztel.app.vo.sys.RouteInfoVo">
+ 	select distinct t.deptid,d.deptname from T_SYS_ROUTEINFO t,t_sys_dept d where t.deptid=d.id
+ </select>
+ 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_ROUTEINFO
+    where ROUTEID = #{routeid,jdbcType=DECIMAL}
+  </select>
+ 
+  <select id="selectByRoutecode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     select a.*,b.vehicleno,c.deptname,d.username as drivername,e.username as cashiername,f.username as calcname,g.name as gisareaname,
+    		   h.contentlist as warehousename,decode(a.routetype,'1','干线','非干线')as routetypename,decode(a.areatype,'1','城网','农网')as areatypename,decode(a.delstatus,'10','启用','停用')as delstatusname 
+    from t_sys_routeinfo a left outer join t_sys_vehicle b on a.vehicleid=b.id left outer join t_sys_dept c on a.deptid=c.id left outer join t_sys_user d
+              on a.driverid=d.id left outer join t_sys_user e on a.cashierid=e.id left outer join t_sys_user f on a.calcid=f.id left outer join t_gis_region g
+              on a.gisarea=g.id left outer join t_sys_basetypeinfo h on a.warehouse=h.id where 1=1    
+        and a.routecode= #{routecode}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_ROUTEINFO
+    where ROUTEID = #{routeid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.sys.RouteInfoVo" >
+    insert into T_SYS_ROUTEINFO (ROUTEID, ROUTECODE, ROUTENAME, 
+      REMARKS, ROUTETYPE, DEPTID, 
+      AREATYPE, DELSTATUS, GISAREA, 
+      VEHICLEID, DRIVERID, CASHIERID, 
+      WAREHOUSE, CALCID)
+    values (#{routeid,jdbcType=DECIMAL}, #{routecode,jdbcType=VARCHAR}, #{routename,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{routetype,jdbcType=DECIMAL}, #{deptid,jdbcType=VARCHAR}, 
+      #{areatype,jdbcType=DECIMAL}, #{delstatus,jdbcType=DECIMAL}, #{gisarea,jdbcType=DECIMAL}, 
+      #{vehicleid,jdbcType=DECIMAL}, #{driverid,jdbcType=DECIMAL}, #{cashierid,jdbcType=DECIMAL}, 
+      #{warehouse,jdbcType=DECIMAL}, #{calcid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective"  useGeneratedKeys="false"  parameterType="com.ztel.app.vo.sys.RouteInfoVo" >
+    insert into T_SYS_ROUTEINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ROUTEID,
+      <if test="routecode != null" >
+        ROUTECODE,
+      </if>
+      <if test="routename != null" >
+        ROUTENAME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="routetype != null" >
+        ROUTETYPE,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="areatype != null" >
+        AREATYPE,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+      <if test="gisarea != null" >
+        GISAREA,
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID,
+      </if>
+      <if test="driverid != null" >
+        DRIVERID,
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID,
+      </if>
+      <if test="warehouse != null" >
+        WAREHOUSE,
+      </if>
+      <if test="calcid != null" >
+        CALCID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       S_SYS_ROUTEINFO.nextval,
+      <if test="routecode != null" >
+        #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="routename != null" >
+        #{routename,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="routetype != null" >
+        #{routetype,jdbcType=DECIMAL},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="areatype != null" >
+        #{areatype,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="gisarea != null" >
+        #{gisarea,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="driverid != null" >
+        #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="warehouse != null" >
+        #{warehouse,jdbcType=DECIMAL},
+      </if>
+      <if test="calcid != null" >
+        #{calcid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sys.RouteInfoVo" >
+    update T_SYS_ROUTEINFO
+    <set >
+      <if test="routecode != null" >
+        ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      </if>
+      <if test="routename != null" >
+        ROUTENAME = #{routename,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="routetype != null" >
+        ROUTETYPE = #{routetype,jdbcType=DECIMAL},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=VARCHAR},
+      </if>
+      <if test="areatype != null" >
+        AREATYPE = #{areatype,jdbcType=DECIMAL},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="gisarea != null" >
+        GISAREA = #{gisarea,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleid != null" >
+        VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      </if>
+      <if test="driverid != null" >
+        DRIVERID = #{driverid,jdbcType=DECIMAL},
+      </if>
+      <if test="cashierid != null" >
+        CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      </if>
+      <if test="warehouse != null" >
+        WAREHOUSE = #{warehouse,jdbcType=DECIMAL},
+      </if>
+      <if test="calcid != null" >
+        CALCID = #{calcid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ROUTEID = #{routeid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.RouteInfoVo" >
+    update T_SYS_ROUTEINFO
+    set ROUTECODE = #{routecode,jdbcType=VARCHAR},
+      ROUTENAME = #{routename,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      ROUTETYPE = #{routetype,jdbcType=DECIMAL},
+      DEPTID = #{deptid,jdbcType=VARCHAR},
+      AREATYPE = #{areatype,jdbcType=DECIMAL},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      GISAREA = #{gisarea,jdbcType=DECIMAL},
+      VEHICLEID = #{vehicleid,jdbcType=DECIMAL},
+      DRIVERID = #{driverid,jdbcType=DECIMAL},
+      CASHIERID = #{cashierid,jdbcType=DECIMAL},
+      WAREHOUSE = #{warehouse,jdbcType=DECIMAL},
+      CALCID = #{calcid,jdbcType=DECIMAL}
+    where ROUTEID = #{routeid,jdbcType=DECIMAL}
+  </update>
+</mapper>

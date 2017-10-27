@@ -1,0 +1,980 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.wms.SorttroughVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.SorttroughVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LINENUM" jdbcType="VARCHAR" property="linenum" />
+    <result column="TROUGHNUM" jdbcType="VARCHAR" property="troughnum" />
+    <result column="TROUGHDESC" jdbcType="VARCHAR" property="troughdesc" />
+    <result column="ACTCOUNT" jdbcType="DECIMAL" property="actcount" />
+    <result column="MACHINESEQ" jdbcType="DECIMAL" property="machineseq" />
+    <result column="CIGARETTECODE" jdbcType="VARCHAR" property="cigarettecode" />
+    <result column="CIGARETTENAME" jdbcType="VARCHAR" property="cigarettename" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="MANTISSA" jdbcType="DECIMAL" property="mantissa" />
+    <result column="CIGARETTETYPE" jdbcType="DECIMAL" property="cigarettetype" />
+    <result column="REPLENISHLINE" jdbcType="DECIMAL" property="replenishline" />
+    <result column="TRANSPORTATIONLINE" jdbcType="DECIMAL" property="transportationline" />
+    <result column="LASTMANTISSA" jdbcType="DECIMAL" property="lastmantissa" />
+    <result column="TROUGHTYPE" jdbcType="DECIMAL" property="troughtype" />
+    <result column="GROUPNO" jdbcType="DECIMAL" property="groupno" />
+    <result column="THRESHOLD" jdbcType="DECIMAL" property="threshold" />
+    <result column="BOXCOUNT" jdbcType="DECIMAL" property="boxcount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LINENUM, TROUGHNUM, TROUGHDESC, ACTCOUNT, MACHINESEQ, CIGARETTECODE, CIGARETTENAME, 
+    STATE, MANTISSA, CIGARETTETYPE, REPLENISHLINE, TRANSPORTATIONLINE, LASTMANTISSA, 
+    TROUGHTYPE, GROUPNO, THRESHOLD, BOXCOUNT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_PRODUCE_SORTTROUGH
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_PRODUCE_SORTTROUGH
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    insert into T_PRODUCE_SORTTROUGH (ID, LINENUM, TROUGHNUM, 
+      TROUGHDESC, ACTCOUNT, MACHINESEQ, 
+      CIGARETTECODE, CIGARETTENAME, STATE, 
+      MANTISSA, CIGARETTETYPE, REPLENISHLINE, 
+      TRANSPORTATIONLINE, LASTMANTISSA, TROUGHTYPE, 
+      GROUPNO, THRESHOLD, BOXCOUNT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{linenum,jdbcType=VARCHAR}, #{troughnum,jdbcType=VARCHAR}, 
+      #{troughdesc,jdbcType=VARCHAR}, #{actcount,jdbcType=DECIMAL}, #{machineseq,jdbcType=DECIMAL}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{mantissa,jdbcType=DECIMAL}, #{cigarettetype,jdbcType=DECIMAL}, #{replenishline,jdbcType=DECIMAL}, 
+      #{transportationline,jdbcType=DECIMAL}, #{lastmantissa,jdbcType=DECIMAL}, #{troughtype,jdbcType=DECIMAL}, 
+      #{groupno,jdbcType=DECIMAL}, #{threshold,jdbcType=DECIMAL}, #{boxcount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    insert into T_PRODUCE_SORTTROUGH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="linenum != null">
+        LINENUM,
+      </if>
+      <if test="troughnum != null">
+        TROUGHNUM,
+      </if>
+      <if test="troughdesc != null">
+        TROUGHDESC,
+      </if>
+      <if test="actcount != null">
+        ACTCOUNT,
+      </if>
+      <if test="machineseq != null">
+        MACHINESEQ,
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="mantissa != null">
+        MANTISSA,
+      </if>
+      <if test="cigarettetype != null">
+        CIGARETTETYPE,
+      </if>
+      <if test="replenishline != null">
+        REPLENISHLINE,
+      </if>
+      <if test="transportationline != null">
+        TRANSPORTATIONLINE,
+      </if>
+      <if test="lastmantissa != null">
+        LASTMANTISSA,
+      </if>
+      <if test="troughtype != null">
+        TROUGHTYPE,
+      </if>
+      <if test="groupno != null">
+        GROUPNO,
+      </if>
+      <if test="threshold != null">
+        THRESHOLD,
+      </if>
+      <if test="boxcount != null">
+        BOXCOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="linenum != null">
+        #{linenum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughnum != null">
+        #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughdesc != null">
+        #{troughdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actcount != null">
+        #{actcount,jdbcType=DECIMAL},
+      </if>
+      <if test="machineseq != null">
+        #{machineseq,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null">
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="mantissa != null">
+        #{mantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettetype != null">
+        #{cigarettetype,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishline != null">
+        #{replenishline,jdbcType=DECIMAL},
+      </if>
+      <if test="transportationline != null">
+        #{transportationline,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmantissa != null">
+        #{lastmantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="troughtype != null">
+        #{troughtype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null">
+        #{groupno,jdbcType=DECIMAL},
+      </if>
+      <if test="threshold != null">
+        #{threshold,jdbcType=DECIMAL},
+      </if>
+      <if test="boxcount != null">
+        #{boxcount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    update T_PRODUCE_SORTTROUGH
+    <set>
+      <if test="linenum != null">
+        LINENUM = #{linenum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughnum != null">
+        TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughdesc != null">
+        TROUGHDESC = #{troughdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actcount != null">
+        ACTCOUNT = #{actcount,jdbcType=DECIMAL},
+      </if>
+      <if test="machineseq != null">
+        MACHINESEQ = #{machineseq,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME = #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="mantissa != null">
+        MANTISSA = #{mantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettetype != null">
+        CIGARETTETYPE = #{cigarettetype,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishline != null">
+        REPLENISHLINE = #{replenishline,jdbcType=DECIMAL},
+      </if>
+      <if test="transportationline != null">
+        TRANSPORTATIONLINE = #{transportationline,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmantissa != null">
+        LASTMANTISSA = #{lastmantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="troughtype != null">
+        TROUGHTYPE = #{troughtype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null">
+        GROUPNO = #{groupno,jdbcType=DECIMAL},
+      </if>
+      <if test="threshold != null">
+        THRESHOLD = #{threshold,jdbcType=DECIMAL},
+      </if>
+      <if test="boxcount != null">
+        BOXCOUNT = #{boxcount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    update T_PRODUCE_SORTTROUGH
+    set LINENUM = #{linenum,jdbcType=VARCHAR},
+      TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      TROUGHDESC = #{troughdesc,jdbcType=VARCHAR},
+      ACTCOUNT = #{actcount,jdbcType=DECIMAL},
+      MACHINESEQ = #{machineseq,jdbcType=DECIMAL},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      MANTISSA = #{mantissa,jdbcType=DECIMAL},
+      CIGARETTETYPE = #{cigarettetype,jdbcType=DECIMAL},
+      REPLENISHLINE = #{replenishline,jdbcType=DECIMAL},
+      TRANSPORTATIONLINE = #{transportationline,jdbcType=DECIMAL},
+      LASTMANTISSA = #{lastmantissa,jdbcType=DECIMAL},
+      TROUGHTYPE = #{troughtype,jdbcType=DECIMAL},
+      GROUPNO = #{groupno,jdbcType=DECIMAL},
+      THRESHOLD = #{threshold,jdbcType=DECIMAL},
+      BOXCOUNT = #{boxcount,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.SorttroughVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LINENUM" jdbcType="VARCHAR" property="linenum" />
+    <result column="TROUGHNUM" jdbcType="VARCHAR" property="troughnum" />
+    <result column="TROUGHDESC" jdbcType="VARCHAR" property="troughdesc" />
+    <result column="ACTCOUNT" jdbcType="DECIMAL" property="actcount" />
+    <result column="MACHINESEQ" jdbcType="DECIMAL" property="machineseq" />
+    <result column="CIGARETTECODE" jdbcType="VARCHAR" property="cigarettecode" />
+    <result column="CIGARETTENAME" jdbcType="VARCHAR" property="cigarettename" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="MANTISSA" jdbcType="DECIMAL" property="mantissa" />
+    <result column="CIGARETTETYPE" jdbcType="DECIMAL" property="cigarettetype" />
+    <result column="REPLENISHLINE" jdbcType="DECIMAL" property="replenishline" />
+    <result column="TRANSPORTATIONLINE" jdbcType="DECIMAL" property="transportationline" />
+    <result column="LASTMANTISSA" jdbcType="DECIMAL" property="lastmantissa" />
+    <result column="TROUGHTYPE" jdbcType="DECIMAL" property="troughtype" />
+    <result column="GROUPNO" jdbcType="DECIMAL" property="groupno" />
+    <result column="THRESHOLD" jdbcType="DECIMAL" property="threshold" />
+    <result column="BOXCOUNT" jdbcType="DECIMAL" property="boxcount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LINENUM, TROUGHNUM, TROUGHDESC, ACTCOUNT, MACHINESEQ, CIGARETTECODE, CIGARETTENAME, 
+    STATE, MANTISSA, CIGARETTETYPE, REPLENISHLINE, TRANSPORTATIONLINE, LASTMANTISSA, 
+    TROUGHTYPE, GROUPNO, THRESHOLD, BOXCOUNT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_PRODUCE_SORTTROUGH
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_PRODUCE_SORTTROUGH
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    insert into T_PRODUCE_SORTTROUGH (ID, LINENUM, TROUGHNUM, 
+      TROUGHDESC, ACTCOUNT, MACHINESEQ, 
+      CIGARETTECODE, CIGARETTENAME, STATE, 
+      MANTISSA, CIGARETTETYPE, REPLENISHLINE, 
+      TRANSPORTATIONLINE, LASTMANTISSA, TROUGHTYPE, 
+      GROUPNO, THRESHOLD, BOXCOUNT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{linenum,jdbcType=VARCHAR}, #{troughnum,jdbcType=VARCHAR}, 
+      #{troughdesc,jdbcType=VARCHAR}, #{actcount,jdbcType=DECIMAL}, #{machineseq,jdbcType=DECIMAL}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{mantissa,jdbcType=DECIMAL}, #{cigarettetype,jdbcType=DECIMAL}, #{replenishline,jdbcType=DECIMAL}, 
+      #{transportationline,jdbcType=DECIMAL}, #{lastmantissa,jdbcType=DECIMAL}, #{troughtype,jdbcType=DECIMAL}, 
+      #{groupno,jdbcType=DECIMAL}, #{threshold,jdbcType=DECIMAL}, #{boxcount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    insert into T_PRODUCE_SORTTROUGH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="linenum != null">
+        LINENUM,
+      </if>
+      <if test="troughnum != null">
+        TROUGHNUM,
+      </if>
+      <if test="troughdesc != null">
+        TROUGHDESC,
+      </if>
+      <if test="actcount != null">
+        ACTCOUNT,
+      </if>
+      <if test="machineseq != null">
+        MACHINESEQ,
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="mantissa != null">
+        MANTISSA,
+      </if>
+      <if test="cigarettetype != null">
+        CIGARETTETYPE,
+      </if>
+      <if test="replenishline != null">
+        REPLENISHLINE,
+      </if>
+      <if test="transportationline != null">
+        TRANSPORTATIONLINE,
+      </if>
+      <if test="lastmantissa != null">
+        LASTMANTISSA,
+      </if>
+      <if test="troughtype != null">
+        TROUGHTYPE,
+      </if>
+      <if test="groupno != null">
+        GROUPNO,
+      </if>
+      <if test="threshold != null">
+        THRESHOLD,
+      </if>
+      <if test="boxcount != null">
+        BOXCOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="linenum != null">
+        #{linenum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughnum != null">
+        #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughdesc != null">
+        #{troughdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actcount != null">
+        #{actcount,jdbcType=DECIMAL},
+      </if>
+      <if test="machineseq != null">
+        #{machineseq,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null">
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="mantissa != null">
+        #{mantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettetype != null">
+        #{cigarettetype,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishline != null">
+        #{replenishline,jdbcType=DECIMAL},
+      </if>
+      <if test="transportationline != null">
+        #{transportationline,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmantissa != null">
+        #{lastmantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="troughtype != null">
+        #{troughtype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null">
+        #{groupno,jdbcType=DECIMAL},
+      </if>
+      <if test="threshold != null">
+        #{threshold,jdbcType=DECIMAL},
+      </if>
+      <if test="boxcount != null">
+        #{boxcount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    update T_PRODUCE_SORTTROUGH
+    <set>
+      <if test="linenum != null">
+        LINENUM = #{linenum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughnum != null">
+        TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughdesc != null">
+        TROUGHDESC = #{troughdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actcount != null">
+        ACTCOUNT = #{actcount,jdbcType=DECIMAL},
+      </if>
+      <if test="machineseq != null">
+        MACHINESEQ = #{machineseq,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME = #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="mantissa != null">
+        MANTISSA = #{mantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettetype != null">
+        CIGARETTETYPE = #{cigarettetype,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishline != null">
+        REPLENISHLINE = #{replenishline,jdbcType=DECIMAL},
+      </if>
+      <if test="transportationline != null">
+        TRANSPORTATIONLINE = #{transportationline,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmantissa != null">
+        LASTMANTISSA = #{lastmantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="troughtype != null">
+        TROUGHTYPE = #{troughtype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null">
+        GROUPNO = #{groupno,jdbcType=DECIMAL},
+      </if>
+      <if test="threshold != null">
+        THRESHOLD = #{threshold,jdbcType=DECIMAL},
+      </if>
+      <if test="boxcount != null">
+        BOXCOUNT = #{boxcount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    update T_PRODUCE_SORTTROUGH
+    set LINENUM = #{linenum,jdbcType=VARCHAR},
+      TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      TROUGHDESC = #{troughdesc,jdbcType=VARCHAR},
+      ACTCOUNT = #{actcount,jdbcType=DECIMAL},
+      MACHINESEQ = #{machineseq,jdbcType=DECIMAL},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      MANTISSA = #{mantissa,jdbcType=DECIMAL},
+      CIGARETTETYPE = #{cigarettetype,jdbcType=DECIMAL},
+      REPLENISHLINE = #{replenishline,jdbcType=DECIMAL},
+      TRANSPORTATIONLINE = #{transportationline,jdbcType=DECIMAL},
+      LASTMANTISSA = #{lastmantissa,jdbcType=DECIMAL},
+      TROUGHTYPE = #{troughtype,jdbcType=DECIMAL},
+      GROUPNO = #{groupno,jdbcType=DECIMAL},
+      THRESHOLD = #{threshold,jdbcType=DECIMAL},
+      BOXCOUNT = #{boxcount,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.SorttroughVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LINENUM" jdbcType="VARCHAR" property="linenum" />
+    <result column="TROUGHNUM" jdbcType="VARCHAR" property="troughnum" />
+    <result column="TROUGHDESC" jdbcType="VARCHAR" property="troughdesc" />
+    <result column="ACTCOUNT" jdbcType="DECIMAL" property="actcount" />
+    <result column="MACHINESEQ" jdbcType="DECIMAL" property="machineseq" />
+    <result column="CIGARETTECODE" jdbcType="VARCHAR" property="cigarettecode" />
+    <result column="CIGARETTENAME" jdbcType="VARCHAR" property="cigarettename" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="MANTISSA" jdbcType="DECIMAL" property="mantissa" />
+    <result column="CIGARETTETYPE" jdbcType="DECIMAL" property="cigarettetype" />
+    <result column="REPLENISHLINE" jdbcType="DECIMAL" property="replenishline" />
+    <result column="TRANSPORTATIONLINE" jdbcType="DECIMAL" property="transportationline" />
+    <result column="LASTMANTISSA" jdbcType="DECIMAL" property="lastmantissa" />
+    <result column="TROUGHTYPE" jdbcType="DECIMAL" property="troughtype" />
+    <result column="GROUPNO" jdbcType="DECIMAL" property="groupno" />
+    <result column="THRESHOLD" jdbcType="DECIMAL" property="threshold" />
+    <result column="BOXCOUNT" jdbcType="DECIMAL" property="boxcount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LINENUM, TROUGHNUM, TROUGHDESC, ACTCOUNT, MACHINESEQ, CIGARETTECODE, CIGARETTENAME, 
+    STATE, MANTISSA, CIGARETTETYPE, REPLENISHLINE, TRANSPORTATIONLINE, LASTMANTISSA, 
+    TROUGHTYPE, GROUPNO, THRESHOLD, BOXCOUNT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_PRODUCE_SORTTROUGH
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_PRODUCE_SORTTROUGH
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    insert into T_PRODUCE_SORTTROUGH (ID, LINENUM, TROUGHNUM, 
+      TROUGHDESC, ACTCOUNT, MACHINESEQ, 
+      CIGARETTECODE, CIGARETTENAME, STATE, 
+      MANTISSA, CIGARETTETYPE, REPLENISHLINE, 
+      TRANSPORTATIONLINE, LASTMANTISSA, TROUGHTYPE, 
+      GROUPNO, THRESHOLD, BOXCOUNT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{linenum,jdbcType=VARCHAR}, #{troughnum,jdbcType=VARCHAR}, 
+      #{troughdesc,jdbcType=VARCHAR}, #{actcount,jdbcType=DECIMAL}, #{machineseq,jdbcType=DECIMAL}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{mantissa,jdbcType=DECIMAL}, #{cigarettetype,jdbcType=DECIMAL}, #{replenishline,jdbcType=DECIMAL}, 
+      #{transportationline,jdbcType=DECIMAL}, #{lastmantissa,jdbcType=DECIMAL}, #{troughtype,jdbcType=DECIMAL}, 
+      #{groupno,jdbcType=DECIMAL}, #{threshold,jdbcType=DECIMAL}, #{boxcount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    insert into T_PRODUCE_SORTTROUGH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="linenum != null">
+        LINENUM,
+      </if>
+      <if test="troughnum != null">
+        TROUGHNUM,
+      </if>
+      <if test="troughdesc != null">
+        TROUGHDESC,
+      </if>
+      <if test="actcount != null">
+        ACTCOUNT,
+      </if>
+      <if test="machineseq != null">
+        MACHINESEQ,
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="mantissa != null">
+        MANTISSA,
+      </if>
+      <if test="cigarettetype != null">
+        CIGARETTETYPE,
+      </if>
+      <if test="replenishline != null">
+        REPLENISHLINE,
+      </if>
+      <if test="transportationline != null">
+        TRANSPORTATIONLINE,
+      </if>
+      <if test="lastmantissa != null">
+        LASTMANTISSA,
+      </if>
+      <if test="troughtype != null">
+        TROUGHTYPE,
+      </if>
+      <if test="groupno != null">
+        GROUPNO,
+      </if>
+      <if test="threshold != null">
+        THRESHOLD,
+      </if>
+      <if test="boxcount != null">
+        BOXCOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="linenum != null">
+        #{linenum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughnum != null">
+        #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughdesc != null">
+        #{troughdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actcount != null">
+        #{actcount,jdbcType=DECIMAL},
+      </if>
+      <if test="machineseq != null">
+        #{machineseq,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null">
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="mantissa != null">
+        #{mantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettetype != null">
+        #{cigarettetype,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishline != null">
+        #{replenishline,jdbcType=DECIMAL},
+      </if>
+      <if test="transportationline != null">
+        #{transportationline,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmantissa != null">
+        #{lastmantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="troughtype != null">
+        #{troughtype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null">
+        #{groupno,jdbcType=DECIMAL},
+      </if>
+      <if test="threshold != null">
+        #{threshold,jdbcType=DECIMAL},
+      </if>
+      <if test="boxcount != null">
+        #{boxcount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    update T_PRODUCE_SORTTROUGH
+    <set>
+      <if test="linenum != null">
+        LINENUM = #{linenum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughnum != null">
+        TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughdesc != null">
+        TROUGHDESC = #{troughdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actcount != null">
+        ACTCOUNT = #{actcount,jdbcType=DECIMAL},
+      </if>
+      <if test="machineseq != null">
+        MACHINESEQ = #{machineseq,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME = #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="mantissa != null">
+        MANTISSA = #{mantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettetype != null">
+        CIGARETTETYPE = #{cigarettetype,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishline != null">
+        REPLENISHLINE = #{replenishline,jdbcType=DECIMAL},
+      </if>
+      <if test="transportationline != null">
+        TRANSPORTATIONLINE = #{transportationline,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmantissa != null">
+        LASTMANTISSA = #{lastmantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="troughtype != null">
+        TROUGHTYPE = #{troughtype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null">
+        GROUPNO = #{groupno,jdbcType=DECIMAL},
+      </if>
+      <if test="threshold != null">
+        THRESHOLD = #{threshold,jdbcType=DECIMAL},
+      </if>
+      <if test="boxcount != null">
+        BOXCOUNT = #{boxcount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    update T_PRODUCE_SORTTROUGH
+    set LINENUM = #{linenum,jdbcType=VARCHAR},
+      TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      TROUGHDESC = #{troughdesc,jdbcType=VARCHAR},
+      ACTCOUNT = #{actcount,jdbcType=DECIMAL},
+      MACHINESEQ = #{machineseq,jdbcType=DECIMAL},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      MANTISSA = #{mantissa,jdbcType=DECIMAL},
+      CIGARETTETYPE = #{cigarettetype,jdbcType=DECIMAL},
+      REPLENISHLINE = #{replenishline,jdbcType=DECIMAL},
+      TRANSPORTATIONLINE = #{transportationline,jdbcType=DECIMAL},
+      LASTMANTISSA = #{lastmantissa,jdbcType=DECIMAL},
+      TROUGHTYPE = #{troughtype,jdbcType=DECIMAL},
+      GROUPNO = #{groupno,jdbcType=DECIMAL},
+      THRESHOLD = #{threshold,jdbcType=DECIMAL},
+      BOXCOUNT = #{boxcount,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.SorttroughVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LINENUM" jdbcType="VARCHAR" property="linenum" />
+    <result column="TROUGHNUM" jdbcType="VARCHAR" property="troughnum" />
+    <result column="TROUGHDESC" jdbcType="VARCHAR" property="troughdesc" />
+    <result column="ACTCOUNT" jdbcType="DECIMAL" property="actcount" />
+    <result column="MACHINESEQ" jdbcType="DECIMAL" property="machineseq" />
+    <result column="CIGARETTECODE" jdbcType="VARCHAR" property="cigarettecode" />
+    <result column="CIGARETTENAME" jdbcType="VARCHAR" property="cigarettename" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="MANTISSA" jdbcType="DECIMAL" property="mantissa" />
+    <result column="CIGARETTETYPE" jdbcType="DECIMAL" property="cigarettetype" />
+    <result column="REPLENISHLINE" jdbcType="DECIMAL" property="replenishline" />
+    <result column="TRANSPORTATIONLINE" jdbcType="DECIMAL" property="transportationline" />
+    <result column="LASTMANTISSA" jdbcType="DECIMAL" property="lastmantissa" />
+    <result column="TROUGHTYPE" jdbcType="DECIMAL" property="troughtype" />
+    <result column="GROUPNO" jdbcType="DECIMAL" property="groupno" />
+    <result column="THRESHOLD" jdbcType="DECIMAL" property="threshold" />
+    <result column="BOXCOUNT" jdbcType="DECIMAL" property="boxcount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LINENUM, TROUGHNUM, TROUGHDESC, ACTCOUNT, MACHINESEQ, CIGARETTECODE, CIGARETTENAME, 
+    STATE, MANTISSA, CIGARETTETYPE, REPLENISHLINE, TRANSPORTATIONLINE, LASTMANTISSA, 
+    TROUGHTYPE, GROUPNO, THRESHOLD, BOXCOUNT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_PRODUCE_SORTTROUGH
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_PRODUCE_SORTTROUGH
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    insert into T_PRODUCE_SORTTROUGH (ID, LINENUM, TROUGHNUM, 
+      TROUGHDESC, ACTCOUNT, MACHINESEQ, 
+      CIGARETTECODE, CIGARETTENAME, STATE, 
+      MANTISSA, CIGARETTETYPE, REPLENISHLINE, 
+      TRANSPORTATIONLINE, LASTMANTISSA, TROUGHTYPE, 
+      GROUPNO, THRESHOLD, BOXCOUNT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{linenum,jdbcType=VARCHAR}, #{troughnum,jdbcType=VARCHAR}, 
+      #{troughdesc,jdbcType=VARCHAR}, #{actcount,jdbcType=DECIMAL}, #{machineseq,jdbcType=DECIMAL}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{mantissa,jdbcType=DECIMAL}, #{cigarettetype,jdbcType=DECIMAL}, #{replenishline,jdbcType=DECIMAL}, 
+      #{transportationline,jdbcType=DECIMAL}, #{lastmantissa,jdbcType=DECIMAL}, #{troughtype,jdbcType=DECIMAL}, 
+      #{groupno,jdbcType=DECIMAL}, #{threshold,jdbcType=DECIMAL}, #{boxcount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    insert into T_PRODUCE_SORTTROUGH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="linenum != null">
+        LINENUM,
+      </if>
+      <if test="troughnum != null">
+        TROUGHNUM,
+      </if>
+      <if test="troughdesc != null">
+        TROUGHDESC,
+      </if>
+      <if test="actcount != null">
+        ACTCOUNT,
+      </if>
+      <if test="machineseq != null">
+        MACHINESEQ,
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="mantissa != null">
+        MANTISSA,
+      </if>
+      <if test="cigarettetype != null">
+        CIGARETTETYPE,
+      </if>
+      <if test="replenishline != null">
+        REPLENISHLINE,
+      </if>
+      <if test="transportationline != null">
+        TRANSPORTATIONLINE,
+      </if>
+      <if test="lastmantissa != null">
+        LASTMANTISSA,
+      </if>
+      <if test="troughtype != null">
+        TROUGHTYPE,
+      </if>
+      <if test="groupno != null">
+        GROUPNO,
+      </if>
+      <if test="threshold != null">
+        THRESHOLD,
+      </if>
+      <if test="boxcount != null">
+        BOXCOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="linenum != null">
+        #{linenum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughnum != null">
+        #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughdesc != null">
+        #{troughdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actcount != null">
+        #{actcount,jdbcType=DECIMAL},
+      </if>
+      <if test="machineseq != null">
+        #{machineseq,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null">
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="mantissa != null">
+        #{mantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettetype != null">
+        #{cigarettetype,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishline != null">
+        #{replenishline,jdbcType=DECIMAL},
+      </if>
+      <if test="transportationline != null">
+        #{transportationline,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmantissa != null">
+        #{lastmantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="troughtype != null">
+        #{troughtype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null">
+        #{groupno,jdbcType=DECIMAL},
+      </if>
+      <if test="threshold != null">
+        #{threshold,jdbcType=DECIMAL},
+      </if>
+      <if test="boxcount != null">
+        #{boxcount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    update T_PRODUCE_SORTTROUGH
+    <set>
+      <if test="linenum != null">
+        LINENUM = #{linenum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughnum != null">
+        TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      </if>
+      <if test="troughdesc != null">
+        TROUGHDESC = #{troughdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actcount != null">
+        ACTCOUNT = #{actcount,jdbcType=DECIMAL},
+      </if>
+      <if test="machineseq != null">
+        MACHINESEQ = #{machineseq,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME = #{cigarettename,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="mantissa != null">
+        MANTISSA = #{mantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettetype != null">
+        CIGARETTETYPE = #{cigarettetype,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishline != null">
+        REPLENISHLINE = #{replenishline,jdbcType=DECIMAL},
+      </if>
+      <if test="transportationline != null">
+        TRANSPORTATIONLINE = #{transportationline,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmantissa != null">
+        LASTMANTISSA = #{lastmantissa,jdbcType=DECIMAL},
+      </if>
+      <if test="troughtype != null">
+        TROUGHTYPE = #{troughtype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupno != null">
+        GROUPNO = #{groupno,jdbcType=DECIMAL},
+      </if>
+      <if test="threshold != null">
+        THRESHOLD = #{threshold,jdbcType=DECIMAL},
+      </if>
+      <if test="boxcount != null">
+        BOXCOUNT = #{boxcount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.SorttroughVo">
+    update T_PRODUCE_SORTTROUGH
+    set LINENUM = #{linenum,jdbcType=VARCHAR},
+      TROUGHNUM = #{troughnum,jdbcType=VARCHAR},
+      TROUGHDESC = #{troughdesc,jdbcType=VARCHAR},
+      ACTCOUNT = #{actcount,jdbcType=DECIMAL},
+      MACHINESEQ = #{machineseq,jdbcType=DECIMAL},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      MANTISSA = #{mantissa,jdbcType=DECIMAL},
+      CIGARETTETYPE = #{cigarettetype,jdbcType=DECIMAL},
+      REPLENISHLINE = #{replenishline,jdbcType=DECIMAL},
+      TRANSPORTATIONLINE = #{transportationline,jdbcType=DECIMAL},
+      LASTMANTISSA = #{lastmantissa,jdbcType=DECIMAL},
+      TROUGHTYPE = #{troughtype,jdbcType=DECIMAL},
+      GROUPNO = #{groupno,jdbcType=DECIMAL},
+      THRESHOLD = #{threshold,jdbcType=DECIMAL},
+      BOXCOUNT = #{boxcount,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

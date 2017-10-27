@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sq.ComplaintVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.ComplaintVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CROUTECODE" property="croutecode" jdbcType="VARCHAR" />
+    <result column="CUSERID" property="cuserid" jdbcType="DECIMAL" />
+    <result column="COMPLAINANT" property="complainant" jdbcType="VARCHAR" />
+    <result column="TELNUM" property="telnum" jdbcType="VARCHAR" />
+    <result column="ADDR" property="addr" jdbcType="VARCHAR" />
+    <result column="CTIME" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="HANDLEDEPTID" property="handledeptid" jdbcType="DECIMAL" />
+    <result column="HANDLEID" property="handleid" jdbcType="DECIMAL" />
+    <result column="RESULTS" property="results" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="HANDLETIME" property="handletime" jdbcType="TIMESTAMP" />
+    <result column="VISITTIME" property="visittime" jdbcType="TIMESTAMP" />
+    <result column="SATISFY" property="satisfy" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="VARCHAR" />
+    <result column="LICENSECODE" property="licensecode" jdbcType="VARCHAR" />
+    <result column="CUSTNAME" property="custname" jdbcType="VARCHAR" />
+    <result column="TIMELIMIT" property="timelimit" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="AUDITID" property="auditid" jdbcType="DECIMAL" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="MEASURE" property="measure" jdbcType="VARCHAR" />
+    <result column="LIMITATION" property="limitation" jdbcType="VARCHAR" />
+    <result column="AUDITTIME" property="audittime" jdbcType="TIMESTAMP" />
+    <result column="PREUSERID" property="preuserid" jdbcType="DECIMAL" />
+    <result column="PRESITUATION" property="presituation" jdbcType="VARCHAR" />
+    <result column="PRETIME" property="pretime" jdbcType="TIMESTAMP" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="VISITUSERID" property="visituserid" jdbcType="DECIMAL" />
+    <result column="RECORDERFILE" property="recorderfile" jdbcType="VARCHAR" />
+    <result column="CHECKNOTE" property="checknote" jdbcType="VARCHAR" />
+    <result column="VISITTYPE" property="visittype" jdbcType="VARCHAR" />
+    <result column="CHECKUSERNAME" property="checkusername" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="PREUSERNAME" property="preusername" jdbcType="VARCHAR" />
+    <result column="AUDITNAME" property="auditname" jdbcType="VARCHAR" />
+    <result column="HANDLENAME" property="handlename" jdbcType="VARCHAR" />
+    <result column="VISITNAME" property="visitname" jdbcType="VARCHAR" />
+    <result column="CUSERNAME" property="cusername" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+    <result column="CT" property="ct" jdbcType="DECIMAL" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+     <association property="basetypeInfoVo" resultMap="basetypeInfoVoMap"></association>
+  </resultMap>
+  
+  <resultMap id="basetypeInfoVoMap" type="com.ztel.app.vo.sys.BasetypeInfoVo" >
+ 	 <result column="CONTENTLIST" property="contentlist" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, CONTENT, CROUTECODE, CUSERID, COMPLAINANT, TELNUM, ADDR, CTIME, CREATEID, HANDLEDEPTID, 
+    HANDLEID, RESULTS, STATUS, REMARKS, HANDLETIME, VISITTIME, SATISFY, ISVALID, LICENSECODE, 
+    CUSTNAME, TIMELIMIT, TYPE, AUDITID, REASON, MEASURE, LIMITATION, AUDITTIME, PREUSERID, 
+    PRESITUATION, PRETIME, SOURCE, VISITUSERID, RECORDERFILE, CHECKNOTE, VISITTYPE, CHECKUSERNAME,
+    CREATENAME,PREUSERNAME,AUDITNAME,HANDLENAME,VISITNAME,CUSERNAME 
+  </sql>
+  
+  <sql id="Base_Column_PageList" >
+    c.* ,b.contentlist as typename,decode(c.source,'10','直接投诉','20','96368','直接投诉') as sourcename 
+  </sql>
+  
+  <select id="getComplaintPageList" parameterType="Pagination" resultMap="BaseResultMap">
+    select <include refid="Base_Column_PageList" />
+     from T_SQ_COMPLAINT c left join t_sys_basetypeinfo b on c.type=b.id 
+    <if test="param != null and param.keyword != null and param.keyword != ''">
+        where c.licensecode like '%'||#{param.keyword}||'%' or c.CUSTNAME like '%'||#{param.keyword}||'%' or c.CROUTECODE like '%'||#{param.keyword}||'%'
+    </if>
+</select>
+
+<!-- 投诉报表 -->
+	<select id="getComplaintReportCt"  resultType="java.lang.Integer">
+		select count(*) as ct from T_SQ_COMPLAINT c, t_sys_routeinfo r
+		where c.croutecode=r.routecode and c.type=#{type} and r.deptid=#{deptid} and 
+		( ctime between to_date(#{starttime},'yyyy-mm-dd') and  to_date(#{endtime},'yyyy-mm-dd'))
+	</select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SQ_COMPLAINT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SQ_COMPLAINT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert"  parameterType="com.ztel.app.vo.sq.ComplaintVo" >
+    insert into T_SQ_COMPLAINT (ID, CONTENT, CROUTECODE, 
+      CUSERID, COMPLAINANT, TELNUM, 
+      ADDR, CTIME, CREATEID, 
+      HANDLEDEPTID, HANDLEID, RESULTS, 
+      STATUS, REMARKS, HANDLETIME, 
+      VISITTIME, SATISFY, ISVALID, 
+      LICENSECODE, CUSTNAME, TIMELIMIT, 
+      TYPE, AUDITID, REASON, 
+      MEASURE, LIMITATION, AUDITTIME, 
+      PREUSERID, PRESITUATION, PRETIME, 
+      SOURCE, VISITUSERID, RECORDERFILE, 
+      CHECKNOTE, VISITTYPE, CHECKUSERNAME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{croutecode,jdbcType=VARCHAR}, 
+      #{cuserid,jdbcType=DECIMAL}, #{complainant,jdbcType=VARCHAR}, #{telnum,jdbcType=VARCHAR}, 
+      #{addr,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{createid,jdbcType=DECIMAL}, 
+      #{handledeptid,jdbcType=DECIMAL}, #{handleid,jdbcType=DECIMAL}, #{results,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{handletime,jdbcType=TIMESTAMP}, 
+      #{visittime,jdbcType=TIMESTAMP}, #{satisfy,jdbcType=VARCHAR}, #{isvalid,jdbcType=VARCHAR}, 
+      #{licensecode,jdbcType=VARCHAR}, #{custname,jdbcType=VARCHAR}, #{timelimit,jdbcType=VARCHAR}, 
+      #{type,jdbcType=DECIMAL}, #{auditid,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, 
+      #{measure,jdbcType=VARCHAR}, #{limitation,jdbcType=VARCHAR}, #{audittime,jdbcType=TIMESTAMP}, 
+      #{preuserid,jdbcType=DECIMAL}, #{presituation,jdbcType=VARCHAR}, #{pretime,jdbcType=TIMESTAMP}, 
+      #{source,jdbcType=VARCHAR}, #{visituserid,jdbcType=DECIMAL}, #{recorderfile,jdbcType=VARCHAR}, 
+      #{checknote,jdbcType=VARCHAR}, #{visittype,jdbcType=VARCHAR}, #{checkusername,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.sq.ComplaintVo" >
+    insert into T_SQ_COMPLAINT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="croutecode != null" >
+        CROUTECODE,
+      </if>
+      <if test="cuserid != null" >
+        CUSERID,
+      </if>
+      <if test="complainant != null" >
+        COMPLAINANT,
+      </if>
+      <if test="telnum != null" >
+        TELNUM,
+      </if>
+      <if test="addr != null" >
+        ADDR,
+      </if>
+      <if test="ctime != null" >
+        CTIME,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="handledeptid != null" >
+        HANDLEDEPTID,
+      </if>
+      <if test="handleid != null" >
+        HANDLEID,
+      </if>
+      <if test="results != null" >
+        RESULTS,
+      </if>
+        STATUS,
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="handletime != null" >
+        HANDLETIME,
+      </if>
+      <if test="visittime != null" >
+        VISITTIME,
+      </if>
+      <if test="satisfy != null" >
+        SATISFY,
+      </if>
+      <if test="isvalid != null" >
+        ISVALID,
+      </if>
+      <if test="licensecode != null" >
+        LICENSECODE,
+      </if>
+      <if test="custname != null" >
+        CUSTNAME,
+      </if>
+      <if test="timelimit != null" >
+        TIMELIMIT,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="auditid != null" >
+        AUDITID,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="measure != null" >
+        MEASURE,
+      </if>
+      <if test="limitation != null" >
+        LIMITATION,
+      </if>
+      <if test="audittime != null" >
+        AUDITTIME,
+      </if>
+      <if test="preuserid != null" >
+        PREUSERID,
+      </if>
+      <if test="presituation != null" >
+        PRESITUATION,
+      </if>
+      <if test="pretime != null" >
+        PRETIME,
+      </if>
+      <if test="source != null" >
+        SOURCE,
+      </if>
+      <if test="visituserid != null" >
+        VISITUSERID,
+      </if>
+      <if test="recorderfile != null" >
+        RECORDERFILE,
+      </if>
+      <if test="checknote != null" >
+        CHECKNOTE,
+      </if>
+      <if test="visittype != null" >
+        VISITTYPE,
+      </if>
+      <if test="checkusername != null" >
+        CHECKUSERNAME,
+      </if>
+      <if test="createname != null" >
+        CREATENAME,
+      </if>
+      <if test="preusername != null" >
+        PREUSERNAME,
+      </if>
+      <if test="auditname != null" >
+        AUDITNAME,
+      </if>
+      <if test="handlename != null" >
+        HANDLENAME,
+      </if>
+      <if test="visitname != null" >
+        VISITNAME,
+      </if>
+      <if test="cusername != null" >
+        CUSERNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        s_sq_complaint.nextval,
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="croutecode != null" >
+        #{croutecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cuserid != null" >
+        #{cuserid,jdbcType=DECIMAL},
+      </if>
+      <if test="complainant != null" >
+        #{complainant,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null" >
+        #{telnum,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="handledeptid != null" >
+        #{handledeptid,jdbcType=DECIMAL},
+      </if>
+      <if test="handleid != null" >
+        #{handleid,jdbcType=DECIMAL},
+      </if>
+      <if test="results != null" >
+        #{results,jdbcType=VARCHAR},
+      </if>
+        '10',
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="handletime != null" >
+        #{handletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visittime != null" >
+        #{visittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="satisfy != null" >
+        #{satisfy,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="licensecode != null" >
+        #{licensecode,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="timelimit != null" >
+        #{timelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="auditid != null" >
+        #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="measure != null" >
+        #{measure,jdbcType=VARCHAR},
+      </if>
+      <if test="limitation != null" >
+        #{limitation,jdbcType=VARCHAR},
+      </if>
+      <if test="audittime != null" >
+        #{audittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="preuserid != null" >
+        #{preuserid,jdbcType=DECIMAL},
+      </if>
+      <if test="presituation != null" >
+        #{presituation,jdbcType=VARCHAR},
+      </if>
+      <if test="pretime != null" >
+        #{pretime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="visituserid != null" >
+        #{visituserid,jdbcType=DECIMAL},
+      </if>
+      <if test="recorderfile != null" >
+        #{recorderfile,jdbcType=VARCHAR},
+      </if>
+      <if test="checknote != null" >
+        #{checknote,jdbcType=VARCHAR},
+      </if>
+      <if test="visittype != null" >
+        #{visittype,jdbcType=VARCHAR},
+      </if>
+      <if test="checkusername != null" >
+        #{checkusername,jdbcType=VARCHAR},
+      </if>
+      <if test="createname != null" >
+        #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="preusername != null" >
+        #{preusername,jdbcType=VARCHAR},
+      </if>
+      <if test="auditname != null" >
+        #{auditname,jdbcType=VARCHAR},
+      </if>
+      <if test="handlename != null" >
+        #{handlename,jdbcType=VARCHAR},
+      </if>
+      <if test="visitname != null" >
+        #{visitname,jdbcType=VARCHAR},
+      </if>
+      <if test="cusername != null" >
+        #{cusername,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sq.ComplaintVo" >
+    update T_SQ_COMPLAINT
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="croutecode != null" >
+        CROUTECODE = #{croutecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cuserid != null" >
+        CUSERID = #{cuserid,jdbcType=DECIMAL},
+      </if>
+      <if test="complainant != null" >
+        COMPLAINANT = #{complainant,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null" >
+        TELNUM = #{telnum,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        ADDR = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        CTIME = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="handledeptid != null" >
+        HANDLEDEPTID = #{handledeptid,jdbcType=DECIMAL},
+      </if>
+      <if test="handleid != null" >
+        HANDLEID = #{handleid,jdbcType=DECIMAL},
+      </if>
+      <if test="results != null" >
+        RESULTS = #{results,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="handletime != null" >
+        HANDLETIME = #{handletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visittime != null" >
+        VISITTIME = #{visittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="satisfy != null" >
+        SATISFY = #{satisfy,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        ISVALID = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="licensecode != null" >
+        LICENSECODE = #{licensecode,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        CUSTNAME = #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="timelimit != null" >
+        TIMELIMIT = #{timelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="auditid != null" >
+        AUDITID = #{auditid,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="measure != null" >
+        MEASURE = #{measure,jdbcType=VARCHAR},
+      </if>
+      <if test="limitation != null" >
+        LIMITATION = #{limitation,jdbcType=VARCHAR},
+      </if>
+      <if test="audittime != null" >
+        AUDITTIME = #{audittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="preuserid != null" >
+        PREUSERID = #{preuserid,jdbcType=DECIMAL},
+      </if>
+      <if test="presituation != null" >
+        PRESITUATION = #{presituation,jdbcType=VARCHAR},
+      </if>
+      <if test="pretime != null" >
+        PRETIME = #{pretime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        SOURCE = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="visituserid != null" >
+        VISITUSERID = #{visituserid,jdbcType=DECIMAL},
+      </if>
+      <if test="recorderfile != null" >
+        RECORDERFILE = #{recorderfile,jdbcType=VARCHAR},
+      </if>
+      <if test="checknote != null" >
+        CHECKNOTE = #{checknote,jdbcType=VARCHAR},
+      </if>
+      <if test="visittype != null" >
+        VISITTYPE = #{visittype,jdbcType=VARCHAR},
+      </if>
+      <if test="checkusername != null" >
+        CHECKUSERNAME = #{checkusername,jdbcType=VARCHAR},
+      </if>
+      <if test="createname != null" >
+        CREATENAME = #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="preusername != null" >
+        PREUSERNAME = #{preusername,jdbcType=VARCHAR},
+      </if>
+      <if test="auditname != null" >
+        AUDITNAME = #{auditname,jdbcType=VARCHAR},
+      </if>
+      <if test="handlename != null" >
+        HANDLENAME = #{handlename,jdbcType=VARCHAR},
+      </if>
+      <if test="visitname != null" >
+        VISITNAME = #{visitname,jdbcType=VARCHAR},
+      </if>
+      <if test="cusername != null" >
+        CUSERNAME = #{cusername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sq.ComplaintVo" >
+    update T_SQ_COMPLAINT
+    set CONTENT = #{content,jdbcType=VARCHAR},
+      CROUTECODE = #{croutecode,jdbcType=VARCHAR},
+      CUSERID = #{cuserid,jdbcType=DECIMAL},
+      COMPLAINANT = #{complainant,jdbcType=VARCHAR},
+      TELNUM = #{telnum,jdbcType=VARCHAR},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      CTIME = #{ctime,jdbcType=TIMESTAMP},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      HANDLEDEPTID = #{handledeptid,jdbcType=DECIMAL},
+      HANDLEID = #{handleid,jdbcType=DECIMAL},
+      RESULTS = #{results,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      HANDLETIME = #{handletime,jdbcType=TIMESTAMP},
+      VISITTIME = #{visittime,jdbcType=TIMESTAMP},
+      SATISFY = #{satisfy,jdbcType=VARCHAR},
+      ISVALID = #{isvalid,jdbcType=VARCHAR},
+      LICENSECODE = #{licensecode,jdbcType=VARCHAR},
+      CUSTNAME = #{custname,jdbcType=VARCHAR},
+      TIMELIMIT = #{timelimit,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      AUDITID = #{auditid,jdbcType=DECIMAL},
+      REASON = #{reason,jdbcType=VARCHAR},
+      MEASURE = #{measure,jdbcType=VARCHAR},
+      LIMITATION = #{limitation,jdbcType=VARCHAR},
+      AUDITTIME = #{audittime,jdbcType=TIMESTAMP},
+      PREUSERID = #{preuserid,jdbcType=DECIMAL},
+      PRESITUATION = #{presituation,jdbcType=VARCHAR},
+      PRETIME = #{pretime,jdbcType=TIMESTAMP},
+      SOURCE = #{source,jdbcType=VARCHAR},
+      VISITUSERID = #{visituserid,jdbcType=DECIMAL},
+      RECORDERFILE = #{recorderfile,jdbcType=VARCHAR},
+      CHECKNOTE = #{checknote,jdbcType=VARCHAR},
+      VISITTYPE = #{visittype,jdbcType=VARCHAR},
+      CHECKUSERNAME = #{checkusername,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

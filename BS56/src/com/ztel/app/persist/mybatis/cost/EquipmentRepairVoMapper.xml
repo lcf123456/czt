@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.EquipmentRepairVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.EquipmentRepairVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EQUIPID" property="equipid" jdbcType="DECIMAL" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="CONTENTLIST" property="contentlist" jdbcType="VARCHAR" />
+    <result column="REPAIRTIME" property="repairtime" jdbcType="TIMESTAMP" />
+    <result column="SPAREPARTS" property="spareparts" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="REPAIRRESULT" property="repairresult" jdbcType="VARCHAR" />
+    <result column="AUDITFLAG" property="auditflag" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="EQUIPNAME" property="equipname" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, EQUIPID, REASON, CONTENTLIST, REPAIRTIME, SPAREPARTS, AMOUNT, REPAIRRESULT, AUDITFLAG,
+    CREATETIME, USERID, USERNAME, DELSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_EQUIPMENTREPAIR
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+   <select id="selectEquipmentRepairPageList" resultMap="BaseResultMap" parameterType="Pagination">
+   select b.id,a.equipname as equipname,reason,contentlist,repairtime,spareparts,amount,repairresult 
+   from T_COST_EQUIPMENTREPAIR b ,t_cost_equipment a where a.id=b.equipid and b.delstatus!='0'
+  <if test="param != null and param.equipname != null and param.equipname!= ''">
+        AND (equipname like '%'||#{param.equipname}||'%' or contentlist like '%'||#{param.equipname}||'%' )
+    </if>
+  
+    </select> 
+     <!-- 根据品牌id获取品牌信息
+  <select id="getEquipmentRepairListByEquipId" resultType="EquipmentRepairVo" parameterType="Integer">
+    select  ID,EQUIPNAME  from T_COST_EQUIPMENT  where ID = #{id} 
+  </select> -->
+   <!-- 获取品牌列表 
+  <select id="getEquipmentrepairList" resultType="EquipmentVo">
+    select  ID, EQUIPNAME  from T_COST_EQUIPMENT 
+  </select> -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update T_COST_EQUIPMENTREPAIR set delstatus='0'
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.EquipmentRepairVo" >
+    insert into T_COST_EQUIPMENTREPAIR (ID, EQUIPID, REASON, 
+      CONTENTLIST, REPAIRTIME, SPAREPARTS, 
+      AMOUNT, REPAIRRESULT, AUDITFLAG, 
+      CREATETIME, USERID, USERNAME, 
+      DELSTATUS)
+    values (#{id,jdbcType=DECIMAL}, #{equipid,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, 
+      #{contentlist,jdbcType=VARCHAR}, #{repairtime,jdbcType=TIMESTAMP}, #{spareparts,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{repairresult,jdbcType=VARCHAR}, #{auditflag,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, 
+      #{delstatus,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.EquipmentRepairVo" >
+    insert into T_COST_EQUIPMENTREPAIR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    
+        ID,
+     
+      <if test="equipid != null" >
+        EQUIPID,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="contentlist != null" >
+        CONTENTLIST,
+      </if>
+      <if test="repairtime != null" >
+        REPAIRTIME,
+      </if>
+      <if test="spareparts != null" >
+        SPAREPARTS,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="repairresult != null" >
+        REPAIRRESULT,
+      </if>
+      <if test="auditflag != null" >
+        AUDITFLAG,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     S_COST_EQUIPMENTREPAIR.nextval,
+     
+      <if test="equipid != null" >
+        #{equipid,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="contentlist != null" >
+        #{contentlist,jdbcType=VARCHAR},
+      </if>
+      <if test="repairtime != null" >
+        #{repairtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareparts != null" >
+        #{spareparts,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repairresult != null" >
+        #{repairresult,jdbcType=VARCHAR},
+      </if>
+      <if test="auditflag != null" >
+        #{auditflag,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.EquipmentRepairVo" >
+    update T_COST_EQUIPMENTREPAIR
+    <set >
+      <if test="equipid != null" >
+        EQUIPID = #{equipid,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="contentlist != null" >
+        CONTENTLIST = #{contentlist,jdbcType=VARCHAR},
+      </if>
+      <if test="repairtime != null" >
+        REPAIRTIME = #{repairtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareparts != null" >
+        SPAREPARTS = #{spareparts,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repairresult != null" >
+        REPAIRRESULT = #{repairresult,jdbcType=VARCHAR},
+      </if>
+      <if test="auditflag != null" >
+        AUDITFLAG = #{auditflag,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.EquipmentRepairVo" >
+    update T_COST_EQUIPMENTREPAIR
+    set EQUIPID = #{equipid,jdbcType=DECIMAL},
+      REASON = #{reason,jdbcType=VARCHAR},
+      CONTENTLIST = #{contentlist,jdbcType=VARCHAR},
+      REPAIRTIME = #{repairtime,jdbcType=TIMESTAMP},
+      SPAREPARTS = #{spareparts,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      REPAIRRESULT = #{repairresult,jdbcType=VARCHAR},
+      AUDITFLAG = #{auditflag,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      USERID = #{userid,jdbcType=DECIMAL},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

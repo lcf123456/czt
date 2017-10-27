@@ -1,0 +1,17 @@
+package com.ztel.app.persist.mybatis.cost;
+
+import com.ztel.app.vo.cost.SPLApplyListLineVo;
+
+public interface SPLApplyListLineVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insert(SPLApplyListLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-06-23
+     */
+    int insertSelective(SPLApplyListLineVo record);
+}

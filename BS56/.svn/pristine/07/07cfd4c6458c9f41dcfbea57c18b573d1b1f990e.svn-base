@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.InventoryLineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.InventoryLineVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="INVENTORYID" property="inventoryid" jdbcType="DECIMAL" />
+    <result column="CIGARETTENAME" property="cigarettename" jdbcType="OTHER" />
+    <result column="CIGARETTECODE" property="cigarettecode" jdbcType="VARCHAR" />
+    <result column="BOXQTY" property="boxqty" jdbcType="DECIMAL" />
+    <result column="ITEMQTY" property="itemqty" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="INVENTORYTYPE" property="inventorytype" jdbcType="DECIMAL" />
+    <result column="CONSIGNSOR" property="consignsor" jdbcType="OTHER" />
+    <result column="AREAID" property="areaid" jdbcType="DECIMAL" />
+    <result column="TROUGHNO" property="troughno" jdbcType="OTHER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, INVENTORYID, CIGARETTENAME, CIGARETTECODE, BOXQTY, ITEMQTY, CREATETIME, INVENTORYTYPE, 
+    CONSIGNSOR, AREAID, TROUGHNO
+  </sql>
+  <!-- 取到最新的盘点明细内容 -->
+  <select id="selectLastInventoryInfoByCond" resultMap="BaseResultMap" parameterType="com.ztel.app.vo.wms.InventoryLineVo" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from T_WMS_INVENTORY_LINE 
+	    where INVENTORYID=
+	    (select max(id) from T_WMS_INVENTORY where status=10
+	    <if test="inventorytype != null and inventorytype != ''" >
+	        and inventorytype = #{inventorytype}
+	      </if>
+	    )
+    <if test="areaid != null and areaid != ''" >
+        and areaid=#{areaid}
+      </if>
+    <if test="cigarettecode != null and cigarettecode != ''" >
+        and cigarettecode=#{cigarettecode}
+      </if>
+    <if test="troughno != null and troughno != ''" >
+        and troughno=#{troughno}
+      </if>
+      order by CIGARETTENAME
+  </select>
+  <!-- 取到盘点明细内容 -->
+  <select id="selectInventoryInfoByCond" resultMap="BaseResultMap" parameterType="com.ztel.app.vo.wms.InventoryLineVo" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from T_WMS_INVENTORY_LINE 
+	    where 1=1
+    <if test="inventoryid != null and inventoryid != ''" >
+        and inventoryid=#{inventoryid}
+      </if>
+    <if test="areaid != null and areaid != ''" >
+        and areaid=#{areaid}
+      </if>
+      order by to_number(troughno),CIGARETTENAME
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_INVENTORY_LINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_INVENTORY_LINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.InventoryLineVo" >
+    insert into T_WMS_INVENTORY_LINE (ID, INVENTORYID, CIGARETTENAME, 
+      CIGARETTECODE, BOXQTY, ITEMQTY, 
+      CREATETIME, INVENTORYTYPE, CONSIGNSOR, 
+      AREAID, TROUGHNO)
+    values (#{id,jdbcType=DECIMAL}, #{inventoryid,jdbcType=DECIMAL}, #{cigarettename,jdbcType=OTHER}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{boxqty,jdbcType=DECIMAL}, #{itemqty,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{inventorytype,jdbcType=DECIMAL}, #{consignsor,jdbcType=OTHER}, 
+      #{areaid,jdbcType=DECIMAL}, #{troughno,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.wms.InventoryLineVo" >
+    insert into T_WMS_INVENTORY_LINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="inventoryid != null" >
+        INVENTORYID,
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME,
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE,
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY,
+      </if>
+      <if test="itemqty != null" >
+        ITEMQTY,
+      </if>
+        CREATETIME,
+      <if test="inventorytype != null" >
+        INVENTORYTYPE,
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR,
+      </if>
+      <if test="areaid != null" >
+        AREAID,
+      </if>
+      <if test="troughno != null" >
+        TROUGHNO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_WMS_INVENTORY_LINE.nextval,
+      <if test="inventoryid != null" >
+        #{inventoryid,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettename != null" >
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemqty != null" >
+        #{itemqty,jdbcType=DECIMAL},
+      </if>
+        sysdate,
+      <if test="inventorytype != null" >
+        #{inventorytype,jdbcType=DECIMAL},
+      </if>
+      <if test="consignsor != null" >
+        #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="troughno != null" >
+        #{troughno,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.InventoryLineVo" >
+    update T_WMS_INVENTORY_LINE
+    <set >
+      <if test="inventoryid != null" >
+        INVENTORYID = #{inventoryid,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarettename != null" >
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemqty != null" >
+        ITEMQTY = #{itemqty,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inventorytype != null" >
+        INVENTORYTYPE = #{inventorytype,jdbcType=DECIMAL},
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="areaid != null" >
+        AREAID = #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="troughno != null" >
+        TROUGHNO = #{troughno,jdbcType=OTHER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.InventoryLineVo" >
+    update T_WMS_INVENTORY_LINE
+    set INVENTORYID = #{inventoryid,jdbcType=DECIMAL},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      ITEMQTY = #{itemqty,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      INVENTORYTYPE = #{inventorytype,jdbcType=DECIMAL},
+      CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      AREAID = #{areaid,jdbcType=DECIMAL},
+      TROUGHNO = #{troughno,jdbcType=OTHER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

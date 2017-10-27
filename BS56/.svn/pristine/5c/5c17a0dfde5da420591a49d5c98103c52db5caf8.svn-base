@@ -1,0 +1,237 @@
+package com.ztel.app.vo.wms;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class CigarettedamagedVo {
+    /**
+     * null
+     */
+    private BigDecimal id;
+
+    /**
+     * 入库单id
+     */
+    private BigDecimal inboundid;
+
+    /**
+     * 录入用户
+     */
+    private Long createuser;
+
+    /**
+     * 破损描述
+     */
+    private Object damageddescribe;
+
+    /**
+     * 创建日期
+     */
+    private Date createtime;
+
+    /**
+     * 审核用户
+     */
+    private Long checkuser;
+
+    /**
+     * 审核描述
+     */
+    private Object checkdescribe;
+
+    /**
+     * 审核日期
+     */
+    private Date checktime;
+
+    /**
+     * 备注
+     */
+    private Object remarks;
+
+    /**
+     * 删除标识0 删除 10 正常
+     */
+    private Short delstatus;
+
+    /**
+     * 破损总数量
+     */
+    private BigDecimal qty;
+
+    /**
+     * null
+     * @return ID null
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * null
+     * @param id null
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 入库单id
+     * @return INBOUNDID 入库单id
+     */
+    public BigDecimal getInboundid() {
+        return inboundid;
+    }
+
+    /**
+     * 入库单id
+     * @param inboundid 入库单id
+     */
+    public void setInboundid(BigDecimal inboundid) {
+        this.inboundid = inboundid;
+    }
+
+    /**
+     * 录入用户
+     * @return CREATEUSER 录入用户
+     */
+    public Long getCreateuser() {
+        return createuser;
+    }
+
+    /**
+     * 录入用户
+     * @param createuser 录入用户
+     */
+    public void setCreateuser(Long createuser) {
+        this.createuser = createuser;
+    }
+
+    /**
+     * 破损描述
+     * @return DAMAGEDDESCRIBE 破损描述
+     */
+    public Object getDamageddescribe() {
+        return damageddescribe;
+    }
+
+    /**
+     * 破损描述
+     * @param damageddescribe 破损描述
+     */
+    public void setDamageddescribe(Object damageddescribe) {
+        this.damageddescribe = damageddescribe;
+    }
+
+    /**
+     * 创建日期
+     * @return CREATETIME 创建日期
+     */
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    /**
+     * 创建日期
+     * @param createtime 创建日期
+     */
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    /**
+     * 审核用户
+     * @return CHECKUSER 审核用户
+     */
+    public Long getCheckuser() {
+        return checkuser;
+    }
+
+    /**
+     * 审核用户
+     * @param checkuser 审核用户
+     */
+    public void setCheckuser(Long checkuser) {
+        this.checkuser = checkuser;
+    }
+
+    /**
+     * 审核描述
+     * @return CHECKDESCRIBE 审核描述
+     */
+    public Object getCheckdescribe() {
+        return checkdescribe;
+    }
+
+    /**
+     * 审核描述
+     * @param checkdescribe 审核描述
+     */
+    public void setCheckdescribe(Object checkdescribe) {
+        this.checkdescribe = checkdescribe;
+    }
+
+    /**
+     * 审核日期
+     * @return CHECKTIME 审核日期
+     */
+    public Date getChecktime() {
+        return checktime;
+    }
+
+    /**
+     * 审核日期
+     * @param checktime 审核日期
+     */
+    public void setChecktime(Date checktime) {
+        this.checktime = checktime;
+    }
+
+    /**
+     * 备注
+     * @return REMARKS 备注
+     */
+    public Object getRemarks() {
+        return remarks;
+    }
+
+    /**
+     * 备注
+     * @param remarks 备注
+     */
+    public void setRemarks(Object remarks) {
+        this.remarks = remarks;
+    }
+
+    /**
+     * 删除标识0 删除 10 正常
+     * @return DELSTATUS 删除标识0 删除 10 正常
+     */
+    public Short getDelstatus() {
+        return delstatus;
+    }
+
+    /**
+     * 删除标识0 删除 10 正常
+     * @param delstatus 删除标识0 删除 10 正常
+     */
+    public void setDelstatus(Short delstatus) {
+        this.delstatus = delstatus;
+    }
+
+    /**
+     * 破损总数量
+     * @return QTY 破损总数量
+     */
+    public BigDecimal getQty() {
+        return qty;
+    }
+
+    /**
+     * 破损总数量
+     * @param qty 破损总数量
+     */
+    public void setQty(BigDecimal qty) {
+        this.qty = qty;
+    }
+}

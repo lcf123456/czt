@@ -1,0 +1,87 @@
+package com.ztel.app.service.account.Impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ztel.app.persist.mybatis.account.OperateVoMapper;
+import com.ztel.app.service.account.OperateVoService;
+import com.ztel.app.vo.account.OperateVo;
+import com.ztel.framework.vo.Pagination;
+@Service
+public class OperateVoServiceImpl implements OperateVoService {
+	
+	@Autowired
+	private OperateVoMapper operateVoMapper = null;
+	 
+	private Map<String, String> sortKeyMapping = new HashMap<>();
+		
+	public OperateVoServiceImpl() {
+			//TODO 请在这里填入排序的key转换为列名, 防止SQL注入;每个Service业务域用自己的mapping,在BaseCtrl容易重复
+			//sortKeyMapping.put(key, value)
+	}
+
+	@Override
+	public List<OperateVo> getOperatePageList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		return operateVoMapper.getOperatePageList(page);
+	}
+
+	@Override
+	public void doOperateUpdate(OperateVo operateVo) {
+		// TODO Auto-generated method stub
+		operateVoMapper.updateByPrimaryKeySelective(operateVo);
+	}
+
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void doOperateDelete(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		if(ids!=null&&ids.size()>0){
+			for(int i=0;i<ids.size();i++){
+				operateVoMapper.deleteByPrimaryKey(new BigDecimal(ids.get(i)));
+			}
+		}
+	}
+
+	@Override
+	public void doOperateAdd(OperateVo operateVo) {
+		// TODO Auto-generated method stub
+		operateVoMapper.insertSelective(operateVo);
+	}
+
+	/**
+	 * 预付款退货列表
+	 * @param operateVo
+	 * @return
+	 */
+	public List<OperateVo> selectPrepayreturn(OperateVo operateVo){
+		List<OperateVo>  resultList = new ArrayList<OperateVo>();
+		
+		List<OperateVo> operateVoList = operateVoMapper.selectPrepayreturn(operateVo);
+		if(operateVoList!=null&&operateVoList.size()>0){
+			OperateVo OperateVo2 = new OperateVo();
+			BigDecimal amountAll = new BigDecimal("0");
+			BigDecimal qtyAll = new BigDecimal("0");
+			
+			for(int i=0;i<operateVoList.size();i++){
+				OperateVo operateVo1 = operateVoList.get(i);
+				resultList.add(operateVo1);
+				amountAll = amountAll.add(operateVo1.getAmount());
+				qtyAll = qtyAll.add(operateVo1.getQuantity());
+			}
+			OperateVo2.setAmount(amountAll);
+			OperateVo2.setQuantity(qtyAll);
+			OperateVo2.setCusname("合计");
+			resultList.add(OperateVo2);//加上合计
+		}
+		
+		return resultList;
+	}
+}

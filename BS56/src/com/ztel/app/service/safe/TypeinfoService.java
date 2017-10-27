@@ -1,0 +1,14 @@
+package com.ztel.app.service.safe;
+
+import java.util.HashMap;
+import java.util.List;
+
+import com.ztel.app.vo.safe.TypeinfoVo;
+import com.ztel.framework.vo.Pagination;
+
+public interface TypeinfoService {
+
+	List<HashMap<String, String>> getCtypeCombobox();
+
+	List<HashMap<String, String>> getHazardstypeCombobox();
+}

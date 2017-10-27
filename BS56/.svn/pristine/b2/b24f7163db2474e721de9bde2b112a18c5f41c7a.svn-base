@@ -1,0 +1,41 @@
+package com.ztel.app.persist.mybatis.perform;
+
+import com.ztel.app.vo.perform.DeptmonthLineVo;
+
+public interface DeptmonthLineVoMapper {
+    /**
+     *
+     * @mbggenerated 2017-10-10
+     */
+    int deleteByPrimaryKey(Long id);
+
+    /**
+     *
+     * @mbggenerated 2017-10-10
+     */
+    int insert(DeptmonthLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-10-10
+     */
+    int insertSelective(DeptmonthLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-10-10
+     */
+    DeptmonthLineVo selectByPrimaryKey(Long id);
+
+    /**
+     *
+     * @mbggenerated 2017-10-10
+     */
+    int updateByPrimaryKeySelective(DeptmonthLineVo record);
+
+    /**
+     *
+     * @mbggenerated 2017-10-10
+     */
+    int updateByPrimaryKey(DeptmonthLineVo record);
+}

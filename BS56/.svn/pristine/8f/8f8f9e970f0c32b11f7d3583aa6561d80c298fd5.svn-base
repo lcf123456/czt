@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.wms.ShipOrderLineVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ShipOrderLineVo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="ORDERNO" jdbcType="VARCHAR" property="orderno" />
+    <result column="ITEM_ID" jdbcType="VARCHAR" property="itemId" />
+    <result column="UOM_ID" jdbcType="DECIMAL" property="uomId" />
+    <result column="ITEMPRICE" jdbcType="DECIMAL" property="itemprice" />
+    <result column="QTY" jdbcType="DECIMAL" property="qty" />
+    <result column="SALEAMOUNT" jdbcType="DECIMAL" property="saleamount" />
+    <result column="ORDERSTATUS" jdbcType="DECIMAL" property="orderstatus" />
+    <result column="ITEMNAME" jdbcType="VARCHAR" property="itemname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ORDERNO, ITEM_ID, UOM_ID, ITEMPRICE, QTY, SALEAMOUNT, ORDERSTATUS, ITEMNAME
+  </sql>
+  <!-- 根据订单号查询订单明细 -->
+  <select id="getShipOrderLineByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_SHIPORDERLINE
+    where orderno = #{orderno,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_SHIPORDERLINE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_WMS_SHIPORDERLINE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ShipOrderLineVo">
+    insert into T_WMS_SHIPORDERLINE (ID, ORDERNO, ITEM_ID, 
+      UOM_ID, ITEMPRICE, QTY, 
+      SALEAMOUNT, ORDERSTATUS, ITEMNAME
+      )
+    values (#{id,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}, #{itemId,jdbcType=VARCHAR}, 
+      #{uomId,jdbcType=DECIMAL}, #{itemprice,jdbcType=DECIMAL}, #{qty,jdbcType=DECIMAL}, 
+      #{saleamount,jdbcType=DECIMAL}, #{orderstatus,jdbcType=DECIMAL}, #{itemname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ShipOrderLineVo">
+    insert into T_WMS_SHIPORDERLINE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="orderno != null">
+        ORDERNO,
+      </if>
+      <if test="itemId != null">
+        ITEM_ID,
+      </if>
+      <if test="uomId != null">
+        UOM_ID,
+      </if>
+      <if test="itemprice != null">
+        ITEMPRICE,
+      </if>
+      <if test="qty != null">
+        QTY,
+      </if>
+      <if test="saleamount != null">
+        SALEAMOUNT,
+      </if>
+      <if test="orderstatus != null">
+        ORDERSTATUS,
+      </if>
+      <if test="itemname != null">
+        ITEMNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="uomId != null">
+        #{uomId,jdbcType=DECIMAL},
+      </if>
+      <if test="itemprice != null">
+        #{itemprice,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="saleamount != null">
+        #{saleamount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderstatus != null">
+        #{orderstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="itemname != null">
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ShipOrderLineVo">
+    update T_WMS_SHIPORDERLINE
+    <set>
+      <if test="orderno != null">
+        ORDERNO = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        ITEM_ID = #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="uomId != null">
+        UOM_ID = #{uomId,jdbcType=DECIMAL},
+      </if>
+      <if test="itemprice != null">
+        ITEMPRICE = #{itemprice,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="saleamount != null">
+        SALEAMOUNT = #{saleamount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderstatus != null">
+        ORDERSTATUS = #{orderstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="itemname != null">
+        ITEMNAME = #{itemname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ShipOrderLineVo">
+    update T_WMS_SHIPORDERLINE
+    set ORDERNO = #{orderno,jdbcType=VARCHAR},
+      ITEM_ID = #{itemId,jdbcType=VARCHAR},
+      UOM_ID = #{uomId,jdbcType=DECIMAL},
+      ITEMPRICE = #{itemprice,jdbcType=DECIMAL},
+      QTY = #{qty,jdbcType=DECIMAL},
+      SALEAMOUNT = #{saleamount,jdbcType=DECIMAL},
+      ORDERSTATUS = #{orderstatus,jdbcType=DECIMAL},
+      ITEMNAME = #{itemname,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

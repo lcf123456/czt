@@ -1,0 +1,36 @@
+package com.ztel.app.service.perform.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ztel.app.persist.mybatis.perform.KeyworkVoMapper;
+import com.ztel.app.service.perform.KeyworkService;
+import com.ztel.app.vo.perform.KeyworkVo;
+
+@Service
+public class KeyworkServiceImpl implements KeyworkService {
+
+	@Autowired
+	private KeyworkVoMapper keyworkVoMapper = null;
+	
+	@Override
+	public List<KeyworkVo> selectKeyworkList(KeyworkVo keyworkVo) {
+		// TODO Auto-generated method stub
+		return keyworkVoMapper.selectListByCond(keyworkVo);
+	}
+
+	@Override
+	public void insertKeywork(KeyworkVo keyworkVo) {
+		// TODO Auto-generated method stub
+		keyworkVoMapper.insertSelective(keyworkVo);
+	}
+
+	@Override
+	public void doDel(Integer id) {
+		// TODO Auto-generated method stub
+		keyworkVoMapper.deleteByPrimaryKey(id);
+	}
+
+}

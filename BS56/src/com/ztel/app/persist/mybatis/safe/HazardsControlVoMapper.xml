@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.safe.HazardsControlVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.safe.HazardsControlVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LEVELID" property="levelid" jdbcType="DECIMAL" />
+    <result column="CONTROLMEANS" property="controlmeans" jdbcType="VARCHAR" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="DELSTATUS" property="delstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LEVELID, CONTROLMEANS, NOTE, REMARKS, DELSTATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SAFE_HAZARDSCONTROL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SAFE_HAZARDSCONTROL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.safe.HazardsControlVo" >
+    insert into T_SAFE_HAZARDSCONTROL (ID, LEVELID, CONTROLMEANS, 
+      NOTE, REMARKS, DELSTATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{levelid,jdbcType=DECIMAL}, #{controlmeans,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{delstatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.safe.HazardsControlVo" >
+    insert into T_SAFE_HAZARDSCONTROL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="levelid != null" >
+        LEVELID,
+      </if>
+      <if test="controlmeans != null" >
+        CONTROLMEANS,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="levelid != null" >
+        #{levelid,jdbcType=DECIMAL},
+      </if>
+      <if test="controlmeans != null" >
+        #{controlmeans,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.safe.HazardsControlVo" >
+    update T_SAFE_HAZARDSCONTROL
+    <set >
+      <if test="levelid != null" >
+        LEVELID = #{levelid,jdbcType=DECIMAL},
+      </if>
+      <if test="controlmeans != null" >
+        CONTROLMEANS = #{controlmeans,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        DELSTATUS = #{delstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.safe.HazardsControlVo" >
+    update T_SAFE_HAZARDSCONTROL
+    set LEVELID = #{levelid,jdbcType=DECIMAL},
+      CONTROLMEANS = #{controlmeans,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DELSTATUS = #{delstatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

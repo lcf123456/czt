@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.wms.InBoundVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.InBoundVo" >
+    <id column="INBOUNDID" property="inboundid" jdbcType="DECIMAL" />
+    <result column="NAVICERT" property="navicert" jdbcType="VARCHAR" />
+    <result column="CONTRACTNO" property="contractno" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="SUPPLIER" property="supplier" jdbcType="OTHER" />
+    <result column="CONSIGNSOR" property="consignsor" jdbcType="OTHER" />
+    <result column="INTYPE" property="intype" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="OTHER" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    INBOUNDID, NAVICERT, CONTRACTNO, CREATETIME, QTY, SUPPLIER, CONSIGNSOR, INTYPE, REMARKS, 
+    STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_INBOUND
+    where INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_WMS_INBOUND
+    where INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.InBoundVo" >
+    insert into T_WMS_INBOUND (INBOUNDID, NAVICERT, CONTRACTNO, 
+      CREATETIME, QTY, SUPPLIER, 
+      CONSIGNSOR, INTYPE, REMARKS, 
+      STATUS)
+    values (#{inboundid,jdbcType=DECIMAL}, #{navicert,jdbcType=VARCHAR}, #{contractno,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{qty,jdbcType=DECIMAL}, #{supplier,jdbcType=OTHER}, 
+      #{consignsor,jdbcType=OTHER}, #{intype,jdbcType=DECIMAL}, #{remarks,jdbcType=OTHER}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.InBoundVo" >
+    insert into T_WMS_INBOUND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="inboundid != null" >
+        INBOUNDID,
+      </if>
+      <if test="navicert != null" >
+        NAVICERT,
+      </if>
+      <if test="contractno != null" >
+        CONTRACTNO,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="qty != null" >
+        QTY,
+      </if>
+      <if test="supplier != null" >
+        SUPPLIER,
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR,
+      </if>
+      <if test="intype != null" >
+        INTYPE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="inboundid != null" >
+        #{inboundid,jdbcType=DECIMAL},
+      </if>
+      <if test="navicert != null" >
+        #{navicert,jdbcType=VARCHAR},
+      </if>
+      <if test="contractno != null" >
+        #{contractno,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="supplier != null" >
+        #{supplier,jdbcType=OTHER},
+      </if>
+      <if test="consignsor != null" >
+        #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="intype != null" >
+        #{intype,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.InBoundVo" >
+    update T_WMS_INBOUND
+    <set >
+      <if test="navicert != null" >
+        NAVICERT = #{navicert,jdbcType=VARCHAR},
+      </if>
+      <if test="contractno != null" >
+        CONTRACTNO = #{contractno,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qty != null" >
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="supplier != null" >
+        SUPPLIER = #{supplier,jdbcType=OTHER},
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="intype != null" >
+        INTYPE = #{intype,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.InBoundVo" >
+    update T_WMS_INBOUND
+    set NAVICERT = #{navicert,jdbcType=VARCHAR},
+      CONTRACTNO = #{contractno,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      QTY = #{qty,jdbcType=DECIMAL},
+      SUPPLIER = #{supplier,jdbcType=OTHER},
+      CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      INTYPE = #{intype,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.perform.DeptmonthLineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.perform.DeptmonthLineVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="CTYPE" property="ctype" jdbcType="DECIMAL" />
+    <result column="EVALITEMID" property="evalitemid" jdbcType="DECIMAL" />
+    <result column="FINISHNOTE" property="finishnote" jdbcType="VARCHAR" />
+    <result column="SELFSCORE" property="selfscore" jdbcType="DECIMAL" />
+    <result column="OTHERSCORE" property="otherscore" jdbcType="DECIMAL" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="PROCESS" property="process" jdbcType="VARCHAR" />
+    <result column="PROPERTY" property="property" jdbcType="VARCHAR" />
+    <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
+    <result column="TMPSCORE" property="tmpscore" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FID, CTYPE, EVALITEMID, FINISHNOTE, SELFSCORE, OTHERSCORE, NOTE, WEIGHT,TMPSCORE
+  </sql>
+  
+  <!-- 取重点工作的列表 -->
+  <select id="selectDeptmonthLineKWByCond" parameterType="com.ztel.app.vo.perform.DeptmonthLineVo" resultType="com.ztel.app.vo.perform.DeptmonthLineVo">
+    select dm.ID, dm.FID, dm.CTYPE, dm.EVALITEMID, dm.FINISHNOTE, dm.SELFSCORE, dm.OTHERSCORE, dm.NOTE, 
+    dm.WEIGHT, dm.TMPSCORE,kw.content,kw.process,us.username as  createname 
+    from T_PERFORM_DEPTMONTHLINE dm
+    left outer join t_perform_keywork kw on dm.EVALITEMID=kw.id
+    left outer join t_sys_user us on kw.createid=us.id
+    where dm.ctype=10
+    <if test="fid != null">
+        AND dm.fid = #{fid}
+    </if>
+    order by dm.id
+</select>
+
+<!-- 取日常工作的列表 -->
+  <select id="selectDeptmonthLineWCByCond" parameterType="com.ztel.app.vo.perform.DeptmonthLineVo" resultType="com.ztel.app.vo.perform.DeptmonthLineVo">
+    select dm.ID, dm.FID, dm.CTYPE, dm.EVALITEMID, dm.FINISHNOTE, dm.SELFSCORE, dm.OTHERSCORE, dm.NOTE, 
+    dm.WEIGHT, dm.TMPSCORE,wc.matters as content,wc.standard as process,
+    wc.property ,us.username as  createname 
+    from T_PERFORM_DEPTMONTHLINE dm 
+    left outer join t_perform_workcontent wc on dm.EVALITEMID=wc.id 
+    left outer join t_sys_user us on wc.createid=us.id
+    where dm.ctype=20 
+    <if test="fid != null">
+        AND dm.fid = #{fid}
+    </if>
+    order by dm.id
+</select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PERFORM_DEPTMONTHLINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_PERFORM_DEPTMONTHLINE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByParentid" parameterType="java.lang.Long" >
+    delete from T_PERFORM_DEPTMONTHLINE
+    where FID = #{fid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.perform.DeptmonthLineVo" >
+    insert into T_PERFORM_DEPTMONTHLINE (ID, FID, CTYPE, 
+      EVALITEMID, FINISHNOTE, SELFSCORE, 
+      OTHERSCORE, NOTE, WEIGHT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{fid,jdbcType=DECIMAL}, #{ctype,jdbcType=DECIMAL}, 
+      #{evalitemid,jdbcType=DECIMAL}, #{finishnote,jdbcType=VARCHAR}, #{selfscore,jdbcType=DECIMAL}, 
+      #{otherscore,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false"  parameterType="com.ztel.app.vo.perform.DeptmonthLineVo" >
+    insert into T_PERFORM_DEPTMONTHLINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="ctype != null" >
+        CTYPE,
+      </if>
+      <if test="evalitemid != null" >
+        EVALITEMID,
+      </if>
+      <if test="finishnote != null" >
+        FINISHNOTE,
+      </if>
+      <if test="selfscore != null" >
+        SELFSCORE,
+      </if>
+      <if test="otherscore != null" >
+        OTHERSCORE,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="tmpscore != null" >
+        tmpscore,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_PERFORM_DEPTMONTHSUM.nextval,
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="evalitemid != null" >
+        #{evalitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="finishnote != null" >
+        #{finishnote,jdbcType=VARCHAR},
+      </if>
+      <if test="selfscore != null" >
+        #{selfscore,jdbcType=DECIMAL},
+      </if>
+      <if test="otherscore != null" >
+        #{otherscore,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="tmpscore != null" >
+        #{tmpscore,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.perform.DeptmonthLineVo" >
+    update T_PERFORM_DEPTMONTHLINE
+    <set >
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="evalitemid != null" >
+        EVALITEMID = #{evalitemid,jdbcType=DECIMAL},
+      </if>
+      <if test="finishnote != null" >
+        FINISHNOTE = #{finishnote,jdbcType=VARCHAR},
+      </if>
+      <if test="selfscore != null" >
+        SELFSCORE = #{selfscore,jdbcType=DECIMAL},
+      </if>
+      <if test="tmpscore != null" >
+        TMPSCORE = #{tmpscore,jdbcType=DECIMAL},
+      </if>
+      <if test="otherscore != null" >
+        OTHERSCORE = #{otherscore,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.perform.DeptmonthLineVo" >
+    update T_PERFORM_DEPTMONTHLINE
+    set FID = #{fid,jdbcType=DECIMAL},
+      CTYPE = #{ctype,jdbcType=DECIMAL},
+      EVALITEMID = #{evalitemid,jdbcType=DECIMAL},
+      FINISHNOTE = #{finishnote,jdbcType=VARCHAR},
+      SELFSCORE = #{selfscore,jdbcType=DECIMAL},
+      OTHERSCORE = #{otherscore,jdbcType=DECIMAL},
+      NOTE = #{note,jdbcType=VARCHAR},
+      WEIGHT = #{weight,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByCondSelective" parameterType="com.ztel.app.vo.perform.DeptmonthLineVo" >
+    update T_PERFORM_DEPTMONTHLINE
+    <set >
+      <if test="ctype != null" >
+        CTYPE = #{ctype,jdbcType=DECIMAL},
+      </if>
+      <if test="finishnote != null" >
+        FINISHNOTE = #{finishnote,jdbcType=VARCHAR},
+      </if>
+      <if test="selfscore != null" >
+        SELFSCORE = #{selfscore,jdbcType=DECIMAL},
+      </if>
+      <if test="otherscore != null" >
+        OTHERSCORE = #{otherscore,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where FID = #{fid,jdbcType=DECIMAL} and evalitemid = #{evalitemid,jdbcType=DECIMAL}
+  </update>
+</mapper>

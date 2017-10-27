@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.sale.SaleorderlineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.sale.SaleorderlineVo" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="VARCHAR" />
+    <result column="ITEM_ID" property="itemId" jdbcType="VARCHAR" />
+    <result column="UOM_ID" property="uomId" jdbcType="DECIMAL" />
+    <result column="QTY" property="qty" jdbcType="DECIMAL" />
+    <result column="SALEPRICE" property="saleprice" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="OTHER" />
+    <result column="ORDERSTATUS" property="orderstatus" jdbcType="DECIMAL" />
+    <result column="SALEAMOUNT" property="saleamount" jdbcType="DECIMAL" />
+  </resultMap>
+  
+   <!-- 营销数据到插入之前先全部删除 -->
+  <delete id="deletesaleorderline" >
+    ${sqlstr}
+  </delete>
+  <!-- 营销数据到oracle中间表T_SALE_ORDER_LINE -->
+    <insert id="insertsaleorderline" useGeneratedKeys="false" >
+    ${sqlstr}
+  </insert>
+  
+  <insert id="insert" parameterType="com.ztel.app.vo.sale.SaleorderlineVo" >
+    insert into T_SALE_ORDER_LINE (ID, ORDERNO, ITEM_ID, 
+      UOM_ID, QTY, SALEPRICE, 
+      REMARK, ORDERSTATUS, SALEAMOUNT
+      )
+    values (#{id,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}, #{itemId,jdbcType=VARCHAR}, 
+      #{uomId,jdbcType=DECIMAL}, #{qty,jdbcType=DECIMAL}, #{saleprice,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=OTHER}, #{orderstatus,jdbcType=DECIMAL}, #{saleamount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.sale.SaleorderlineVo" >
+    insert into T_SALE_ORDER_LINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="itemId != null" >
+        ITEM_ID,
+      </if>
+      <if test="uomId != null" >
+        UOM_ID,
+      </if>
+      <if test="qty != null" >
+        QTY,
+      </if>
+      <if test="saleprice != null" >
+        SALEPRICE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="orderstatus != null" >
+        ORDERSTATUS,
+      </if>
+      <if test="saleamount != null" >
+        SALEAMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="uomId != null" >
+        #{uomId,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="saleprice != null" >
+        #{saleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=OTHER},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="saleamount != null" >
+        #{saleamount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

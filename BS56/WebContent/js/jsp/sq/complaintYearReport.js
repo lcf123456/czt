@@ -1,0 +1,98 @@
+var url;
+
+//信息上传进度条初始化
+$(function(){
+	  $('#loading').window({
+			title:'系统提示',
+			closable:false,
+			collapsible:false,
+			minimizable:false,
+			maximizable:false,
+			resizable:false,
+			width:355,
+			height:120,
+			closed:true,
+		    modal:true   
+		});
+});
+
+/**
+ * 页面列表datagrid初始化
+ */
+
+jQuery(function($){
+
+	var yyyy0101Time = getDateYY0101();
+	var nowTime = getDateYMD();
+
+ $('#starttime').datebox('setValue', yyyy0101Time);
+ $('#endtime').datebox('setValue', nowTime);
+
+	
+});
+
+function exportxls()
+{
+	 var starttime=$('#starttime').datebox('getValue');
+	 var endtime=$('#endtime').datebox('getValue');
+	 //$.messager.progress();	// 显示进度条
+	 $.messager.confirm('提示','确定要导出到excel吗?',function(result){
+	        if (result){
+	        	 $('#searchForm').form('submit', {
+	        		 url: baseURL+'/sq/complaint/toExcel.json?starttime='+starttime+"&endtime="+endtime, 
+	        	 });
+	        }
+	 });
+	
+}
+
+	  //查询
+	function searchReport(){
+		 var starttime=$('#starttime').datebox('getValue');
+		 var endtime=$('#endtime').datebox('getValue');
+		 $.messager.progress();	// 显示进度条
+		 $('#searchForm').form('submit', {
+			 url: baseURL+'/sq/complaint/getComplaintReport.json?starttime='+starttime+"&endtime="+endtime, 
+		 	onSubmit: function(){
+		 		var isValid = $(this).form('validate');
+		 		if (!isValid){
+		 			$.messager.progress('close');	// 如果表单是无效的则隐藏进度条
+		 		}
+		 		return isValid;	// 返回false终止表单提交
+		 	},
+		 	success: function(html){
+		 		var main = $("#main");
+		 		main.html(html);
+		 		$.messager.progress('close');	// 如果提交成功则隐藏进度条
+		 	}
+		 });
+
+
+//		 $.ajax({
+//			 url: baseURL+'/sq/complaint/getComplaintReport.json?starttime='+starttime+"&endtime="+endtime, 
+//			 type: 'POST', 
+//		 });
+	}
+	//清空查询条件
+	function clearForm(){
+		$('#queryForm').form('clear');
+		searchUser();
+	}
+	
+	function openTopWindow(url, title, width, height) {
+        title = title == undefined ? '&nbsp;' : title;
+        width = width == undefined ? 800 : width;
+        height = height == undefined ? 300 : height;
+        if (url != undefined) {
+            var content = '<iframe name="eui-open-page" scrolling="auto" frameborder="0" src="' + url + '" style="width:100%;height:100%;"></iframe>';
+            parent.$('#openWindow').window({
+                title: title,
+                width: width,
+                height: height,
+                content: content,
+                modal: true,
+                animate: true,
+                minimizable: false
+            });
+        }
+    }

@@ -1,0 +1,289 @@
+package com.ztel.app.vo.wms;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class MachinedamagedVo {
+    /**
+     * id序号
+     */
+    private BigDecimal id;
+
+    /**
+     * 录入用户
+     */
+    private Long createuser;
+
+    /**
+     * 破损描述 
+     */
+    private String damageddescribe;
+
+    /**
+     * 创建日期
+     */
+    private Date createtime;
+
+    /**
+     * 审核用户
+     */
+    private Long checkuser;
+
+    /**
+     * 审核描述
+     */
+    private String checkdescribe;
+
+    /**
+     * 审核日期
+     */
+    private Date checktime;
+
+    /**
+     * 备注
+     */
+    private String remarks;
+
+    /**
+     * 删除标识0 删除 10 正常
+     */
+    private String delstatus;
+
+    /**
+     * 破损数量（条）
+     */
+    private BigDecimal qty;
+
+    /**
+     * 审核标志  10：新增 20：审核通过 30：审核驳回
+     */
+    private String checkflag;
+    
+    /**
+     * 审核标志名称  10：新增 20：审核通过 30：审核驳回
+     */
+    private String checkflagname;
+    
+    /**
+     * 创建人
+     */
+    private String createusername;
+    
+    /**
+     * 审核人
+     */
+    private String checkusername;
+    
+    private String keyword;
+
+    
+    /**
+     * id序号
+     * @return ID id序号
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * id序号
+     * @param id id序号
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 录入用户
+     * @return CREATEUSER 录入用户
+     */
+    public Long getCreateuser() {
+        return createuser;
+    }
+
+    /**
+     * 录入用户
+     * @param createuser 录入用户
+     */
+    public void setCreateuser(Long createuser) {
+        this.createuser = createuser;
+    }
+
+    /**
+     * 破损描述 
+     * @return DAMAGEDDESCRIBE 破损描述 
+     */
+    public String getDamageddescribe() {
+        return damageddescribe;
+    }
+
+    /**
+     * 破损描述 
+     * @param damageddescribe 破损描述 
+     */
+    public void setDamageddescribe(String damageddescribe) {
+        this.damageddescribe = damageddescribe == null ? null : damageddescribe.trim();
+    }
+
+    /**
+     * 创建日期
+     * @return CREATETIME 创建日期
+     */
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    /**
+     * 创建日期
+     * @param createtime 创建日期
+     */
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    /**
+     * 审核用户
+     * @return CHECKUSER 审核用户
+     */
+    public Long getCheckuser() {
+        return checkuser;
+    }
+
+    /**
+     * 审核用户
+     * @param checkuser 审核用户
+     */
+    public void setCheckuser(Long checkuser) {
+        this.checkuser = checkuser;
+    }
+
+    /**
+     * 审核描述
+     * @return CHECKDESCRIBE 审核描述
+     */
+    public String getCheckdescribe() {
+        return checkdescribe;
+    }
+
+    /**
+     * 审核描述
+     * @param checkdescribe 审核描述
+     */
+    public void setCheckdescribe(String checkdescribe) {
+        this.checkdescribe = checkdescribe == null ? null : checkdescribe.trim();
+    }
+
+    /**
+     * 审核日期
+     * @return CHECKTIME 审核日期
+     */
+    public Date getChecktime() {
+        return checktime;
+    }
+
+    /**
+     * 审核日期
+     * @param checktime 审核日期
+     */
+    public void setChecktime(Date checktime) {
+        this.checktime = checktime;
+    }
+
+    /**
+     * 备注
+     * @return REMARKS 备注
+     */
+    public String getRemarks() {
+        return remarks;
+    }
+
+    /**
+     * 备注
+     * @param remarks 备注
+     */
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
+    }
+
+    /**
+     * 删除标识0 删除 10 正常
+     * @return DELSTATUS 删除标识0 删除 10 正常
+     */
+    public String getDelstatus() {
+        return delstatus;
+    }
+
+    /**
+     * 删除标识0 删除 10 正常
+     * @param delstatus 删除标识0 删除 10 正常
+     */
+    public void setDelstatus(String delstatus) {
+        this.delstatus = delstatus;
+    }
+
+    /**
+     * 破损数量（条）
+     * @return QTY 破损数量（条）
+     */
+    public BigDecimal getQty() {
+        return qty;
+    }
+
+    /**
+     * 破损数量（条）
+     * @param qty 破损数量（条）
+     */
+    public void setQty(BigDecimal qty) {
+        this.qty = qty;
+    }
+
+    /**
+     * 审核标志  10：新增 20：审核通过 30：审核驳回
+     * @return CHECKFLAG 审核标志  10：新增 20：审核通过 30：审核驳回
+     */
+    public String getCheckflag() {
+        return checkflag;
+    }
+
+    /**
+     * 审核标志  10：新增 20：审核通过 30：审核驳回
+     * @param checkflag 审核标志  10：新增 20：审核通过 30：审核驳回
+     */
+    public void setCheckflag(String checkflag) {
+        this.checkflag = checkflag == null ? null : checkflag.trim();
+    }
+
+	public String getCheckflagname() {
+		return checkflagname;
+	}
+
+	public void setCheckflagname(String checkflagname) {
+		this.checkflagname = checkflagname;
+	}
+
+	public String getCreateusername() {
+		return createusername;
+	}
+
+	public void setCreateusername(String createusername) {
+		this.createusername = createusername;
+	}
+
+	public String getCheckusername() {
+		return checkusername;
+	}
+
+	public void setCheckusername(String checkusername) {
+		this.checkusername = checkusername;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
+	
+}

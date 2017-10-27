@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.SPLApplyListLineVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.SPLApplyListLineVo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LISTID" property="listid" jdbcType="DECIMAL" />
+    <result column="SPLID" property="splid" jdbcType="DECIMAL" />
+    <result column="TYPEID" property="typeid" jdbcType="DECIMAL" />
+    <result column="APPLYQTY" property="applyqty" jdbcType="DECIMAL" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="PREAPPLYQTY" property="preapplyqty" jdbcType="DECIMAL" />
+    <result column="AUDITQTY" property="auditqty" jdbcType="DECIMAL" />
+     <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+     <result column="SPLNAME" property="splname" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 根据申请单id获取申请明细列表 -->
+    <select id="selectApplyListLineList"  resultType="SPLApplyListLineVo" parameterType="com.ztel.app.vo.cost.SPLApplyListLineVo" >
+		select s1.*,s2.typename,s3.splname 
+		from T_COST_SPLAPPLYLISTLINE s1 
+		left outer join T_COST_SPLTYPEINFO s2 on s1.TYPEID=s2.id
+		left outer join T_COST_SUPPLIESIMP s3 on s1.SPLID=s3.id
+		where s1.LISTID = #{listid,jdbcType=DECIMAL} 
+	order by s1.id desc
+</select>
+
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.SPLApplyListLineVo" >
+    insert into T_COST_SPLAPPLYLISTLINE (ID, LISTID, SPLID, 
+      TYPEID, APPLYQTY, AMOUNT, 
+      PRICE, PREAPPLYQTY, AUDITQTY
+      )
+    values (#{id,jdbcType=DECIMAL}, #{listid,jdbcType=DECIMAL}, #{splid,jdbcType=DECIMAL}, 
+      #{typeid,jdbcType=DECIMAL}, #{applyqty,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
+      #{price,jdbcType=DECIMAL}, #{preapplyqty,jdbcType=DECIMAL}, #{auditqty,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.cost.SPLApplyListLineVo" >
+    insert into T_COST_SPLAPPLYLISTLINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="listid != null" >
+        LISTID,
+      </if>
+      <if test="splid != null" >
+        SPLID, 
+      </if>
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+      <if test="applyqty != null" >
+        APPLYQTY,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="preapplyqty != null" >
+        PREAPPLYQTY,
+      </if>
+      <if test="auditqty != null" >
+        AUDITQTY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        S_COST_SPLAPPLYLISTLINE.nextval,
+      <if test="listid != null" >
+        #{listid,jdbcType=DECIMAL},
+      </if>
+      <if test="splid != null" >
+        #{splid,jdbcType=DECIMAL},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=DECIMAL},
+      </if>
+      <if test="applyqty != null" >
+        #{applyqty,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="preapplyqty != null" >
+        #{preapplyqty,jdbcType=DECIMAL},
+      </if>
+      <if test="auditqty != null" >
+        #{auditqty,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

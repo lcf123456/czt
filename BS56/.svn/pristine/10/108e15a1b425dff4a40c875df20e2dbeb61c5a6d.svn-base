@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.wms.ATSCellVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ATSCellVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LANEWAYNO" jdbcType="VARCHAR" property="lanewayno" />
+    <result column="CELLNO" jdbcType="VARCHAR" property="cellno" />
+    <result column="CELLNAME" jdbcType="OTHER" property="cellname" />
+    <result column="DISTANCE" jdbcType="DECIMAL" property="distance" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="WORKSTATUS" jdbcType="DECIMAL" property="workstatus" />
+    <result column="COL" jdbcType="DECIMAL" property="col" />
+    <result column="FLOOR" jdbcType="DECIMAL" property="floor" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LANEWAYNO, CELLNO, CELLNAME, DISTANCE, STATUS, WORKSTATUS, COL, FLOOR
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_ATSCELL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_ATSCELL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    insert into T_WMS_ATSCELL (ID, LANEWAYNO, CELLNO, 
+      CELLNAME, DISTANCE, STATUS, 
+      WORKSTATUS, COL, FLOOR
+      )
+    values (#{id,jdbcType=DECIMAL}, #{lanewayno,jdbcType=VARCHAR}, #{cellno,jdbcType=VARCHAR}, 
+      #{cellname,jdbcType=OTHER}, #{distance,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{workstatus,jdbcType=DECIMAL}, #{col,jdbcType=DECIMAL}, #{floor,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    insert into T_WMS_ATSCELL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="lanewayno != null">
+        LANEWAYNO,
+      </if>
+      <if test="cellno != null">
+        CELLNO,
+      </if>
+      <if test="cellname != null">
+        CELLNAME,
+      </if>
+      <if test="distance != null">
+        DISTANCE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="workstatus != null">
+        WORKSTATUS,
+      </if>
+      <if test="col != null">
+        COL,
+      </if>
+      <if test="floor != null">
+        FLOOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="lanewayno != null">
+        #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellno != null">
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellname != null">
+        #{cellname,jdbcType=OTHER},
+      </if>
+      <if test="distance != null">
+        #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="workstatus != null">
+        #{workstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="col != null">
+        #{col,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null">
+        #{floor,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    update T_WMS_ATSCELL
+    <set>
+      <if test="lanewayno != null">
+        LANEWAYNO = #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellno != null">
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellname != null">
+        CELLNAME = #{cellname,jdbcType=OTHER},
+      </if>
+      <if test="distance != null">
+        DISTANCE = #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="workstatus != null">
+        WORKSTATUS = #{workstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="col != null">
+        COL = #{col,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null">
+        FLOOR = #{floor,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    update T_WMS_ATSCELL
+    set LANEWAYNO = #{lanewayno,jdbcType=VARCHAR},
+      CELLNO = #{cellno,jdbcType=VARCHAR},
+      CELLNAME = #{cellname,jdbcType=OTHER},
+      DISTANCE = #{distance,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      WORKSTATUS = #{workstatus,jdbcType=DECIMAL},
+      COL = #{col,jdbcType=DECIMAL},
+      FLOOR = #{floor,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ATSCellVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LANEWAYNO" jdbcType="VARCHAR" property="lanewayno" />
+    <result column="CELLNO" jdbcType="VARCHAR" property="cellno" />
+    <result column="CELLNAME" jdbcType="OTHER" property="cellname" />
+    <result column="DISTANCE" jdbcType="DECIMAL" property="distance" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="WORKSTATUS" jdbcType="DECIMAL" property="workstatus" />
+    <result column="COL" jdbcType="DECIMAL" property="col" />
+    <result column="FLOOR" jdbcType="DECIMAL" property="floor" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LANEWAYNO, CELLNO, CELLNAME, DISTANCE, STATUS, WORKSTATUS, COL, FLOOR
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_ATSCELL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_ATSCELL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    insert into T_WMS_ATSCELL (ID, LANEWAYNO, CELLNO, 
+      CELLNAME, DISTANCE, STATUS, 
+      WORKSTATUS, COL, FLOOR
+      )
+    values (#{id,jdbcType=DECIMAL}, #{lanewayno,jdbcType=VARCHAR}, #{cellno,jdbcType=VARCHAR}, 
+      #{cellname,jdbcType=OTHER}, #{distance,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{workstatus,jdbcType=DECIMAL}, #{col,jdbcType=DECIMAL}, #{floor,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    insert into T_WMS_ATSCELL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="lanewayno != null">
+        LANEWAYNO,
+      </if>
+      <if test="cellno != null">
+        CELLNO,
+      </if>
+      <if test="cellname != null">
+        CELLNAME,
+      </if>
+      <if test="distance != null">
+        DISTANCE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="workstatus != null">
+        WORKSTATUS,
+      </if>
+      <if test="col != null">
+        COL,
+      </if>
+      <if test="floor != null">
+        FLOOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="lanewayno != null">
+        #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellno != null">
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellname != null">
+        #{cellname,jdbcType=OTHER},
+      </if>
+      <if test="distance != null">
+        #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="workstatus != null">
+        #{workstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="col != null">
+        #{col,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null">
+        #{floor,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    update T_WMS_ATSCELL
+    <set>
+      <if test="lanewayno != null">
+        LANEWAYNO = #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellno != null">
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellname != null">
+        CELLNAME = #{cellname,jdbcType=OTHER},
+      </if>
+      <if test="distance != null">
+        DISTANCE = #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="workstatus != null">
+        WORKSTATUS = #{workstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="col != null">
+        COL = #{col,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null">
+        FLOOR = #{floor,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    update T_WMS_ATSCELL
+    set LANEWAYNO = #{lanewayno,jdbcType=VARCHAR},
+      CELLNO = #{cellno,jdbcType=VARCHAR},
+      CELLNAME = #{cellname,jdbcType=OTHER},
+      DISTANCE = #{distance,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      WORKSTATUS = #{workstatus,jdbcType=DECIMAL},
+      COL = #{col,jdbcType=DECIMAL},
+      FLOOR = #{floor,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ATSCellVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LANEWAYNO" jdbcType="VARCHAR" property="lanewayno" />
+    <result column="CELLNO" jdbcType="VARCHAR" property="cellno" />
+    <result column="CELLNAME" jdbcType="OTHER" property="cellname" />
+    <result column="DISTANCE" jdbcType="DECIMAL" property="distance" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="WORKSTATUS" jdbcType="DECIMAL" property="workstatus" />
+    <result column="COL" jdbcType="DECIMAL" property="col" />
+    <result column="FLOOR" jdbcType="DECIMAL" property="floor" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LANEWAYNO, CELLNO, CELLNAME, DISTANCE, STATUS, WORKSTATUS, COL, FLOOR
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_ATSCELL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_ATSCELL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    insert into T_WMS_ATSCELL (ID, LANEWAYNO, CELLNO, 
+      CELLNAME, DISTANCE, STATUS, 
+      WORKSTATUS, COL, FLOOR
+      )
+    values (#{id,jdbcType=DECIMAL}, #{lanewayno,jdbcType=VARCHAR}, #{cellno,jdbcType=VARCHAR}, 
+      #{cellname,jdbcType=OTHER}, #{distance,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{workstatus,jdbcType=DECIMAL}, #{col,jdbcType=DECIMAL}, #{floor,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    insert into T_WMS_ATSCELL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="lanewayno != null">
+        LANEWAYNO,
+      </if>
+      <if test="cellno != null">
+        CELLNO,
+      </if>
+      <if test="cellname != null">
+        CELLNAME,
+      </if>
+      <if test="distance != null">
+        DISTANCE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="workstatus != null">
+        WORKSTATUS,
+      </if>
+      <if test="col != null">
+        COL,
+      </if>
+      <if test="floor != null">
+        FLOOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="lanewayno != null">
+        #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellno != null">
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellname != null">
+        #{cellname,jdbcType=OTHER},
+      </if>
+      <if test="distance != null">
+        #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="workstatus != null">
+        #{workstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="col != null">
+        #{col,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null">
+        #{floor,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    update T_WMS_ATSCELL
+    <set>
+      <if test="lanewayno != null">
+        LANEWAYNO = #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellno != null">
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellname != null">
+        CELLNAME = #{cellname,jdbcType=OTHER},
+      </if>
+      <if test="distance != null">
+        DISTANCE = #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="workstatus != null">
+        WORKSTATUS = #{workstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="col != null">
+        COL = #{col,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null">
+        FLOOR = #{floor,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    update T_WMS_ATSCELL
+    set LANEWAYNO = #{lanewayno,jdbcType=VARCHAR},
+      CELLNO = #{cellno,jdbcType=VARCHAR},
+      CELLNAME = #{cellname,jdbcType=OTHER},
+      DISTANCE = #{distance,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      WORKSTATUS = #{workstatus,jdbcType=DECIMAL},
+      COL = #{col,jdbcType=DECIMAL},
+      FLOOR = #{floor,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.ATSCellVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LANEWAYNO" jdbcType="VARCHAR" property="lanewayno" />
+    <result column="CELLNO" jdbcType="VARCHAR" property="cellno" />
+    <result column="CELLNAME" jdbcType="OTHER" property="cellname" />
+    <result column="DISTANCE" jdbcType="DECIMAL" property="distance" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="WORKSTATUS" jdbcType="DECIMAL" property="workstatus" />
+    <result column="COL" jdbcType="DECIMAL" property="col" />
+    <result column="FLOOR" jdbcType="DECIMAL" property="floor" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LANEWAYNO, CELLNO, CELLNAME, DISTANCE, STATUS, WORKSTATUS, COL, FLOOR
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_ATSCELL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_ATSCELL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    insert into T_WMS_ATSCELL (ID, LANEWAYNO, CELLNO, 
+      CELLNAME, DISTANCE, STATUS, 
+      WORKSTATUS, COL, FLOOR
+      )
+    values (#{id,jdbcType=DECIMAL}, #{lanewayno,jdbcType=VARCHAR}, #{cellno,jdbcType=VARCHAR}, 
+      #{cellname,jdbcType=OTHER}, #{distance,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{workstatus,jdbcType=DECIMAL}, #{col,jdbcType=DECIMAL}, #{floor,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    insert into T_WMS_ATSCELL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="lanewayno != null">
+        LANEWAYNO,
+      </if>
+      <if test="cellno != null">
+        CELLNO,
+      </if>
+      <if test="cellname != null">
+        CELLNAME,
+      </if>
+      <if test="distance != null">
+        DISTANCE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="workstatus != null">
+        WORKSTATUS,
+      </if>
+      <if test="col != null">
+        COL,
+      </if>
+      <if test="floor != null">
+        FLOOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="lanewayno != null">
+        #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellno != null">
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellname != null">
+        #{cellname,jdbcType=OTHER},
+      </if>
+      <if test="distance != null">
+        #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="workstatus != null">
+        #{workstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="col != null">
+        #{col,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null">
+        #{floor,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    update T_WMS_ATSCELL
+    <set>
+      <if test="lanewayno != null">
+        LANEWAYNO = #{lanewayno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellno != null">
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="cellname != null">
+        CELLNAME = #{cellname,jdbcType=OTHER},
+      </if>
+      <if test="distance != null">
+        DISTANCE = #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="workstatus != null">
+        WORKSTATUS = #{workstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="col != null">
+        COL = #{col,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null">
+        FLOOR = #{floor,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.ATSCellVo">
+    update T_WMS_ATSCELL
+    set LANEWAYNO = #{lanewayno,jdbcType=VARCHAR},
+      CELLNO = #{cellno,jdbcType=VARCHAR},
+      CELLNAME = #{cellname,jdbcType=OTHER},
+      DISTANCE = #{distance,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      WORKSTATUS = #{workstatus,jdbcType=DECIMAL},
+      COL = #{col,jdbcType=DECIMAL},
+      FLOOR = #{floor,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

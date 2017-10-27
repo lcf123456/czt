@@ -1,0 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="titleInfo" value="长株潭烟草物流园信息管理平台"/>
+<c:set var="userVo" value="${sessionScope.get('userVo')}"/>
+<c:set var="dateUtil" value="${com.ztel.framework.util.DateUtil}"/>

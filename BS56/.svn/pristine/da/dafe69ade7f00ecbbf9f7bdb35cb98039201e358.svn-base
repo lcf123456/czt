@@ -1,0 +1,173 @@
+package com.ztel.app.vo.cost;
+
+import java.math.BigDecimal;
+
+public class SPLTypeStockVo {
+    /**
+     * id序号
+     */
+    private BigDecimal id;
+
+    /**
+     * 类别id
+     */
+    private Integer typeid;
+
+    /**
+     * 设备数量
+     */
+    private BigDecimal quantity;
+
+    /**
+     * 设备剩余数量
+     */
+    private BigDecimal surplusqty;
+
+    /**
+     * 设备计量单位
+     */
+    private String unit;
+
+    /**
+     * 申请数量
+     */
+    private BigDecimal applyqty;
+
+    /**
+     * 设备单价
+     */
+    private BigDecimal price;
+
+    /**
+     * 总金额
+     */
+    private BigDecimal totalamount;
+
+    /**
+     * id序号
+     * @return ID id序号
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * id序号
+     * @param id id序号
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    /**
+     * 类别id
+     * @return TYPEID 类别id
+     */
+    public Integer getTypeid() {
+        return typeid;
+    }
+
+    /**
+     * 类别id
+     * @param typeid 类别id
+     */
+    public void setTypeid(Integer typeid) {
+        this.typeid = typeid;
+    }
+
+    /**
+     * 设备数量
+     * @return QUANTITY 设备数量
+     */
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * 设备数量
+     * @param quantity 设备数量
+     */
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
+     * 设备剩余数量
+     * @return SURPLUSQTY 设备剩余数量
+     */
+    public BigDecimal getSurplusqty() {
+        return surplusqty;
+    }
+
+    /**
+     * 设备剩余数量
+     * @param surplusqty 设备剩余数量
+     */
+    public void setSurplusqty(BigDecimal surplusqty) {
+        this.surplusqty = surplusqty;
+    }
+
+    /**
+     * 设备计量单位
+     * @return UNIT 设备计量单位
+     */
+    public String getUnit() {
+        return unit;
+    }
+
+    /**
+     * 设备计量单位
+     * @param unit 设备计量单位
+     */
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
+    }
+
+    /**
+     * 申请数量
+     * @return APPLYQTY 申请数量
+     */
+    public BigDecimal getApplyqty() {
+        return applyqty;
+    }
+
+    /**
+     * 申请数量
+     * @param applyqty 申请数量
+     */
+    public void setApplyqty(BigDecimal applyqty) {
+        this.applyqty = applyqty;
+    }
+
+    /**
+     * 设备单价
+     * @return PRICE 设备单价
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * 设备单价
+     * @param price 设备单价
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    /**
+     * 总金额
+     * @return TOTALAMOUNT 总金额
+     */
+    public BigDecimal getTotalamount() {
+        return totalamount;
+    }
+
+    /**
+     * 总金额
+     * @param totalamount 总金额
+     */
+    public void setTotalamount(BigDecimal totalamount) {
+        this.totalamount = totalamount;
+    }
+}

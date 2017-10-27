@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztel.app.persist.mybatis.wms.StorageAreaInOutVoMapper">
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="AREAID" jdbcType="DECIMAL" property="areaid" />
+    <result column="CELLNO" jdbcType="VARCHAR" property="cellno" />
+    <result column="QTY" jdbcType="DECIMAL" property="qty" />
+    <result column="INOUTTYPE" jdbcType="DECIMAL" property="inouttype" />
+    <result column="TASKNO" jdbcType="VARCHAR" property="taskno" />
+    <result column="CIGARETTECODE" jdbcType="VARCHAR" property="cigarettecode" />
+    <result column="CIGARETTENAME" jdbcType="OTHER" property="cigarettename" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="FINISHTIME" jdbcType="TIMESTAMP" property="finishtime" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="BOXQTY" jdbcType="DECIMAL" property="boxqty" />
+    <result column="CIGARATTETYPE" jdbcType="DECIMAL" property="cigarattetype" />
+    <result column="CREATENAME" jdbcType="OTHER" property="createname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, AREAID, CELLNO, QTY, INOUTTYPE, TASKNO, CIGARETTECODE, CIGARETTENAME, CREATETIME, 
+    FINISHTIME, STATUS, BOXQTY, CIGARATTETYPE, CREATENAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_STORAGEAREA_INOUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_STORAGEAREA_INOUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    insert into T_WMS_STORAGEAREA_INOUT (ID, AREAID, CELLNO, 
+      QTY, INOUTTYPE, TASKNO, 
+      CIGARETTECODE, CIGARETTENAME, CREATETIME, 
+      FINISHTIME, STATUS, BOXQTY, 
+      CIGARATTETYPE, CREATENAME)
+    values (#{id,jdbcType=DECIMAL}, #{areaid,jdbcType=DECIMAL}, #{cellno,jdbcType=VARCHAR}, 
+      #{qty,jdbcType=DECIMAL}, #{inouttype,jdbcType=DECIMAL}, #{taskno,jdbcType=VARCHAR}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=OTHER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{finishtime,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL}, #{boxqty,jdbcType=DECIMAL}, 
+      #{cigarattetype,jdbcType=DECIMAL}, #{createname,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    insert into T_WMS_STORAGEAREA_INOUT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="areaid != null">
+        AREAID,
+      </if>
+      <if test="cellno != null">
+        CELLNO,
+      </if>
+      <if test="qty != null">
+        QTY,
+      </if>
+      <if test="inouttype != null">
+        INOUTTYPE,
+      </if>
+      <if test="taskno != null">
+        TASKNO,
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="finishtime != null">
+        FINISHTIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="boxqty != null">
+        BOXQTY,
+      </if>
+      <if test="cigarattetype != null">
+        CIGARATTETYPE,
+      </if>
+      <if test="createname != null">
+        CREATENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="areaid != null">
+        #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null">
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="inouttype != null">
+        #{inouttype,jdbcType=DECIMAL},
+      </if>
+      <if test="taskno != null">
+        #{taskno,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null">
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null">
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="boxqty != null">
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarattetype != null">
+        #{cigarattetype,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        #{createname,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    update T_WMS_STORAGEAREA_INOUT
+    <set>
+      <if test="areaid != null">
+        AREAID = #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null">
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="inouttype != null">
+        INOUTTYPE = #{inouttype,jdbcType=DECIMAL},
+      </if>
+      <if test="taskno != null">
+        TASKNO = #{taskno,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null">
+        FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="boxqty != null">
+        BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarattetype != null">
+        CIGARATTETYPE = #{cigarattetype,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        CREATENAME = #{createname,jdbcType=OTHER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    update T_WMS_STORAGEAREA_INOUT
+    set AREAID = #{areaid,jdbcType=DECIMAL},
+      CELLNO = #{cellno,jdbcType=VARCHAR},
+      QTY = #{qty,jdbcType=DECIMAL},
+      INOUTTYPE = #{inouttype,jdbcType=DECIMAL},
+      TASKNO = #{taskno,jdbcType=VARCHAR},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      CIGARATTETYPE = #{cigarattetype,jdbcType=DECIMAL},
+      CREATENAME = #{createname,jdbcType=OTHER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="AREAID" jdbcType="DECIMAL" property="areaid" />
+    <result column="CELLNO" jdbcType="VARCHAR" property="cellno" />
+    <result column="QTY" jdbcType="DECIMAL" property="qty" />
+    <result column="INOUTTYPE" jdbcType="DECIMAL" property="inouttype" />
+    <result column="TASKNO" jdbcType="VARCHAR" property="taskno" />
+    <result column="CIGARETTECODE" jdbcType="VARCHAR" property="cigarettecode" />
+    <result column="CIGARETTENAME" jdbcType="OTHER" property="cigarettename" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="FINISHTIME" jdbcType="TIMESTAMP" property="finishtime" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="BOXQTY" jdbcType="DECIMAL" property="boxqty" />
+    <result column="CIGARATTETYPE" jdbcType="DECIMAL" property="cigarattetype" />
+    <result column="CREATENAME" jdbcType="OTHER" property="createname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, AREAID, CELLNO, QTY, INOUTTYPE, TASKNO, CIGARETTECODE, CIGARETTENAME, CREATETIME, 
+    FINISHTIME, STATUS, BOXQTY, CIGARATTETYPE, CREATENAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_STORAGEAREA_INOUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_STORAGEAREA_INOUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    insert into T_WMS_STORAGEAREA_INOUT (ID, AREAID, CELLNO, 
+      QTY, INOUTTYPE, TASKNO, 
+      CIGARETTECODE, CIGARETTENAME, CREATETIME, 
+      FINISHTIME, STATUS, BOXQTY, 
+      CIGARATTETYPE, CREATENAME)
+    values (#{id,jdbcType=DECIMAL}, #{areaid,jdbcType=DECIMAL}, #{cellno,jdbcType=VARCHAR}, 
+      #{qty,jdbcType=DECIMAL}, #{inouttype,jdbcType=DECIMAL}, #{taskno,jdbcType=VARCHAR}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=OTHER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{finishtime,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL}, #{boxqty,jdbcType=DECIMAL}, 
+      #{cigarattetype,jdbcType=DECIMAL}, #{createname,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    insert into T_WMS_STORAGEAREA_INOUT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="areaid != null">
+        AREAID,
+      </if>
+      <if test="cellno != null">
+        CELLNO,
+      </if>
+      <if test="qty != null">
+        QTY,
+      </if>
+      <if test="inouttype != null">
+        INOUTTYPE,
+      </if>
+      <if test="taskno != null">
+        TASKNO,
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="finishtime != null">
+        FINISHTIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="boxqty != null">
+        BOXQTY,
+      </if>
+      <if test="cigarattetype != null">
+        CIGARATTETYPE,
+      </if>
+      <if test="createname != null">
+        CREATENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="areaid != null">
+        #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null">
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="inouttype != null">
+        #{inouttype,jdbcType=DECIMAL},
+      </if>
+      <if test="taskno != null">
+        #{taskno,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null">
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null">
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="boxqty != null">
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarattetype != null">
+        #{cigarattetype,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        #{createname,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    update T_WMS_STORAGEAREA_INOUT
+    <set>
+      <if test="areaid != null">
+        AREAID = #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null">
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="inouttype != null">
+        INOUTTYPE = #{inouttype,jdbcType=DECIMAL},
+      </if>
+      <if test="taskno != null">
+        TASKNO = #{taskno,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null">
+        FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="boxqty != null">
+        BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarattetype != null">
+        CIGARATTETYPE = #{cigarattetype,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        CREATENAME = #{createname,jdbcType=OTHER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    update T_WMS_STORAGEAREA_INOUT
+    set AREAID = #{areaid,jdbcType=DECIMAL},
+      CELLNO = #{cellno,jdbcType=VARCHAR},
+      QTY = #{qty,jdbcType=DECIMAL},
+      INOUTTYPE = #{inouttype,jdbcType=DECIMAL},
+      TASKNO = #{taskno,jdbcType=VARCHAR},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      CIGARATTETYPE = #{cigarattetype,jdbcType=DECIMAL},
+      CREATENAME = #{createname,jdbcType=OTHER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="AREAID" jdbcType="DECIMAL" property="areaid" />
+    <result column="CELLNO" jdbcType="VARCHAR" property="cellno" />
+    <result column="QTY" jdbcType="DECIMAL" property="qty" />
+    <result column="INOUTTYPE" jdbcType="DECIMAL" property="inouttype" />
+    <result column="TASKNO" jdbcType="VARCHAR" property="taskno" />
+    <result column="CIGARETTECODE" jdbcType="VARCHAR" property="cigarettecode" />
+    <result column="CIGARETTENAME" jdbcType="OTHER" property="cigarettename" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="FINISHTIME" jdbcType="TIMESTAMP" property="finishtime" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="BOXQTY" jdbcType="DECIMAL" property="boxqty" />
+    <result column="CIGARATTETYPE" jdbcType="DECIMAL" property="cigarattetype" />
+    <result column="CREATENAME" jdbcType="OTHER" property="createname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, AREAID, CELLNO, QTY, INOUTTYPE, TASKNO, CIGARETTECODE, CIGARETTENAME, CREATETIME, 
+    FINISHTIME, STATUS, BOXQTY, CIGARATTETYPE, CREATENAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_STORAGEAREA_INOUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_STORAGEAREA_INOUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    insert into T_WMS_STORAGEAREA_INOUT (ID, AREAID, CELLNO, 
+      QTY, INOUTTYPE, TASKNO, 
+      CIGARETTECODE, CIGARETTENAME, CREATETIME, 
+      FINISHTIME, STATUS, BOXQTY, 
+      CIGARATTETYPE, CREATENAME)
+    values (#{id,jdbcType=DECIMAL}, #{areaid,jdbcType=DECIMAL}, #{cellno,jdbcType=VARCHAR}, 
+      #{qty,jdbcType=DECIMAL}, #{inouttype,jdbcType=DECIMAL}, #{taskno,jdbcType=VARCHAR}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=OTHER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{finishtime,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL}, #{boxqty,jdbcType=DECIMAL}, 
+      #{cigarattetype,jdbcType=DECIMAL}, #{createname,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    insert into T_WMS_STORAGEAREA_INOUT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="areaid != null">
+        AREAID,
+      </if>
+      <if test="cellno != null">
+        CELLNO,
+      </if>
+      <if test="qty != null">
+        QTY,
+      </if>
+      <if test="inouttype != null">
+        INOUTTYPE,
+      </if>
+      <if test="taskno != null">
+        TASKNO,
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="finishtime != null">
+        FINISHTIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="boxqty != null">
+        BOXQTY,
+      </if>
+      <if test="cigarattetype != null">
+        CIGARATTETYPE,
+      </if>
+      <if test="createname != null">
+        CREATENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="areaid != null">
+        #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null">
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="inouttype != null">
+        #{inouttype,jdbcType=DECIMAL},
+      </if>
+      <if test="taskno != null">
+        #{taskno,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null">
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null">
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="boxqty != null">
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarattetype != null">
+        #{cigarattetype,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        #{createname,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    update T_WMS_STORAGEAREA_INOUT
+    <set>
+      <if test="areaid != null">
+        AREAID = #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null">
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="inouttype != null">
+        INOUTTYPE = #{inouttype,jdbcType=DECIMAL},
+      </if>
+      <if test="taskno != null">
+        TASKNO = #{taskno,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null">
+        FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="boxqty != null">
+        BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarattetype != null">
+        CIGARATTETYPE = #{cigarattetype,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        CREATENAME = #{createname,jdbcType=OTHER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    update T_WMS_STORAGEAREA_INOUT
+    set AREAID = #{areaid,jdbcType=DECIMAL},
+      CELLNO = #{cellno,jdbcType=VARCHAR},
+      QTY = #{qty,jdbcType=DECIMAL},
+      INOUTTYPE = #{inouttype,jdbcType=DECIMAL},
+      TASKNO = #{taskno,jdbcType=VARCHAR},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      CIGARATTETYPE = #{cigarattetype,jdbcType=DECIMAL},
+      CREATENAME = #{createname,jdbcType=OTHER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="AREAID" jdbcType="DECIMAL" property="areaid" />
+    <result column="CELLNO" jdbcType="VARCHAR" property="cellno" />
+    <result column="QTY" jdbcType="DECIMAL" property="qty" />
+    <result column="INOUTTYPE" jdbcType="DECIMAL" property="inouttype" />
+    <result column="TASKNO" jdbcType="VARCHAR" property="taskno" />
+    <result column="CIGARETTECODE" jdbcType="VARCHAR" property="cigarettecode" />
+    <result column="CIGARETTENAME" jdbcType="OTHER" property="cigarettename" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="FINISHTIME" jdbcType="TIMESTAMP" property="finishtime" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="BOXQTY" jdbcType="DECIMAL" property="boxqty" />
+    <result column="CIGARATTETYPE" jdbcType="DECIMAL" property="cigarattetype" />
+    <result column="CREATENAME" jdbcType="OTHER" property="createname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, AREAID, CELLNO, QTY, INOUTTYPE, TASKNO, CIGARETTECODE, CIGARETTENAME, CREATETIME, 
+    FINISHTIME, STATUS, BOXQTY, CIGARATTETYPE, CREATENAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WMS_STORAGEAREA_INOUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from T_WMS_STORAGEAREA_INOUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    insert into T_WMS_STORAGEAREA_INOUT (ID, AREAID, CELLNO, 
+      QTY, INOUTTYPE, TASKNO, 
+      CIGARETTECODE, CIGARETTENAME, CREATETIME, 
+      FINISHTIME, STATUS, BOXQTY, 
+      CIGARATTETYPE, CREATENAME)
+    values (#{id,jdbcType=DECIMAL}, #{areaid,jdbcType=DECIMAL}, #{cellno,jdbcType=VARCHAR}, 
+      #{qty,jdbcType=DECIMAL}, #{inouttype,jdbcType=DECIMAL}, #{taskno,jdbcType=VARCHAR}, 
+      #{cigarettecode,jdbcType=VARCHAR}, #{cigarettename,jdbcType=OTHER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{finishtime,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL}, #{boxqty,jdbcType=DECIMAL}, 
+      #{cigarattetype,jdbcType=DECIMAL}, #{createname,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    insert into T_WMS_STORAGEAREA_INOUT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="areaid != null">
+        AREAID,
+      </if>
+      <if test="cellno != null">
+        CELLNO,
+      </if>
+      <if test="qty != null">
+        QTY,
+      </if>
+      <if test="inouttype != null">
+        INOUTTYPE,
+      </if>
+      <if test="taskno != null">
+        TASKNO,
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE,
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="finishtime != null">
+        FINISHTIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="boxqty != null">
+        BOXQTY,
+      </if>
+      <if test="cigarattetype != null">
+        CIGARATTETYPE,
+      </if>
+      <if test="createname != null">
+        CREATENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="areaid != null">
+        #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null">
+        #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="inouttype != null">
+        #{inouttype,jdbcType=DECIMAL},
+      </if>
+      <if test="taskno != null">
+        #{taskno,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null">
+        #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null">
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="boxqty != null">
+        #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarattetype != null">
+        #{cigarattetype,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        #{createname,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    update T_WMS_STORAGEAREA_INOUT
+    <set>
+      <if test="areaid != null">
+        AREAID = #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="cellno != null">
+        CELLNO = #{cellno,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="inouttype != null">
+        INOUTTYPE = #{inouttype,jdbcType=DECIMAL},
+      </if>
+      <if test="taskno != null">
+        TASKNO = #{taskno,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettecode != null">
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cigarettename != null">
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null">
+        FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="boxqty != null">
+        BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="cigarattetype != null">
+        CIGARATTETYPE = #{cigarattetype,jdbcType=DECIMAL},
+      </if>
+      <if test="createname != null">
+        CREATENAME = #{createname,jdbcType=OTHER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.StorageAreaInOutVo">
+    update T_WMS_STORAGEAREA_INOUT
+    set AREAID = #{areaid,jdbcType=DECIMAL},
+      CELLNO = #{cellno,jdbcType=VARCHAR},
+      QTY = #{qty,jdbcType=DECIMAL},
+      INOUTTYPE = #{inouttype,jdbcType=DECIMAL},
+      TASKNO = #{taskno,jdbcType=VARCHAR},
+      CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      CIGARATTETYPE = #{cigarattetype,jdbcType=DECIMAL},
+      CREATENAME = #{createname,jdbcType=OTHER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

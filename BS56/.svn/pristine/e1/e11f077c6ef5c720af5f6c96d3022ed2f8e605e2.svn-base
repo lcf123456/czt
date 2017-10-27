@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2016, All rights reserved.
+ */
+package com.ztel.app.service.config;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.ztel.framework.service.ServiceConfigSupport;
+
+/**
+ * @author Zeal
+ * @since 2016年4月27日
+ */
+@Configuration
+@ComponentScan(value={"com.ztel.app.service", "com.ztel.app.persist.jdbc"})
+@MapperScan("com.ztel.app.persist.mybatis")
+@EnableTransactionManagement(proxyTargetClass=true)
+@EnableCaching(proxyTargetClass=true)
+@EnableAspectJAutoProxy(proxyTargetClass=true)
+@ImportResource(value={"classpath*:applicationContext.xml"})
+public class ServiceConfig extends ServiceConfigSupport {
+	
+	@Override
+	public String[] initializeEnvironment() {
+		return new String[] {"DEMO_CONFIG_DIR", "db.properties"};
+	}
+
+	/*
+	@Override
+	protected void initializeDataSource(DruidDataSource dataSource) {
+		//TODO Override data source settings if it's necessary
+		dataSource.setMaxActive(300);
+	}
+
+	@Override
+	public void initializeSqlSesssionFactory(SqlSessionFactoryBean bean) {
+		//Seperate packages by ,
+		//bean.setTypeAliasesPackage("com.gx.webdemo.vo");
+	}
+	*/
+	
+
+	
+
+}
