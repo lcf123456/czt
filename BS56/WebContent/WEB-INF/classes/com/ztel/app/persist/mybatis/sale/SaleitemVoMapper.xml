@@ -29,6 +29,9 @@
     SCALE, SUPPLIER_ID, BARCODE, STATUS, CREATEUSER, CREATETIME, MODIFYUSER, MODIFYTIME, 
     SPEC, TYPE, MANUFACTORY
   </sql>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.sale.SaleitemVo">
+  </update>
   <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

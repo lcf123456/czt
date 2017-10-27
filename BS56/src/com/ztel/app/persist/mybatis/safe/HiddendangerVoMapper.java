@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ztel.app.vo.safe.HiddendangerVo;
 import com.ztel.app.vo.safe.TypeinfoVo;
+import com.ztel.app.vo.sys.BusinessRoleVo;
 import com.ztel.framework.vo.Pagination;
 
 public interface HiddendangerVoMapper {
@@ -50,4 +51,5 @@ public interface HiddendangerVoMapper {
 	List<HiddendangerVo> getDangerrectifyPageList(Pagination<?> page);
 
 	List<TypeinfoVo> getCtypeList();
+
 }

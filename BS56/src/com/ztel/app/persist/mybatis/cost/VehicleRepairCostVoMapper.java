@@ -33,6 +33,7 @@ public interface VehicleRepairCostVoMapper {
      * @mbggenerated 2017-10-10
      */
     int updateByPrimaryKeySelective(VehicleRepairCostVo record);
+    int updateByPrimaryKeySelectiveByDid(VehicleRepairCostVo record);
 
     /**
      *

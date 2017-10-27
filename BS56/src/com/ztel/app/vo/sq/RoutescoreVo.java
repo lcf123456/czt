@@ -14,7 +14,7 @@ public class RoutescoreVo {
     /**
      * 零售户ID
      */
-    private BigDecimal custid;
+    private String custid;
 
     /**
      * 车组CODE
@@ -262,23 +262,15 @@ public class RoutescoreVo {
         this.id = id;
     }
 
-    /**
-     * 零售户ID
-     * @return CUSTID 零售户ID
-     */
-    public BigDecimal getCustid() {
-        return custid;
-    }
+    public String getCustid() {
+		return custid;
+	}
 
-    /**
-     * 零售户ID
-     * @param custid 零售户ID
-     */
-    public void setCustid(BigDecimal custid) {
-        this.custid = custid;
-    }
+	public void setCustid(String custid) {
+		this.custid = custid;
+	}
 
-    /**
+	/**
      * 车组CODE
      * @return ROUTECODE 车组CODE
      */

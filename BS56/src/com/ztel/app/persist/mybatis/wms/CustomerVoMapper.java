@@ -1,6 +1,5 @@
 package com.ztel.app.persist.mybatis.wms;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public interface CustomerVoMapper {
      *
      * @mbggenerated 2017-05-31
      */
-    int deleteByPrimaryKey(BigDecimal id);
+    int deleteByPrimaryKey(String id);
 
     /**
      *
@@ -46,7 +45,7 @@ public interface CustomerVoMapper {
      *
      * @mbggenerated 2017-05-31
      */
-    CustomerVo selectByPrimaryKey(BigDecimal id);
+    CustomerVo selectByPrimaryKey(String id);
 
     /**
      *

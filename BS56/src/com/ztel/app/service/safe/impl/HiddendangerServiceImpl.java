@@ -76,6 +76,15 @@ public class HiddendangerServiceImpl implements HiddendangerService {
 		}
 		return 0;
 	}
+	//修改隐患记录
+	@Override
+	public int updateHangercreate(HiddendangerVo hiddendangerVo) {
+		// TODO Auto-generated method stub
+		if (hiddendangerVo!=null&&!"".equals(hiddendangerVo.getId())) {
+			return hiddendangerVoMapper.updateByPrimaryKeySelective(hiddendangerVo);
+		}
+		return 0;
+	}
 	
 	public int insertHangercreate(HiddendangerVo hiddendangerVo) {
 		// TODO Auto-generated method stub
@@ -84,9 +93,14 @@ public class HiddendangerServiceImpl implements HiddendangerService {
 		}
 		return 0;
 	}
-
+//审核隐患核实
 	@Override
 	public int verifyDanger(HiddendangerVo hiddendangerVo) {
+		return this.hiddendangerVoMapper.updateByPrimaryKeySelective(hiddendangerVo);
+	}
+	//处理隐患整改
+	@Override
+	public int handleDanger(HiddendangerVo hiddendangerVo) {
 		return this.hiddendangerVoMapper.updateByPrimaryKeySelective(hiddendangerVo);
 	}
 }

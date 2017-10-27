@@ -15,4 +15,6 @@ public interface HiddendangerService {
 	public int updateHangerrectify(HiddendangerVo hiddendangerVo);
 	public int insertHangercreate(HiddendangerVo hiddendangerVo);
 	public int verifyDanger(HiddendangerVo hiddendangerVo);
+	public int updateHangercreate(HiddendangerVo hiddendangerVo);
+	public int handleDanger(HiddendangerVo hiddendangerVo);
 }

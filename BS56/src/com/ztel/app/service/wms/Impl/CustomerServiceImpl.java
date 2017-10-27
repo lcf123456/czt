@@ -13,10 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ztel.app.persist.mybatis.wms.CustomerVoMapper;
 import com.ztel.app.service.wms.CustomerService;
-import com.ztel.app.vo.cost.SuppliesImpVo;
-import com.ztel.app.vo.gis.GroupinfoVo;
-import com.ztel.app.vo.gis.TruckseqVo;
-import com.ztel.app.vo.sys.PostInfoVo;
 import com.ztel.app.vo.wms.CustomerVo;
 import com.ztel.framework.vo.Pagination;
 
@@ -134,7 +130,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if(oneLevelList!=null&&oneLevelList.size()>0){
 			for (int i = 0; i < oneLevelList.size(); i++) {
 				CustomerVo oneLevelVo =oneLevelList.get(i);
-				BigDecimal oneparentId = oneLevelVo.getId();
+				String oneparentId = oneLevelVo.getId();
 			    resultList.add(oneLevelVo);
 			    
 			    //取预付款客户子客户
@@ -160,7 +156,7 @@ public class CustomerServiceImpl implements CustomerService {
 		//id串的第一个存放的是一级客户id
 		for(int i=1;i<ids.size();i++){
 			customerVo=new CustomerVo();
-			customerVo.setId(new BigDecimal(ids.get(i)));
+			customerVo.setId(ids.get(i));
 			customerVo.setPrepayflag("1");
 			customerVo.setPrepayparentid(prepayparentid);
 			this.customerVoMapper.updateByPrimaryKeySelective(customerVo);
@@ -178,9 +174,9 @@ public class CustomerServiceImpl implements CustomerService {
 		for(int i=0;i<ids.size();i++){
 			id=new BigDecimal(ids.get(i));
 			customerVo=new CustomerVo();
-			customerVo.setId(id);
+			customerVo.setId(ids.get(i));
 			//判断客户类别
-			searchCustomerVo=customerVoMapper.selectByPrimaryKey(id);
+			searchCustomerVo=customerVoMapper.selectByPrimaryKey(ids.get(i));
 			customertype=searchCustomerVo.getCustomertype();
 			//一级预付款客户删除
 			if("2".equals(customertype)){
@@ -211,7 +207,7 @@ public class CustomerServiceImpl implements CustomerService {
 		CustomerVo customerVo=null;
 		for(int i=0;i<ids.size();i++){
 			customerVo=new CustomerVo();
-			customerVo.setId(new BigDecimal(ids.get(i)));
+			customerVo.setId(ids.get(i));
 			customerVo.setInvoiceflag("1");
 			customerVo.setBilltype(billtype);
 			this.customerVoMapper.updateByPrimaryKeySelective(customerVo);
@@ -228,7 +224,7 @@ public class CustomerServiceImpl implements CustomerService {
 		for(int i=0;i<ids.size();i++){
 			id=new BigDecimal(ids.get(i));
 			customerVo=new CustomerVo();
-			customerVo.setId(id);
+			customerVo.setId(ids.get(i));
 			customerVo.setInvoiceflag("0");
 			customerVo.setBilltype("");
 			this.customerVoMapper.updateByPrimaryKeySelective(customerVo);

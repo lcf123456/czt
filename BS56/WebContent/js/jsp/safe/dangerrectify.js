@@ -266,3 +266,67 @@ jQuery(function($){
 	        }
 	    });
 		}
+		/**
+		   * 打开审核窗口
+		   */
+		    function openhandle(){  
+		    	
+		    	var nowTime = getDateYMD();
+			  	 $('#verifydate').datebox('setValue',nowTime );
+		  	    $('#handle-fm').form('clear');
+		  		var rows = $('#dataTable').datagrid('getSelections');
+		  		if(rows.length==0){
+		  			$.messager.alert('提示',"请选择你要处理的信息",'info');
+		  			return;
+		  		}
+		  		if(rows.length > 1){
+		  			$.messager.alert('提示',"只能选择一条整改信息进行处理",'info');
+		  			return;
+		  		}
+		  		var row = $('#dataTable').datagrid('getSelected');
+			  	if (row) {
+					if (row.handlestatus == '20' ) {
+						$('#handle-dlg').dialog('open').dialog('setTitle', '隐患整改信息');
+						$('#handle-fm').form('load', row);
+					} else {
+						$.messager.alert('提示', "此隐患整改信息还未审核或已整改完成", 'info');
+						return;
+					}
+		  		}
+		  		
+		  	}
+		    
+		    /**
+		     * 保存处理的信息
+
+
+		     */
+		    function handleEdit(){
+				$('#handle-fm').form('submit',{
+					onSubmit: function(){
+						var isValidate = $(this).form('validate');
+						if(isValidate){
+							//$('#loading').window('open');
+						}
+						return isValidate;
+					},
+					url:baseURL+"/safe/hiddendanger/doDangerRectify.json",
+					data:$("#handle-fm").serializeArray(),
+					beforeSend : function () {
+						$.messager.progress({
+							text : '正在处理中...',
+						});
+					},
+					success: function(data){
+						//$('#loading').window('close');
+						data = eval('('+data+')');
+						$('#handle-dlg').dialog('close');
+						$('#dataTable').datagrid('reload'); 
+			    		$.messager.show({
+							title : '提示',
+							msg :  data.total+'个隐患整改信息已处理'+data.msg+'！',
+						});
+						$('#loading').window('close');
+					}
+				});
+			}

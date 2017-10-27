@@ -176,6 +176,7 @@ jQuery(function($){
 		    		
 
 		}
+	  
 	  /**
 	   * 打开新增窗口
 	   */
@@ -184,15 +185,15 @@ jQuery(function($){
 	  	$('#add-fm').form('reset');
 	  	var nowTime = getDateYMD();
 	  	 $('#dangerdate').datebox('setValue',nowTime );
-	  	//$("#ctype1").combobox({
-			//url : baseURL+"/safe/hiddendanger/getCtypeCombobox.json",//返回json数据的url
-	    	//valueField : "id",//这个id和你返回json里面的id对应
-	    	//textField : "ctype", //这个text和你返回json里面的text对应
-	    	// onLoadSuccess : function(){ 
-			//	 $("#ctype1").combobox('setValue', '0');
-			  //$("#ctype1").combobox('setText', '--请选择--');
-	    	//}
-		//})
+	  	$("#dangertype").combobox({
+  			url : baseURL+"/safe/hiddendanger/getCtypeCombobox.json",//返回json数据的url
+  			valueField : "id",//这个id和你返回json里面的id对应
+  			textField : "ctype", //这个text和你返回json里面的text对应
+  			 onLoadSuccess : function(){         
+  				$("#dangertype").combobox('setText', '车辆安全');
+  			$("#dangertype").combobox('setValue', '3901');
+  			}
+  		})
 	  }
 
 
@@ -233,4 +234,80 @@ jQuery(function($){
 	  		}
 	  	});
 	  }
+	  
+	  /**
+	   * 打开修改窗口
+	   */
+	    function openEdit(){
+	  	    $('#edit-fm').form('clear');
+	  	    $('#edit-fm').form('reset');
+	  	    $(".formtd").each(function(){
+	  		 	   $(this).html("");
+	  		 	 });
+	  		var rows = $('#dataTable').datagrid('getSelections');
+	  		if(rows.length==0){
+	  			$.messager.alert('提示',"请选择你要更新的隐患记录信息",'info');
+	  			return;
+	  		}
+	  		if(rows.length > 1){
+	  			$.messager.alert('提示',"只能选择一条隐患记录信息进行更新",'info');
+	  			return;
+	  		}
+	  		var row = $('#dataTable').datagrid('getSelected');
+	  		if (row){
+	  			if (row.handlestatus == '10' || row.handlestatus == null) {
+	  			$('#edit-dlg').dialog('open').dialog('setTitle','隐患记录信息修改');			
+	  			$('#edit-fm').form('load',row);
+	  			//url = '/BS56/sys/roleNew.json';
+	  		}else {
+				$.messager.alert('提示', "此隐患记录信息已核实", 'info');
+				return;
+			}
+	  		}
+	  		
+	  		$("#ctype1").combobox({
+	  			url : baseURL+"/safe/hiddendanger/getCtypeCombobox.json",//返回json数据的url
+	  			valueField : "id",//这个id和你返回json里面的id对应
+	  			textField : "ctype", //这个text和你返回json里面的text对应
+	  			 onLoadSuccess : function(){         
+	  			$("#ctype1").combobox('setText', row.ctype);
+	  			}
+	  		})
+	  	}
+	    
+	    /**
+	     * 保存修改的信息
+
+
+	     */
+
+	    function saveEdit(){
+	  		$('#edit-fm').form('submit',{
+	  			onSubmit: function(){
+	  				var isValidate = $(this).form('validate');
+	  				if(isValidate){
+	  					//$('#loading').window('open');
+	  				}
+	  				return isValidate;
+	  			},
+	  			url:baseURL+"/safe/hiddendanger/doDangerCreateUpdate.json",
+	  			data:$("#edit-fm").serializeArray(),
+	  			beforeSend : function () {
+	  				$.messager.progress({
+	  					text : '正在修改中...',
+	  				});
+	  			},
+	  			success: function(data){
+	  				//$('#loading').window('close');
+	  				data = eval('('+data+')');
+	  				$('#edit-dlg').dialog('close');
+	  				$('#dataTable').datagrid('reload'); 
+	  	    		$.messager.show({
+	  					title : '提示',
+	  					msg :  data.total+'个隐患记录信息已修改'+data.msg+'！',
+	  				});
+	  				$('#loading').window('close');
+	  			}
+	  		});
+	  	}
 	

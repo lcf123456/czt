@@ -23,10 +23,12 @@ import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.safe.HiddendangerService;
 import com.ztel.app.service.safe.TypeinfoService;
 import com.ztel.app.service.sq.CigfactoryService;
+import com.ztel.app.service.sys.BusinessRoleService;
 import com.ztel.app.util.Constant;
 import com.ztel.app.vo.safe.FireFacilitiesVo;
 import com.ztel.app.vo.safe.HiddendangerVo;
 import com.ztel.app.vo.sys.BlockcustomerVo;
+import com.ztel.app.vo.sys.DeptVo;
 import com.ztel.app.vo.sys.UserVo;
 import com.ztel.app.vo.wms.ATSCellInfoDetailVo;
 import com.ztel.framework.util.DateUtil;
@@ -136,7 +138,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 		 return boxList;
 	 }
 	 /**
-	  * 删除信息
+	  * 删除隐患整改信息
 	  * @return
 	  * @throws Exception
 	  */
@@ -163,7 +165,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 		 return map;
 	 }
 	 /**
-	  * 修改信息
+	  * 修改隐患整改信息
 	  * @return
 	  * @throws Exception
 	  */
@@ -205,6 +207,32 @@ public class HiddendangerCtrl extends BaseCtrl {
 		 return map;
 	 }
 	 /**
+	  * 修改隐患记录信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doDangerCreateUpdate",method=RequestMethod.POST)
+	 @ResponseBody
+	 public   Map<String, Object> doDangerCreateUpdate(HiddendangerVo hiddendangerVo,HttpServletResponse response) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+        
+		 try { 
+			 hiddendangerService.updateHangercreate(hiddendangerVo);
+			 map.put("msg", "成功");
+			 total=1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		map.put("total", total);
+		// String result = JSON.toJSONString(map);
+		// response.setContentType("text/html;charset=UTF-8");
+		// response.getWriter().write(result);
+		 return map;
+	 }
+	 /**
 	  * 审核隐患核实信息
 	  * @return
 	  * @throws Exception
@@ -213,6 +241,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 	 //@ResponseBody
 	 public   void doDangerVerify(HiddendangerVo hiddendangerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		//DeptVo deptVo = (DeptVo)request.getSession().getAttribute("deptVo");
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 
 		 int total=0;
@@ -222,10 +251,46 @@ public class HiddendangerCtrl extends BaseCtrl {
 	        	handlestatus = hiddendangerVo.getHandlestatus();
 	        }
 		 try { hiddendangerVo.setVerifymen(userVo.getId());//核实人员
+		// hiddendangerVo.setDeptid(deptVo.getId());
 		 hiddendangerVo.setVerifydate(DateUtil.getDateyyyy_mm_dd_hh_mi_s());//核实日期
 		 hiddendangerVo.setHandlestatus("20");//处理标识
 			
 		 hiddendangerService.verifyDanger(hiddendangerVo);
+			 map.put("msg", "成功");
+			 total=1; 
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);
+		 //return map;
+	 }
+	 /**
+	  * 处理隐患整改信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doDangerRectify",method=RequestMethod.POST)
+	 //@ResponseBody
+	 public   void doDangerRectify(HiddendangerVo hiddendangerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 
+		 int total=0;
+		 String handlestatus = "";
+	        if(
+	        		hiddendangerVo!=null&&hiddendangerVo.getHandlestatus()!=null&&!hiddendangerVo.getHandlestatus().equals("")){
+	        	handlestatus = hiddendangerVo.getHandlestatus();
+	        }
+		 try { hiddendangerVo.setRectifyid(userVo.getId());//整改记录人员
+		 hiddendangerVo.setHandlestatus("30");//处理标识
+		 hiddendangerVo.setDangerstatus("10");//隐患标识
+			
+		 hiddendangerService.handleDanger(hiddendangerVo);
 			 map.put("msg", "成功");
 			 total=1; 
 		} catch (Exception e) {

@@ -12,7 +12,7 @@ public class BlockcustomerVo {
     /**
      * 零售户id
      */
-    private BigDecimal custid;
+    private String custid;
 
     /**
      * 零售户code
@@ -129,17 +129,13 @@ public class BlockcustomerVo {
      * 零售户id
      * @return CUSTID 零售户id
      */
-    public BigDecimal getCustid() {
-        return custid;
-    }
+    public String getCustid() {
+		return custid;
+	}
 
-    /**
-     * 零售户id
-     * @param custid 零售户id
-     */
-    public void setCustid(BigDecimal custid) {
-        this.custid = custid;
-    }
+	public void setCustid(String custid) {
+		this.custid = custid;
+	}
 
     /**
      * 零售户code
@@ -149,7 +145,7 @@ public class BlockcustomerVo {
         return custcode;
     }
 
-    /**
+	/**
      * 零售户code
      * @param custcode 零售户code
      */

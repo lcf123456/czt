@@ -3,7 +3,7 @@
 <mapper namespace="com.ztel.app.persist.mybatis.sys.BlockcustomerVoMapper" >
   <resultMap id="BaseResultMap" type="com.ztel.app.vo.sys.BlockcustomerVo" >
     <id column="ID" property="id" jdbcType="DECIMAL" />
-    <result column="CUSTID" property="custid" jdbcType="DECIMAL" />
+    <result column="CUSTID" property="custid" jdbcType="VARCHAR" />
     <result column="CUSTCODE" property="custcode" jdbcType="VARCHAR" />
     <result column="CONTACTER" property="contacter" jdbcType="VARCHAR" />
     <result column="TELNUM" property="telnum" jdbcType="VARCHAR" />
@@ -60,7 +60,7 @@ where a.reasonid = b.id(+) and c.id(+) = a.handleuser and d.id(+)=a.createid
       ACTUALSITU, HANDLESITU, CREATEID, 
       HANDLEUSER, HANDLEDATE, HANDLEFLAG
       )
-    values (#{id,jdbcType=DECIMAL}, #{custid,jdbcType=DECIMAL}, #{custcode,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=DECIMAL}, #{custid,jdbcType=VARCHAR}, #{custcode,jdbcType=VARCHAR}, 
       #{contacter,jdbcType=VARCHAR}, #{telnum,jdbcType=VARCHAR}, #{custname,jdbcType=VARCHAR}, 
       #{deliveryaddr,jdbcType=VARCHAR}, #{routecode,jdbcType=VARCHAR}, #{blockreason,jdbcType=VARCHAR}, 
       #{blocktimerange,jdbcType=VARCHAR}, #{blocktype,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
@@ -139,7 +139,7 @@ where a.reasonid = b.id(+) and c.id(+) = a.handleuser and d.id(+)=a.createid
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       S_XT_BLOCKUSER.nextval,
       <if test="custid != null" >
-        #{custid,jdbcType=DECIMAL},
+        #{custid,jdbcType=VARCHAR},
       </if>
       <if test="custcode != null" >
         #{custcode,jdbcType=VARCHAR},
@@ -204,7 +204,7 @@ where a.reasonid = b.id(+) and c.id(+) = a.handleuser and d.id(+)=a.createid
     update T_SYS_BLOCKCUSTOMER
     <set >
       <if test="custid != null" >
-        CUSTID = #{custid,jdbcType=DECIMAL},
+        CUSTID = #{custid,jdbcType=VARCHAR},
       </if>
       <if test="custcode != null" >
         CUSTCODE = #{custcode,jdbcType=VARCHAR},
@@ -268,7 +268,7 @@ where a.reasonid = b.id(+) and c.id(+) = a.handleuser and d.id(+)=a.createid
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.sys.BlockcustomerVo" >
     update T_SYS_BLOCKCUSTOMER
-    set CUSTID = #{custid,jdbcType=DECIMAL},
+    set CUSTID = #{custid,jdbcType=VARCHAR},
       CUSTCODE = #{custcode,jdbcType=VARCHAR},
       CONTACTER = #{contacter,jdbcType=VARCHAR},
       TELNUM = #{telnum,jdbcType=VARCHAR},

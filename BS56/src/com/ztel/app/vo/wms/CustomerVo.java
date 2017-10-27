@@ -8,7 +8,7 @@ public class CustomerVo {
     /**
      * 43专卖证号
      */
-    private BigDecimal id;
+    private String id;
 
     /**
      * null
@@ -229,18 +229,18 @@ public class CustomerVo {
      * 43专卖证号
      * @return ID 43专卖证号
      */
-    public BigDecimal getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
     /**
      * 43专卖证号
      * @param id 43专卖证号
      */
-    public void setId(BigDecimal id) {
-        this.id = id;
-    }
-
+	public void setId(String id) {
+		this.id = id;
+	}
+	
     /**
      * null
      * @return DCNO null
@@ -249,7 +249,7 @@ public class CustomerVo {
         return dcno;
     }
 
-    /**
+	/**
      * null
      * @param dcno null
      */

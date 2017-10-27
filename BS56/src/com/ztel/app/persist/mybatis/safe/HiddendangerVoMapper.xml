@@ -82,7 +82,7 @@
       select a.id,dangercontent, c.ctype as ctype ,decode(status, 10, '已排除', 0, '未排除') as status, dangerdate,b.username as createname
     , RECTIFYNOTE, f.username as RECTIFYNAME, decode(dangerstatus, 10, '有效隐患', 20, '无效隐患') as dangerstatus, HANDLESTATUS, e.deptname as deptname,  VERIFYDATE, d.username as verifyname, DEMANDS,checkid
     from T_SAFE_HIDDENDANGER a,t_sys_user b ,t_safe_typeinfo c,t_sys_user d ,t_sys_dept e,t_sys_user f where a.createid=b.id(+) and c.id(+)=a.DANGERTYPE 
- and e.id(+)=a.deptid and f.id(+)=a.RECTIFYID and d.id(+)=a.VERIFYMEN
+ and e.id(+)=a.deptid and f.id(+)=a.RECTIFYID and d.id(+)=a.VERIFYMEN and dangerstatus='10'
     <if test="param != null and param.dangercontent!= null and param.dangercontent!= ''">
         AND (dangercontent like '%'||#{param.dangercontent}||'%'  )
     </if>

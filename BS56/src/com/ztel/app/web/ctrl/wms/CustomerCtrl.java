@@ -5,7 +5,6 @@ package com.ztel.app.web.ctrl.wms;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.wms.CustomerService;
-import com.ztel.app.vo.gis.TruckseqVo;
 import com.ztel.app.vo.sys.UserVo;
 import com.ztel.app.vo.wms.CustomerVo;
 import com.ztel.framework.vo.Pagination;
@@ -130,7 +128,7 @@ public class CustomerCtrl extends BaseCtrl {
 		 
 		 CustomerVo customerVo = new CustomerVo();
 		 if(id!=null)
-			 customerVo.setId(new BigDecimal(id));
+			 customerVo.setId(id);
 			 String addressseq = request.getParameter("addressseq");
 			 if(addressseq==null)addressseq="10000";
 			 customerVo.setAddressseq(new BigDecimal(addressseq));

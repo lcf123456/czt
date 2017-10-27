@@ -3,7 +3,7 @@
 <mapper namespace="com.ztel.app.persist.mybatis.sq.RoutescoreVoMapper" >
   <resultMap id="BaseResultMap" type="com.ztel.app.vo.sq.RoutescoreVo" >
     <id column="ID" property="id" jdbcType="DECIMAL" />
-    <result column="CUSTID" property="custid" jdbcType="DECIMAL" />
+    <result column="CUSTID" property="custid" jdbcType="VARCHAR" />
     <result column="ROUTECODE" property="routecode" jdbcType="VARCHAR" />
     <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
     <result column="ROUTESCORE" property="routescore" jdbcType="DECIMAL" />
@@ -150,7 +150,7 @@
         #{id,jdbcType=DECIMAL},
       </if>
       <if test="custid != null" >
-        #{custid,jdbcType=DECIMAL},
+        #{custid,jdbcType=VARCHAR},
       </if>
       <if test="routecode != null" >
         #{routecode,jdbcType=VARCHAR},

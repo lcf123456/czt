@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ztel.app.persist.mybatis.wms.CustomerVoMapper">
   <resultMap id="BaseResultMap" type="com.ztel.app.vo.wms.CustomerVo">
-    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="DCNO" jdbcType="VARCHAR" property="dcno" />
     <result column="SHIPPER_ID" jdbcType="DECIMAL" property="shipperId" />
     <result column="CODE" jdbcType="OTHER" property="code" />
@@ -51,11 +51,11 @@
     BAKSEQ, MANAGERNAME, MANAGERTEL, ADDRESSSEQ, LAT, LNG, IMG, ORDERBATCH, INVOICEFLAG, 
     PREPAYFLAG, PREPAYPARENTID, CUSTOMERTYPE, DRAWSTATUS
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_WMS_CUSTOMER
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
   
   <!-- 根据条件取零售户信息 -->
@@ -144,7 +144,7 @@
         ADDRESSSEQ = #{addressseq,jdbcType=DECIMAL},
       </if>
     </set>
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <select id="getBillCustomersPageList" resultMap="BaseResultMap" parameterType="Pagination" >
 	select 
@@ -166,9 +166,9 @@
 	        </if> 
   </select>
   
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+  <delete id="deleteByPrimaryKey" parameterType="String">
     delete from T_WMS_CUSTOMER
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" useGeneratedKeys="false" parameterType="com.ztel.app.vo.wms.CustomerVo">
     insert into T_WMS_CUSTOMER (ID, DCNO, SHIPPER_ID, 
@@ -184,7 +184,7 @@
       IMG, ORDERBATCH, INVOICEFLAG, 
       PREPAYFLAG, PREPAYPARENTID, CUSTOMERTYPE, 
       DRAWSTATUS)
-    values (#{id,jdbcType=DECIMAL}, #{dcno,jdbcType=VARCHAR}, #{shipperId,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=VARCHAR}, #{dcno,jdbcType=VARCHAR}, #{shipperId,jdbcType=DECIMAL}, 
       #{code,jdbcType=OTHER}, #{shortname,jdbcType=OTHER}, #{name,jdbcType=OTHER}, #{customerlevel,jdbcType=OTHER}, 
       #{industry,jdbcType=VARCHAR}, #{contactaddress,jdbcType=OTHER}, #{zipcode,jdbcType=OTHER}, 
       #{contactphone,jdbcType=OTHER}, #{bakphone,jdbcType=OTHER}, #{contact,jdbcType=OTHER}, 
@@ -553,7 +553,7 @@
         DRAWSTATUS = #{drawstatus,jdbcType=VARCHAR},
       </if>
     </set>
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.CustomerVo">
     update T_WMS_CUSTOMER
@@ -595,7 +595,7 @@
       PREPAYPARENTID = #{prepayparentid,jdbcType=VARCHAR},
       CUSTOMERTYPE = #{customertype,jdbcType=VARCHAR},
       DRAWSTATUS = #{drawstatus,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <!-- 更新一级预付款下所有预付款客户的预付款状态 -->
   <update id="delAllTwoLevelPrepayCustomerByParentid" parameterType="String">

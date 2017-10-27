@@ -353,6 +353,42 @@
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
+  <update id="updateByPrimaryKeySelectiveByDid" parameterType="com.ztel.app.vo.cost.VehicleRepairCostVo" >
+    update T_COST_VEHICLEREPAIRCOST
+    <set >
+      <if test="materamount != null" >
+        MATERAMOUNT = MATERAMOUNT+#{materamount,jdbcType=DECIMAL},
+      </if>
+      <if test="workeamount != null" >
+        WORKEAMOUNT = WORKEAMOUNT+#{workeamount,jdbcType=DECIMAL},
+      </if>
+      <if test="manaamount != null" >
+        MANAAMOUNT = #{manaamount,jdbcType=DECIMAL},
+      </if>
+      <if test="othercost != null" >
+        OTHERCOST = #{othercost,jdbcType=DECIMAL},
+      </if>
+      <if test="partcost != null" >
+        PARTCOST = #{partcost,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        COST = COST+#{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="tyrecost != null" >
+        TYRECOST = TYRECOST+#{tyrecost,jdbcType=DECIMAL},
+      </if>
+      <if test="batterycost != null" >
+        BATTERYCOST = BATTERYCOST+#{batterycost,jdbcType=DECIMAL},
+      </if>
+      <if test="totalcost != null" >
+        TOTALCOST = TOTALCOST+#{totalcost,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where DID = #{did,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.VehicleRepairCostVo" >
     update T_COST_VEHICLEREPAIRCOST
     set DID = #{did,jdbcType=VARCHAR},
