@@ -241,7 +241,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	}
 	
 	/**
-	 * Get requst uri and trim ;
+	 * Get request uri and trim ;
 	 * @param request
 	 * @return
 	 */
