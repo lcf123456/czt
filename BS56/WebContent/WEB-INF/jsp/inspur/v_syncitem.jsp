@@ -48,7 +48,7 @@
 		$.messager.confirm('提示','确定要执行同步吗?',function(result){
 	        if (result){
 		$.ajax({ 
-		    url: baseURL+'/inspur/doSyncCustomer.json', 
+		    url: baseURL+'/inspur/doSyncItem.json', 
 		    type: 'POST',
 		    beforeSend : function () {
 				$.messager.progress({
@@ -60,7 +60,7 @@
 		        $.messager.progress('close');
 		    },
 		    success: function(data){
-		    	var msg = data.custCount +"条零售户记录"+data.resultmsg;
+		    	var msg = data.custCount +"条商品记录"+data.resultmsg;
 		    	document.getElementById('showMsg').innerHTML=msg;
 		    	$.messager.show({
 					title : '提示',

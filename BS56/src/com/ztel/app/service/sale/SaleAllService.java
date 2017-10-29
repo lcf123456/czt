@@ -1,5 +1,7 @@
 package com.ztel.app.service.sale;
 
+import com.ztel.app.vo.sale.SaleitemVo;
+
 /**
  * 营销全部中间表接收处理服务
  * @author lcf
@@ -39,4 +41,24 @@ public interface SaleAllService {
 	 * @param sqlstr
 	 */
 	public void insertsaleorderline(String sqlstr);
+	
+	/**
+	 *  营销接口商品信息同步之前先全部置为删除状态
+	 */
+	public void updateitemAllrowstatus();
+	
+	/**
+	 *  营销接口商品信息同步之前先判断商品是否存在
+	 */
+	public SaleitemVo selectItembyPrimaryKey(String id);
+	
+	/**
+	 *  营销接口商品信息同步更新商品
+	 */
+	public int updateItembyPrimaryKey(SaleitemVo saleitemVo);
+	
+	/**
+	 *  营销接口商品信息同步插入商品
+	 */
+	public int insertItembyPrimaryKey(SaleitemVo saleitemVo);
 }
