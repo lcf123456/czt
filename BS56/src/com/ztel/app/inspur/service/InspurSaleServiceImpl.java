@@ -116,6 +116,7 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 	 * @param orderdate
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class)
 	public Map<String, Object> doSyncOrder(UserVo userVo,String orderdate){
 		Map<String, Object> result=new HashMap<String, Object>();  
 		int rsRowNum = 0;
@@ -144,7 +145,7 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				String topsql = "insert into T_SALE_ORDER_HEAD(ORG_CODE,ORDERNO,CREATETIME,SHIPDATE,CUSTOMER_ID,TOTALAMOUNT,TOTALQTY,ROUTECODE) ";
 				
 				tempsql += "union  select '11430101','"+InspurSaleorderheadVo.getCoNum()+"',sysdate,to_date('"+orderdate+"','yyyy-mm-dd'),'" 
-						+ InspurSaleorderheadVo.getCustId()+ "'," + InspurSaleorderheadVo.getQtySum() + "," + InspurSaleorderheadVo.getAmtSum()
+						+ InspurSaleorderheadVo.getCustId()+ "'," + InspurSaleorderheadVo.getAmtSum()+ "," + InspurSaleorderheadVo.getQtySum() 
 						+  ",'" + InspurSaleorderheadVo.getCarId() + "' from dual ";
 
 	            if (((rsRowNum % 1000) == 0 && rsRowNum!=0) || rsRowNum==Count_head-1)
