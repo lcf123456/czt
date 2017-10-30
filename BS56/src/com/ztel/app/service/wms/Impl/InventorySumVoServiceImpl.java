@@ -51,7 +51,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
     SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Override
-	public List<InventorySumVo> selectInventoryList(String searchDate) {
+	public List<InventorySumVo> selectInventoryList(String searchDate,String orderDate) {
 		// TODO Auto-generated method stub
 		//取品牌信息
 		ItemVo itemVo=new ItemVo();
@@ -84,6 +84,18 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 		 storageAreaInOutVo.setAreaid(new BigDecimal(Constant.storagearea_sy));
 		 List<InventoryLineVo>  inOutList=new ArrayList<InventoryLineVo>();
 		 inOutList=storageAreaInOutService.getInOutInfoSummaryByCond(storageAreaInOutVo, inventoryLineVo);
+		 
+		 //虚拟区信息
+		 //最近一次盘点信息查询条件
+		 InventoryLineVo inventoryLineVo_virtual=new InventoryLineVo();
+		 inventoryLineVo_virtual.setInventorytype(new BigDecimal(10));
+		 inventoryLineVo_virtual.setAreaid(new BigDecimal(Constant.storagearea_virtual));
+		 //虚拟区汇总查询条件
+		 StorageAreaInOutVo storageAreaInOutVo_virtual=new StorageAreaInOutVo();
+		 storageAreaInOutVo_virtual.setSearchdate(searchDate);
+		 storageAreaInOutVo_virtual.setAreaid(new BigDecimal(Constant.storagearea_virtual));
+		 List<InventoryLineVo>  inOutList_virtual=new ArrayList<InventoryLineVo>();
+		 inOutList=storageAreaInOutService.getInOutInfoSummaryByCond(storageAreaInOutVo_virtual, inventoryLineVo_virtual);
 		 
 		 //分拣区信息
 		//通道尾数查询条件
@@ -186,13 +198,14 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 		 int stockLen=itemStockList.size();
 		 int lklen=ATSCellInfoDetailVoVoList.size();
 		 int sylen=inOutList.size();
+		 int virtuallen=inOutList_virtual.size();
 		 int un1len=untroughList1.size();
 		 int un2len=untroughList2.size();
 		 int un3len=untroughList3.size();
 		 //String cigarettecode="";
 		 BigDecimal diffqty=new BigDecimal(0);
 		 BigDecimal paperqty=null,ATSCellqty=null,scatteredqty=null,shelfqty=null,sortingqty=null,
-				 			 unnormalqty1=null,unnormalqty2=null,commonqty=null;
+				 			 unnormalqty1=null,unnormalqty2=null,commonqty=null,virtualqty=null;
 		 String cigarettename="",shelfno="",sortingno="",unnormalno1="",unnormalno2="",commonno="",flag="";
 				 
 		 InventorySumVo sumVo=null;
@@ -235,6 +248,18 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 					 scatteredqty=InventoryLineVo.getTotalqty();
 					 //sumVo.setScatteredqty(scatteredqty);
 					 diffqty=diffqty.subtract(scatteredqty);
+					 flag="1";
+					 break;
+				 }
+			 }
+			 //虚拟区数量
+			 virtualqty=null;
+			 for(int b=0;b<virtuallen;b++){
+				 InventoryLineVo InventoryLineVo=inOutList_virtual.get(b);
+				 if(cigarettecode.equals(InventoryLineVo.getCigarettecode())){
+					 virtualqty=InventoryLineVo.getTotalqty();
+					 //sumVo.setScatteredqty(scatteredqty);
+					 diffqty=diffqty.subtract(virtualqty);
 					 flag="1";
 					 break;
 				 }
@@ -319,6 +344,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 						 sumVo.setPaperqty(paperqty);
 						 sumVo.setAtscellqty(ATSCellqty);
 						 sumVo.setScatteredqty(scatteredqty);
+						 sumVo.setVirtualqty(virtualqty);
 						 sumVo.setUnnormalno1(unnormalno1);
 						 sumVo.setUnnormalqty1(unnormalqty1);
 						 sumVo.setUnnormalno2(unnormalno2);
@@ -356,6 +382,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 						 sumVo.setPaperqty(paperqty);
 						 sumVo.setAtscellqty(ATSCellqty);
 						 sumVo.setScatteredqty(scatteredqty);
+						 sumVo.setVirtualqty(virtualqty);
 						 sumVo.setUnnormalno1(unnormalno1);
 						 sumVo.setUnnormalqty1(unnormalqty1);
 						 sumVo.setUnnormalno2(unnormalno2);
@@ -393,6 +420,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 				 //没有分拣以及重力式货架的品牌
 				 sumVo.setAtscellqty(ATSCellqty);
 				 sumVo.setScatteredqty(scatteredqty);
+				 sumVo.setVirtualqty(virtualqty);
 				 sumVo.setUnnormalno1(unnormalno1);
 				 sumVo.setUnnormalqty1(unnormalqty1);
 				 sumVo.setUnnormalno2(unnormalno2);
@@ -455,6 +483,10 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 				//散烟区信息
 				inventoryLineVo.setAreaid(new BigDecimal(Constant.storagearea_sy));
 				List<InventoryLineVo>inOutList=inventoryLineVoService.getInventoryInfoByCond(inventoryLineVo);
+				
+				//虚拟区信息
+				inventoryLineVo.setAreaid(new BigDecimal(Constant.storagearea_virtual));
+				List<InventoryLineVo>inOutList_virtual=inventoryLineVoService.getInventoryInfoByCond(inventoryLineVo);
 				//最近一次盘点信息查询条件
 //				 InventoryLineVo inventoryLineVo=new InventoryLineVo();
 //				 inventoryLineVo.setInventorytype(new BigDecimal(10));
@@ -598,13 +630,14 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 				 int stockLen=itemStockList.size();
 				 int lklen=ATSCellInfoDetailVoVoList.size();
 				 int sylen=inOutList.size();
+				 int virtuallen=inOutList_virtual.size();
 				 int un1len=untroughList1.size();
 				 int un2len=untroughList2.size();
 				 int un3len=untroughList3.size();
 				 //String cigarettecode="";
 				 BigDecimal diffqty=new BigDecimal(0);
 				 BigDecimal paperqty=null,ATSCellqty=null,scatteredqty=null,shelfqty=null,sortingqty=null,
-						 			 unnormalqty1=null,unnormalqty2=null,commonqty=null;
+						 			 unnormalqty1=null,unnormalqty2=null,commonqty=null,virtualqty=null;
 				 String cigarettename="",shelfno="",sortingno="",unnormalno1="",unnormalno2="",commonno="",flag="";
 						 
 				 InventorySumVo sumVo=null;
@@ -646,6 +679,18 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 							 scatteredqty=InventoryLineVo.getItemqty();
 							 //sumVo.setScatteredqty(scatteredqty);
 							 diffqty=diffqty.subtract(scatteredqty);
+							 flag="1";
+							 break;
+						 }
+					 }
+					 //虚拟区数量
+					 virtualqty=null;
+					 for(int b=0;b<virtuallen;b++){
+						 InventoryLineVo InventoryLineVo=inOutList_virtual.get(b);
+						 if(cigarettecode.equals(InventoryLineVo.getCigarettecode())){
+							 virtualqty=InventoryLineVo.getItemqty();
+							 //sumVo.setScatteredqty(scatteredqty);
+							 diffqty=diffqty.subtract(virtualqty);
 							 flag="1";
 							 break;
 						 }
@@ -729,6 +774,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 								 sumVo.setPaperqty(paperqty);
 								 sumVo.setAtscellqty(ATSCellqty);
 								 sumVo.setScatteredqty(scatteredqty);
+								 sumVo.setVirtualqty(virtualqty);
 								 sumVo.setUnnormalno1(unnormalno1);
 								 sumVo.setUnnormalqty1(unnormalqty1);
 								 sumVo.setUnnormalno2(unnormalno2);
@@ -766,6 +812,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 								 sumVo.setPaperqty(paperqty);
 								 sumVo.setAtscellqty(ATSCellqty);
 								 sumVo.setScatteredqty(scatteredqty);
+								 sumVo.setVirtualqty(virtualqty);
 								 sumVo.setUnnormalno1(unnormalno1);
 								 sumVo.setUnnormalqty1(unnormalqty1);
 								 sumVo.setUnnormalno2(unnormalno2);
@@ -803,6 +850,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 						 //没有分拣以及重力式货架的品牌
 						 sumVo.setAtscellqty(ATSCellqty);
 						 sumVo.setScatteredqty(scatteredqty);
+						 sumVo.setVirtualqty(virtualqty);
 						 sumVo.setUnnormalno1(unnormalno1);
 						 sumVo.setUnnormalqty1(unnormalqty1);
 						 sumVo.setUnnormalno2(unnormalno2);

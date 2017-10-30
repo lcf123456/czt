@@ -189,6 +189,20 @@ public class InventoryLineVoServiceImpl implements InventoryLineVoService {
 					scatteredVo.setInventorytype(new BigDecimal(10));
 					doInventoryLineAdd(scatteredVo);
 				}
+				
+				//插入虚拟区数据
+				flagnum=sumVo.getVirtualqty();
+				if(flagnum!=null){
+					InventoryLineVo virtualVo=new InventoryLineVo();
+					virtualVo.setInventoryid(fid);
+					virtualVo.setCigarettecode(sumVo.getCigarettecode());
+					virtualVo.setCigarettename(sumVo.getCigarettename());
+					virtualVo.setItemqty(sumVo.getVirtualqty());
+					virtualVo.setAreaid(new BigDecimal(Constant.storagearea_virtual));
+					virtualVo.setInventorytype(new BigDecimal(10));
+					doInventoryLineAdd(virtualVo);
+				}
+				
 				//用于更新尾数
 				SortTroughVo sortTroughVo=null;
 				//插入重力式货架
