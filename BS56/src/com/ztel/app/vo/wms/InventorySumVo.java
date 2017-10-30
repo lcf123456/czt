@@ -18,6 +18,7 @@ public class InventorySumVo {
 	private BigDecimal unnormalqty2;
 	private String commonno;
 	private BigDecimal commonqty;
+	private BigDecimal virtualqty;
 	private BigDecimal diffqty;
 	private String flag;
 	
@@ -129,6 +130,12 @@ public class InventorySumVo {
 	}
 	public void setDiffqty(BigDecimal diffqty) {
 		this.diffqty = diffqty;
+	}
+	public BigDecimal getVirtualqty() {
+		return virtualqty;
+	}
+	public void setVirtualqty(BigDecimal virtualqty) {
+		this.virtualqty = virtualqty;
 	}
 	
 }
