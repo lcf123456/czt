@@ -31,9 +31,7 @@ import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.wms.InventoryLineVoService;
 import com.ztel.app.service.wms.InventorySumVoService;
 import com.ztel.app.service.wms.InventoryVoService;
-import com.ztel.app.vo.produce.SortTroughVo;
 import com.ztel.app.vo.sys.UserVo;
-import com.ztel.app.vo.wms.ATSCellInfoDetailVo;
 import com.ztel.app.vo.wms.InventoryLineVo;
 import com.ztel.app.vo.wms.InventorySumVo;
 import com.ztel.app.vo.wms.InventoryVo;
@@ -85,7 +83,8 @@ public class InventoryNewCtrl extends BaseCtrl {
 		 Map<String, Object> result=new HashMap<String, Object>();  
 		 
 		 String searchDate=request.getParameter("searchdate");
-		 List<InventorySumVo>list=inventorySumVoService.selectInventoryList(searchDate);
+		 String orderdate=request.getParameter("orderdate");
+		 List<InventorySumVo>list=inventorySumVoService.selectInventoryList(searchDate,orderdate);
 		
 		 result.put("rows",list);  
 		 result.put("total",list.size());  
@@ -244,7 +243,7 @@ public class InventoryNewCtrl extends BaseCtrl {
 		 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		 try{
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/wms/inventorynew/doInventoryInfoComplete", "盘点明细信息", "新增", "");
+			 operationlogService.insertLog(userVo, "/wms/inventorynew/doInventoryInfoComplete", "日清日结信息", "日清日结", "");
 			 //ATSCellInfoDetailVo[]ATSCellObjs=(ATSCellInfoDetailVo[]) getDTOArray(request,"atscell",ATSCellInfoDetailVo.class);
 			 //TFoodJhtzMainVO    tFoodJhtzMainVO=JSON.parseObject(models.get("main").toString(),TFoodJhtzMainVO.class); //获取出来的json字符串转换成相对应的对象
 			 

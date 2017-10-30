@@ -35,16 +35,19 @@ jQuery(function($){
 //			{field:'inventoryid',title:'编号id',width:30,
 //				formatter:function(value,row,index){return row.inventoryid;} //需要formatter一下才能显示正确的数据
 //			},
-			{field:'createtime',title:'盘点日期',width:30,sortable:true,
+			{field:'orderdate',title:'订单日期',width:30,
+				formatter:function(value,row,index){return row.orderdate.substring(0,10);}
+			},
+			{field:'createtime',title:'日清日结时间',width:30,
 				formatter:function(value,row,index){return row.createtime.substring(0,19);}
 			},
-			{field:'inventorytype',title:'盘点类型',width:30,
+			{field:'inventorytype',title:'类型',width:30,
 				formatter:function(value,row,index){
 					if(row.inventorytype=='10')return '<span >日清日结</span>';
 					else return row.inventorytype;
 				} //需要formatter一下才能显示正确的数据
 			},
-			{field:'status',title:'盘点状态',width:30,
+			{field:'status',title:'状态',width:30,
 				formatter:function(value,row,index){
 					if( row.status == '10'){
 						return '<span >已完成</span>';
@@ -65,12 +68,15 @@ jQuery(function($){
 });
 
 /**
- * 打开新增窗口
+ * 打开新增窗口`
  * @returns
  */
 function openNew(){
 	$('#add-fm').form('clear');
 	$('#add-dlg').dialog('open').dialog('setTitle','新增盘点信息');
+	
+	var orderdate=getDateYMD();
+	$('#orderdate').datebox('setValue', orderdate);
 	
 	var createtime=getDateYMDHMS();
 	$('#createtime').datetimebox('setValue', createtime);
@@ -151,11 +157,13 @@ function openInventory(){
 	}
 	if (row){
 		var date=row.createtime.substring(0,19);
+		var orderdate=row.orderdate.substring(0,10);
 		$('#inventory-dlg').dialog('open').dialog('setTitle','盘点信息');
 		$('#subBtn').linkbutton({disabled:false});
 		$('#inventoryid').val(row.inventoryid);
 		$('#createtime1').val(date);
-		newTableInit(date);
+		$('#orderdate1').val(orderdate);
+		newTableInit(date,orderdate);
 	}
 }
 
@@ -164,7 +172,7 @@ function openInventory(){
  * 盘点数据初始化
  * @returns
  */
-function newTableInit(date){
+function newTableInit(date,orderdate){
 		$('#newTable').datagrid({
 			//title:'区域表', //标题
 			method:'post',
@@ -182,14 +190,15 @@ function newTableInit(date){
 			//pageSize : 10,
 			//pageList: [10,30,50],
 			queryParams:{
-				searchdate:date
+				searchdate:date,
+				orderdate:orderdate
 			}, //查询条件
 			//pagination:true, //显示分页
 			//pageSize : 1,
 			rownumbers:true, //显示行号
 			showFooter:true,
 			onLoadSuccess:function(){
-				mergeCellsByField("newTable", "cigarettecode,cigarettename,paperqty,atscellqty,scatteredqty,unnormalno1,unnormalqty1,unnormalno2,unnormalqty2,commonno,commonqty,diffqty", 0);
+				mergeCellsByField("newTable", "cigarettecode,cigarettename,paperqty,atscellqty,scatteredqty,unnormalno1,unnormalqty1,unnormalno2,unnormalqty2,commonno,commonqty,virtualqty,diffqty", 0);
 				$('#newTable').datagrid('reloadFooter',[{
 					cigarettename: '<B>合计</B>',
 					paperqty: '<B>'+compute("paperqty")+'</B>',
@@ -200,6 +209,7 @@ function newTableInit(date){
 					unnormalqty1: '<B>'+compute("unnormalqty1")+'</B>',
 					unnormalqty2: '<B>'+compute("unnormalqty2")+'</B>',
 					commonqty: '<B>'+compute("commonqty")+'</B>',
+					virtualqty: '<B>'+compute("virtualqty")+'</B>',
 					diffqty: '<B>'+compute("diffqty")+'</B>'
 				}]);
 			},
@@ -294,7 +304,7 @@ function saveInventory(){
             			$('#dataTable').datagrid('reload'); 
                 		$.messager.show({
             				title : '提示',
-            				msg :  '盘点信息表更新'+data.msg+'！',
+            				msg :  '日清日结信息表更新'+data.msg+'！',
             			});
                     } 
                 });  
