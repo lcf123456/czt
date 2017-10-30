@@ -79,4 +79,17 @@ public class InspurCtrl extends BaseCtrl{
 	public String toSyncitem(HttpServletRequest request) {
 		return "/inspur/v_syncitem";
 	}
+	
+	@RequestMapping("doSyncItem")
+	 @ResponseBody
+	 public  Map<String, Object> doSyncItem(HttpServletRequest request) throws Exception {
+
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 String keyword = request.getParameter("keyword");
+		 result = inspurSaleService.doSyncItem(userVo);
+		 
+		 return result;
+	 }
 }

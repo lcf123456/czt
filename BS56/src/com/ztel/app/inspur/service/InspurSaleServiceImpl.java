@@ -18,6 +18,7 @@ import com.ztel.app.inspur.vo.InspurSaleorderheadVo;
 import com.ztel.app.inspur.vo.InspurSaleorderheaddetailVo;
 import com.ztel.app.service.sale.SaleAllService;
 import com.ztel.app.service.sys.OperationlogService;
+import com.ztel.app.vo.sale.SaleitemVo;
 import com.ztel.app.vo.sys.UserVo;
 
 @Service
@@ -229,15 +230,42 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 		List<InspurSaleitemVo> inspurSaleitemList = nspurSaleitemVoMapper.selectInspursaleitemList(sqlstr);
 		if(inspurSaleitemList!=null&&inspurSaleitemList.size()>0){
 			custCount=inspurSaleitemList.size();
-			saleAllService.deletecustomer();
+			saleAllService.updateitemAllrowstatus();//更新全部商品为删除状态
 			for(int i=0;i<inspurSaleitemList.size();i++){
 				InspurSaleitemVo inspurSaleitemVo = inspurSaleitemList.get(i);
-				String itemid = inspurSaleitemVo.getItemId();
-				
+				String itemid = inspurSaleitemVo.getItemId();//t_sale_item:商品id/code
+				String itemName = inspurSaleitemVo.getItemName();//t_sale_item:商品名称
+				String shortName = inspurSaleitemVo.getShortName();//t_sale_item:商品简称
+				String kind = inspurSaleitemVo.getKind();//t_sale_item:ABC类
+				String brdownerId = inspurSaleitemVo.getBrdownerId();//t_sale_item:manufacturer_id制造商
+				String packBar = inspurSaleitemVo.getPackBar();//t_sale_item:件码？
+				String spec = inspurSaleitemVo.getSpec();//t_sale_item:spec规格
+				String isAbnormal = inspurSaleitemVo.getIsAbnormal();//shiptype类型：0为正常烟，1为异性烟
+				String umId = inspurSaleitemVo.getUmId();//t_sale_item:基本计量单位
+				String umName= inspurSaleitemVo.getUmName();//t_sale_item:基本计量单位名称
+				SaleitemVo saleitemVo = saleAllService.selectItembyPrimaryKey(itemid);
+				SaleitemVo saleitemVo2 = new SaleitemVo();
+				saleitemVo2.setId(itemid);
+				saleitemVo2.setItemname(itemName);
+				saleitemVo2.setShortname(shortName);
+				saleitemVo2.setAbccode(kind);
+				saleitemVo2.setManufacturerId(brdownerId);
+				saleitemVo2.setBigboxBar(packBar);
+				saleitemVo2.setSpec(spec);
+				saleitemVo2.setShiptype(isAbnormal);
+				saleitemVo2.setBaseuomId(umId);
+				saleitemVo2.setBaseuomName(umName);
+				if(saleitemVo!=null&&saleitemVo.getId()!=null&&!saleitemVo.getId().equals("")){
+					saleAllService.updateItembyPrimaryKey(saleitemVo2);
+					//saleitemVo2.seti
+				}
+				else{
+					saleAllService.insertItembyPrimaryKey(saleitemVo2);
+				}
 	            
 			}
 			resultmsg="同步成功！";
-			operationlogService.insertLog(userVo, "BS56/inspur/toSyncitem", "营销接口接收商品数据", "2、成功插入"+custCount+"条记录到本地数据库表t_wms_sale！", "");
+			operationlogService.insertLog(userVo, "BS56/inspur/toSyncitem", "营销接口接收商品数据", "2、成功插入"+custCount+"条记录到本地数据库表t_wms_item！", "");
 		}else{
 			operationlogService.insertLog(userVo, "BS56/inspur/toSyncitem", "营销接口接收商品数据", "2、没有查询到商品数据！", "");
 		}

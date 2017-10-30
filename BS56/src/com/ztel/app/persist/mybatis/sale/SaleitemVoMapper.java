@@ -1,42 +1,47 @@
 package com.ztel.app.persist.mybatis.sale;
 
 import com.ztel.app.vo.sale.SaleitemVo;
-import java.math.BigDecimal;
 
 public interface SaleitemVoMapper {
+	
+	/**
+	 * 营销接口商品信息同步之前先全部置为删除状态
+	 */
+	void updateitemAllrowstatus();
+	
     /**
      *
-     * @mbggenerated 2017-10-27
+     * @mbggenerated 2017-10-29
      */
-    int deleteByPrimaryKey(BigDecimal id);
+    int deleteByPrimaryKey(String id);
 
     /**
      *
-     * @mbggenerated 2017-10-27
+     * @mbggenerated 2017-10-29
      */
     int insert(SaleitemVo record);
 
     /**
      *
-     * @mbggenerated 2017-10-27
+     * @mbggenerated 2017-10-29
      */
     int insertSelective(SaleitemVo record);
 
     /**
      *
-     * @mbggenerated 2017-10-27
+     * @mbggenerated 2017-10-29
      */
-    SaleitemVo selectByPrimaryKey(BigDecimal id);
+    SaleitemVo selectByPrimaryKey(String id);
 
     /**
      *
-     * @mbggenerated 2017-10-27
+     * @mbggenerated 2017-10-29
      */
     int updateByPrimaryKeySelective(SaleitemVo record);
 
     /**
      *
-     * @mbggenerated 2017-10-27
+     * @mbggenerated 2017-10-29
      */
     int updateByPrimaryKey(SaleitemVo record);
 }
