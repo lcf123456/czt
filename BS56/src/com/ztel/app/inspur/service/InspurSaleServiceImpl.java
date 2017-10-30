@@ -1,5 +1,6 @@
 package com.ztel.app.inspur.service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,12 +74,12 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				InspurSalecustomerVo SalecustomerVo = customerList.get(i);
 				
 				String topsql = "insert into T_SALE_CUSTOMER(id,code,shortname,name,industry,contactaddress,contactphone,bakphone,"+
-						"contact,account,routecode,licensecode,markettype,orderbatch,orderWay)";
+						"contact,account,routecode,licensecode,markettype,orderbatch,orderWay,delstatus,shipper_id)";
 				
 				tempsql += "union  select "+ SalecustomerVo.getCustId() + ",'"+SalecustomerVo.getCustShortId()+"','"+SalecustomerVo.getCustName()+"','"+SalecustomerVo.getCustName()+"','" 
 				+ SalecustomerVo.getBaseType()+"','" + SalecustomerVo.getBusiAddr() + "','" + SalecustomerVo.getOrderTel() + "','" + SalecustomerVo.getReceiveTel2() + "','" +
 				SalecustomerVo.getManager()+"','" + SalecustomerVo.getAccount() + "','" + SalecustomerVo.getCarId() + "','" + SalecustomerVo.getCustId() + "','" + 
-				SalecustomerVo.getWorkPort()+"','" + SalecustomerVo.getPeriodsId() +"','" + SalecustomerVo.getOrderWay()+ "' from dual ";
+				SalecustomerVo.getWorkPort()+"','" + SalecustomerVo.getPeriodsId() +"','" + SalecustomerVo.getOrderWay()+ "',10,11430101 from dual ";
 
 	            if (((rsRowNum % 1000) == 0 && rsRowNum!=0) || rsRowNum==custCount-1)
 	            {
@@ -238,7 +239,7 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				String shortName = inspurSaleitemVo.getShortName();//t_sale_item:商品简称
 				String kind = inspurSaleitemVo.getKind();//t_sale_item:ABC类
 				String brdownerId = inspurSaleitemVo.getBrdownerId();//t_sale_item:manufacturer_id制造商
-				String packBar = inspurSaleitemVo.getPackBar();//t_sale_item:件码？
+				String packBar = inspurSaleitemVo.getPackBar();//t_sale_item:卷烟码
 				String spec = inspurSaleitemVo.getSpec();//t_sale_item:spec规格
 				String isAbnormal = inspurSaleitemVo.getIsAbnormal();//shiptype类型：0为正常烟，1为异性烟
 				String umId = inspurSaleitemVo.getUmId();//t_sale_item:基本计量单位
@@ -248,13 +249,15 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				saleitemVo2.setId(itemid);
 				saleitemVo2.setItemname(itemName);
 				saleitemVo2.setShortname(shortName);
-				saleitemVo2.setAbccode(kind);
+				saleitemVo2.setKind(kind);
 				saleitemVo2.setManufacturerId(brdownerId);
-				saleitemVo2.setBigboxBar(packBar);
+				saleitemVo2.setPackBar(packBar);
 				saleitemVo2.setSpec(spec);
 				saleitemVo2.setShiptype(isAbnormal);
 				saleitemVo2.setBaseuomId(umId);
 				saleitemVo2.setBaseuomName(umName);
+				saleitemVo2.setItemno(itemid);
+				saleitemVo2.setShipperId(new BigDecimal("11430101"));
 				if(saleitemVo!=null&&saleitemVo.getId()!=null&&!saleitemVo.getId().equals("")){
 					saleAllService.updateItembyPrimaryKey(saleitemVo2);
 					//saleitemVo2.seti
