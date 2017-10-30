@@ -91,7 +91,7 @@
       #{wSize,jdbcType=DECIMAL}, #{xSize,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.ztel.app.vo.sale.SaleitemVo" >
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.sale.SaleitemVo" >
     insert into T_SALE_ITEM
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
