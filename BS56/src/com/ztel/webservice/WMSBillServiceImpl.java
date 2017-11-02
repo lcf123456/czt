@@ -110,8 +110,8 @@ public class WMSBillServiceImpl implements WMSBillService{
 					String commerce_code=head.elementText("commerce_code");//货主
 					String ws_method = head.elementText("ws_method");//BillCreate：单据创建  BillConfirm：单据确认
 					//String curr_time = head.elementText("curr_time");//发送时间or单据创建时间，接口文档中未明确给出
-					
-				Element datalist = root.element("datalist");//1级根下datalist
+					String bb_type = head.elementText("bb_type");//业务类型(到货入库：CORP_SCAN 商商调剂入库:TRANS_BACK_SCAN 商商调剂出库:TRANS_SCAN 整托盘入库待定)
+				    Element datalist = root.element("datalist");//1级根下datalist
 					Element data = datalist.element("data");//1级根下datalist下2级data
 					//单据主表信息
 					String bb_uuid = data.elementText("bb_uuid");//系统唯一标识
@@ -144,11 +144,13 @@ public class WMSBillServiceImpl implements WMSBillService{
 	                    String bd_pcig_code = recordEless.elementTextTrim("bd_pcig_code"); //>标准件烟卷烟代码(卷烟件码)
 	                    String bd_bcig_code = recordEless.elementTextTrim("bd_bcig_code"); //标准条烟卷烟代码(卷烟条码)
 	                    String bd_bill_pnum =  recordEless.elementTextTrim("bd_bill_pnum"); //应出/入货量（件）
+	                    String bd_bill_all_bnum =  recordEless.elementTextTrim("bd_bill_all_bnum"); //应出/入货量（件）
 	                    WMSBillscanLineVo wMSBillscanLineVo = new WMSBillscanLineVo(); 
 	                    wMSBillscanLineVo.setBdpcigname(bd_pcig_name);
 	                    wMSBillscanLineVo.setBdpcigcode(bd_pcig_code);
 	                    wMSBillscanLineVo.setBdbcigcode(bd_bcig_code);
 	                    wMSBillscanLineVo.setBdbillpnum(bd_bill_pnum);
+	                    wMSBillscanLineVo.setBdbillallbnum(bd_bill_all_bnum);
 	                    wMSBillscanLineVoList.add(wMSBillscanLineVo);
 					}
 					
@@ -171,8 +173,14 @@ public class WMSBillServiceImpl implements WMSBillService{
 					int result = 1;
 					//单据创建
 					if(ws_method!=null&&!ws_method.equals("")&&ws_method.equals("BillCreate")){
-						//获取S_WMS_INOUTBOUND序列值
-						result = inBoundService.doInsertInBoundAndLineList(wMSBillscanVo, wMSBillscanLineVoList);
+						//到货入库：CORP_SCAN 商商调剂入库:TRANS_BACK_SCAN
+						if(bb_type.equals("CORP_SCAN")||bb_type.equals("TRANS_BACK_SCAN")){
+							result = inBoundService.doInsertInBoundAndLineList(wMSBillscanVo, wMSBillscanLineVoList);
+						}
+						//商商调剂出库，现在还没有客户端，接口暂时开放，商商调剂出库的进我们的调拨表
+						if(bb_type.equals("TRANS_SCAN")){
+							//result = inBoundService.doInsertInBoundAndLineList(wMSBillscanVo, wMSBillscanLineVoList);
+						}
 					}
 					String state_code = "000";
 					if(result==0)state_code="001";

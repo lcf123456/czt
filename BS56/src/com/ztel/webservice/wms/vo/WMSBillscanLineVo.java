@@ -11,6 +11,7 @@ public class WMSBillscanLineVo {
 	private String bdpcigcode;//标准件烟卷烟代码(卷烟件码)
 	private String bdbcigcode;//标准条烟卷烟代码(卷烟条码)   (只接入，暂没处理)
 	private String bdbillpnum;//应出/入货量（件）
+	private String bdbillallbnum;//应出/入货总量（条）
 	public String getBdpcigname() {
 		return bdpcigname;
 	}
@@ -34,6 +35,12 @@ public class WMSBillscanLineVo {
 	}
 	public void setBdbillpnum(String bdbillpnum) {
 		this.bdbillpnum = bdbillpnum;
+	}
+	public String getBdbillallbnum() {
+		return bdbillallbnum;
+	}
+	public void setBdbillallbnum(String bdbillallbnum) {
+		this.bdbillallbnum = bdbillallbnum;
 	}
 	
 }
