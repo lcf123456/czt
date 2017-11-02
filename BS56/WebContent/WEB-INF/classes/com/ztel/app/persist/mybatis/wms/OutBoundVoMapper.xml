@@ -23,12 +23,12 @@
     
   </resultMap>
   <sql id="Base_Column_List" >
-    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, DELSTATUS, VEHICLENO, CONSIGNSOR,ORDERDATE,OUTTIME
+    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, DELSTATUS, VEHICLENO, CONSIGNSOR,ORDERDATE,OUTTIME,NAVICERT,CONTRACTNO
   </sql>
   
   <select id="selectOutoundPageList" resultType="com.ztel.app.vo.wms.OutBoundVo" parameterType="Pagination" >
     select 
-    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, ob.DELSTATUS, VEHICLENO, CONSIGNSOR,
+    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, ob.DELSTATUS, VEHICLENO, CONSIGNSOR,NAVICERT,CONTRACTNO,
     ORDERDATE,OUTTIME,ur.username as createusername
     from T_WMS_OUTBOUND ob,t_sys_user ur
     where ob.delstatus='10' and ob.userid=ur.id
@@ -66,6 +66,9 @@
 	</if>
 	<if test="remarks != null">
 	        and  REMARKS = #{remarks,jdbcType=OTHER}
+	</if>
+	<if test="navicert != null">
+	        and  NAVICERT = #{navicert,jdbcType=VARCHAR}
 	</if>
   </select>
   
@@ -121,6 +124,12 @@
       <if test="outtime != null" >
         OUTTIME,
       </if>
+       <if test="navicert != null" >
+        NAVICERT,
+      </if>
+      <if test="contractno != null" >
+        CONTRACTNO,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="outboundid != null" >
@@ -151,6 +160,12 @@
       </if>
       <if test="outtime != null" >
         #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="navicert != null" >
+        #{navicert,jdbcType=VARCHAR},
+      </if>
+      <if test="contractno != null" >
+        #{contractno,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -186,6 +201,12 @@
       </if>      
       <if test="outtime != null" >
         OUTTIME = #{outtime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="navicert != null" >
+        NAVICERT = #{navicert,jdbcType=VARCHAR},
+      </if>
+      <if test="contractno != null" >
+        CONTRACTNO = #{contractno,jdbcType=VARCHAR},
       </if>
     </set>
     where OUTBOUNDID = #{outboundid,jdbcType=DECIMAL}

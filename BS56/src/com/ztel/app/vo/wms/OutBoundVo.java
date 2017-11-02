@@ -89,7 +89,7 @@ public class OutBoundVo {
     private String navicert;
 
     /**
-     * 合同号（退货入库 放订单号  ）
+     * 合同号
      */
     private String contractno;
     
@@ -343,7 +343,7 @@ public class OutBoundVo {
     }
 
     /**
-     * 合同号（退货入库 放订单号  ）
+     * 合同号
      * @return CONTRACTNO 合同号
      */
     public String getContractno() {
@@ -351,7 +351,7 @@ public class OutBoundVo {
     }
 
     /**
-     * 合同号（退货入库 放订单号  ）
+     * 合同号
      * @param contractno 合同号
      */
     public void setContractno(String contractno) {
