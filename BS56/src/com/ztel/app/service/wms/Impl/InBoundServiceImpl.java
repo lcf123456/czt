@@ -294,4 +294,86 @@ public class InBoundServiceImpl implements InBoundService {
 		}
 		return cigaretteCode;
 	}
+	
+	/**
+	 * 从一号工程接收到的数据插入出库单以及明细表（主要针对商商调剂的出库）
+	 * @param vo
+	 * @param lineist
+	 * return 1:成功 0：失败
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public int doInsertOutBoundAndLineList(WMSBillscanVo mainVo,List<WMSBillscanLineVo> lineist){
+		int result = 1;
+		try
+		{
+			UserVo userVo = new UserVo();
+			userVo.setId(1L);
+			userVo.setUsername("系统管理员");
+			
+			boolean hasDone=true;
+			//插入之前先检查该数据是否已经进入调拨出库表，如果已经进入，则跳过，否则插入
+			InBoundVo inBoundVo0 = new InBoundVo();
+			inBoundVo0.setBbUuid(mainVo.getBbuuid());//bbuuid一号工程的唯一标识
+			inBoundVo0.setNavicert(mainVo.getBbscanno());//准运证号
+			List<InBoundVo> inboundVoList = inBoundVoMapper.selectInBoundList(inBoundVo0);
+			if(inboundVoList!=null&&inboundVoList.size()>0){
+				hasDone = false;
+				operationlogService.insertLog(userVo, "/BS56/services/WMSBillService?wsdl", "一号工程接口接收数据", "3、"+mainVo.getBbuuid()+"的数据已经存在！", "");
+			}
+		if(hasDone){
+			//此处添加日志：从一号工程接收数据开始插入入库单及明细----------------------
+			operationlogService.insertLog(userVo, "/BS56/services/WMSBillService?wsdl", "一号工程接口接收数据", "3、"+mainVo.getBbuuid()+"的数据开始入库", "");
+			
+			Long id = pubService.getSequence("S_WMS_INOUTBOUND");
+			//插入入库单主表
+			InBoundVo inBoundVo = new InBoundVo();
+			inBoundVo.setNavicert(mainVo.getBbscanno());//准运证
+			inBoundVo.setContractno(mainVo.getBbcontactno());//合同号
+			inBoundVo.setCreatetime(new Date());//记录时间
+			inBoundVo.setSupplier(mainVo.getBbflowname());//供应商
+			inBoundVo.setConsignsor(mainVo.getHeadcommercecode());//货主
+			inBoundVo.setIntype(new BigDecimal("10"));//入库类型（工业来烟（订货）10、调拨入库 20、退货入库 30、罚没烟 40
+			inBoundVo.setStatus("10");//新增
+			inBoundVo.setBbUuid(mainVo.getBbuuid());//一号工程接口单据唯一标识号
+			inBoundVo.setInboundid(new BigDecimal(id));//id
+			String bbtotapnum = mainVo.getBbtotapnum();
+			if(bbtotapnum==null||bbtotapnum.equals(""))bbtotapnum="0";
+			inBoundVo.setQty(new BigDecimal(bbtotapnum));//数量
+			inBoundVoMapper.insertSelective(inBoundVo);
+			
+			//插入入库单明细表
+			if(lineist!=null&&lineist.size()>0){
+				for(int i=0;i<lineist.size();i++){
+					WMSBillscanLineVo wMSBillscanLineVo = lineist.get(i);
+					InBoundLineVo inBoundLineVo = new InBoundLineVo();
+					inBoundLineVo.setCigarettename(wMSBillscanLineVo.getBdpcigname());
+					String bdbillpnum = wMSBillscanLineVo.getBdbillpnum();//应出/入货量（件）
+					//七匹狼(软灰)件码6901028138567  编码规则：前7位是定值，6901028，后6位是它的代码
+					String bdpcigcode = wMSBillscanLineVo.getBdpcigcode();//标准件烟卷烟代码(卷烟件码)  接口过来数据：七匹狼(软灰)件码6901028138567 
+					String bdbcigcode = wMSBillscanLineVo.getBdbcigcode();//标准件烟卷烟代码(卷烟条码)  接口过来数据：七匹狼(软灰)条码6901028138536
+					//处理件码，取卷烟编码
+					String barcode = bdpcigcode;
+					if(bdpcigcode.trim().length()==13){
+						 barcode = bdpcigcode.trim().substring(7);
+					}
+					String cigaretteCode = getCigaretteCode(barcode);
+					inBoundLineVo.setCigarettecode(cigaretteCode);
+					inBoundLineVo.setBarcode(barcode);
+					String boxqty = wMSBillscanLineVo.getBdbillpnum();
+					if(boxqty==null||boxqty.equals(""))boxqty="0";
+					inBoundLineVo.setBoxqty(new BigDecimal(boxqty));
+					inBoundLineVo.setInboundid(new BigDecimal(id));
+					inBoundLineVo.setConsignsor(mainVo.getHeadcommercecode());
+					inBoundLineVoMapper.insertSelective(inBoundLineVo);
+				}
+			}
+			//此处添加日志：从一号工程接收数据插入入库单及明细结束----------------------
+			operationlogService.insertLog(userVo, "/BS56/services/WMSBillService?wsdl", "一号工程接口接收数据", "4、"+mainVo.getBbuuid()+"的数据入库成功", "");
+			}
+			}catch(Exception e){
+			result = 0;
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

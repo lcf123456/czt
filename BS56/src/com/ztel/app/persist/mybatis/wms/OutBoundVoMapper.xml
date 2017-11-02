@@ -18,6 +18,8 @@
      <result column="JTSIZE" property="jtsize" jdbcType="DECIMAL" />
     <result column="BEGINTIME" property="begintime" jdbcType="TIMESTAMP" />
     <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="NAVICERT" property="navicert" jdbcType="VARCHAR" />
+    <result column="CONTRACTNO" property="contractno" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -58,6 +60,12 @@
 	</if>
 	<if test="vehicleno != null and vehicleno != ''">
 	        and  VEHICLENO = #{vehicleno,jdbcType=VARCHAR}
+	</if>
+	<if test="outboundtype != null">
+	        and  OUTBOUNDTYPE = #{outboundtype,jdbcType=DECIMAL}
+	</if>
+	<if test="remarks != null">
+	        and  REMARKS = #{remarks,jdbcType=OTHER}
 	</if>
   </select>
   
