@@ -363,10 +363,11 @@ public class InBoundServiceImpl implements InBoundService {
 					WMSBillscanLineVo wMSBillscanLineVo = lineist.get(i);
 					OutBoundLineVo outBoundLineVo1 = new OutBoundLineVo();
 					outBoundLineVo1.setCigarettename(wMSBillscanLineVo.getBdpcigname());
-					String bdbillpnum = wMSBillscanLineVo.getBdbillpnum();//应出/入货量（件）
+					
 					//七匹狼(软灰)件码6901028138567  编码规则：前7位是定值，6901028，后6位是它的代码
 					String bdpcigcode = wMSBillscanLineVo.getBdpcigcode();//标准件烟卷烟代码(卷烟件码)  接口过来数据：七匹狼(软灰)件码6901028138567 
 					String bdbcigcode = wMSBillscanLineVo.getBdbcigcode();//标准件烟卷烟代码(卷烟条码)  接口过来数据：七匹狼(软灰)条码6901028138536
+					
 					//处理件码，取卷烟编码
 					String barcode = bdpcigcode;
 					if(bdpcigcode.trim().length()==13){
@@ -377,9 +378,12 @@ public class InBoundServiceImpl implements InBoundService {
 					//outBoundLineVo1.setBarcode(barcode);
 					String boxqty = wMSBillscanLineVo.getBdbillpnum();
 					if(boxqty==null||boxqty.equals(""))boxqty="0";
+					String bdbillallbnum =wMSBillscanLineVo.getBdbillallbnum();//应出/入货总量（条）
+					if(bdbillallbnum==null||bdbillallbnum.equals(""))bdbillallbnum="0";
+					
 					outBoundLineVo1.setBoxqty(new BigDecimal(boxqty));
 					outBoundLineVo1.setOutboundid(new BigDecimal(id));
-					//outBoundLineVo1.setItemqty(new BigDecimal(itemqty));//条烟数量-----待处理
+					outBoundLineVo1.setItemqty(new BigDecimal(bdbillallbnum));//条烟数量-----待处理
 					outBoundLineVoMapper.insertSelective(outBoundLineVo1);
 				}
 			}

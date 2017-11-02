@@ -144,11 +144,13 @@ public class WMSBillServiceImpl implements WMSBillService{
 	                    String bd_pcig_code = recordEless.elementTextTrim("bd_pcig_code"); //>标准件烟卷烟代码(卷烟件码)
 	                    String bd_bcig_code = recordEless.elementTextTrim("bd_bcig_code"); //标准条烟卷烟代码(卷烟条码)
 	                    String bd_bill_pnum =  recordEless.elementTextTrim("bd_bill_pnum"); //应出/入货量（件）
+	                    String bd_bill_all_bnum =  recordEless.elementTextTrim("bd_bill_all_bnum"); //应出/入货量（件）
 	                    WMSBillscanLineVo wMSBillscanLineVo = new WMSBillscanLineVo(); 
 	                    wMSBillscanLineVo.setBdpcigname(bd_pcig_name);
 	                    wMSBillscanLineVo.setBdpcigcode(bd_pcig_code);
 	                    wMSBillscanLineVo.setBdbcigcode(bd_bcig_code);
 	                    wMSBillscanLineVo.setBdbillpnum(bd_bill_pnum);
+	                    wMSBillscanLineVo.setBdbillallbnum(bd_bill_all_bnum);
 	                    wMSBillscanLineVoList.add(wMSBillscanLineVo);
 					}
 					
