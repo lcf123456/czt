@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.sq.RouteMonthstarService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.sq.RouteMonthstarVo;
 import com.ztel.app.vo.sq.StarinfoVo;
+import com.ztel.app.vo.sys.UserVo;
 import com.ztel.framework.util.FileUtil;
 import com.ztel.framework.util.StringUtils;
 import com.ztel.framework.vo.Pagination;
@@ -38,7 +40,8 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 		@Autowired
 		private RouteMonthstarService routemonthstarService = null;
 	
-		
+		@Autowired
+		private OperationlogService operationlogService = null;
 		@RequestMapping("/toRouteMonthstars")
 		public String index(HttpServletRequest request) {
 			
@@ -156,13 +159,19 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 
 		 return result;
 		 }
-		 
+		 /**
+		  * 星级信息查看导出
+		  * @param request
+		  * @return
+		  */
 		 @RequestMapping("getRoutestarbymonthExcel")
 		 @ResponseBody
 		 public  void getRoutestarbymonthExcel(String cstarid,/*DataGridModel dgm,*/RouteMonthstarVo routemonthstar,HttpServletRequest request,HttpServletResponse response) throws Exception {
 			 Pagination<?> page = this.getPagination(request);
 			 page.setNumPerPage(1000000);
 			 Map<String, Object> result=new HashMap<String, Object>();  
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/sq/routemonthstar/getRoutestarbymonthExcel", "星级信息查看", "导出", "");
 			 if (routemonthstar!=null) {
 				 String time=routemonthstar.getAssesstime();
 				 //判断得分时间是否为空，为空时默认给上个月月份
