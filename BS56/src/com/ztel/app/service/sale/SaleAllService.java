@@ -1,10 +1,6 @@
 package com.ztel.app.service.sale;
 
-import java.util.List;
-
-import com.ztel.app.vo.sale.SalecustomerVo;
 import com.ztel.app.vo.sale.SaleitemVo;
-import com.ztel.app.vo.sale.SaleorderheadVo;
 
 /**
  * 营销全部中间表接收处理服务
@@ -65,43 +61,4 @@ public interface SaleAllService {
 	 *  营销接口商品信息同步插入商品
 	 */
 	public int insertItembyPrimaryKey(SaleitemVo saleitemVo);
-	
-	/**
-	 * 中间表t_sale_customer到正是表t_wms_customer的数据同步
-	 */
-	public String doSyncCustomer();
-	
-	/**
-	 * 中间表t_sale_item到正是表t_wms_item的数据同步
-	 */
-	public String doSyncItem();
-	
-	/**
-	 * 中间表t_sale_order_head和t_sale_order_line到正是表t_wms_shiporder和t_wms_shiporder_line的数据同步
-	 */
-	public String doSyncOrder(String orderdate);
-	
-	/**
-	 * 取所有商品数量，在同步到本地的页面需要统计商品数量
-	 * @return
-	 */
-	public int selectAllItemCount();
-	
-	/**
-	 * 取所有零售户数量，在同步到本地的页面需要统计零售户数量
-	 * @return
-	 */
-	public int selectAllCustomerCount();
-	
-	/**
-	 * 取所有订单信息，在同步到本地的页面需要统计订单数量等信息 ,此处SaleorderheadVo里面的id为户数
-	 * @return
-	 */
-	public SaleorderheadVo selectAllOrderheadVo(String orderdate);
-	
-	/**
-	 * 取所有订单明细数量，在同步到本地的页面需要统计订单明细数量 
-	 * @return
-	 */
-	public int selectAllOrderlineCount(String orderdate);
 }

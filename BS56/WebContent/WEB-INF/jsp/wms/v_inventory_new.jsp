@@ -33,7 +33,7 @@
 	</div>
 	
 	<!-- 新增对话框 -->
-	<div id="add-dlg" class="easyui-dialog" style="width:650px;height:180px;padding:10px 20px;align:center;"
+	<div id="add-dlg" class="easyui-dialog" style="width:450px;height:180px;padding:10px 20px;align:center;"
 			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
 		<div class="ftitle"></div>
 		<form  id="add-fm" method="post" action=""   >
@@ -44,11 +44,7 @@
 	  <table width="100%" border="0" cellpadding="2" cellspacing="2" class="">
         <tr align="center" >
             
-            <td width="5%" height="20" align="left" nowrap>订单日期：</td>
-           <td width="24%" height="20" align="left" nowrap>
-                <input id="orderdate" name="orderdate" class="easyui-datebox" style="width:100px;" />
-            </td>	
-           <td width="5%" height="20" align="left" nowrap>盘点时间：</td>
+           <td width="5%" height="20" align="left" nowrap>盘点日期：</td>
            <td width="24%" height="20" align="left" nowrap>
                 <input id="createtime" name="createtime" class="easyui-datetimebox" style="width:140px;" />
             </td>
@@ -88,7 +84,6 @@
 		                <th colspan="2">异型烟分拣一区</th>
 		                <th colspan="2">异型烟分拣二区</th>
 		                <th colspan="2">异型烟公共区</th>
-		                <th data-options="field:'virtualqty',width:10,align:'center'" rowspan="2">虚拟区</th>
 		                <th data-options="field:'diffqty',width:10,align:'center'" rowspan="2">差额</th>
 		            </tr>
 		            <tr>
@@ -123,7 +118,6 @@
         </div>-->
         <input type='hidden' name='inventoryid' id='inventoryid'/>
         <input type='hidden' name='createtime' id='createtime1'/>
-        <input type='hidden' name='orderdate' id='orderdate1'/>
         <input type='hidden' name='ATSCellTableAreaid' id='ATSCellTableAreaid' value="<%=Constant.storagearea_lk%>"/>
         <input type='hidden' name='ShelfTableAreaid' id='ShelfTableAreaid' value="<%=Constant.storagearea_zlshj%>"/>
         <input type='hidden' name='SortingCellTableAreaid' id='SortingCellTableAreaid' value="<%=Constant.storagearea_fj%>"/>

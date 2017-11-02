@@ -44,16 +44,6 @@
     WHETHERPRINT, BEEPPAGER, OTHERKEY
   </sql>
   
-  <!-- 取所有订单信息，在同步到本地的页面需要统计订单数量等信息,此处id用作户数 -->
-  <select id="selectAllOrderheadVo" resultType="com.ztel.app.vo.sale.SaleorderheadVo" parameterType="java.lang.String">
-    select count(*) as id,decode(sum(totalamount),null,0,sum(totalamount)) as rtotalamount,decode(sum(totalqty),null,0,sum(totalqty)) as rtotalqty from T_SALE_ORDER_HEAD where trunc(shipdate) = to_date('${orderdate}','yyyy-mm-dd')
-  </select>
-  
-  <!-- 取所有订单明细数量，在同步到本地的页面需要统计订单明细数量 -->
-  <select id="selectAllOrderlineCount" parameterType="java.lang.String" resultType="Integer">
-  select count(*) as cnt from t_sale_order_line line where line.orderno in (select orderno from  t_sale_order_head where trunc(shipdate) = to_date('${orderdate}','yyyy-mm-dd'))
-  </select>
-  
     <!-- 营销数据到插入之前先全部删除 -->
   <delete id="deletesaleorderhead" >
     ${sqlstr}

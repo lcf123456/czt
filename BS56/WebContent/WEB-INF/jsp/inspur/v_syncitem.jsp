@@ -18,7 +18,7 @@
 	<div id="toolbar" style="margin:0 auto; width:400px; height:100px; ">
 	<form id="queryForm">
 		<div style="margin:auto;text-align:center">
-			<a href="#" onclick="sync();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">商品信息同步</a>
+			<a href="#" onclick="sync();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:100px;">零售户同步</a>
 		</div>
 		</form>
 	</div>
