@@ -246,7 +246,8 @@ public class RoutescoreCtrl extends BaseCtrl {
 		 int total=0;
 		 
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		 
+		 //operationlogService.insertLog(userVo, "/sys/role/roleUpdate", "角色管理", "修改", "");
+		 operationlogService.insertLog(userVo, "/sq/routescore/doRoutescoreMarketNew", "市场督查", "新增", "");
 		//主表id
 		 long id=routescoreVoService.getRouteScoreId();
 		 routescoreVo.setId(id);
