@@ -24,3 +24,4 @@ BS56/src/db.properties
 BS56/WebContent/WEB-INF/classes/com/ztel/app/service/wms/Impl/InventoryLineVoServiceImpl.class
 BS56/WebContent/WEB-INF/classes/com/ztel/app/persist/mybatis/wms/InventoryVoMapper.xml
 BS56/WebContent/WEB-INF/classes/com/ztel/app/service/wms/InventorySumVoService.class
+*.class

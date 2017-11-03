@@ -22,6 +22,14 @@
 	<form id="queryForm" style="margin:10;">
 		<div style="margin-bottom:5px">
 		<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="viewD()">查看</a>
+		<a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openNew()">新增</a>
+		<a href="#" id="impBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="destroyInbound()">作废</a>
+		入库状态：<select id="status2" class="easyui-combobox" name="status" style="width:120px;" >
+						    <option value="10">新增</option>
+						    <option value="20">入库中</option>
+						    <option value="30">入库完成</option>
+						    <option value="0">失效</option>
+						</select>
 			<input class="easyui-textbox"  name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入准运证、货主、合同号...'" style="width:220px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
@@ -100,6 +108,108 @@
 	</div>
 	</div>
 	
+	
+	
+    <!-- 2、新增罚没烟入库单--------------------------------------------------------------------------------------->
+	<div id="new-dlg" class="easyui-dialog" style="width:800px;height:420px;padding:5px 10px;align:center;"
+			 closed="true" buttons="#newdlg-buttons"  data-options="modal:true,draggable:false">
+		<form  id="new-fm" method="post" action="" novalidate  >
+			<div >
+			<tr>
+			<td>
+			<table>
+			<tr>
+		  		 	<!-- <td width="5%" height="20" align="left" nowrap>入库编号：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="inboundid" id="inboundid" class="easyui-textbox" style="width:120px" data-options="prompt:'自动生成...'" readonly>
+		           	</td> -->
+		           	<td width="5%"  height="20" align="left" nowrap>准运证：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		               <input name="navicert" id="navicert1" class="easyui-textbox" data-options="validType:'length[1,40]'"style="width:120px" />
+		           </td>  
+		            <td width="5%" height="20" align="left" nowrap>合同号：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		                <input name="contractno" id="contractno1" class="easyui-textbox" data-options="validType:'length[1,40]'"style="width:120px" >
+		           	</td>
+		           	<td width="5%" height="20" align="left" nowrap>货主：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="consignsor" id="consignsor1" class="easyui-combobox" style="width:120px" >
+		           	</td>
+	           </tr>
+	           <tr>
+		            <td width="5%" height="20" align="left" nowrap>数量：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		                <input name="qty" id="qty1" class="easyui-numberbox" style="width:120px" value="0" readonly>
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>入库类型：</td>
+		           	<td width="5%" height="20" align="left" nowrap>
+		               <input name="intype" id="intype1" class="easyui-textbox" style="width:120px" readonly/>
+		           </td>  
+		            <td width="3%" height="20" align="left" nowrap>入库状态：</td>
+		           	<td width="20%" height="20" align="left" nowrap>
+		           		<select id="status1" class="easyui-combobox" name="status" style="width:120px;" >
+						    <option value="10">新增</option>
+						    <option value="30">入库完成</option>
+						</select>
+		           	</td>
+	           </tr>
+	           <tr>
+	            	<td width="5%" height="20" align="left" nowrap>记录时间：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="createtime" id="createtime1" class="easyui-datetimebox" style="width:140px"  >
+		           	</td>
+		           	<td width="5%"  height="20" align="left" nowrap>供应商：</td>
+		           	<td width="23%" height="20" align="left" nowrap>
+		               <input name="supplierid" id="supplierid1" class="easyui-textbox" style="width:200px" />
+		               <input name="supplier" id="supplier1" type="hidden"/>
+		           </td>  
+		  		 	<td width="5%" height="20" align="left" nowrap>&nbsp;</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                &nbsp;
+		           	</td>
+	           </tr> 
+				<tr>
+		            <td width="5%" height="20" align="left" nowrap>备注：</td>
+		           	<td width="20%" height="20" align="left" nowrap colspan="7">
+		               <input name="remarks" id="remarks1" class="easyui-textbox" data-options="multiline:true"   style="width:460px" readonly>
+		           	</td>
+	           </tr>
+				<%--<tr>
+		           	<td width="20%" height="20" align="left" nowrap colspan="7">
+		               &nbsp;
+		           	</td>
+	           </tr> --%>
+		  	  <tr>
+		  		 	<td width="5%" height="20" align="left" nowrap>品牌选择：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		                <input name="cigarettecode" id="cigarettecode1" class="easyui-combobox" style="width:120px" >
+		                <input name="cigarettename" id="cigarettename1"type="hidden">
+		           	</td>
+		           	<td width="5%"  height="20" align="left"  nowrap>数量：</td>
+		           	<td width="14%" height="20" align="left" nowrap>
+		               <input name="itemqty" id="itemqty1" value="" class="easyui-numberbox" style="width:120px" />
+		               <a href="#" id="impBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="cigSubmit();">录入</a>
+		               <a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delInboundLine();">删除</a>
+		           </td>  
+		           	<td width="14%" height="20" align="left" nowrap>
+		                &nbsp;
+		           	</td>
+	           </tr>
+		 	 </table>
+		     </td>
+	  	   </tr>
+	  	   <tr>
+			<td>
+				  <table id="newlistdataTabel"></table>
+			</td>
+		</tr>
+		<input type="hidden" name="newinboundid" id="newinboundid" ></input>
+			</div>
+		</form>
+	 <div id="newdlg-buttons">
+		<a href="#" class="easyui-linkbutton" id="btn-done" iconCls="icon-cancel" onclick="javascript:$('#new-dlg').dialog('close')">关闭</a>
+	</div>
+	</div>
 	
   </body>
 </html>

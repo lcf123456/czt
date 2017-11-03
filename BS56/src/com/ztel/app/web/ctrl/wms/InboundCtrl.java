@@ -171,6 +171,74 @@ public class InboundCtrl extends BaseCtrl {
 	 }
 	
 	/**
+	 * 入库明细删除
+	 * @param idLst
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="doInboundLineDel",method=RequestMethod.POST)
+	// @ResponseBody
+	public  void doInboundLineDel(@RequestParam("inbounddetailid") List<String> idLst,@RequestParam("inboundid") String inboundid,@RequestParam("totalnum") String totalnum,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		Map<String, Object> map=new HashMap<String, Object>();  
+		int total=0;
+		//System.out.println(idLst.size());
+		try {
+			UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			operationlogService.insertLog(userVo, "/wms/inbound/doConfiscationImp", "入库明细删除", "删除", "");
+			
+			inBoundLineService.doInboundLineDel(idLst,inboundid,totalnum);
+			
+			map.put("msg", "成功");
+			total=idLst.size();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		map.put("total", total);
+		
+		//直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
+		String result = JSON.toJSONString(map);
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(result);  
+	}
+	
+	/**
+	 * 入库单作废
+	 * @param idLst
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="doDestroyInbound",method=RequestMethod.POST)
+	// @ResponseBody
+	public  void doDestroyInbound(@RequestParam("inboundid") List<String> idLst,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		Map<String, Object> map=new HashMap<String, Object>();  
+		int total=0;
+		//System.out.println(idLst.size());
+		try {
+			UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			operationlogService.insertLog(userVo, "/wms/inbound/doDestroyInbound", "入库单作废", "作废", "");
+			
+			inBoundService.doDestroyInbound(idLst);
+			
+			map.put("msg", "成功");
+			total=idLst.size();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		map.put("total", total);
+		
+		//直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
+		String result = JSON.toJSONString(map);
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(result);  
+	}
+	
+	/**
 	 * 保存入库单以及入库明细
 	 * @param request
 	 * @return
@@ -193,11 +261,14 @@ public class InboundCtrl extends BaseCtrl {
 		 inBoundVo.setInboundid(new BigDecimal(inboundid));
 		 inBoundVo.setNavicert(request.getParameter("navicert"));
 		 inBoundVo.setContractno(request.getParameter("contractno"));
-		 inBoundVo.setQty(new BigDecimal(request.getParameter("qty")));
+		 inBoundVo.setQty(new BigDecimal(request.getParameter("qty")).add(new BigDecimal(request.getParameter("itemqty"))));
 		 inBoundVo.setIntype(new BigDecimal(request.getParameter("intype")));
 		 inBoundVo.setConsignsor(request.getParameter("consignsor"));
 		 inBoundVo.setStatus(status);
 		 inBoundVo.setRemarks(request.getParameter("remarks"));
+		 //20171101--------------------
+		 inBoundVo.setSupplier(request.getParameter("supplier"));
+		 //inBoundVo.setCreatetime(request.getParameter(createtime));
 		 
 		 //组装InBoundLineVo数据
 		 String itemval=request.getParameter("cigarettecode");
@@ -214,7 +285,7 @@ public class InboundCtrl extends BaseCtrl {
 		 
 		 try{
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/wms/inbound/doAddInboundAndLine", "罚没烟入库单新增", "新增", "");
+			 operationlogService.insertLog(userVo, "/wms/inbound/doAddInboundAndLine", "入库单新增--intype="+request.getParameter("intype"), "新增", "");
 			 inBoundService.doAddInboundAndLine(inBoundVo, inBoundLineVo,addType);
 			 
 			 map.put("inboundid", inboundid);
