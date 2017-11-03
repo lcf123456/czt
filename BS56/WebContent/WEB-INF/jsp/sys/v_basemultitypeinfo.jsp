@@ -130,7 +130,7 @@
 		$.each( fields, function(i, field){
 			//params[field.name] = field.value; //设置查询参数
 			params[field.name] = typeid; //设置查询参数
-			alert(typeid);
+			//alert(typeid);
 		}); 
 		$('#tg').treegrid('reload'); //设置好查询参数 reload 一下就可以了
 	}
@@ -218,7 +218,7 @@
 			var t = $('#tg');
 			var rows =t.treegrid('getSelected');
 			if(rows==null){
-				alert("1");
+				//alert("1");
 					$('#add-dlg').dialog('open').dialog('setTitle','增加多级类别');
 					//$('#add-fm').form('clear');
 					$('#parentid').val("0");

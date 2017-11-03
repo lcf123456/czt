@@ -62,7 +62,7 @@ public class PostCtrl extends BaseCtrl {
 		 return postList;
 	 }
 	 /**
-	  * 岗位新增
+	  * 岗位管理信息新增
 	  * @return
 	  */
 	 @RequestMapping(value="doPostNew")
@@ -91,7 +91,7 @@ public class PostCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 修改岗位信息
+	  * 修改岗位管理信息
 	  * @return
 	  * @throws Exception
 	  */
@@ -120,7 +120,7 @@ public class PostCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 删除岗位信息
+	  * 删除岗位管理信息
 	  * @return
 	  * @throws Exception
 	  */

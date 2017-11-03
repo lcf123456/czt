@@ -190,7 +190,7 @@ public class ComplaintCtrl extends BaseCtrl{
 	 }
 	 
 	 /**
-	  * 核实、审核、处理、回访
+	  * 投诉受理台账：核实、审核、处理、回访
 	  * @return
 	  * @throws Exception
 	  */
@@ -206,6 +206,7 @@ public class ComplaintCtrl extends BaseCtrl{
 		 try {
 			 Integer id = complaintVo.getId();
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/sq/complaint/doUpdate", "投诉受理台账", "核实/审核/处理/回访", "");
 			 Long userid = Long.parseLong("0");
 			 String username="";
 			 if(userVo!=null&&userVo.getUsername().trim().length()>0){
@@ -302,16 +303,23 @@ public class ComplaintCtrl extends BaseCtrl{
 		 //return result;
 	 }
 	 
+	 /**
+	  * 投诉受理台账：删除
+	  * @return
+	  * @throws Exception
+	  */
 	 @RequestMapping(value="doDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doDel(@RequestParam("id") List<Integer> id) throws Exception {
-		 Map<String, Object> map=new HashMap<String, Object>();  
+	 public   Map<String, Object> doDel(@RequestParam("id") List<Integer> id,HttpServletRequest request) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();
 		 int total=0;
 		 if (id!=null&&id.size()>0) {
 			 total = id.size();
 		}
 		 try {
 			 complaintService.deleteByPrimaryKey(id);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/sq/complaint/doDel", "投诉受理台账", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -338,6 +346,11 @@ public class ComplaintCtrl extends BaseCtrl{
 		 return "/sq/v_complaintYearReportList";
 	 }
 	 
+	 /**
+	  * 导出
+	  * @return
+	  * @throws Exception
+	  */
 	 @RequestMapping(value="toExcel")
 	 @ResponseBody
 	 public   void toExcel(HttpServletRequest request,HttpServletResponse response) throws Exception {
@@ -346,7 +359,8 @@ public class ComplaintCtrl extends BaseCtrl{
 		 String endtime  = request.getParameter("endtime");
 		 System.out.println("starttime = "+starttime +",endtime="+endtime);
 		 Map<String, Object> map = complaintService.getComplaintReport(starttime,endtime);
-		 
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/sq/complaint/toExcel", "年报表", "导出", "");
 		 String[] basetypeInfoVoList  = ( String[]) map.get("baseTypeList");
 		 ArrayList<ComplaintVo> complaintVoList = (ArrayList<ComplaintVo>) map.get("complaintList");
 		 request.setAttribute("complaintList", complaintVoList);

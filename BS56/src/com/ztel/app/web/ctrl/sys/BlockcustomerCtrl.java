@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.sys.BlockcustomerService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.sq.ComplaintVo;
 import com.ztel.app.vo.sys.BlockcustomerVo;
 import com.ztel.app.vo.sys.UserVo;
@@ -48,6 +49,8 @@ public class BlockcustomerCtrl extends BaseCtrl {
 	
 	@Autowired
 	private BlockcustomerService blockcustomerService = null;
+	@Autowired
+	private OperationlogService operationlogService = null;
 	
 	@RequestMapping("/toBlockCustomers")
 	public String index(HttpServletRequest request) {
@@ -96,13 +99,13 @@ public class BlockcustomerCtrl extends BaseCtrl {
 	 }
 	 	
 	 /**
-	  * 删除零售户信息
+	  * 删除零售户异动信息
 	  * @return
 	  * @throws Exception
 	  */
 	 @RequestMapping(value="doBlockCustomerDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> deleteBlockCustomer(@RequestParam("id") List<Integer> ids) throws Exception {
+	 public   Map<String, Object> deleteBlockCustomer(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
 		 if (ids!=null&&ids.size()>0) {
@@ -111,7 +114,8 @@ public class BlockcustomerCtrl extends BaseCtrl {
 		 try {
 		
 			 blockcustomerService.delBlockcustomer(ids);
-		
+			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(sessionUserVo, "/sys/blockcustomer/doBlockCustomerDel", "零售户异动", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -124,7 +128,7 @@ public class BlockcustomerCtrl extends BaseCtrl {
 	 }
     
 	 /**
-	  * 新增零售户信息
+	  * 新增零售户异动信息
 	  * @return
 	  * @throws Exception
 	  */
@@ -137,6 +141,8 @@ public class BlockcustomerCtrl extends BaseCtrl {
         
 		 try { blockcustomerVo.setCreateid(userVo.getId());//申报人
 			 blockcustomerService.insertBlockcustomer(blockcustomerVo);
+			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(sessionUserVo, "/sys/blockcustomer/doBlockCustomerNew", "零售户异动", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -160,11 +166,13 @@ public class BlockcustomerCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doBlockCustomerUpdate",method=RequestMethod.POST)
 	 //@ResponseBody
-	 public   void BlockCustomerUpdate(BlockcustomerVo blockcustomerVo,HttpServletResponse response) throws Exception {
+	 public   void BlockCustomerUpdate(BlockcustomerVo blockcustomerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
 		 try {
+			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(sessionUserVo, "/sys/blockcustomer/doBlockCustomerUpdate", "零售户异动", "修改", "");
 			 if(blockcustomerVo.getHandleflag()!=null && blockcustomerVo.getHandleflag().equals("未处理") )
 			 {
 				 blockcustomerVo.setHandleflag("0"); 
@@ -208,7 +216,8 @@ public class BlockcustomerCtrl extends BaseCtrl {
 		 try { blockcustomerVo.setHandleuser(userVo.getId());//处理人
 			 blockcustomerVo.setHandledate(DateUtil.getDateyyyy_mm_dd_hh_mi_s());//处理时间
 			 blockcustomerVo.setHandleflag("10");//处理状态
-			
+			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(sessionUserVo, "/sys/blockcustomer/doBlockCustomerHandle", "零售户异动", "处理", "");
 			 blockcustomerService.handleBlockcustomer(blockcustomerVo);
 			 map.put("msg", "成功");
 			 total=1; 

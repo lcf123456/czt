@@ -275,6 +275,8 @@ public class RoleinfoCtrl extends BaseCtrl {
 			 String roleid= request.getParameter("roleid");
 			 //System.out.println("idList="+idList+",roleid="+roleid);
 			 roleinfoService.doRoleSetting(idList, roleid);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/sys/role/doRoleSetting", "角色管理", "权限", "");
 			 map.put("msg", "操作成功！");
 				return map;
 				//return "/sys/v_roleSetting";
@@ -293,6 +295,8 @@ public class RoleinfoCtrl extends BaseCtrl {
 			 String roleid= request.getParameter("roleid");
 			 //System.out.println("roleinfoCtr------------userstr="+userstr+",roleid="+roleid);
 			 roleinfoService.doRoleGrant(userstr,roleid);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/sys/role/doRoleGrant", "角色管理", "授权", "");
 				return map;
 				//return "/sys/v_roleSetting";
 			}
@@ -330,6 +334,8 @@ public class RoleinfoCtrl extends BaseCtrl {
 					 total = opid.size();
 				}
 				 roleinfoService.doRoleOperation(opid, roleid,sysid);
+				 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+				 operationlogService.insertLog(userVo, "/sys/role/doRoleOperation", "角色管理", "功能点授权", "");
 				 map.put("msg", "操作成功！");
 				 map.put("total", total);
 					return map;

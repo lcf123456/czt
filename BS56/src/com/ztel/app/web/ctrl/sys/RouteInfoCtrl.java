@@ -77,7 +77,7 @@ public class RouteInfoCtrl extends BaseCtrl{
 		 try {
 			 routeInfoService.insertNewRoute(routeInfoVo);
 			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(sessionUserVo, "/sys/route/doRouteNew", "车组管理", "新增", "");
+			 operationlogService.insertLog(sessionUserVo, "/sys/route/doRouteNew", "车组信息", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -107,7 +107,7 @@ public class RouteInfoCtrl extends BaseCtrl{
 		 try {
 			 routeInfoService.updateRoute(routeInfoVo);
 			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(sessionUserVo, "/sys/route/doUpdateRoute", "车组管理", "修改", "");
+			 operationlogService.insertLog(sessionUserVo, "/sys/route/doUpdateRoute", "车组信息", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		 } catch (Exception e) {

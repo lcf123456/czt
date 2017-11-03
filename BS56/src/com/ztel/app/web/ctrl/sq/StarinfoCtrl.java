@@ -91,7 +91,7 @@ public class StarinfoCtrl extends BaseCtrl {
 	 }
 	 	
 	 /**
-	  * 删除参数
+	  * 删除星级信息
 	  * @return
 	  * @throws Exception
 	  */
