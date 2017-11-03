@@ -122,7 +122,7 @@ public class UserCtrl extends BaseCtrl{
 		 try {
 			 userVoService.resetPsw(ids);
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sys/user/resetPsw", "用户管理", "密码重置", "");
+			 operationlogService.insertLog(userVo, "/sys/user/resetPsw", "人员管理", "密码重置", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -135,7 +135,7 @@ public class UserCtrl extends BaseCtrl{
 	 }
 	 
 	 /**
-	  * 新增用户
+	  * 人员管理新增
 	  * @return
 	  * @throws Exception
 	  */                                    
@@ -165,7 +165,7 @@ public class UserCtrl extends BaseCtrl{
 		 try {
 			 userVoService.insertNewUser(userVo);
 			 UserVo userVo1 = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo1, "/sys/user/doUserNew", "用户管理", "新增", "");
+			 operationlogService.insertLog(userVo1, "/sys/user/doUserNew", "人员管理", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -182,7 +182,7 @@ public class UserCtrl extends BaseCtrl{
 	 }
 	 
 	 /**
-	  * 修改用户信息
+	  * 修改人员管理信息
 	  * @return
 	  * @throws Exception
 	  */                                    
@@ -210,7 +210,7 @@ public class UserCtrl extends BaseCtrl{
 		 try {
 			 userVoService.updateUser(userVo);
 			 UserVo userVo1 = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo1, "/sys/user/doUpdateUser", "用户管理", "修改", "");
+			 operationlogService.insertLog(userVo1, "/sys/user/doUpdateUser", "人员管理", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		 } catch (Exception e) {
@@ -362,7 +362,7 @@ public class UserCtrl extends BaseCtrl{
 			 try {
 				 userVoService.updateUser(userVo);
 				 UserVo userVo1 = (UserVo)request.getSession().getAttribute("userVo");
-				 operationlogService.insertLog(userVo1, "/sys/user/doUserGrant", "用户管理", "授权", "");
+				 operationlogService.insertLog(userVo1, "/sys/user/doUserGrant", "人员管理", "授权", "");
 				 map.put("msg", "成功");
 			} catch (Exception e) {
 				// TODO: handle exception

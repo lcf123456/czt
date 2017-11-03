@@ -5,3 +5,6 @@
 *.class
 *.class
 *.class
+*.properties
+BS56/src/db.properties
+BS56/WebContent/WEB-INF/classes/com/ztel/app/web/ctrl/sq/ComplaintCtrl.class
