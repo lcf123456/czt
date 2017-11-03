@@ -23,7 +23,7 @@
 	<form id="queryForm" style="margin:10;">
 		<div style="margin-bottom:5px">
 		<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="viewD()">查看</a>
-			<input class="easyui-textbox"  name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入菜单、功能点、操作人员...'" style="width:450px;height:24px;">
+			<input class="easyui-textbox" id="searchbtn" name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入菜单、功能点、操作人员...'" style="width:450px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>
@@ -82,6 +82,13 @@
      * 页面列表datagrid初始化
      */
     jQuery(function($){
+    	
+    	$('#searchbtn').textbox('textbox').keydown(function (e) {
+            if (e.keyCode == 13) {
+            	searchData();
+            }
+        }); 
+    	
     	$('#dataTabel').datagrid({
     		title:'操作日志', //标题
     		method:'post',
