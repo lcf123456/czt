@@ -40,31 +40,31 @@
 			<tr>
 		  		 	<td width="5%" height="20" align="left" nowrap>菜单：</td>
 		           	<td width="14%" height="20" align="left" nowrap>
-		                <input name="menu" id="menu" class="easyui-textbox" style="width:120px"  readonly>
+		                <input name="menu" id="menu" class="easyui-textbox" style="width:150px"  readonly>
 		           	</td>
-		           	<td width="5%"  height="20" align="left" nowrap>功能点：</td>
-		           	<td width="23%" height="20" align="left" nowrap>
-		               <input name="point" id="point" class="easyui-textbox" style="width:120px" readonly/>
-		           </td>  
+		           	<td width="5%"  height="20" align="left" nowrap>操作时间：</td>
+		           	<td width="23%" height="20" align="left" nowrap >
+		               <input name="operationdate" id="operationdate" class="easyui-textbox" style="width:150px" readonly/>
+		           </td>  		           
 		            <td width="5%" height="20" align="left" nowrap>链接：</td>
 		           	<td width="5%" height="20" align="left" nowrap >
-		                <input name="url" id="url" class="easyui-textbox" style="width:120px" readonly>
+		                <input name="url" id="url" class="easyui-textbox" style="width:150px" readonly>
 		           	</td>
 	           </tr>
 	           <tr>
 		  		 	<td width="5%" height="20" align="left" nowrap>操作人员：</td>
 		           	<td width="14%" height="20" align="left" nowrap>
-		                <input name="username" id="username" class="easyui-textbox" style="width:120px"  readonly>
+		                <input name="username" id="username" class="easyui-textbox" style="width:150px"  readonly>
 		           	</td>
-		           	<td width="5%"  height="20" align="left" nowrap>操作时间：</td>
+		           	<td width="5%"  height="20" align="left" nowrap>功能点：</td>
 		           	<td width="23%" height="20" align="left" nowrap colspan="3">
-		               <input name="operationdate" id="operationdate" class="easyui-textbox" style="width:120px" readonly/>
+		               <input name="point" id="point" class="easyui-textbox" style="width:450px" readonly/>
 		           </td>  
 	           </tr>
 				<tr>
 		            <td width="5%" height="20" align="left" nowrap>备注：</td>
 		           	<td width="20%" height="20" align="left" nowrap colspan="5">
-		               <input name="remarks" id="remarks" class="easyui-textbox" data-options="multiline:true"   style="width:640px;height:240px" readonly>
+		               <input name="remarks" id="remarks" class="easyui-textbox" data-options="multiline:true"   style="width:680px;height:260px" readonly>
 		           	</td>
 	           </tr>
 			</table>
@@ -134,7 +134,10 @@
     			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
     			$('#tabdiv .panel-header').css('display','none'); 
     			
-    		}
+    		},
+    		onDblClickCell: function(index,field,value){
+    	       viewD();
+    	    }
     	});
     	
     	
