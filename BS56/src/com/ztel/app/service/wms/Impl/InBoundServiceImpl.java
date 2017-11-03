@@ -294,6 +294,7 @@ public class InBoundServiceImpl implements InBoundService {
 		}
 		return cigaretteCode;
 	}
+<<<<<<< HEAD
 
 	@Override
 	@Transactional(rollbackFor=Exception.class)
@@ -316,5 +317,7 @@ public class InBoundServiceImpl implements InBoundService {
 	public void doUpdateInboundNumById(InBoundVo inBoundVo) {
 		// TODO Auto-generated method stub
 		inBoundVoMapper.updateInboundNumById(inBoundVo);
+=======
+>>>>>>> 0cb0e978fea0b0c859e898f6974d9693bf276f6e
 	}
 }
