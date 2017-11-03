@@ -20,17 +20,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ztel.app.persist.mybatis.wms.InBoundLineVoMapper;
 import com.ztel.app.persist.mybatis.wms.InBoundVoMapper;
+import com.ztel.app.persist.mybatis.wms.OutBoundLineVoMapper;
+import com.ztel.app.persist.mybatis.wms.OutBoundVoMapper;
 import com.ztel.app.service.PubService;
 import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.wms.InBoundLineService;
 import com.ztel.app.service.wms.InBoundService;
 import com.ztel.app.service.wms.ItemService;
+import com.ztel.app.service.wms.OutBoundLineService;
 import com.ztel.app.service.wms.StorageAreaInOutService;
 import com.ztel.app.util.Constant;
 import com.ztel.app.vo.sys.UserVo;
 import com.ztel.app.vo.wms.InBoundLineVo;
 import com.ztel.app.vo.wms.InBoundVo;
 import com.ztel.app.vo.wms.ItemVo;
+import com.ztel.app.vo.wms.OutBoundLineVo;
+import com.ztel.app.vo.wms.OutBoundVo;
 import com.ztel.app.vo.wms.StorageAreaInOutVo;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.webservice.wms.vo.WMSBillscanLineVo;
@@ -46,6 +51,15 @@ public class InBoundServiceImpl implements InBoundService {
 	
 	@Autowired
 	private InBoundLineService inBoundLineService = null;
+	
+	@Autowired
+	private OutBoundVoMapper outBoundVoMapper = null;
+	
+	@Autowired
+	private OutBoundLineVoMapper outBoundLineVoMapper = null;
+	
+	@Autowired
+	private OutBoundLineService outBoundLineService = null;
 	
 	@Autowired
 	private StorageAreaInOutService storageAreaInOutService = null;
@@ -318,6 +332,93 @@ public class InBoundServiceImpl implements InBoundService {
 		// TODO Auto-generated method stub
 		inBoundVoMapper.updateInboundNumById(inBoundVo);
 =======
+	
+	/**
+	 * 从一号工程接收到的数据插入出库单以及明细表（主要针对商商调剂的出库）
+	 * @param vo
+	 * @param lineist
+	 * return 1:成功 0：失败
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public int doInsertOutBoundAndLineList(WMSBillscanVo mainVo,List<WMSBillscanLineVo> lineist){
+		int result = 1;
+		try
+		{
+			UserVo userVo = new UserVo();
+			userVo.setId(1L);
+			userVo.setUsername("系统管理员");
+			
+			boolean hasDone=true;
+			//插入之前先检查该数据是否已经进入调拨出库表，如果已经进入，则跳过，否则插入
+			OutBoundVo outBoundVo0 = new OutBoundVo();
+			outBoundVo0.setRemarks(mainVo.getBbuuid());//bbuuid一号工程的唯一标识
+			outBoundVo0.setOutboundtype(new BigDecimal("20"));//调拨出库
+			List<OutBoundVo> outBoundVoList = outBoundVoMapper.selectListByCond(outBoundVo0);
+			if(outBoundVoList!=null&&outBoundVoList.size()>0){
+				hasDone = false;
+				operationlogService.insertLog(userVo, "/BS56/services/WMSBillService?wsdl", "一号工程接口接收数据调拨出库", "3、"+mainVo.getBbuuid()+"的数据已经存在！", "");
+			}
+		if(hasDone){
+			//此处添加日志：从一号工程接收数据开始插入入库单及明细----------------------
+			operationlogService.insertLog(userVo, "/BS56/services/WMSBillService?wsdl", "一号工程接口接收数据调拨出库", "3、"+mainVo.getBbuuid()+"的数据开始入库", "");
+			
+			Long id = pubService.getSequence("S_WMS_OUTBOUND");
+			//插入入库单主表
+			OutBoundVo outBoundVo = new OutBoundVo();
+			outBoundVo.setNavicert(mainVo.getBbscanno());//准运证
+			outBoundVo.setContractno(mainVo.getBbcontactno());//合同号
+			outBoundVo.setCreatetime(new Date());//记录时间
+			//outBoundVo.setConsignsor(mainVo.getBbflowname());//供应商
+			outBoundVo.setConsignsor(mainVo.getHeadcommercecode());//货主
+			outBoundVo.setOutboundtype(new BigDecimal("20"));//出库类型(10订单出库 20 调拨出库)
+			//outBoundVo.setStatus("10");//新增
+			outBoundVo.setRemarks(mainVo.getBbuuid());//一号工程接口单据唯一标识号
+			outBoundVo.setOutboundid(new BigDecimal(id));//id
+			String bbtotapnum = mainVo.getBbtotapnum();
+			if(bbtotapnum==null||bbtotapnum.equals(""))bbtotapnum="0";
+			outBoundVo.setQty(new BigDecimal(bbtotapnum));//数量
+			outBoundVo.setUserid(new BigDecimal(userVo.getId()));
+			outBoundVo.setOuttime(new Date());
+			outBoundVoMapper.insertSelective(outBoundVo);
+			
+			//插入调拨出库单明细表
+			if(lineist!=null&&lineist.size()>0){
+				for(int i=0;i<lineist.size();i++){
+					WMSBillscanLineVo wMSBillscanLineVo = lineist.get(i);
+					OutBoundLineVo outBoundLineVo1 = new OutBoundLineVo();
+					outBoundLineVo1.setCigarettename(wMSBillscanLineVo.getBdpcigname());
+					
+					//七匹狼(软灰)件码6901028138567  编码规则：前7位是定值，6901028，后6位是它的代码
+					String bdpcigcode = wMSBillscanLineVo.getBdpcigcode();//标准件烟卷烟代码(卷烟件码)  接口过来数据：七匹狼(软灰)件码6901028138567 
+					String bdbcigcode = wMSBillscanLineVo.getBdbcigcode();//标准件烟卷烟代码(卷烟条码)  接口过来数据：七匹狼(软灰)条码6901028138536
+					
+					//处理件码，取卷烟编码
+					String barcode = bdpcigcode;
+					if(bdpcigcode.trim().length()==13){
+						 barcode = bdpcigcode.trim().substring(7);
+					}
+					String cigaretteCode = getCigaretteCode(barcode);
+					outBoundLineVo1.setCigarettecode(cigaretteCode);
+					//outBoundLineVo1.setBarcode(barcode);
+					String boxqty = wMSBillscanLineVo.getBdbillpnum();
+					if(boxqty==null||boxqty.equals(""))boxqty="0";
+					String bdbillallbnum =wMSBillscanLineVo.getBdbillallbnum();//应出/入货总量（条）
+					if(bdbillallbnum==null||bdbillallbnum.equals(""))bdbillallbnum="0";
+					
+					outBoundLineVo1.setBoxqty(new BigDecimal(boxqty));
+					outBoundLineVo1.setOutboundid(new BigDecimal(id));
+					outBoundLineVo1.setItemqty(new BigDecimal(bdbillallbnum));//条烟数量-----待处理
+					outBoundLineVoMapper.insertSelective(outBoundLineVo1);
+				}
+			}
+			//此处添加日志：从一号工程接收数据插入入库单及明细结束----------------------
+			operationlogService.insertLog(userVo, "/BS56/services/WMSBillService?wsdl", "一号工程接口接收数据调拨出库", "4、"+mainVo.getBbuuid()+"的数据入库成功", "");
+			}
+			}catch(Exception e){
+			result = 0;
+			e.printStackTrace();
+		}
+		return result;
 >>>>>>> 0cb0e978fea0b0c859e898f6974d9693bf276f6e
 	}
 }
