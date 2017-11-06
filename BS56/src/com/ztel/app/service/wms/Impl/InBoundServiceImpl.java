@@ -308,6 +308,30 @@ public class InBoundServiceImpl implements InBoundService {
 		}
 		return cigaretteCode;
 	}
+
+
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void doDestroyInbound(List<String> inboundidLst) {
+		// TODO Auto-generated method stub
+		for(int i=0;i<inboundidLst.size();i++){
+			InBoundVo inBoundVo=new InBoundVo();
+			inBoundVo.setStatus("0");
+			inBoundVo.setInboundid(new BigDecimal(inboundidLst.get(i)));
+			inBoundVoMapper.updateByPrimaryKeySelective(inBoundVo);
+			
+			InBoundLineVo vo=new InBoundLineVo();
+			vo.setStatus("0");
+			vo.setInboundid(new BigDecimal(inboundidLst.get(i)));
+			inBoundLineService.updateInBoundLineByInboundId(vo);
+		}
+	}
+
+	@Override
+	public void doUpdateInboundNumById(InBoundVo inBoundVo) {
+		// TODO Auto-generated method stub
+		inBoundVoMapper.updateInboundNumById(inBoundVo);
+	}
 	
 	/**
 	 * 从一号工程接收到的数据插入出库单以及明细表（主要针对商商调剂的出库）
@@ -395,5 +419,6 @@ public class InBoundServiceImpl implements InBoundService {
 			e.printStackTrace();
 		}
 		return result;
+
 	}
 }

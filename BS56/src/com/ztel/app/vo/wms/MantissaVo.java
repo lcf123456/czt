@@ -15,12 +15,23 @@ public class MantissaVo {
     private Date createdate;
 
     private BigDecimal areaid;
+    private BigDecimal troughnum;
 
     private BigDecimal createuserid;
 
     private Object createusername;
+    
+    private Date orderdate;
 
-    public BigDecimal getId() {
+    public Date getOrderdate() {
+		return orderdate;
+	}
+
+	public void setOrderdate(Date orderdate) {
+		this.orderdate = orderdate;
+	}
+
+	public BigDecimal getId() {
         return id;
     }
 
@@ -64,10 +75,16 @@ public class MantissaVo {
         return areaid;
     }
 
+    public void setTroughnum(BigDecimal troughnum) {
+        this.troughnum = troughnum;
+    }
+    public BigDecimal getTroughnum() {
+        return troughnum;
+    }
+
     public void setAreaid(BigDecimal areaid) {
         this.areaid = areaid;
     }
-
     public BigDecimal getCreateuserid() {
         return createuserid;
     }

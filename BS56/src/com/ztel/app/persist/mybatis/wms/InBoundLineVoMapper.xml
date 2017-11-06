@@ -199,6 +199,39 @@
     </set>
     where INBOUNDDETAILID = #{inbounddetailid,jdbcType=DECIMAL}
   </update>
+  <update id="updateByInboundidSelective" parameterType="com.ztel.app.vo.wms.InBoundLineVo" >
+    update T_WMS_INBOUND_LINE
+    <set >
+      <if test="cigarettename != null" >
+        CIGARETTENAME = #{cigarettename,jdbcType=OTHER},
+      </if>
+      <if test="cigarettecode != null" >
+        CIGARETTECODE = #{cigarettecode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxqty != null" >
+        BOXQTY = #{boxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="itemqty != null" >
+        ITEMQTY = #{itemqty,jdbcType=DECIMAL},
+      </if>
+      <if test="consignsor != null" >
+        CONSIGNSOR = #{consignsor,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=OTHER},
+      </if>
+      <if test="aboxqty != null" >
+        ABOXQTY = #{aboxqty,jdbcType=DECIMAL},
+      </if>
+      <if test="lockqty != null" >
+        LOCKQTY = #{lockqty,jdbcType=DECIMAL},
+      </if>
+      <if test="otherqty != null" >
+        OTHERQTY = OTHERQTY + #{otherqty,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.wms.InBoundLineVo" >
     update T_WMS_INBOUND_LINE
     set INBOUNDID = #{inboundid,jdbcType=DECIMAL},

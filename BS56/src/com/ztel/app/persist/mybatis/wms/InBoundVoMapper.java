@@ -13,7 +13,7 @@ public interface InBoundVoMapper {
 	
 	public List<InBoundVo> selectInBoundList(InBoundVo inBoundVo);
 	
-	
+	public int updateInboundNumById(InBoundVo inBoundVo);
 	
 	//public  int getIdFromSequence();
     /**

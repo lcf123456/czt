@@ -42,4 +42,8 @@ public interface InBoundService {
 	
 	public void doAddInboundAndLine(InBoundVo inBoundVo,InBoundLineVo inBoundLineVo,String addType);
 	
+	public void doDestroyInbound(List<String> inboundidLst);
+	
+	public void doUpdateInboundNumById(InBoundVo inBoundVo);
+	
 }

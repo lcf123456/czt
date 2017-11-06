@@ -49,6 +49,11 @@
     H_SIZE, T_SIZE, J_SIZE, W_SIZE, X_SIZE, WEIGHT,BASEUOM_NAME
   </sql>
   
+  <!-- 取所有商品数量，在同步到本地的页面需要统计商品数量 -->
+  <select id="selectAllItemCount" resultType="Integer">
+    select count(*) as cnt  from T_SALE_ITEM
+  </select>
+  
   <!-- 营销接口商品信息同步之前先全部置为删除状态 -->
   <update id="updateitemAllrowstatus" >
     update T_SALE_ITEM set rowstatus=0
@@ -91,7 +96,7 @@
       #{wSize,jdbcType=DECIMAL}, #{xSize,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.ztel.app.vo.sale.SaleitemVo" >
+  <insert id="insertSelective" useGeneratedKeys="false" parameterType="com.ztel.app.vo.sale.SaleitemVo" >
     insert into T_SALE_ITEM
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.sq.ComplaintService;
-import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.sys.RouteInfoService;
 import com.ztel.app.service.wms.CustomerService;
 import com.ztel.app.vo.CTitle;
@@ -51,9 +50,6 @@ public class ComplaintCtrl extends BaseCtrl{
 	
 	@Autowired
 	private CustomerService customerService = null;
-	@Autowired
-	private OperationlogService operationlogService = null;
-
 	
 	@RequestMapping("toComplaint")
 	public String toComplaint(HttpServletRequest request) {
@@ -139,7 +135,7 @@ public class ComplaintCtrl extends BaseCtrl{
 	 }
 	 
 	 /**
-	  * 投诉受理台账受理
+	  * 投诉受理入库
 	  * @return
 	  * @throws Exception
 	  */
@@ -153,7 +149,6 @@ public class ComplaintCtrl extends BaseCtrl{
 			 String cuser = complaintVo.getCusername();
 			 String preuser = complaintVo.getPreusername();
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sq/complaint/doSave", "投诉受理台账", "受理", "");
 			 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 				 complaintVo.setCreateid(userVo.getId());
 				 complaintVo.setCreatename(userVo.getUsername());

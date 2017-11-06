@@ -1,8 +1,16 @@
 package com.ztel.app.persist.mybatis.sale;
 
+import java.util.List;
+
 import com.ztel.app.vo.sale.SaleitemVo;
 
 public interface SaleitemVoMapper {
+	
+	/**
+	 * 取所有商品数量，在同步到本地的页面需要统计商品数量
+	 * @return
+	 */
+	int selectAllItemCount();
 	
 	/**
 	 * 营销接口商品信息同步之前先全部置为删除状态
