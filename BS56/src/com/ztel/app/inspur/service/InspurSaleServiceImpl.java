@@ -74,12 +74,12 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				InspurSalecustomerVo SalecustomerVo = customerList.get(i);
 				
 				String topsql = "insert into T_SALE_CUSTOMER(id,code,shortname,name,industry,contactaddress,contactphone,bakphone,"+
-						"contact,account,routecode,licensecode,markettype,orderbatch,orderWay,delstatus,shipper_id)";
+						"contact,account,routecode,licensecode,markettype,orderbatch,orderWay,delstatus,shipper_id,createtime)";
 				
 				tempsql += "union  select "+ SalecustomerVo.getCustId() + ",'"+SalecustomerVo.getCustShortId()+"','"+SalecustomerVo.getCustName()+"','"+SalecustomerVo.getCustName()+"','" 
 				+ SalecustomerVo.getBaseType()+"','" + SalecustomerVo.getBusiAddr() + "','" + SalecustomerVo.getOrderTel() + "','" + SalecustomerVo.getReceiveTel2() + "','" +
 				SalecustomerVo.getManager()+"','" + SalecustomerVo.getAccount() + "','" + SalecustomerVo.getCarId() + "','" + SalecustomerVo.getCustId() + "','" + 
-				SalecustomerVo.getWorkPort()+"','" + SalecustomerVo.getPeriodsId() +"','" + SalecustomerVo.getOrderWay()+ "',10,11430101 from dual ";
+				SalecustomerVo.getWorkPort()+"','" + SalecustomerVo.getPeriodsId() +"','" + SalecustomerVo.getOrderWay()+ "',10,11430101,sysdate from dual ";
 
 	            if (((rsRowNum % 1000) == 0 && rsRowNum!=0) || rsRowNum==custCount-1)
 	            {
