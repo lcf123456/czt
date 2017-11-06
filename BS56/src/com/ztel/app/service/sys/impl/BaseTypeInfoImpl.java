@@ -46,6 +46,7 @@ public class BaseTypeInfoImpl implements BaseTypeInfoService {
 				 HashMap<String, String> map=new HashMap<String, String>();
 				 map.put("id", vo.getId().toString());
 				 map.put("contentlist", vo.getContentlist());
+				 map.put("valuelist", vo.getContentlist());
 				 //System.out.println(vo.getId().toString()+"-------------");
 				 //System.out.println(vo.getText()+"-------------");
 				 boxList.add(map);
