@@ -316,5 +316,4 @@ public class OutBoundVo {
 		this.begintime = begintime;
 	}
 	
-	
 }
