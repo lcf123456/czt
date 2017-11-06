@@ -48,7 +48,11 @@ public class ItemCtrl extends BaseCtrl {
 		
 		return "/wms/v_brandinfo";
 	}
-	
+	@RequestMapping("toIteminfo")
+	public String index1(HttpServletRequest request) {
+		
+		return "/wms/v_iteminfo";
+	}
 	
 	/**
 	  * 获取商品信息

@@ -184,5 +184,5 @@ public class WMSBillServiceImpl implements WMSBillService{
 		
 		return retrunXml;
 	}
-	
+
 }
