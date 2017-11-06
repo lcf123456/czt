@@ -44,8 +44,29 @@
 	//$("#resultarea" ).css("display", "none");
 	//document.getElementById('showMsg').innerHTML="";
 	
-	//清空查询条件
 	function syncSmtflag(){
+		//先判断指定日期订单是否已经同步到中间表
+		$.ajax({ 
+		    url: baseURL+'/sale/saletolocal/doGetOrderCount.json?orderdate='+$('#orderdate').val(), 
+		    type: 'POST',
+		    success: function(data){
+		    	console.log("--"+data)
+		    	var msg = data.msg;
+		    	console.log("msg--"+msg)
+		    	if(parseFloat(msg)==0 || isNaN(parseFloat(msg))) {
+		    		$.messager.alert('提示',"您"+$('#orderdate').val()+"的订单还没有同步，请先同步！",'info');
+		    		return;
+		    	}else{
+		    		doSync();
+		    	}
+			}
+		   }); 
+
+	}
+	
+	//清空查询条件
+	function doSync(){
+		//先判断指定日期订单是否已经同步到中间表
 		$.messager.confirm('提示','确定要执行同步吗?',function(result){
 	        if (result){
 		$.ajax({ 
@@ -61,7 +82,7 @@
 		        $.messager.progress('close');
 		    },
 		    success: function(data){
-		    	var msg = data.custCount +"条商品记录"+data.resultmsg;
+		    	var msg = data.resultmsg;
 		    	document.getElementById('showMsg').innerHTML=msg;
 		    	$.messager.show({
 					title : '提示',
@@ -69,7 +90,7 @@
 				});
 			}
 		   }); 
-	}
+			}
 		});
 	}
     </script>

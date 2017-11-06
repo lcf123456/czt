@@ -336,6 +336,7 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 			operationlogService.insertLog(userVo, "BS56/inspur/toSyncsettlementflag", "营销接口接收扣款同步数据", "接收数据出现异常！", "");
 			e.printStackTrace();
 		}
+		//result.put("custCount", Count_head);
 		result.put("resultmsg", resultmsg);
 		return result;
 	}

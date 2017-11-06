@@ -139,5 +139,36 @@ public class SaleToLocalCtrl extends BaseCtrl{
 		 result.put("ordermsg", ordermsg);
 		 return result;
 	 }
+	
+	/**
+	 * 取订单信息的记录数,用于扣款同步时的判断，如果为0：未同步  1：已同步
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("doGetOrderCount")
+	 @ResponseBody
+	 public  Map<String, Object> doGetOrderCount(HttpServletRequest request) throws Exception {
+
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		String msg = "0";
+		 
+		 String orderdate = request.getParameter("orderdate");
+		 if(orderdate==null||orderdate.equals(""))orderdate = DateUtil.getyyyy_mm_dd();
+		 
+
+		 
+		 BigDecimal orderheadCount = new BigDecimal("0");
+		 SaleorderheadVo  saleorderheadVo = saleAllService.selectAllOrderheadVo(orderdate);//订单头
+		 if(saleorderheadVo!=null ){
+			 orderheadCount = saleorderheadVo.getId();//订单记录数
+			 if(orderheadCount.compareTo(new BigDecimal("0"))==1){
+				 msg = "1";
+			 }
+		 }
+		 result.put("msg", msg);
+		 return result;
+	 }
+
 
 }
