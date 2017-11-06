@@ -130,11 +130,13 @@ public class SaleToLocalCtrl extends BaseCtrl{
 		 result.put("orderheadCount", orderheadCount);
 		 result.put("orderheadQty", orderheadQty);
 		 result.put("orderheadAmt", orderheadAmt);
-		 String resultmsg = "商品信息共"+itemCount+"条。";
-		 resultmsg = resultmsg + "零售户信息共"+customerCount+"条。";
-		 resultmsg = resultmsg + "订单头信息："+orderheadCount+"条，金额："+orderheadAmt+",数量："+orderheadQty+"。";
-		 resultmsg = resultmsg + "订单明细："+orderlineCount+"条。";
-		 result.put("resultmsg", resultmsg);
+		 String itemmsg = "商品信息共"+itemCount+"条。";
+		 String customermsg =  "零售户信息共"+customerCount+"条。";
+		 String ordermsg = "订单头信息："+orderheadCount+"条，金额："+orderheadAmt+",数量："+orderheadQty+"。";
+		 ordermsg = ordermsg + "订单明细："+orderlineCount+"条。";
+		 result.put("itemmsg", itemmsg);
+		 result.put("customermsg", customermsg);
+		 result.put("ordermsg", ordermsg);
 		 return result;
 	 }
 

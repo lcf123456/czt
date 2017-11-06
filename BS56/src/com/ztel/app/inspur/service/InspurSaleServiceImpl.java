@@ -1,6 +1,7 @@
 package com.ztel.app.inspur.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -261,6 +262,7 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				saleitemVo2.setItemno(itemid);
 				saleitemVo2.setShipperId(new BigDecimal("11430101"));
 				saleitemVo2.setRowstatus(new BigDecimal("10"));
+				saleitemVo2.setCreatetime(new Date());
 				if(saleitemVo!=null&&saleitemVo.getId()!=null&&!saleitemVo.getId().equals("")){
 					saleAllService.updateItembyPrimaryKey(saleitemVo2);
 					//saleitemVo2.seti

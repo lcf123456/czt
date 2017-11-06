@@ -27,8 +27,10 @@
     <div class="resultarea">
 	   <div style="text-align: center;   vertical-align: middle;">
 	   <p style="margin-left:250px;padding:5px 0;text-align:left;height:4px;font-weight:200;font-size:10" >商品信息同步和客户信息同步无需选择时间,订单信息同步请选择订单日期!</p>
-	   <p id="datainfo" style="margin-left:250px;padding:5px 0;text-align:left;height:4px;font-weight:200;font-size:10" ></p>
-	        <p id="showMsg" style="margin-left:250px;padding:5px 0;text-align:left;color:red;height:4px;font-weight:200;font-size:10" >同步结果显示区</p>
+	   <p id="datainfoitem" style="margin-left:250px;padding:5px 0;text-align:left;height:4px;font-weight:200;font-size:10" ></p>
+	   <p id="datainfocustomer" style="margin-left:250px;padding:5px 0;text-align:left;height:4px;font-weight:200;font-size:10" ></p>
+	   <p id="datainfoorder" style="margin-left:250px;padding:5px 0;text-align:left;height:4px;font-weight:200;font-size:10" ></p>
+	   <p id="showMsg" style="margin-left:250px;padding:5px 0;text-align:left;color:red;height:4px;font-weight:200;font-size:10" ></p>
 	   </div>
 	</div>
 
@@ -44,6 +46,7 @@
     	initOrderDatebox();
     	document.getElementById('showMsg').innerHTML="";
     	var orderdate = $('#orderdate').val();
+    	alert(orderdate);
     	getOrderdata(orderdate);
     });
     
@@ -51,6 +54,7 @@
         $('#orderdate').datebox({
         	onSelect: function(date){
         		var orderdate = $("#orderdate").val();
+        		alert(orderdate);
         		getOrderdata(orderdate);
         	}
         });
@@ -71,8 +75,10 @@
 		        $.messager.progress('close');
 		    },
 		    success: function(data){
-		    	var msg = data.resultmsg;
-		    	document.getElementById('datainfo').innerHTML=msg;
+		    	//var msg = data.resultmsg;
+		    	document.getElementById("datainfoitem").innerHTML=data.itemmsg;
+		    	document.getElementById("datainfocustomer").innerHTML=data.customermsg;
+		    	document.getElementById("datainfoorder").innerHTML=data.ordermsg;
 		    	$.messager.show({
 					title : '提示',
 					msg :  msg,
