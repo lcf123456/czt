@@ -49,4 +49,6 @@ public interface ItemVoMapper {
 	List<ItemVo> selectBrandinfoPageList(Pagination<?> page);
 
 	List<ItemVo> selectIteminfoPageList(Pagination<?> page);
+
+	int deleteByPrimaryKey(Integer id);
 }
