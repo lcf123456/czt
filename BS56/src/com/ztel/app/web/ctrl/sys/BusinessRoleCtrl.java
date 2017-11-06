@@ -176,6 +176,8 @@ public class BusinessRoleCtrl extends BaseCtrl {
 	 @ResponseBody
 		public  Map<String, Object> doRoleGrant(HttpServletRequest request) {
 		 Map<String, Object> map=new HashMap<String, Object>();  
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/sys/businessrole/doRoleGrant", "业务角色", "授权", "");
 		 String userstr= request.getParameter("userstr");
 		 String roleid= request.getParameter("roleid");
 		 //System.out.println("roleinfoCtr------------userstr="+userstr+",roleid="+roleid);

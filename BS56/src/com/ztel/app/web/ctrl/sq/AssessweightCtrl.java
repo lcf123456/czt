@@ -97,7 +97,7 @@ public class AssessweightCtrl extends BaseCtrl {
 		 try {
 			 assessweightService.deleteAssessweightById(assessweightVo.getId(),assessweightVo);
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sq/assessweight/dodeleteAssessweight", "得分权重", "修改", "");
+			 operationlogService.insertLog(userVo, "/sq/assessweight/dodeleteAssessweight", "考核权重设置", "修改", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception

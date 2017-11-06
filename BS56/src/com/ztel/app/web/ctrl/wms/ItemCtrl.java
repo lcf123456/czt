@@ -78,6 +78,29 @@ public class ItemCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
+	  * 获取商品信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping("getIteminfoList")
+	 @ResponseBody
+	 public Map<String, Object> getIteminfoList(ItemVo itemVo, HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		Pagination<?> page = this.getPagination(request);
+		if (itemVo!=null) {
+			 page.setParam(itemVo);
+		}
+		List<ItemVo> itemVoList = new ArrayList<ItemVo>();
+		itemVoList = itemService.getIteminfoList(page);
+		
+		 result.put("rows",itemVoList);  
+		 result.put("total",page.getTotalCount());  
+		 
+		return result;
+	 }
+	 
+	 /**
 	  * 修改品牌信息
 	  * @return
 	  */

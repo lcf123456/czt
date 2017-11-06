@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.sq.VoiceparaService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.sys.RoleinfoService;
 import com.ztel.app.service.sys.SysparameterService;
 import com.ztel.app.vo.sq.VoiceparaVo;
 import com.ztel.app.vo.sys.RoleInfoVo;
 import com.ztel.app.vo.sys.SysparameterVo;
+import com.ztel.app.vo.sys.UserVo;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
 
@@ -34,7 +36,7 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
  * @author yy
  * @since 2017年5月24日
 
- * 语音参数表
+ * 自动语音参数表
 
  */
 @Controller
@@ -45,6 +47,8 @@ public class VoiceparaCtrl extends BaseCtrl {
 	
 	@Autowired
 	private VoiceparaService voiceparaService = null;
+	@Autowired
+	private OperationlogService operationlogService = null;
 	
 	@RequestMapping("/toVoicepara")
 	public String index(HttpServletRequest request) {
@@ -96,18 +100,20 @@ public class VoiceparaCtrl extends BaseCtrl {
 
     
 	 /**
-	  * 新增语音参数
+	  * 新增自动语音参数配置
 	  * @return
 	  * @throws Exception
 	  */
 	 @RequestMapping(value="doVoiceparaNew",method=RequestMethod.POST)
 	// @ResponseBody
-	 public   void VoiceparaNew(VoiceparaVo voiceparaVo,HttpServletResponse response) throws Exception {
+	 public   void VoiceparaNew(VoiceparaVo voiceparaVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
        
 		 try {
 			 voiceparaService.insertVoicepara(voiceparaVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/sq/voicepara/doVoiceparaNew", "自动语音参数配置", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -125,18 +131,20 @@ public class VoiceparaCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 修改语音参数
+	  * 修改自动语音参数配置
 	  * @return
 	  * @throws Exception
 	  */
 	 @RequestMapping(value="doVoiceparaUpdate",method=RequestMethod.POST)
 	 //@ResponseBody
-	 public   void VoiceparaUpdate(VoiceparaVo voiceparaVo,HttpServletResponse response) throws Exception {
+	 public   void VoiceparaUpdate(VoiceparaVo voiceparaVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
 		 try {
 			 voiceparaService.updateVoicepara(voiceparaVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/sq/voicepara/doVoiceparaUpdate", "自动语音参数配置", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {

@@ -76,6 +76,15 @@
         AND  bigbox_bar like '%'||#{param.cdtype}||'%' 
     </if>
   </select>
+    <!--获取商品信息 -->
+  <select id="selectIteminfoPageList" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
+    select id,itemno,itemname,shortname,spec,abccode,shiptype,producearea,rowstatus,weight,iscanscancode,
+    dxtype,jt_size,wz_size,outtype, fullcount, cdtype
+    from T_WMS_ITEM  where 1=1
+   <if test="param != null and param.cdtype != null and param.cdtype!= ''">
+        AND  bigbox_bar like '%'||#{param.cdtype}||'%' 
+    </if>
+  </select>
   
   <!-- 根据已知条件获取列表 -->
   <select id="selectListByCond" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">

@@ -34,7 +34,11 @@ public class ItemServiceImpl implements ItemService {
 		// TODO Auto-generated method stub
 		return itemVoMapper.selectBrandinfoPageList(page);
 	}
-	
+	@Override
+	public List<ItemVo> getIteminfoList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		return itemVoMapper.selectIteminfoPageList(page);
+	}
 	@Override
 	public int updateBrandinfo(ItemVo itemVo) {
 		// TODO Auto-generated method stub

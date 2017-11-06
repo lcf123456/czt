@@ -11,7 +11,7 @@ jQuery(function($){
 		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
 		striped: true, //奇偶行颜色不同
 		collapsible:true,//可折叠
-		url:baseURL+"/wms/item/getBrandinfoList.json", //数据来源
+		url:baseURL+"/wms/item/getIteminfoList.json", //数据来源
 		sortName: 'id', //排序的列
 		sortOrder: 'desc', //倒序
 		remoteSort: false, //服务器端排序
@@ -40,34 +40,72 @@ jQuery(function($){
 				formatter:function(value,row,index){return row.spec;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'abccode',title:'ABC编码',width:10,
-				formatter:function(value,row,index){return row.abccode;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){
+					if( row.abccode == '10'){
+						return 'A类';
+					}
+					else if( row.abccode == '20'){
+						return 'B类';
+					}
+					else if( row.abccode == '30'){
+						return 'C类';
+					}
+				} //需要formatter一下才能显示正确的数据
 			},
 			{field:'shiptype',title:'类型',width:10,
-				formatter:function(value,row,index){return row.shiptype;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){
+					if( row.shiptype == '0'){
+						return '正常烟';
+					}
+					else if( row.shiptype == '1'){
+						return '异型烟';
+					}
+				} //需要formatter一下才能显示正确的数据
 			},
 			{field:'producearea',title:'产区',width:10,
 				formatter:function(value,row,index){return row.producearea;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'rowstatus',title:'状态',width:10,
-				formatter:function(value,row,index){return row.rowstatus;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){
+					if( row.rowstatus == '10'){
+						return '正常';
+					}
+					else if( row.rowstatus == '0'){
+						return '删除';
+					}
+				} //需要formatter一下才能显示正确的数据
 			},
 			{field:'weight',title:'重量',width:10,
 				formatter:function(value,row,index){return row.weight;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'iscanscancode',title:'扫码识别类型',width:10,
-				formatter:function(value,row,index){return row.iscanscancode;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){
+					if( row.iscanscancode == '10'){
+						return '能扫码识别';
+					}
+					else if( row.iscanscancode == '0'){
+						return '无法扫码识别';
+					}
+				} //需要formatter一下才能显示正确的数据
 			},
-			{field:'dxtype',title:'垛型类型',width:10,
+			{field:'dxtype',title:'垛型',width:10,
 				formatter:function(value,row,index){return row.dxtype;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'jt_size',title:'件条',width:10,
 				formatter:function(value,row,index){return row.jt_size;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'wt_size',title:'万条',width:10,
+			{field:'wz_size',title:'万条',width:10,
 				formatter:function(value,row,index){return row.wt_size;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'outtype',title:'出库类型',width:10,
-				formatter:function(value,row,index){return row.weight;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){
+					if( row.outtype == '1'){
+						return '一楼出';
+					}
+					else if( row.outtype == '2'){
+						return '二楼出';
+					}
+					} //需要formatter一下才能显示正确的数据
 			},
 			{field:'fullcount',title:'满盘数量',width:30,
 				formatter:function(value,row,index){return row.outtype;}
