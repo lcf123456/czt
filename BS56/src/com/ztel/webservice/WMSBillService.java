@@ -11,4 +11,6 @@ public interface WMSBillService
 	public String BillScan(String xml);
 	
 	public String WMSBillService(String xml);
+	
+	public String myWMSBillService(String xml);
 }

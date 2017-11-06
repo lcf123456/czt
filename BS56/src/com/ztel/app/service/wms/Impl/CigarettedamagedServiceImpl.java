@@ -189,6 +189,12 @@ public class CigarettedamagedServiceImpl implements CigarettedamagedService {
 		{
 			//更新入库单散烟区数量
 			BigDecimal inboundid = cigarettedamagedVo.getInboundid();
+			//20171103 加入Damagedtype-----------------------------
+			String damagedtype=cigarettedamagedVo.getDamagedtype().toString();
+			String cigaretteType="";
+			if("20".equals(damagedtype))cigaretteType="40";
+			if("30".equals(damagedtype))cigaretteType="60";
+			//------------------------------------------------------------
 			CigarettedamagedLineVo cigarettedamagedLineVo = new CigarettedamagedLineVo();
 			cigarettedamagedLineVo.setInboundid(inboundid);
 			List<CigarettedamagedLineVo> cigarettedamagedLineVoList = this.cigarettedamagedLineVoMapper.selectListByCond(cigarettedamagedLineVo);
@@ -204,7 +210,7 @@ public class CigarettedamagedServiceImpl implements CigarettedamagedService {
 					storageAreaInOutVo.setInouttype(new BigDecimal("20"));
 					storageAreaInOutVo.setCigarettecode(cigarettedamagedLineVo2.getCigarettecode());
 					storageAreaInOutVo.setCigarettename(cigarettedamagedLineVo2.getCigarettename());
-					storageAreaInOutVo.setCigarattetype(new BigDecimal("40"));//10 来烟破损  20 机损烟（针对散烟区）30 退货 40 称重异常
+					storageAreaInOutVo.setCigarattetype(new BigDecimal(cigaretteType));//10 来烟破损  20 机损烟（针对散烟区）30 退货 40 称重异常  60:抽检
 					storageAreaInOutVo.setCreatetime(new Date());
 					storageAreaInOutVo.setStatus(new BigDecimal("20"));//用于自动补货的标志，此处都用20表示完成
 					storageAreaInOutVo.setBarcode(cigarettedamagedLineVo2.getBarcode());//件码
