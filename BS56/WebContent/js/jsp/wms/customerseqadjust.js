@@ -18,9 +18,24 @@ $(function(){
 });
 
 /**
- * 页面列表datagrid初始化
+ * 页面列表datagrid初始化
+
  */
+
+
 jQuery(function(def){
+    $("#orderbatch").combobox({
+    	url : baseURL+"/sys/user/getComboboxByTypeCode.json?typeCode=ORDERBATCH",//返回json数据的url
+    	valueField : "contentlist",//这个id和你返回json里面的id对应
+    	textField : "valuelist", //这个text和你返回json里面的text对应
+    	loadFilter : function (data) {
+	        if (data && data instanceof Array) {
+	            data.splice(0, 0, {contentlist: '', valuelist: '请选择批次'});　// 此处空格用全角
+	        }
+	        return data;
+	    } 
+    	//panelHeight: 'auto'
+    })
 	$("#routecode").combobox({
 	    url : baseURL+"/comm/combobox/getRoutesComboboxByDeptid.json?deptid=",//返回json数据的url
 	    valueField : "routecode",//这个id和你返回json里面的id对应
@@ -37,9 +52,13 @@ jQuery(function(def){
 		title:'零售户顺序调', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
-		singleSelect:true, //多选,当true时只允许当前选择一行。		height:420, //高度
-		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。		striped: true, //奇偶行颜色不同
-		collapsible:true,//可折叠		url:baseURL+"/wms/customer/getCustomerseqList.json", //数据来源
+		singleSelect:true, //多选,当true时只允许当前选择一行。
+		height:420, //高度
+		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
+		striped: true, //奇偶行颜色不同
+
+		collapsible:true,//可折叠
+		url:baseURL+"/wms/customer/getCustomerseqList.json", //数据来源
 		sortName: 'addressseq', //排序的列
 		sortOrder: 'asc', //正序asc、倒序 desc
 		remoteSort: false, //服务器端排序
@@ -102,7 +121,8 @@ jQuery(function(def){
             editRow = undefined;
         },
 		onLoadSuccess:function(){
-			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题			$('#tabdiv .panel-header').css('display','none');
+			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
+			$('#tabdiv .panel-header').css('display','none');
 		}
 	});
 });
@@ -155,7 +175,8 @@ function cancelseq() {
 	
 	  //查询
 	function searchCustomer(){
-		var params = $('#dataTable').datagrid('options').queryParams; //先取得 datagrid 的查询参数		var fields =$('#queryForm').serializeArray(); //自动序列化表单元素为JSON对象
+		var params = $('#dataTable').datagrid('options').queryParams; //先取得 datagrid 的查询参数
+		var fields =$('#queryForm').serializeArray(); //自动序列化表单元素为JSON对象
 		//alert(params.length);
 		//alert(fields.length);
 		$.each( fields, function(i, field){
@@ -163,13 +184,14 @@ function cancelseq() {
 			//alert(field.value);
 			params[field.name] = field.value; //设置查询参数
 		}); 
-		$('#dataTable').datagrid('reload'); //设置好查询参数 reload 一下就可以了
+		$('#dataTable').datagrid('reload'); //设置好查询参数 reload 一下就可以了
+
 	}
 	//清空查询条件
 	function clearForm(){
 		$('#queryForm').form('reset');
 		//$('#routecode').combobox(value,'0');
-		$('#orderbatch').combobox(value,'');
+		//$('#orderbatch').combobox(value,'');
 		searchCustomer();
 	}
 	
