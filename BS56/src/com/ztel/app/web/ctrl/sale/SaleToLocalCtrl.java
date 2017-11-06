@@ -42,7 +42,6 @@ public class SaleToLocalCtrl extends BaseCtrl{
 	 public  Map<String, Object> doSyncCustomer(HttpServletRequest request) throws Exception {
 
 		 Map<String, Object> result=new HashMap<String, Object>();  
-		
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
 		 String msg = saleAllService.doSyncCustomer();
 		 result.put("resultmsg", msg);

@@ -122,7 +122,7 @@ public class SaleAllServiceImpl implements SaleAllService {
 			     new CallableStatementCreator() {   
 			        public CallableStatement createCallableStatement(Connection con) throws SQLException {   
 			           String storedProc = "{call psale_wms_customer (?,?)}";// 调用的sql   
-			           CallableStatement cs = con.prepareCall(storedProc);   
+			          CallableStatement cs = con.prepareCall(storedProc);   
 			           cs.registerOutParameter(1,OracleTypes.VARCHAR);// 注册输出参数的类型   
 			           cs.registerOutParameter(2,OracleTypes.VARCHAR);// 注册输出参数的类型   
 			           return cs;   
