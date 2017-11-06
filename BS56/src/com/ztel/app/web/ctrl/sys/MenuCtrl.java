@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.sys.MenuinfoService;
-import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.util.Constant;
 import com.ztel.app.vo.Base;
 import com.ztel.app.vo.sys.MenuInfoVo;
-import com.ztel.app.vo.sys.UserVo;
 import com.ztel.framework.web.annotation.PublicPage;
 import com.ztel.framework.web.ctrl.BaseCtrl;
 
@@ -40,8 +38,6 @@ public class MenuCtrl extends BaseCtrl {
 	
 	@Autowired
 	private MenuinfoService menuinfoService = null;
-	@Autowired
-	private OperationlogService operationlogService = null;
 	
 	@RequestMapping("toMenu")
 	public String index(HttpServletRequest request) {
@@ -184,14 +180,12 @@ public class MenuCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doEditMenu")
 	 @ResponseBody
-	 public  Map<String, Object> doEditMenu(MenuInfoVo menuInfo,HttpServletRequest request)
+	 public  Map<String, Object> doEditMenu(MenuInfoVo menuInfo)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 //System.out.println("id----"+menuinfo.getId()+",name="+menuinfo.getMenuname());
 		// List<Menuinfo> menuList=menuinfoService.searchMenuinfoList(id);
 		 menuinfoService.doEditMenu(menuInfo);
-			UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sys/menu/doEditMenu", "栏目管理", "修改", "");
 		 map.put("total", "1");
 		 map.put("msg", "修改成功");
 		 return map;
@@ -203,33 +197,29 @@ public class MenuCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doAddMenu")
 	 @ResponseBody
-	 public  Map<String, Object> doAddMenu(MenuInfoVo menuInfo,HttpServletRequest request)
+	 public  Map<String, Object> doAddMenu(MenuInfoVo menuInfo)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();
 		 System.out.println("--------------"+menuInfo.toString());
 		menuinfoService.doAddMenu(menuInfo);
-		UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		 operationlogService.insertLog(userVo, "/sys/menu/doAddMenu", "栏目管理", "新增", "");
 		 map.put("total", "1");
 		 map.put("msg", "新增成功");
 		 return map;
 	 }
 	 
 	 /**
-	  * 删除栏目信息
+	  * 修改栏目信息
 	  * @return
 	  */
 	 @RequestMapping(value="doDelMenu")
 	 @ResponseBody
-	 public  Map<String, Object> doDelMenu(String id,HttpServletRequest request)
+	 public  Map<String, Object> doDelMenu(String id)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 System.out.println("id----"+id);
 		// List<Menuinfo> menuList=menuinfoService.searchMenuinfoList(id);
 		 if(id==null)id="0";
 		 menuinfoService.doDelMenu(id);
-		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		 operationlogService.insertLog(userVo, "/sys/menu/doDelMenu", "栏目管理", "删除", "");
 		 map.put("total", "1");
 		 map.put("msg", "修改成功");
 		 return map;

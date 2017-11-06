@@ -23,10 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.sys.MenuinfoService;
 import com.ztel.app.service.sys.OperationinfoService;
-import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.sys.MenuInfoVo;
 import com.ztel.app.vo.sys.RoleInfoVo;
-import com.ztel.app.vo.sys.UserVo;
 import com.ztel.app.vo.sys.OperationinfoVo;
 import com.ztel.framework.web.ctrl.BaseCtrl;
 
@@ -43,8 +41,6 @@ public class OperationCtrl extends BaseCtrl {
 	
 	@Autowired
 	private OperationinfoService operationinfoService = null;
-	@Autowired
-	private OperationlogService operationlogService = null;
 	
 	@Autowired
 	private MenuinfoService menuinfoService = null;
@@ -86,13 +82,13 @@ public class OperationCtrl extends BaseCtrl {
 	}
 	
 	 /**
-	  * 新增功能按钮
+	  * 新增角色
 	  * @return
 	  * @throws Exception
 	  */
 	 @RequestMapping(value="operationNew",method=RequestMethod.POST)
 	// @ResponseBody
-	 public   void operationNew(OperationinfoVo operationinfoVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+	 public   void operationNew(OperationinfoVo operationinfoVo,HttpServletResponse response) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
        
@@ -100,8 +96,6 @@ public class OperationCtrl extends BaseCtrl {
 		 try {
 			 //roleinfoService.newRole(roleinfo);
 			 operationinfoService.operationNew(operationinfoVo);
-			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sys/operation/operationNew", "功能按钮", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -120,21 +114,19 @@ public class OperationCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 修改功能按钮
+	  * 新增角色
 	  * @return
 	  * @throws Exception
 	  */
 	 @RequestMapping(value="operationUpdate",method=RequestMethod.POST)
 	// @ResponseBody
-	 public   void operationUpdate(OperationinfoVo operationinfoVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+	 public   void operationUpdate(OperationinfoVo operationinfoVo,HttpServletResponse response) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
        
 		 System.out.println("roleid="+operationinfoVo.getId()+",roleName="+operationinfoVo.getName()+",remarks="+operationinfoVo.getMenucode());
 		 try {
 			 operationinfoService.operationUpdate(operationinfoVo);
-			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sys/operation/operationUpdate", "功能按钮", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -157,7 +149,7 @@ public class OperationCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="operationDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> operationDel(@RequestParam("id") List<Integer> id,HttpServletRequest request) throws Exception {
+	 public   Map<String, Object> operationDel(@RequestParam("id") List<Integer> id) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
 		 if (id!=null&&id.size()>0) {
@@ -165,8 +157,6 @@ public class OperationCtrl extends BaseCtrl {
 		}
 		 try {
 			 operationinfoService.operationDel(id);
-			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sys/operation/operationDel", "功能按钮", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception

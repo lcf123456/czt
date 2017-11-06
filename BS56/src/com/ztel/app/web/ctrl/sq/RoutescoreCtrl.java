@@ -93,7 +93,7 @@ public class RoutescoreCtrl extends BaseCtrl {
 	 }
 	 	
 	 /**
-	  * 自动语音/市场督察-删除
+	  * 自动语音-删除
 	  * @return
 	  * @throws Exception
 	  */
@@ -109,7 +109,8 @@ public class RoutescoreCtrl extends BaseCtrl {
 			 routescoreVoService.delRoutescoreline(ids);
 			 routescoreVoService.delRoutescore(ids);
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sq/routescore/dodelRoutescore", "自动语音/市场督察", "删除", "");
+			 //operationlogService.insertLog(userVo, "/sys/role/roleUpdate", "角色管理", "修改", "");
+			 operationlogService.insertLog(userVo, "/sq/routescore/dodelRoutescore", "自动语音", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -245,7 +246,7 @@ public class RoutescoreCtrl extends BaseCtrl {
 		 int total=0;
 		 
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		 operationlogService.insertLog(userVo, "/sq/routescore/doRoutescoreMarketNew", "市场督查", "新增", "");
+		 
 		//主表id
 		 long id=routescoreVoService.getRouteScoreId();
 		 routescoreVo.setId(id);

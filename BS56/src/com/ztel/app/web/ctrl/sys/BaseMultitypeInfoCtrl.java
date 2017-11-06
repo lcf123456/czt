@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.sys.BaseMultitypeInfoService;
-import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.sys.BaseMultitypeInfoVo;
-import com.ztel.app.vo.sys.UserVo;
 
 @Controller
 @RequestMapping("/sys/basemultitypeinfo")
@@ -24,8 +22,6 @@ public class BaseMultitypeInfoCtrl {
 	
 	@Autowired
 	private BaseMultitypeInfoService baseMultitypeInfoService = null;
-	@Autowired
-	private OperationlogService operationlogService = null;
 
 	@RequestMapping("toBaseMultitype")
 	public String toBaseMultitype(HttpServletRequest request) {
@@ -61,15 +57,13 @@ public class BaseMultitypeInfoCtrl {
 	  */
 	 @RequestMapping(value="doAddMultitype")
 	 @ResponseBody
-	 public  Map<String, Object> doAddMultitype(BaseMultitypeInfoVo baseMultitypeInfoVo,HttpServletRequest request)
+	 public  Map<String, Object> doAddMultitype(BaseMultitypeInfoVo baseMultitypeInfoVo)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();
 		// System.out.println("--------------"+menuInfo.toString());
 		 try
 		 {
 			 baseMultitypeInfoService.doAddMultitype(baseMultitypeInfoVo);
-			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sys/basemultitypeinfo/doAddMultitype", "多级类别管理信息", "新增", "");
 			 map.put("msg", "新增成功");
 		 }
 		 catch(Exception e){
@@ -86,13 +80,11 @@ public class BaseMultitypeInfoCtrl {
 	  */
 	 @RequestMapping(value="doEditMultitype")
 	 @ResponseBody
-	 public  Map<String, Object> doEditMultitype(BaseMultitypeInfoVo baseMultitypeInfoVo,HttpServletRequest request)
+	 public  Map<String, Object> doEditMultitype(BaseMultitypeInfoVo baseMultitypeInfoVo)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 try{
 			 baseMultitypeInfoService.doEditMultitype(baseMultitypeInfoVo);
-			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sys/basemultitypeinfo/doEditMultitype", "多级类别管理信息", "修改", "");
 			 map.put("msg", "修改成功");
 		 }catch(Exception e){
 			 map.put("msg", "修改失败");
@@ -104,16 +96,14 @@ public class BaseMultitypeInfoCtrl {
 	 }
 	 
 	 /**
-	  * 删除多级类别信息
+	  * 修改多级类别信息
 	  * @return
 	  */
 	 @RequestMapping(value="doDelMultitype")
 	 @ResponseBody
-	 public  Map<String, Object> doDelMultitype(String id,HttpServletRequest request)
+	 public  Map<String, Object> doDelMultitype(String id)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();  
-		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		 operationlogService.insertLog(userVo, "/sys/basemultitypeinfo/doDelMultitype", "多级类别管理信息", "删除", "");
 		 System.out.println("id----"+id);
 		// List<Menuinfo> menuList=menuinfoService.searchMenuinfoList(id);
 		 if(id==null)id="0";

@@ -21,12 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.sys.RoleinfoService;
 import com.ztel.app.service.sys.SysparameterService;
 import com.ztel.app.vo.sys.RoleInfoVo;
 import com.ztel.app.vo.sys.SysparameterVo;
-import com.ztel.app.vo.sys.UserVo;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
 
@@ -45,8 +43,6 @@ public class SysparameterCtrl extends BaseCtrl {
 	
 	@Autowired
 	private SysparameterService sysparameterService = null;
-	@Autowired
-	private OperationlogService operationlogService = null;
 	
 	@RequestMapping("/toSysparainfo")
 	public String index(HttpServletRequest request) {
@@ -96,13 +92,13 @@ public class SysparameterCtrl extends BaseCtrl {
 	 }
 	 	
 	 /**
-	  * 删除系统参数配置
+	  * 删除参数
 	  * @return
 	  * @throws Exception
 	  */
 	 @RequestMapping(value="delSysPara",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> deleteSysPara(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
+	 public   Map<String, Object> deleteSysPara(@RequestParam("id") List<Integer> ids) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
 		 if (ids!=null&&ids.size()>0) {
@@ -110,8 +106,6 @@ public class SysparameterCtrl extends BaseCtrl {
 		}
 		 try {
 			 sysparameterService.delSysparameter(ids);
-			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(sessionUserVo, "/sys/sysparameter/delSysPara", "系统参数配置", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -130,14 +124,12 @@ public class SysparameterCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="sysParaNew",method=RequestMethod.POST)
 	// @ResponseBody
-	 public   void sysParaNew(SysparameterVo sysparameterVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+	 public   void sysParaNew(SysparameterVo sysparameterVo,HttpServletResponse response) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
 		 try {
 			 sysparameterService.insertSysparameter(sysparameterVo);
-			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(sessionUserVo, "/sys/sysparameter/sysParaNew", "系统参数配置", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -161,14 +153,12 @@ public class SysparameterCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="sysParaUpdate",method=RequestMethod.POST)
 	 //@ResponseBody
-	 public   void SysParaUpdate(SysparameterVo sysparameterVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+	 public   void SysParaUpdate(SysparameterVo sysparameterVo,HttpServletResponse response) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
 		 try {
 			 sysparameterService.updateSysparameter(sysparameterVo);
-			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(sessionUserVo, "/sys/sysparameter/sysParaUpdate", "系统参数配置", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {

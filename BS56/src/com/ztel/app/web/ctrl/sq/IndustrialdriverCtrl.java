@@ -21,19 +21,13 @@ import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.sq.CigfactoryService;
 import com.ztel.app.service.sq.IndustrialdriverService;
 import com.ztel.app.service.sq.impl.CigfactoryServiceImpl;
-import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.sq.CigfactoryVo;
 import com.ztel.app.vo.sq.IndustrialdriverVo;
 import com.ztel.app.vo.sq.TouchFeedbackVo;
-import com.ztel.app.vo.sys.UserVo;
 import com.ztel.framework.util.StringUtils;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
-/** 
- * 工业司机信息
- * @author admin
- *
- */
+
 	@Controller
 	@RequestMapping("/sq/industrialdriver")
 	public class IndustrialdriverCtrl extends BaseCtrl {
@@ -42,8 +36,6 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 		
 		@Autowired
 		private IndustrialdriverService industrialdriverService = null;
-		@Autowired
-		private OperationlogService operationlogService = null;
 		@Autowired
 		private CigfactoryService cigfactoryService = null;
 		
@@ -95,13 +87,13 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 		 }
 		 	
 		 /**
-		  * 删除工业司机信息
+		  * 删除角色
 		  * @return
 		  * @throws Exception
 		  */
 		 @RequestMapping(value="doindustrialdriverdelete",method=RequestMethod.POST)
 		 @ResponseBody
-		 public   Map<String, Object> Industrialdriverdelete(@RequestParam("id") List<Integer> id,HttpServletRequest request) throws Exception {
+		 public   Map<String, Object> Industrialdriverdelete(@RequestParam("id") List<Integer> id) throws Exception {
 			 Map<String, Object> map=new HashMap<String, Object>();  
 			 int total=1;
 			 if (id!=null&&id.size()>0) {
@@ -109,8 +101,6 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 			}
 			 try {
 				 industrialdriverService.deleteIndustrialdriverById(id);
-				 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-				 operationlogService.insertLog(userVo, "/sq/industrialdriver/doindustrialdriverdelete", "工业司机信息", "删除", "");
 				 map.put("msg", "成功");
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -123,13 +113,13 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 		 }
 	    
 		 /**
-		  * 新增工业司机信息
+		  * 新增角色
 		  * @return
 		  * @throws Exception
 		  */
 		 @RequestMapping(value="doindustrialdriverNew",method=RequestMethod.POST)
 		// @ResponseBody
-		 public   void industrialdriverNew(IndustrialdriverVo industrialdriver,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		 public   void industrialdriverNew(IndustrialdriverVo industrialdriver,HttpServletResponse response) throws Exception {
 			 Map<String, Object> map=new HashMap<String, Object>();  
 			 int total=1;
 	        
@@ -138,8 +128,6 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 				// CigfactoryVo cvo = CigfactoryService.get(industrialdriver.getFactoryid());
 				//industrialdriver.setFactoryname(cvo.getFacXXX()); 
 				industrialdriverService.newIndustrialdriver(industrialdriver);
-				UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-				 operationlogService.insertLog(userVo, "/sq/industrialdriver/doindustrialdriverNew", "工业司机信息", "新增", "");
 				 map.put("msg", "成功");
 				 total=1;
 			} catch (Exception e) {
@@ -158,21 +146,19 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 		 }
 		 
 		 /**
-		  * 修改工业司机信息
+		  * 修改角色
 		  * @return
 		  * @throws Exception
 		  */
 		 @RequestMapping(value="doindustrialdriverUpdate",method=RequestMethod.POST)
 		 //@ResponseBody
-		 public   void industrialdriverUpdate(IndustrialdriverVo industrialdriver,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		 public   void industrialdriverUpdate(IndustrialdriverVo industrialdriver,HttpServletResponse response) throws Exception {
 			 Map<String, Object> map=new HashMap<String, Object>(); 
 			 int total=0;
 	        
 			 System.out.println("industrialdriverid="+industrialdriver.getId()+",driverName="+industrialdriver.getDrivername()+",id="+industrialdriver.getId());
 			 try {
 				 industrialdriverService.updateIndustrialdriver(industrialdriver);
-				 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-				 operationlogService.insertLog(userVo, "/sq/industrialdriver/doindustrialdriverUpdate", "工业司机信息", "修改", "");
 				 map.put("msg", "成功");
 				 total=1;
 			} catch (Exception e) {

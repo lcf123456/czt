@@ -58,7 +58,7 @@ public class BasetypeInfoCtrl extends BaseCtrl {
 	}
 	
 	 /**
-	  * 新增基础类别管理信息
+	  * 新增basetypeinfo信息
 	  * @return
 	  */
 	 @RequestMapping(value="doBasetypeInfoNew")
@@ -87,7 +87,7 @@ public class BasetypeInfoCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 修改基础类别管理信息
+	  * 修改basetypeinfo信息
 	  * @return
 	  * @throws Exception
 	  */
@@ -116,7 +116,7 @@ public class BasetypeInfoCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 删除基础类别管理信息
+	  * 删除basetypeinfo信息
 	  * @return
 	  * @throws Exception
 	  */

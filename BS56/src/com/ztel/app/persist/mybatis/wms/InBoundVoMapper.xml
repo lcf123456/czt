@@ -29,7 +29,7 @@
   <select id="selectInBoundPageList" parameterType="Pagination" resultType="com.ztel.app.vo.wms.InBoundVo">
     select INBOUNDID, NAVICERT, CONTRACTNO, CREATETIME, QTY, SUPPLIER,b.comapany as CONSIGNSOR, INTYPE, REMARKS, 
     STATUS,decode(INTYPE,'10','工业来烟','20','调拨入库','30','退货入库','40','罚没烟') as INTYPENAME,
-    decode(STATUS,'10','新增','20','入库中','30','入库完成','新增') as STATUSNAME,BB_UUID as bbUuid 
+    decode(STATUS,'10','新增','20','入库中','30','入库完成','0','失效','新增') as STATUSNAME,BB_UUID as bbUuid 
     from T_WMS_INBOUND a,t_wms_consignor b where  a.consignsor=b.code
   <if test="param != null and param.status != null and param.status != ''">
         AND STATUS=#{param.status}
@@ -49,7 +49,7 @@
   <select id="selectInBoundList" parameterType="com.ztel.app.vo.wms.InBoundVo" resultType="com.ztel.app.vo.wms.InBoundVo">
     select INBOUNDID, NAVICERT, CONTRACTNO, CREATETIME, QTY, SUPPLIER, CONSIGNSOR, INTYPE, REMARKS, 
     STATUS,decode(INTYPE,'10','工业来烟','20','调拨入库','30','退货入库','40','罚没烟') as INTYPENAME,
-    decode(STATUS,'10','新增','20','入库中','30','入库完成','新增') as STATUSNAME,BB_UUID as bbUuid
+    decode(STATUS,'10','新增','20','入库中','30','入库完成','0','失效','新增') as STATUSNAME,BB_UUID as bbUuid
     from T_WMS_INBOUND where 1=1 
   <if test="keyword != null and keyword != ''">
         AND (CONSIGNSOR like '%'||#{keyword}||'%' or NAVICERT like '%'||#{keyword}||'%' or CONTRACTNO like '%'||#{keyword}||'%')
@@ -191,6 +191,15 @@
       </if>
       <if test="bbUuid != null" >
         BB_UUID = #{bbUuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where INBOUNDID = #{inboundid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateInboundNumById" parameterType="com.ztel.app.vo.wms.InBoundVo" >
+    update T_WMS_INBOUND
+    <set >
+      <if test="qty != null" >
+        QTY = #{qty,jdbcType=DECIMAL},
       </if>
     </set>
     where INBOUNDID = #{inboundid,jdbcType=DECIMAL}

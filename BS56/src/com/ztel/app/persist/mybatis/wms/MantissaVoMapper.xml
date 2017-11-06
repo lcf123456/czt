@@ -10,9 +10,10 @@
     <result column="AREAID" property="areaid" jdbcType="DECIMAL" />
     <result column="CREATEUSERID" property="createuserid" jdbcType="DECIMAL" />
     <result column="CREATEUSERNAME" property="createusername" jdbcType="OTHER" />
+    <result column="ORDERDATE" property="orderdate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, CIGARETTECODE, CIGARETTENAME, QTY, CREATEDATE, AREAID, CREATEUSERID, CREATEUSERNAME
+    ID, CIGARETTECODE, CIGARETTENAME, QTY, CREATEDATE, AREAID, CREATEUSERID, CREATEUSERNAME,ORDERDATE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select 
@@ -25,7 +26,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_WMS_MANTISSA
-    where cigarettecode=#{cigarettecode} and to_char(createdate,'yyyy-mm-dd')=to_char(#{createdate},'yyyy-mm-dd') and areaid=#{areaid}
+    where cigarettecode=#{cigarettecode} and to_char(createdate,'yyyy-mm-dd')=to_char(#{orderdate},'yyyy-mm-dd') and areaid=#{areaid}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from T_WMS_MANTISSA

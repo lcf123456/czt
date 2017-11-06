@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ztel.app.service.PubService;
 import com.ztel.app.service.wms.CigarettedamagedLineService;
 import com.ztel.app.service.wms.CigarettedamagedService;
-import com.ztel.app.vo.cost.SPLApplyListVo;
 import com.ztel.app.vo.sys.UserVo;
 import com.ztel.app.vo.wms.CigarettedamagedLineVo;
 import com.ztel.app.vo.wms.CigarettedamagedVo;
@@ -52,7 +51,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	
 	@RequestMapping("toCigarettedamaged")
 	public String index(HttpServletRequest request) {
-		String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常)
+		String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常  30：抽检)
 		request.setAttribute("damagedtype", damagedtype);
 		return "/wms/v_cigarettedamaged";
 	}
@@ -60,9 +59,16 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	
 	@RequestMapping("toCigaretteabnormal")
 	public String toCigaretteabnormal(HttpServletRequest request) {
-		String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常)
+		String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常  30：抽检)
 		request.setAttribute("damagedtype", damagedtype);
 		return "/wms/v_cigaretteabnormal";
+	}
+	
+	@RequestMapping("toCigaretteinspection")
+	public String toCigaretteinspection(HttpServletRequest request) {
+		String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常  30：抽检)
+		request.setAttribute("damagedtype", damagedtype);
+		return "/wms/v_cigaretteinspection";
 	}
 	
 	@RequestMapping(value="getCigarettedamagedPageList")
@@ -76,7 +82,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 			 cigarettedamagedVo.setInboundid(new BigDecimal(keyword));
 			 cigarettedamagedVo.setKeyword("");
 		 }
-		 String damagedtype =request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常)
+		 String damagedtype =request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常  30：抽检)
 		 if(damagedtype==null||damagedtype.equals(""))damagedtype="10";
 			 cigarettedamagedVo.setDamagedtype(new BigDecimal(damagedtype));
 		Pagination<?> page = this.getPagination(request);
@@ -163,7 +169,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 新增称重异常
+	  * 新增称重异常    20171103抽检新增共用
 	  * @return
 	  */
 	 @RequestMapping(value="doSaveabnormal")
@@ -259,7 +265,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 称重异常审核
+	  * 称重异常审核   20171103抽检新增共用
 	  * @return
 	  */
 	 @RequestMapping(value="doAuditabnormal")
@@ -270,6 +276,8 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 		 String checkflag = request.getParameter("checkflag");
 		 String inboundid = request.getParameter("inboundid");//入库单号
 		 String checkdescribe = request.getParameter("checkdescribe");
+		 String damagedtype = request.getParameter("damagedtype");
+		 if(damagedtype==null||"".equals(damagedtype))damagedtype="20";
 		 
 		 CigarettedamagedVo cigarettedamagedVo = new CigarettedamagedVo();
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
@@ -281,6 +289,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 		 cigarettedamagedVo.setCheckflag(checkflag);
 		 cigarettedamagedVo.setCheckdescribe(checkdescribe);
 		 cigarettedamagedVo.setChecktime(new Date());
+		 cigarettedamagedVo.setDamagedtype(new BigDecimal(damagedtype));
 		 try{
 			 cigarettedamagedService.doAuditabnormal(cigarettedamagedVo);
 		 

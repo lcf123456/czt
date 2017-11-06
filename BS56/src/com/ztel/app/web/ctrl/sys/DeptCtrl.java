@@ -90,7 +90,7 @@ public class DeptCtrl extends BaseCtrl {
 	 }
  	
 	 /**
-	  * 配送分部门删除
+	  * 删除参数
 	  * @return
 	  * @throws Exception
 	  */

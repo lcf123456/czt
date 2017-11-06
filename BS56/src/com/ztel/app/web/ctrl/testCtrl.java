@@ -50,7 +50,7 @@ public class testCtrl extends BaseCtrl {
     @RequestMapping(value = "/toparseXml")
     @ResponseBody
 	public String toparseXml(HttpServletRequest request) {
-    	String returnXML = wMSBillService.myWMSBillService("");
+    	String returnXML = wMSBillService.BillScan("");
 		return returnXML;
 	}
     

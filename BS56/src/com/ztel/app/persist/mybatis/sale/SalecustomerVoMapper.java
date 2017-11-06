@@ -1,10 +1,17 @@
 package com.ztel.app.persist.mybatis.sale;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.ztel.app.vo.sale.SalecustomerVo;
 
 public interface SalecustomerVoMapper {
+	/**
+	 * 取所有零售户数量，在同步到本地的页面需要统计零售户数量
+	 * @return
+	 */
+	int selectAllCustomerCount();
 	
 	/**
 	 * 接收到的营销数据插入之前先全部删除

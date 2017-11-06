@@ -73,7 +73,7 @@ public class EvalItemCtrl extends BaseCtrl {
 	 }
 	 	
 	 /**
-	  * 自动语音考核项删除
+	  * 考核项删除
 	  * @return
 	  * @throws Exception
 	  */
@@ -88,7 +88,7 @@ public class EvalItemCtrl extends BaseCtrl {
 		 try {
 			 total=evalItemService.delEvalItem(ids);
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sq/evalitem/doDelEvalItem", "自动语音考核项", "删除", "");
+			 operationlogService.insertLog(userVo, "/sq/evalitem/doDelEvalItem", "考核项管理", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -102,7 +102,7 @@ public class EvalItemCtrl extends BaseCtrl {
     
 	 
 	 /**
-	  * 自动语音考核项信息新增
+	  * 考核项信息新增
 	  * @param request
 	  * @return
 	  */
@@ -115,7 +115,7 @@ public class EvalItemCtrl extends BaseCtrl {
 		 try {
 			 total=evalItemService.inertEvalItem(evalitemVo);
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sq/evalitem/doInsertEvalItem", "自动语音考核项", "新增", "");
+			 operationlogService.insertLog(userVo, "/sq/evalitem/doInsertEvalItem", "考核项管理", "新增", "");
 			 map.put("msg", "成功");
 			 //total=1;
 		} catch (Exception e) {
@@ -132,7 +132,7 @@ public class EvalItemCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 修改自动语音考核项信息
+	  * 修改考核项信息
 	  * @return
 	  * @throws Exception
 	  */                                    
@@ -145,7 +145,7 @@ public class EvalItemCtrl extends BaseCtrl {
 		 try {
 			 total=evalItemService.updateEvalItem(evalitemVo);
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/sq/evalitem/doUpdateEvalItem", "自动语音考核项", "修改", "");
+			 operationlogService.insertLog(userVo, "/sq/evalitem/doUpdateEvalItem", "考核项管理", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		 } catch (Exception e) {

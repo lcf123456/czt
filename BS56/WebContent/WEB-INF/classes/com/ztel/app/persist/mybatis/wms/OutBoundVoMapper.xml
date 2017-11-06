@@ -18,17 +18,15 @@
      <result column="JTSIZE" property="jtsize" jdbcType="DECIMAL" />
     <result column="BEGINTIME" property="begintime" jdbcType="TIMESTAMP" />
     <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
-    <result column="NAVICERT" property="navicert" jdbcType="VARCHAR" />
-    <result column="CONTRACTNO" property="contractno" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
-    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, DELSTATUS, VEHICLENO, CONSIGNSOR,ORDERDATE,OUTTIME,NAVICERT,CONTRACTNO
+    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, DELSTATUS, VEHICLENO, CONSIGNSOR,ORDERDATE,OUTTIME
   </sql>
   
   <select id="selectOutoundPageList" resultType="com.ztel.app.vo.wms.OutBoundVo" parameterType="Pagination" >
     select 
-    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, ob.DELSTATUS, VEHICLENO, CONSIGNSOR,NAVICERT,CONTRACTNO,
+    OUTBOUNDID, QTY, CREATETIME, OUTBOUNDTYPE, USERID, REMARKS, ob.DELSTATUS, VEHICLENO, CONSIGNSOR,
     ORDERDATE,OUTTIME,ur.username as createusername
     from T_WMS_OUTBOUND ob,t_sys_user ur
     where ob.delstatus='10' and ob.userid=ur.id
@@ -60,15 +58,6 @@
 	</if>
 	<if test="vehicleno != null and vehicleno != ''">
 	        and  VEHICLENO = #{vehicleno,jdbcType=VARCHAR}
-	</if>
-	<if test="outboundtype != null">
-	        and  OUTBOUNDTYPE = #{outboundtype,jdbcType=DECIMAL}
-	</if>
-	<if test="remarks != null">
-	        and  REMARKS = #{remarks,jdbcType=OTHER}
-	</if>
-	<if test="navicert != null">
-	        and  NAVICERT = #{navicert,jdbcType=VARCHAR}
 	</if>
   </select>
   
@@ -124,12 +113,6 @@
       <if test="outtime != null" >
         OUTTIME,
       </if>
-       <if test="navicert != null" >
-        NAVICERT,
-      </if>
-      <if test="contractno != null" >
-        CONTRACTNO,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="outboundid != null" >
@@ -160,12 +143,6 @@
       </if>
       <if test="outtime != null" >
         #{outtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="navicert != null" >
-        #{navicert,jdbcType=VARCHAR},
-      </if>
-      <if test="contractno != null" >
-        #{contractno,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -201,12 +178,6 @@
       </if>      
       <if test="outtime != null" >
         OUTTIME = #{outtime,jdbcType=TIMESTAMP},
-      </if>
-       <if test="navicert != null" >
-        NAVICERT = #{navicert,jdbcType=VARCHAR},
-      </if>
-      <if test="contractno != null" >
-        CONTRACTNO = #{contractno,jdbcType=VARCHAR},
       </if>
     </set>
     where OUTBOUNDID = #{outboundid,jdbcType=DECIMAL}

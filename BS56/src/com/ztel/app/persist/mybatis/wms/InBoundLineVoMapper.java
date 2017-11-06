@@ -7,6 +7,9 @@ import com.ztel.app.vo.wms.InBoundLineVo;
 import com.ztel.app.vo.wms.InBoundVo;
 
 public interface InBoundLineVoMapper {
+	
+	int updateByInboundidSelective(InBoundLineVo record);
+	
 	/**
 	 * 获取列表
 	 * @param inBoundLineVo

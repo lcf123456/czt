@@ -24,16 +24,21 @@
 		<a href="#" id="linesaveBtn" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="cancelseq()">取消调整</a>
 			车组：<input name="routecode" id="routecode" class="easyui-combobox" style="width:90px;" data-options="">
 			</input>
-			批次：<input class="easyui-combobox" name="orderbatch" id="orderbatch" style="width:90px;" data-option='selected:true;'>
-				</input>
+			批次：<select class="easyui-combobox" name="orderbatch" id="orderbatch" style="width:auto;" data-option='selected:true;'>
+				<option value="" selected>请选择批次</option>
+				<option value="51">周一批次</option>
+				<option value="52">周二批次</option>
+				<option value="53">周三批次</option>
+                <option value="54">周四批次</option>
+                <option value="55">周五批次</option>
+			</select>
 			<input class="easyui-textbox"  name="code" id="code" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchCustomer();},prompt:'请输入专卖证、零售户信息。。。。'" style="width:300px;height:24px;">
 			<!-- <a href="#" onclick="searchCustomer();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">查询</a> -->
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>
 	</div>
-	<!-- 进度条，建议对于耗时长的操作才启用
-
+	<!-- 进度条，建议对于耗时长的操作才启用
 	<div id="loading">
 		<div class="inputdiv" >
 			<img  src="/BS56/img/loading.gif" style="padding-top: 20px; padding-left:72px;"/><br>
