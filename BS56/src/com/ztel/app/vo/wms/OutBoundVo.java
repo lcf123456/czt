@@ -82,6 +82,17 @@ public class OutBoundVo {
      * 创建用户名
      */
     private String createusername;
+    
+    /**
+     * 准运证
+     */
+    private String navicert;
+
+    /**
+     * 合同号
+     */
+    private String contractno;
+    
     /**
      * 出库编号
      * @return OUTBOUNDID 出库编号
@@ -315,5 +326,36 @@ public class OutBoundVo {
 	public void setBegintime(Date begintime) {
 		this.begintime = begintime;
 	}
+	 /**
+     * 准运证
+     * @return NAVICERT 准运证
+     */
+    public String getNavicert() {
+        return navicert;
+    }
+
+    /**
+     * 准运证
+     * @param navicert 准运证
+     */
+    public void setNavicert(String navicert) {
+        this.navicert = navicert == null ? null : navicert.trim();
+    }
+
+    /**
+     * 合同号
+     * @return CONTRACTNO 合同号
+     */
+    public String getContractno() {
+        return contractno;
+    }
+
+    /**
+     * 合同号
+     * @param contractno 合同号
+     */
+    public void setContractno(String contractno) {
+        this.contractno = contractno == null ? null : contractno.trim();
+    }
 	
 }

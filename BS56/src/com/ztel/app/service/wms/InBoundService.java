@@ -28,6 +28,14 @@ public interface InBoundService {
 	 */
 	public int doInsertInBoundAndLineList(WMSBillscanVo vo,List<WMSBillscanLineVo> lineist);
 	
+	/**
+	 * 从一号工程接收到的数据插入出库单以及明细表（主要针对商商调剂的出库）
+	 * @param vo
+	 * @param lineist
+	 * int 1：成功 0：失败
+	 */
+	public int doInsertOutBoundAndLineList(WMSBillscanVo vo,List<WMSBillscanLineVo> lineist);
+	
 	public List<InBoundVo> selectInBoundPageList(Pagination<?> page);
 	
 	public List<InBoundVo> selectInBoundList(InBoundVo inBoundVo);
