@@ -308,7 +308,6 @@ public class InBoundServiceImpl implements InBoundService {
 		}
 		return cigaretteCode;
 	}
-<<<<<<< HEAD
 
 	@Override
 	@Transactional(rollbackFor=Exception.class)
@@ -330,8 +329,7 @@ public class InBoundServiceImpl implements InBoundService {
 	@Override
 	public void doUpdateInboundNumById(InBoundVo inBoundVo) {
 		// TODO Auto-generated method stub
-		inBoundVoMapper.updateInboundNumById(inBoundVo);
-=======
+		inBoundVoMapper.updateInboundNumById(inBoundVo);}
 	
 	/**
 	 * 从一号工程接收到的数据插入出库单以及明细表（主要针对商商调剂的出库）
@@ -419,6 +417,5 @@ public class InBoundServiceImpl implements InBoundService {
 			e.printStackTrace();
 		}
 		return result;
->>>>>>> 0cb0e978fea0b0c859e898f6974d9693bf276f6e
 	}
 }
