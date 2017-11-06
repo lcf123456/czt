@@ -9,6 +9,8 @@
     <result column="amt_sum" property="amtSum" jdbcType="VARCHAR" />
     <result column="qty_sum" property="qtySum" jdbcType="VARCHAR" />
     <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="pmt_status" property="pmtStatus" jdbcType="VARCHAR" />
+    <result column="pmtstatusname" property="pmtstatusname" jdbcType="VARCHAR" />
   </resultMap>
 
 <!-- 获取营销接口中的订单头数据 -->

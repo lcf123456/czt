@@ -237,4 +237,19 @@ public class SaleAllServiceImpl implements SaleAllService {
 	public int selectAllOrderlineCount(String orderdate){
 		return saleorderheadVoMapper.selectAllOrderlineCount(orderdate);
 	}
+	/**
+	 * 取订单头信息的数量，扣款同步时判断是否存在该订单数据，然后更新扣款信息
+	 * @param sqlstr
+	 */
+	public SaleorderheadVo selectsaleorderheadBypriKey(String orderno){
+		return saleorderheadVoMapper.selectByPrimaryKey(orderno);
+	}
+	
+	/**
+	 * 更新扣款信息
+	 * @param orderno
+	 */
+	public int updateorderheadBypriKey(SaleorderheadVo saleorderheadVo){
+		return saleorderheadVoMapper.updateByPrimaryKeySelective(saleorderheadVo);
+	}
 }

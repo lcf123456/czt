@@ -18,7 +18,8 @@
 	<div id="toolbar" style="margin:0 auto; width:400px; height:100px; ">
 	<form id="queryForm">
 		<div style="margin:auto;text-align:center">
-			<a href="#" onclick="syncItem();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">商品信息同步</a>
+		订单日期：<input name="orderdate" id="orderdate" class="easyui-datebox"  style="width:120px"  >&nbsp;&nbsp;
+			<a href="#" onclick="syncSmtflag();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">扣款同步</a>
 		</div>
 		</form>
 	</div>
@@ -34,8 +35,8 @@
      * 页面列表datagrid初始化
      */
     jQuery(function($){
-    	//alert("aa");
-    	//$("#resultarea" ).css("display", "none");
+    	var nowTime = getDateYMD();
+    	$('#orderdate').datebox("setValue",nowTime);
     	document.getElementById('showMsg').innerHTML="";
     });
     
@@ -44,11 +45,11 @@
 	//document.getElementById('showMsg').innerHTML="";
 	
 	//清空查询条件
-	function syncItem(){
+	function syncSmtflag(){
 		$.messager.confirm('提示','确定要执行同步吗?',function(result){
 	        if (result){
 		$.ajax({ 
-		    url: baseURL+'/inspur/doSyncItem.json', 
+		    url: baseURL+'/inspur/doSyncsettlementflag.json?orderdate='+$('#orderdate').val(), 
 		    type: 'POST',
 		    beforeSend : function () {
 				$.messager.progress({

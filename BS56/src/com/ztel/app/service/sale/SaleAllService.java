@@ -109,4 +109,16 @@ public interface SaleAllService {
 	 * @return
 	 */
 	public int selectAllOrderlineCount(String orderdate);
+	
+	/**
+	 * 取订单头信息的数量，扣款同步时判断是否存在该订单数据，然后更新扣款信息
+	 * @param orderno
+	 */
+	public SaleorderheadVo selectsaleorderheadBypriKey(String orderno);
+	
+	/**
+	 * 更新扣款信息
+	 * @param orderno
+	 */
+	public int updateorderheadBypriKey(SaleorderheadVo saleorderheadVo);
 }
