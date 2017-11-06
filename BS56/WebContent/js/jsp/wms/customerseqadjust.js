@@ -74,8 +74,8 @@ jQuery(function(def){
 			},
 			{field:'delstatus',title:'状态',width:$(this).width()*0.15,sortable:true,
 				formatter:function(value,row,index){//return row.delstatus;}
-					if (row.delstatus=0) return "无效"
-					if (row.delstatus=10) return "有效";}
+					if (row.delstatus==0) return "无效"
+					if (row.delstatus==10) return "有效";}
 			}
 		]],
 		
