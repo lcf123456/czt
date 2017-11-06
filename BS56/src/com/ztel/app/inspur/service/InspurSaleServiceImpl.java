@@ -317,10 +317,10 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				String colNum = InspurSaleorderheadVo.getCoNum();
 				String flag = InspurSaleorderheadVo.getPmtstatusname();
 				SaleorderheadVo saleorderheadVo1 = saleAllService.selectsaleorderheadBypriKey(colNum);
-				if(saleorderheadVo1!=null&&saleorderheadVo1.getId()!=null){
+				if(saleorderheadVo1!=null&&saleorderheadVo1.getOrderno()!=null&&flag!=null&&flag.equals("1")){
 					Count_head++;
 					SaleorderheadVo saleorderheadVo = new SaleorderheadVo();
-					saleorderheadVo.setId(new BigDecimal(colNum));
+					saleorderheadVo.setOrderno(colNum);
 					saleorderheadVo.setSettlementflag(new Short(flag));
 					saleAllService.updateorderheadBypriKey(saleorderheadVo);
 				}
