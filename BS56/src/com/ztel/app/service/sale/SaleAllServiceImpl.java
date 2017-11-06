@@ -86,6 +86,12 @@ public class SaleAllServiceImpl implements SaleAllService {
 	}
 	
 	/**
+	 * 营销接口商品信息同步之前先全部删除
+	 */
+	public void deleteitemAll(String sqlstr){
+		saleitemVoMapper.deleteitemAll(sqlstr);
+	}
+	/**
 	 *  营销接口商品信息同步之前先全部置为删除状态
 	 */
 	public void updateitemAllrowstatus(){

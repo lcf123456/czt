@@ -47,6 +47,11 @@ public interface SaleAllService {
 	public void insertsaleorderline(String sqlstr);
 	
 	/**
+	 * 营销接口商品信息同步之前先全部删除
+	 * @param sqlstr
+	 */
+	public void deleteitemAll(String sqlstr);
+	/**
 	 *  营销接口商品信息同步之前先全部置为删除状态
 	 */
 	public void updateitemAllrowstatus();

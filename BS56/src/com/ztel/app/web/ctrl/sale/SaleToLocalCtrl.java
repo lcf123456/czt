@@ -1,9 +1,6 @@
 package com.ztel.app.web.ctrl.sale;
 
-<<<<<<< HEAD
-public class SaleToLocalCtrl {
 
-=======
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -140,5 +137,5 @@ public class SaleToLocalCtrl extends BaseCtrl{
 		 result.put("resultmsg", resultmsg);
 		 return result;
 	 }
->>>>>>> 3234387e2c59d61d48cab366b222ba460f397948
+
 }

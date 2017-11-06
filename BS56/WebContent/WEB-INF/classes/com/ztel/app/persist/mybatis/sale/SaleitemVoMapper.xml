@@ -54,6 +54,11 @@
     select count(*) as cnt  from T_SALE_ITEM
   </select>
   
+      <!-- 营销接口商品信息同步之前先全部删除 -->
+  <delete id="deleteitemAll" >
+    ${sqlstr}
+  </delete>
+  
   <!-- 营销接口商品信息同步之前先全部置为删除状态 -->
   <update id="updateitemAllrowstatus" >
     update T_SALE_ITEM set rowstatus=0

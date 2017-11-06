@@ -232,7 +232,8 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 		List<InspurSaleitemVo> inspurSaleitemList = nspurSaleitemVoMapper.selectInspursaleitemList(sqlstr);
 		if(inspurSaleitemList!=null&&inspurSaleitemList.size()>0){
 			custCount=inspurSaleitemList.size();
-			saleAllService.updateitemAllrowstatus();//更新全部商品为删除状态
+			//saleAllService.updateitemAllrowstatus();//更新全部商品为删除状态
+			saleAllService.deleteitemAll("delete from T_SALE_ITEM");//删除商品
 			for(int i=0;i<inspurSaleitemList.size();i++){
 				InspurSaleitemVo inspurSaleitemVo = inspurSaleitemList.get(i);
 				String itemid = inspurSaleitemVo.getItemId();//t_sale_item:商品id/code
@@ -259,6 +260,7 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				saleitemVo2.setBaseuomName(umName);
 				saleitemVo2.setItemno(itemid);
 				saleitemVo2.setShipperId(new BigDecimal("11430101"));
+				saleitemVo2.setRowstatus(new BigDecimal("10"));
 				if(saleitemVo!=null&&saleitemVo.getId()!=null&&!saleitemVo.getId().equals("")){
 					saleAllService.updateItembyPrimaryKey(saleitemVo2);
 					//saleitemVo2.seti
