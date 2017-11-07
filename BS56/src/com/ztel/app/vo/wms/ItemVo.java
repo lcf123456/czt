@@ -959,6 +959,11 @@ public void setOuttype(String outtype) {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
+
+	public void setRowstatus(String string) {
+		// TODO Auto-generated method stub
+		this.rowstatus = rowstatus;
+	}
     
 	
 }

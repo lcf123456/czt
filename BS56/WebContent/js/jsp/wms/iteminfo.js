@@ -12,7 +12,7 @@ jQuery(function($){
 		striped: true, //奇偶行颜色不同
 		collapsible:true,//可折叠
 		url:baseURL+"/wms/item/getIteminfoList.json", //数据来源
-		sortName: 'id', //排序的列
+		sortName: 'createtime', //排序的列
 		sortOrder: 'desc', //倒序
 		remoteSort: false, //服务器端排序
 		idField:'id', //主键字段
@@ -26,20 +26,20 @@ jQuery(function($){
 		rownumbers:true, //显示行号
 		columns:[[
 			{field:'id',checkbox:true,width:2}, //显示复选框
-			{field:'itemno',title:'商品编号',width:15,
+			{field:'itemno',title:'商品编号',width:20,
 				formatter:function(value,row,index){return row.itemno;} //需要formatter一下才能显示正确的数据
 			},
 			
-			{field:'itemname',title:'商品名称',width:25,
+			{field:'itemname',title:'商品名称',width:40,
 				formatter:function(value,row,index){return row.itemname;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'shortname',title:'商品简称',width:20,
+			{field:'shortname',title:'商品简称',width:35,
 				formatter:function(value,row,index){return row.shortname;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'spec',title:'规格',width:15,
+			{field:'spec',title:'规格',width:20,
 				formatter:function(value,row,index){return row.spec;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'abccode',title:'ABC编码',width:10,
+			{field:'abccode',title:'ABC编码',width:15,
 				formatter:function(value,row,index){
 					if( row.abccode == '10'){
 						return 'A类';
@@ -52,7 +52,7 @@ jQuery(function($){
 					}
 				} //需要formatter一下才能显示正确的数据
 			},
-			{field:'shiptype',title:'类型',width:10,
+			{field:'shiptype',title:'类型',width:15,
 				formatter:function(value,row,index){
 					if( row.shiptype == '0'){
 						return '正常烟';
@@ -65,7 +65,7 @@ jQuery(function($){
 			{field:'weight',title:'重量',width:10,
 				formatter:function(value,row,index){return row.weight;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'iscanscancode',title:'扫码识别类型',width:15,
+			{field:'iscanscancode',title:'扫码识别类型',width:25,
 				formatter:function(value,row,index){
 					if( row.iscanscancode == '10'){
 						return '能扫码识别';
@@ -84,7 +84,7 @@ jQuery(function($){
 			{field:'wz_size',title:'万条',width:10,
 				formatter:function(value,row,index){return row.wzSize;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'outtype',title:'出库类型',width:10,
+			{field:'outtype',title:'出库类型',width:15,
 				formatter:function(value,row,index){
 					if( row.outtype == '1'){
 						return '一楼出';
@@ -94,16 +94,16 @@ jQuery(function($){
 					}
 					}
 			},
-			{field:'fullcount',title:'满盘数量',width:10,
+			{field:'fullcount',title:'满盘数量',width:15,
 				formatter:function(value,row,index){return row.fullcount;}
 			},
-			{field:'createuser',title:'创建人',width:10,
+			{field:'createuser',title:'创建人',width:20,
 				formatter:function(value,row,index){return row.createuser;}
 			},
-			{field:'createtime',title:'创建时间',width:15,
+			{field:'createtime',title:'创建时间',width:20,
 				formatter:function(value,row,index){return row.createtime.substring(0,10);}
 			},
-			{field:'cdtype',title:'拆垛类型',width:10,
+			{field:'cdtype',title:'拆垛类型',width:20,
 				formatter:function(value,row,index){
 					if( row.cdtype == '10'){
 					return '自动拆垛';
@@ -113,7 +113,7 @@ jQuery(function($){
 				}
 			 }
 			},
-			{field:'rowstatus',title:'状态',width:8,
+			{field:'rowstatus',title:'状态',width:10,
 				formatter:function(value,row,index){
 					if( row.rowstatus == '10'){
 						return '正常';

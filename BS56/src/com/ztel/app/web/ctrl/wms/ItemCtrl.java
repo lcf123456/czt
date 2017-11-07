@@ -32,6 +32,7 @@ import com.ztel.app.vo.sys.VehicleVo;
 import com.ztel.app.vo.wms.ConsignorVo;
 import com.ztel.app.vo.wms.ItemVo;
 import com.ztel.app.vo.wms.LanewayVo;
+import com.ztel.framework.util.DateUtil;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
 
@@ -154,9 +155,10 @@ public class ItemCtrl extends BaseCtrl {
 	@ResponseBody
 	 public   Map<String, Object> doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
-		 int total=0;
+		 int total=1;
         
-		 try { 
+		 try { itemVo.setRowstatus("10");
+		 itemVo.setCreatetime(DateUtil.getDateyyyy_mm_dd());
 		     itemService.insertIteminfo(itemVo);
 		     UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoNew", "商品信息", "新增", "");
@@ -184,14 +186,13 @@ public class ItemCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doIteminfoDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doIteminfoDel(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
+	 public   Map<String, Object> doIteminfoDel(@RequestParam("id") List<String> ids,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
 		 if (ids!=null&&ids.size()>0) {
 			 total = ids.size();
 		}
 		 try {
-		
 			 itemService.delIteminfo(ids);
 			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoDel", "商品信息", "删除", "");

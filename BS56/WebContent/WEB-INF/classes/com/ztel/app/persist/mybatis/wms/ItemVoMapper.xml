@@ -70,19 +70,19 @@
   
    <!--获取品牌信息 -->
   <select id="selectBrandinfoPageList" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
-    select id,bigbox_bar, fullcount, cdtype
+    select id,bigbox_bar, itemno,itemname,shortname,fullcount, cdtype,spec
     from T_WMS_ITEM  where 1=1
-   <if test="param != null and param.cdtype != null and param.cdtype!= ''">
-        AND  bigbox_bar like '%'||#{param.cdtype}||'%' 
+   <if test="param != null and param.itemname != null and param.itemname!= ''">
+        AND  (bigbox_bar like '%'||#{param.itemname}||'%' or itemname like '%'||#{param.itemname}||'%'or itemno like '%'||#{param.itemname}||'%')
     </if>
   </select>
     <!--获取商品信息 -->
   <select id="selectIteminfoPageList" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
     select id,itemno,itemname,shortname,decode(spec,'NULL','',spec)as spec,abccode,shiptype,producearea,rowstatus,weight,iscanscancode,
     dxtype,jt_size,wz_size, outtype, fullcount, cdtype,createtime,decode(createuser,'NULL','',createuser)as createuser
-    from T_WMS_ITEM  where 1=1
-   <if test="param != null and param.cdtype != null and param.cdtype!= ''">
-        AND  (itemname like '%'||#{param.cdtype}||'%' or itemno like '%'||#{param.cdtype}||'%' )
+    from T_WMS_ITEM  where rowstatus=10
+   <if test="param != null and param.itemname != null and param.itemname!= ''">
+        AND  (itemname like '%'||#{param.itemname}||'%' or itemno like '%'||#{param.itemname}||'%' )
     </if>
     order by createtime desc
   </select>
@@ -287,6 +287,9 @@
       <if test="wzSize != null">
         WZ_SIZE,
       </if>
+      <if test="outtype != null">
+        OUTTYPE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       S_WMS_ITEM.nextval,
@@ -416,6 +419,9 @@
       </if>
       <if test="wzSize != null">
         #{wzSize,jdbcType=DECIMAL},
+      </if>
+      <if test="outtype != null">
+        #{outtype,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -548,6 +554,9 @@
       <if test="wzSize != null">
         WZ_SIZE = #{wzSize,jdbcType=DECIMAL},
       </if>
+      <if test="outtype!= null">
+        OUTTYPE = #{outtype,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -593,6 +602,7 @@
       CDTYPE = #{cdtype,jdbcType=DECIMAL},
       ISCANSCANCODE = #{iscanscancode,jdbcType=DECIMAL},
       DXTYPE = #{dxtype,jdbcType=VARCHAR},
+       OUTTYPE = #{outtype,jdbcType=VARCHAR},
       JT_SIZE = #{jtSize,jdbcType=DECIMAL},
       WZ_SIZE = #{wzSize,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
