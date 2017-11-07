@@ -78,14 +78,21 @@ jQuery(function($){
 			{field:'dxtype',title:'垛型',width:10,
 				formatter:function(value,row,index){return row.dxtype;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'jtsize',title:'件条',width:10,
-				formatter:function(value,row,index){return row.jtsize;} //需要formatter一下才能显示正确的数据
+			{field:'jt_size',title:'件条',width:10,
+				formatter:function(value,row,index){return row.jtSize;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'wzsize',title:'万条',width:10,
-				formatter:function(value,row,index){return row.wzsize;} //需要formatter一下才能显示正确的数据
+			{field:'wz_size',title:'万条',width:10,
+				formatter:function(value,row,index){return row.wzSize;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'outtype',title:'出库类型',width:10,
-				formatter:function(value,row,index){return row.outtype;}
+				formatter:function(value,row,index){
+					if( row.outtype == '1'){
+						return '一楼出';
+					}
+					else if( row.outtype == '2'){
+						return '二楼出';
+					}
+					}
 			},
 			{field:'fullcount',title:'满盘数量',width:10,
 				formatter:function(value,row,index){return row.fullcount;}

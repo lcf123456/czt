@@ -79,7 +79,7 @@
     <!--获取商品信息 -->
   <select id="selectIteminfoPageList" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
     select id,itemno,itemname,shortname,decode(spec,'NULL','',spec)as spec,abccode,shiptype,producearea,rowstatus,weight,iscanscancode,
-    dxtype,jt_size,wz_size,decode(outtype,'1','一楼出','2','二楼出')as outtype, fullcount, cdtype,createtime,decode(createuser,'NULL','',createuser)as createuser
+    dxtype,jt_size,wz_size, outtype, fullcount, cdtype,createtime,decode(createuser,'NULL','',createuser)as createuser
     from T_WMS_ITEM  where 1=1
    <if test="param != null and param.cdtype != null and param.cdtype!= ''">
         AND  (itemname like '%'||#{param.cdtype}||'%' or itemno like '%'||#{param.cdtype}||'%' )
