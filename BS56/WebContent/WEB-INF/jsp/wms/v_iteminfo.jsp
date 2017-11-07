@@ -126,12 +126,6 @@
             <td width="14%" height="20" align="left" nowrap>
                 <input name="wz_size" id="wz_size" class="easyui-validatebox tb" style="width:150px" data-options="" >
             </td> 
-            <td width="5%"  height="20" align="left" nowrap>规格：</td>
-           <td width="14%"  height="20" align="left" nowrap>
-               <input name="spec" id="spec"   class="easyui-validatebox tb"style="width:150px" data-options="" >
-           </td>  
-           </tr>
-             <tr align="center">
             <td width="5%" height="20" align="left" nowrap>类型：</td>
             <td width="14%" height="20" align="left" nowrap>
                 <select name="shiptype" id="shiptype" class="easyui-combobox tb" style="width:100px" data-options="" >
@@ -139,6 +133,13 @@
 				<option value="1" >异型烟</option>
 				</select>
            </td>
+           </tr>
+             <tr align="center">
+            <td width="5%"  height="20" align="left" nowrap>规格：</td>
+           <td width="14%"  height="20" align="left" nowrap>
+               <input name="spec" id="spec"   class="easyui-validatebox tb"style="width:150px" data-options="" >
+           </td>  
+            
             </tr>
   	 </table>
 		     </td>

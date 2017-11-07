@@ -151,15 +151,14 @@ public class ItemCtrl extends BaseCtrl {
 	  * @throws Exception
 	  */
 	 @RequestMapping(value="doIteminfoNew",method=RequestMethod.POST)
-	// @ResponseBody
-	 public   void doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
-		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+	@ResponseBody
+	 public   Map<String, Object> doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
 		 try { 
 		     itemService.insertIteminfo(itemVo);
-			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
+		     UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoNew", "商品信息", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
@@ -172,9 +171,10 @@ public class ItemCtrl extends BaseCtrl {
 		 
 		 //直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
 
-		 String result = JSON.toJSONString(map);
-		 response.setContentType("text/html;charset=UTF-8");
-		 response.getWriter().write(result);  
+		// String result = JSON.toJSONString(map);
+		// response.setContentType("text/html;charset=UTF-8");
+		 //response.getWriter().write(result);  
+		 return map;
 	 } 	
 	
 	 /**
