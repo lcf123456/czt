@@ -145,7 +145,7 @@ public class WMSBillServiceImpl implements WMSBillService{
 	                    String bd_pcig_code = recordEless.elementTextTrim("bd_pcig_code"); //>标准件烟卷烟代码(卷烟件码)
 	                    String bd_bcig_code = recordEless.elementTextTrim("bd_bcig_code"); //标准条烟卷烟代码(卷烟条码)
 	                    String bd_bill_pnum =  recordEless.elementTextTrim("bd_bill_pnum"); //应出/入货量（件）
-	                    String bd_bill_all_bnum =  recordEless.elementTextTrim("bd_bill_all_bnum"); //应出/入货量（件
+	                    String bd_bill_all_bnum =  recordEless.elementTextTrim("bd_bill_all_bnum"); //应出/入货量（条）
 	                    WMSBillscanLineVo wMSBillscanLineVo = new WMSBillscanLineVo(); 
 	                    wMSBillscanLineVo.setBdpcigname(bd_pcig_name);
 	                    wMSBillscanLineVo.setBdpcigcode(bd_pcig_code);
@@ -170,7 +170,7 @@ public class WMSBillServiceImpl implements WMSBillService{
 					wMSBillscanVo.setBbtotalallnum1(bb_total_all_num1);
 					//此处添加日志：从一号工程接收数据完成----------------------
 
-					operationlogService.insertLog(userVo, "/BS56/services/WMSBillService?wsdl", "一号工程接口接收数据", "2、"+bb_uuid+"接收完成", "");
+					operationlogService.insertLog(userVo, "/BS56/services/WMSBillService?wsdl", "一号工程接口接收数据", "2、"+bb_uuid+"接收完成", xml);
 					int result = 1;
 					//单据创建
   					if(ws_method!=null&&!ws_method.equals("")&&ws_method.equals("BillCreate")){

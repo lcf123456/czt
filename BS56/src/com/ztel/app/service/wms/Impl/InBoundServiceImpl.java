@@ -275,9 +275,12 @@ public class InBoundServiceImpl implements InBoundService {
 					inBoundLineVo.setBarcode(barcode);
 					String boxqty = wMSBillscanLineVo.getBdbillpnum();
 					if(boxqty==null||boxqty.equals(""))boxqty="0";
+					String bdbillallbnum =wMSBillscanLineVo.getBdbillallbnum();//应出/入货总量（条）
+					if(bdbillallbnum==null||bdbillallbnum.equals(""))bdbillallbnum="0";
 					inBoundLineVo.setBoxqty(new BigDecimal(boxqty));
 					inBoundLineVo.setInboundid(new BigDecimal(id));
 					inBoundLineVo.setConsignsor(mainVo.getHeadcommercecode());
+					inBoundLineVo.setItemqty(new BigDecimal(bdbillallbnum));
 					inBoundLineVoMapper.insertSelective(inBoundLineVo);
 				}
 			}
