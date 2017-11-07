@@ -19,6 +19,7 @@ public class InventorySumVo {
 	private String commonno;
 	private BigDecimal commonqty;
 	private BigDecimal diffqty;
+	private BigDecimal virtualqty;
 	private String flag;
 	
 	public String getFlag() {
@@ -129,6 +130,12 @@ public class InventorySumVo {
 	}
 	public void setDiffqty(BigDecimal diffqty) {
 		this.diffqty = diffqty;
+	}
+	public BigDecimal getVirtualqty() {
+		return virtualqty;
+	}
+	public void setVirtualqty(BigDecimal virtualqty) {
+		this.virtualqty = virtualqty;
 	}
 	
 }

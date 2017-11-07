@@ -11,7 +11,7 @@ jQuery(function($){
 		fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
 		striped: true, //奇偶行颜色不同
 		collapsible:true,//可折叠
-		url:baseURL+"/wms/item/getBrandinfoList.json", //数据来源
+		url:baseURL+"/wms/item/getIteminfoList.json", //数据来源
 		sortName: 'id', //排序的列
 		sortOrder: 'desc', //倒序
 		remoteSort: false, //服务器端排序
@@ -26,51 +26,75 @@ jQuery(function($){
 		rownumbers:true, //显示行号
 		columns:[[
 			{field:'id',checkbox:true,width:2}, //显示复选框
-			{field:'itemno',title:'商品编号',width:10,
+			{field:'itemno',title:'商品编号',width:15,
 				formatter:function(value,row,index){return row.itemno;} //需要formatter一下才能显示正确的数据
 			},
 			
-			{field:'itemname',title:'商品名称',width:10,
+			{field:'itemname',title:'商品名称',width:25,
 				formatter:function(value,row,index){return row.itemname;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'shortname',title:'商品简称',width:10,
+			{field:'shortname',title:'商品简称',width:20,
 				formatter:function(value,row,index){return row.shortname;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'spec',title:'规格',width:10,
+			{field:'spec',title:'规格',width:15,
 				formatter:function(value,row,index){return row.spec;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'abccode',title:'ABC编码',width:10,
-				formatter:function(value,row,index){return row.abccode;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){
+					if( row.abccode == '10'){
+						return 'A类';
+					}
+					else if( row.abccode == '20'){
+						return 'B类';
+					}
+					else if( row.abccode == '30'){
+						return 'C类';
+					}
+				} //需要formatter一下才能显示正确的数据
 			},
 			{field:'shiptype',title:'类型',width:10,
-				formatter:function(value,row,index){return row.shiptype;} //需要formatter一下才能显示正确的数据
-			},
-			{field:'producearea',title:'产区',width:10,
-				formatter:function(value,row,index){return row.producearea;} //需要formatter一下才能显示正确的数据
-			},
-			{field:'rowstatus',title:'状态',width:10,
-				formatter:function(value,row,index){return row.rowstatus;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){
+					if( row.shiptype == '0'){
+						return '正常烟';
+					}
+					else if( row.shiptype == '1'){
+						return '异型烟';
+					}
+				} //需要formatter一下才能显示正确的数据
 			},
 			{field:'weight',title:'重量',width:10,
 				formatter:function(value,row,index){return row.weight;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'iscanscancode',title:'扫码识别类型',width:10,
-				formatter:function(value,row,index){return row.iscanscancode;} //需要formatter一下才能显示正确的数据
+			{field:'iscanscancode',title:'扫码识别类型',width:15,
+				formatter:function(value,row,index){
+					if( row.iscanscancode == '10'){
+						return '能扫码识别';
+					}
+					else if( row.iscanscancode == '0'){
+						return '无法扫码识别';
+					}
+				} //需要formatter一下才能显示正确的数据
 			},
-			{field:'dxtype',title:'垛型类型',width:10,
+			{field:'dxtype',title:'垛型',width:10,
 				formatter:function(value,row,index){return row.dxtype;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'jt_size',title:'件条',width:10,
 				formatter:function(value,row,index){return row.jt_size;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'wt_size',title:'万条',width:10,
-				formatter:function(value,row,index){return row.wt_size;} //需要formatter一下才能显示正确的数据
+			{field:'wz_size',title:'万条',width:10,
+				formatter:function(value,row,index){return row.wz_size;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'outtype',title:'出库类型',width:10,
-				formatter:function(value,row,index){return row.weight;} //需要formatter一下才能显示正确的数据
-			},
-			{field:'fullcount',title:'满盘数量',width:30,
 				formatter:function(value,row,index){return row.outtype;}
+			},
+			{field:'fullcount',title:'满盘数量',width:10,
+				formatter:function(value,row,index){return row.fullcount;}
+			},
+			{field:'createuser',title:'创建人',width:10,
+				formatter:function(value,row,index){return row.createuser;}
+			},
+			{field:'createtime',title:'创建时间',width:10,
+				formatter:function(value,row,index){return row.createtime;}
 			},
 			{field:'cdtype',title:'拆垛类型',width:10,
 				formatter:function(value,row,index){
@@ -81,6 +105,16 @@ jQuery(function($){
 					return '人工拆垛';
 				}
 			 }
+			},
+			{field:'rowstatus',title:'状态',width:8,
+				formatter:function(value,row,index){
+					if( row.rowstatus == '10'){
+						return '正常';
+					}
+					else if( row.rowstatus == '0'){
+						return '删除';
+					}
+				} //需要formatter一下才能显示正确的数据
 			},
 		]],
 		toolbar:'#toolbar',
@@ -93,62 +127,105 @@ jQuery(function($){
 	
 });
 
-  /**
-   * 打开修改窗口
-   */
-    function openEdit(){
-  		var rows = $('#dataTable').datagrid('getSelections');
-  		if(rows.length==0){
-  			$.messager.alert('提示',"请选择你要更新的品牌信息",'info');
-  			return;
-  		}
-  		if(rows.length > 1){
-  			$.messager.alert('提示',"只能选择一条品牌进行更新",'info');
-  			return;
-  		}
-  		var row = $('#dataTable').datagrid('getSelected');
-  		if (row){
-  			$('#edit-dlg').dialog('open').dialog('setTitle','修改品牌信息');
-  			$('#edit-fm').form('load',row);
-  			//url = '/BS56/sys/roleNew.json';
-  		}
+/**
+ * 打开商品信息新增窗口
+ */
+function newadd(){
+	alert('---');
+	$('#add-dlg').dialog('open').dialog('setTitle','新增商品信息');
+	$('#add-fm').form('reset');
+	var nowTime = getDateYMD();
+	 $('#createtime').datebox('setValue',nowTime );
+}
 
-  	}
-    
-    /**
-     * 保存修改的参数信息
 
-     */
-    function saveEdit(){
-    	$('#edit-fm').form('submit',{
-    		onSubmit: function(){
-    			var isValidate = $(this).form('validate');
-    			if(isValidate){
-    				//$('#loading').window('open');
-    			}
-    			return isValidate;
-    		},
-    		url:baseURL+"/wms/item/doEditBrandinfo.json",
-  		data:$("#edit-fm").serializeArray(),
-  		beforeSend : function () {
-  			$.messager.progress({
-  				text : '正在修改中...',
-  			});	
-  		},
-    		success: function(data){
-  			//$('#loading').window('close');
-  			data = eval('('+data+')');
-  			$('#edit-dlg').dialog('close');
-  			$('#dataTable').datagrid('reload'); 
-      		$.messager.show({
-  				title : '提示',
-  				msg :  data.total+'个品牌信息修改'+data.msg+'！',
-  			});
-  			//$('#loading').window('close');
-  		}
+/**
+ * 保存新建商品信息
+ */
+function saveNew(){
+	alert('---');
+	//$.extend($.fn.validatebox.defaults.rules, {
+	 //   myvalidate : {
+	    //    validator : function(value, param) {
+	     //       var itemname = $("#itemname").val().trim();
+	       //     console.log(itemname);
+	        //    var haha = " ";
+	        //    $.ajax({
+	           //     type : 'post',
+	           //     async : false,
+	             //   url : baseURL+"/wms/item/doItemnameCheck.json",
+	             //   data : {
+	              //      "itemname" : itemname
+	              //  },
+	              //  success : function(data) {
+	                 //   haha = data;
+	               // }
+	           // });
+	           // console.log(haha);
+	           // return haha.indexOf("true");
+	       // },
+	       // message : '商品名称已存在，请重新输入！'
+	   // }
+	//});
+	//var bdate=$('#buydate_string').val();
+	//alert("---");
+	$('#add-fm').form('submit',{
+		onSubmit: function(){
+			var isValidate = $(this).form('validate');
+			if(isValidate){
+				
+			}
+			return isValidate;
+		},
+		
+		url:baseURL+"/wms/item/doIteminfoNew.json",
+		data:$("#add-fm").serializeArray(),
+		beforeSend : function () {
+			$.messager.progress({
+				text : '正在新增中...',
+			});
+		},
+		success: function(data){
+			//$('#loading').window('close');
+			data = eval('('+data+')');
+			$('#add-dlg').dialog('close');
+			$('#dataTable').datagrid('reload'); 
+    		$.messager.show({
+				title : '提示',
+				msg :  data.total+'个商品信息新增'+data.msg+'！',
+			});
+			//$('#loading').window('close');
+		}
+	});
+}
+//删除
+function deleterow(){
+	var rows = $('#dataTable').datagrid('getSelections');
+	if(rows.length==0){
+	$.messager.alert('提示',"请选择你要删除的商品信息",'info');
+	return;
+}
+	$.messager.confirm('提示','确定要删除吗?',function(result){
+    if (result){
+    	var ps = "";
+    	$.each(rows,function(i,n){
+    		if(i==0) 
+    			ps += "?id="+n.id;
+    		else
+    			ps += "&id="+n.id;
+    	});
+    	$.post(baseURL+'/wms/item/doIteminfoDel.json'+ps,function(data){
+        	$('#dataTable').datagrid('reload'); 
+        	//console.log("del--"+data);
+    		$.messager.show({
+				title : '提示',
+				msg :  data.total+'个商品信息'+data.msg+'！',
+			});
     	});
     }
-    
+});
+}
+ 
   
 //查询
 function searchiteminfo(){

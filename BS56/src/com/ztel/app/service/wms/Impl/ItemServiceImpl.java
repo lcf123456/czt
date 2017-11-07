@@ -34,7 +34,11 @@ public class ItemServiceImpl implements ItemService {
 		// TODO Auto-generated method stub
 		return itemVoMapper.selectBrandinfoPageList(page);
 	}
-	
+	@Override
+	public List<ItemVo> getIteminfoList(Pagination<?> page) {
+		// TODO Auto-generated method stub
+		return itemVoMapper.selectIteminfoPageList(page);
+	}
 	@Override
 	public int updateBrandinfo(ItemVo itemVo) {
 		// TODO Auto-generated method stub
@@ -57,5 +61,30 @@ public class ItemServiceImpl implements ItemService {
 			 }
 		}
 		 return boxList;
+	}
+	/**
+	 * 新增商品信息
+	 */
+	@Override
+	public int insertIteminfo(ItemVo itemVo) {
+		// TODO Auto-generated method stub
+		if (itemVo!=null&&!"".equals(itemVo.getId())) {
+			return itemVoMapper.insertSelective(itemVo);
+		}
+		return 0;
+	}
+	/**
+	 * 删除商品信息
+	 */
+	@Override
+	public int delIteminfo(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		if(ids != null && ids.size() > 0) {
+			for (Integer id : ids) {
+				this.itemVoMapper.deleteByPrimaryKey(id);
+			}
+			return ids.size();
+		}
+		return 0;
 	}
 }

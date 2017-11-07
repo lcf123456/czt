@@ -85,7 +85,8 @@ public class InventoryNewCtrl extends BaseCtrl {
 		 Map<String, Object> result=new HashMap<String, Object>();  
 		 
 		 String searchDate=request.getParameter("searchdate");
-		 List<InventorySumVo>list=inventorySumVoService.selectInventoryList(searchDate);
+		 String orderdate=request.getParameter("orderdate");
+		 List<InventorySumVo>list=inventorySumVoService.selectInventoryList(searchDate,orderdate);
 		
 		 result.put("rows",list);  
 		 result.put("total",list.size());  

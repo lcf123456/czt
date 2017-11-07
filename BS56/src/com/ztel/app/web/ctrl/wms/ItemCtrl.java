@@ -17,13 +17,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.wms.ConsignorService;
 import com.ztel.app.service.wms.ItemService;
 import com.ztel.app.vo.sq.StarinfoVo;
+import com.ztel.app.vo.sys.BlockcustomerVo;
 import com.ztel.app.vo.sys.DeptVo;
+import com.ztel.app.vo.sys.UserVo;
 import com.ztel.app.vo.sys.VehicleVo;
 import com.ztel.app.vo.wms.ConsignorVo;
 import com.ztel.app.vo.wms.ItemVo;
@@ -40,7 +44,8 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 public class ItemCtrl extends BaseCtrl {
 	
 	private static Logger logger = LogManager.getLogger(ItemCtrl.class);
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@Autowired
 	private ItemService itemService = null;
 	@RequestMapping("toBrandinfo")
@@ -55,7 +60,7 @@ public class ItemCtrl extends BaseCtrl {
 	}
 	
 	/**
-	  * 获取商品信息
+	  * 获取品牌信息
 	  * @return
 	  * @throws Exception
 	  */
@@ -70,6 +75,29 @@ public class ItemCtrl extends BaseCtrl {
 		}
 		List<ItemVo> itemVoList = new ArrayList<ItemVo>();
 		itemVoList = itemService.getBrandinfoList(page);
+		
+		 result.put("rows",itemVoList);  
+		 result.put("total",page.getTotalCount());  
+		 
+		return result;
+	 }
+	 
+	 /**
+	  * 获取商品信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping("getIteminfoList")
+	 @ResponseBody
+	 public Map<String, Object> getIteminfoList(ItemVo itemVo, HttpServletRequest request) throws Exception{
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		 
+		Pagination<?> page = this.getPagination(request);
+		if (itemVo!=null) {
+			 page.setParam(itemVo);
+		}
+		List<ItemVo> itemVoList = new ArrayList<ItemVo>();
+		itemVoList = itemService.getIteminfoList(page);
 		
 		 result.put("rows",itemVoList);  
 		 result.put("total",page.getTotalCount());  
@@ -117,9 +145,66 @@ public class ItemCtrl extends BaseCtrl {
 		 return boxList;
 	 }
 
-	 	
-	
+	 /**
+	  * 新增商品信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doIteminfoNew",method=RequestMethod.POST)
+	// @ResponseBody
+	 public   void doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+        
+		 try { 
+		     itemService.insertIteminfo(itemVo);
+			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoNew", "商品信息", "新增", "");
+			 map.put("msg", "成功");
+			 total=1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 
+		 //直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
 
+		 String result = JSON.toJSONString(map);
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.getWriter().write(result);  
+	 } 	
+	
+	 /**
+	  * 删除商品信息
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping(value="doIteminfoDel",method=RequestMethod.POST)
+	 @ResponseBody
+	 public   Map<String, Object> doIteminfoDel(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
+		 Map<String, Object> map=new HashMap<String, Object>();  
+		 int total=0;
+		 if (ids!=null&&ids.size()>0) {
+			 total = ids.size();
+		}
+		 try {
+		
+			 itemService.delIteminfo(ids);
+			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoDel", "商品信息", "删除", "");
+			 map.put("msg", "成功");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();  
+			map.put("msg", "失败");
+		}
+		 map.put("total", total);
+		 
+		 return map;
+	 }
 }
 	
     
