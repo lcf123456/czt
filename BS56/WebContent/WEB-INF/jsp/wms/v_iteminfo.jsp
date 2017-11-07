@@ -54,7 +54,7 @@
             </td>
            <td width="5%" height="20" align="left" nowrap>商品简称：</td>
            <td  width="14%"height="20" align="left" nowrap>
-            <input name="shortname" id="shortname"   class="easyui-validatebox tb" style="width:150px"data-options="" ><strong><font color="red" >*</font></strong>
+            <input name="shortname" id="shortname"   class="easyui-validatebox tb" style="width:150px"data-options="" >
            </td>
            <td width="5%" height="20" align="left" nowrap>ABC编码：</td>
             <td width="14%" height="20" align="left" nowrap>
