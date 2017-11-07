@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ztel.app.persist.mybatis.cost.VehicleWorkCostVoMapper" >
+  <resultMap id="BaseResultMap" type="com.ztel.app.vo.cost.VehicleWorkCostVo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FID" property="fid" jdbcType="DECIMAL" />
+    <result column="REPAIRSTATION" property="repairstation" jdbcType="VARCHAR" />
+    <result column="REPAIRCONTENT" property="repaircontent" jdbcType="VARCHAR" />
+    <result column="REPAIRTIME" property="repairtime" jdbcType="DECIMAL" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="INID" property="inid" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FID, REPAIRSTATION, REPAIRCONTENT, REPAIRTIME, AMOUNT, INID, REMARKS, CREATEID, 
+    CREATEDATE, STATUS
+  </sql>
+  <select id="getVehicleWorkCostListByApplyId" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_VEHICLEWORKCOST
+    where FID = #{fid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COST_VEHICLEWORKCOST
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_COST_VEHICLEWORKCOST
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ztel.app.vo.cost.VehicleWorkCostVo" >
+    insert into T_COST_VEHICLEWORKCOST (ID, FID, REPAIRSTATION, 
+      REPAIRCONTENT, REPAIRTIME, AMOUNT, 
+      INID, REMARKS, CREATEID, 
+      CREATEDATE, STATUS)
+    values (#{id,jdbcType=DECIMAL}, #{fid,jdbcType=DECIMAL}, #{repairstation,jdbcType=VARCHAR}, 
+      #{repaircontent,jdbcType=VARCHAR}, #{repairtime,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
+      #{inid,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, #{createid,jdbcType=DECIMAL}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.cost.VehicleWorkCostVo" useGeneratedKeys="false" >
+    insert into T_COST_VEHICLEWORKCOST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="repairstation != null" >
+        REPAIRSTATION,
+      </if>
+      <if test="repaircontent != null" >
+        REPAIRCONTENT,
+      </if>
+      <if test="repairtime != null" >
+        REPAIRTIME,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="inid != null" >
+        INID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createid != null" >
+        CREATEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="repairstation != null" >
+        #{repairstation,jdbcType=VARCHAR},
+      </if>
+      <if test="repaircontent != null" >
+        #{repaircontent,jdbcType=VARCHAR},
+      </if>
+      <if test="repairtime != null" >
+        #{repairtime,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="inid != null" >
+        #{inid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.cost.VehicleWorkCostVo" >
+    update T_COST_VEHICLEWORKCOST
+    <set >
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=DECIMAL},
+      </if>
+      <if test="repairstation != null" >
+        REPAIRSTATION = #{repairstation,jdbcType=VARCHAR},
+      </if>
+      <if test="repaircontent != null" >
+        REPAIRCONTENT = #{repaircontent,jdbcType=VARCHAR},
+      </if>
+      <if test="repairtime != null" >
+        REPAIRTIME = #{repairtime,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="inid != null" >
+        INID = #{inid,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createid != null" >
+        CREATEID = #{createid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztel.app.vo.cost.VehicleWorkCostVo" >
+    update T_COST_VEHICLEWORKCOST
+    set FID = #{fid,jdbcType=DECIMAL},
+      REPAIRSTATION = #{repairstation,jdbcType=VARCHAR},
+      REPAIRCONTENT = #{repaircontent,jdbcType=VARCHAR},
+      REPAIRTIME = #{repairtime,jdbcType=DECIMAL},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      INID = #{inid,jdbcType=DECIMAL},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATEID = #{createid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
