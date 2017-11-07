@@ -79,13 +79,20 @@ jQuery(function($){
 				formatter:function(value,row,index){return row.dxtype;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'jt_size',title:'件条',width:10,
-				formatter:function(value,row,index){return row.jt_size;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){return row.jtSize;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'wz_size',title:'万条',width:10,
-				formatter:function(value,row,index){return row.wz_size;} //需要formatter一下才能显示正确的数据
+				formatter:function(value,row,index){return row.wzSize;} //需要formatter一下才能显示正确的数据
 			},
 			{field:'outtype',title:'出库类型',width:10,
-				formatter:function(value,row,index){return row.outtype;}
+				formatter:function(value,row,index){
+					if( row.outtype == '1'){
+						return '一楼出';
+					}
+					else if( row.outtype == '2'){
+						return '二楼出';
+					}
+					}
 			},
 			{field:'fullcount',title:'满盘数量',width:10,
 				formatter:function(value,row,index){return row.fullcount;}
@@ -93,8 +100,8 @@ jQuery(function($){
 			{field:'createuser',title:'创建人',width:10,
 				formatter:function(value,row,index){return row.createuser;}
 			},
-			{field:'createtime',title:'创建时间',width:10,
-				formatter:function(value,row,index){return row.createtime;}
+			{field:'createtime',title:'创建时间',width:15,
+				formatter:function(value,row,index){return row.createtime.substring(0,10);}
 			},
 			{field:'cdtype',title:'拆垛类型',width:10,
 				formatter:function(value,row,index){
@@ -131,7 +138,6 @@ jQuery(function($){
  * 打开商品信息新增窗口
  */
 function newadd(){
-	alert('---');
 	$('#add-dlg').dialog('open').dialog('setTitle','新增商品信息');
 	$('#add-fm').form('reset');
 	var nowTime = getDateYMD();
@@ -140,10 +146,10 @@ function newadd(){
 
 
 /**
- * 保存新建商品信息
+ * 保存新增商品信息
  */
 function saveNew(){
-	alert('---');
+	
 	//$.extend($.fn.validatebox.defaults.rules, {
 	 //   myvalidate : {
 	    //    validator : function(value, param) {
