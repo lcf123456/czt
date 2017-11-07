@@ -19,6 +19,13 @@ public interface ShipOrderService {
 	 */
 	public List<ShipOrderVo>  selectShiporderBrandSaleReport(ShipOrderVo shipOrderVo);
 	
+	/**
+	 * 取指定日期订单数量
+	 * @param orderdate
+	 * @return
+	 */
+	public int selectShiporderCount(String orderdate);
+	
 	public int doUpdateShipOrder(ShipOrderVo shipOrderVo);
 	
 	public ShipOrderVo getShipOrderByOrderNo(String orderNo);

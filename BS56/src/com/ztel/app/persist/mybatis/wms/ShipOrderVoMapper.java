@@ -2,6 +2,8 @@ package com.ztel.app.persist.mybatis.wms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ztel.app.vo.wms.ShipOrderVo;
 import com.ztel.framework.vo.Pagination;
 
@@ -52,6 +54,13 @@ public interface ShipOrderVoMapper {
 	 * @return
 	 */
 	List<ShipOrderVo> selectShiporderByCondition(ShipOrderVo shipOrderVo);
+	
+	/**
+	 * 取指定日期订单数量
+	 * @param orderdate
+	 * @return
+	 */
+	int selectShiporderCount(@Param("orderdate")String orderdate);
 	/**
     *
     * @mbggenerated 2017-08-04

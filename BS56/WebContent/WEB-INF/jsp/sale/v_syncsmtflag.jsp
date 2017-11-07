@@ -3,7 +3,7 @@
 <%@ page import="com.ztel.framework.util.DateUtil" %>
 <!DOCTYPE html >
 <html>
-
+<!-- 银行结算同步 -->
 <%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
 <%
  String time = DateUtil.getyyyy_mm_dd_hh_mi_s();
@@ -19,7 +19,7 @@
 	<form id="queryForm">
 		<div style="margin:auto;text-align:center">
 		订单日期：<input name="orderdate" id="orderdate" class="easyui-datebox"  style="width:120px"  >&nbsp;&nbsp;
-			<a href="#" onclick="syncSmtflag();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">扣款同步</a>
+			<a href="#" onclick="syncSmtflag();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">银行结算同步</a>
 		</div>
 		</form>
 	</div>
@@ -47,14 +47,21 @@
 	function syncSmtflag(){
 		//先判断指定日期订单是否已经同步到中间表
 		$.ajax({ 
-		    url: baseURL+'/sale/saletolocal/doGetOrderCount.json?orderdate='+$('#orderdate').val(), 
+		    url: baseURL+'/sale/saletolocal/doGetShiporderCount.json?orderdate='+$('#orderdate').val(), 
 		    type: 'POST',
+		    beforeSend : function () {
+				$.messager.progress({
+					text : '正在查询订单...',
+				});
+			},
+			complete: function(){  
+		        //AJAX请求完成时隐藏loading提示  
+		        $.messager.progress('close');
+		    },
 		    success: function(data){
-		    	console.log("--"+data)
 		    	var msg = data.msg;
-		    	console.log("msg--"+msg)
 		    	if(parseFloat(msg)==0 || isNaN(parseFloat(msg))) {
-		    		$.messager.alert('提示',"您"+$('#orderdate').val()+"的订单还没有从营销接口同步到中间表，请先同步！",'info');
+		    		$.messager.alert('提示',"您"+$('#orderdate').val()+"的订单还没有从中间表同步到本地表，请先同步！",'info');
 		    		return;
 		    	}else{
 		    		doSync();
@@ -70,7 +77,7 @@
 		$.messager.confirm('提示','确定要执行同步吗?',function(result){
 	        if (result){
 		$.ajax({ 
-		    url: baseURL+'/inspur/doSyncsettlementflag.json?orderdate='+$('#orderdate').val(), 
+		    url: baseURL+'/sale/saletolocal/doSyncOrderStmtflag.json?orderdate='+$('#orderdate').val(), 
 		    type: 'POST',
 		    beforeSend : function () {
 				$.messager.progress({

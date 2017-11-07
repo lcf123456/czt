@@ -201,6 +201,30 @@ public class SaleAllServiceImpl implements SaleAllService {
 		return result;
 	}
 	
+	/**
+	 * 中间表t_sale_order_head到正式表t_wms_shiporder银行结算数据同步
+	 */
+	public String doSyncOrderStmtflag(final String orderdate){
+		initJdbcTemplate();
+		 String result = (String) template.execute(   
+			     new CallableStatementCreator() {   
+			        public CallableStatement createCallableStatement(Connection con) throws SQLException {   
+			           String storedProc = "{call PSALE_WMS_orderpayflag(?,?,?)}";// 调用的sql   
+			           CallableStatement cs = con.prepareCall(storedProc);   
+			           cs.setString(1, orderdate);
+			           cs.registerOutParameter(2,OracleTypes.VARCHAR);// 注册输出参数的类型   
+			           cs.registerOutParameter(3,OracleTypes.VARCHAR);// 注册输出参数的类型   
+			           return cs;   
+			        }   
+			     }, new CallableStatementCallback() {   
+			         public Object doInCallableStatement(CallableStatement cs) throws SQLException, DataAccessException {   
+			           cs.execute();   
+			           return cs.getString(3);
+			     }   
+			  });   
+		return result;
+	}
+	
 	public void initJdbcTemplate()
 	{
 		template=new JdbcTemplate(ds);

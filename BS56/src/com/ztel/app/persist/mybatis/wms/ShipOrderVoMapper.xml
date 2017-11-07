@@ -200,7 +200,10 @@ customer.name as parentcustname,customer.parentcustid
 	order by customername
   </select>
   
-
+  <!-- 取所有商品数量，在同步到本地的页面需要统计商品数量 -->
+  <select id="selectShiporderCount" resultType="Integer" parameterType="java.lang.String">
+    select count(*) as cnt  from T_WMS_SHIPORDER where to_char(orderdate,'yyyy-mm-dd')=#{orderdate}
+  </select>
   
   
   

@@ -82,9 +82,14 @@ public interface SaleAllService {
 	public String doSyncItem();
 	
 	/**
-	 * 中间表t_sale_order_head和t_sale_order_line到正是表t_wms_shiporder和t_wms_shiporder_line的数据同步
+	 * 中间表t_sale_order_head和t_sale_order_line到正式表t_wms_shiporder和t_wms_shiporder_line的数据同步
 	 */
 	public String doSyncOrder(String orderdate);
+	
+	/**
+	 * 中间表t_sale_order_head到正式表t_wms_shiporder银行结算数据同步
+	 */
+	public String doSyncOrderStmtflag(String orderdate);
 	
 	/**
 	 * 取所有商品数量，在同步到本地的页面需要统计商品数量
