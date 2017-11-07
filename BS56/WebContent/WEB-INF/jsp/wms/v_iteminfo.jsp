@@ -87,7 +87,7 @@
              
              <td width="5%" height="20" align="left" nowrap>扫码识别类型：</td>
             <td width="14%" height="20" align="left" nowrap>
-                <select name="iscanscancode" id="iscanscancode" class="easyui-combobox tb" style="width:100px" data-options="" >
+                <select name="iscanscancode" id="iscanscancode" class="easyui-combobox tb" style="width:150px" data-options="" >
             <option value="10" selected>能扫码识别</option>
 				<option value="0" >无法扫码识别</option>
 				</select>

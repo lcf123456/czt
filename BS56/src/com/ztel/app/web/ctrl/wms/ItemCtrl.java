@@ -158,7 +158,7 @@ public class ItemCtrl extends BaseCtrl {
 		 int total=1;
         
 		 try { itemVo.setRowstatus("10");
-		 itemVo.setCreatetime(DateUtil.getDateyyyy_mm_dd());
+		 //itemVo.setCreatetime(DateUtil.getDateyyyy_mm_dd());
 		     itemService.insertIteminfo(itemVo);
 		     UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoNew", "商品信息", "新增", "");

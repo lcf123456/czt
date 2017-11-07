@@ -155,7 +155,7 @@
       #{dxtype,jdbcType=VARCHAR}, #{jtSize,jdbcType=DECIMAL}, #{wzSize,jdbcType=DECIMAL}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ItemVo">
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ItemVo" useGeneratedKeys="false">
     insert into T_WMS_ITEM
     <trim prefix="(" suffix=")" suffixOverrides=",">
       
