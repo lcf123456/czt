@@ -22,6 +22,13 @@
 	<div style="padding:10" id="tabdiv">
 		<table id="dataTabel"></table>
 	</div>
+	<!-- 查询-->
+	<div id="toolbar" style="padding:5px;height:auto;border-top:1px solid #95B8E7">
+		<div style="margin-bottom:5px">
+		<input class="easyui-datebox" style="width:140px" id="orderdate" name="orderdate">
+		<a href="/BS56/produce/sorttrough/toMantissa" class="easyui-linkbutton" id="btn-done" iconCls="icon-cancel" onclick="">返回</a>
+		</div>
+	</div>
 <script type="text/javascript">
 var ty=document.getElementById("troughtype").value;
 var cty=document.getElementById("ctype").value;

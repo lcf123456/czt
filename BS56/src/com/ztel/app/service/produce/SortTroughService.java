@@ -16,7 +16,7 @@ public interface SortTroughService {
 	public List<SortTroughVo> selectListByCond(SortTroughVo sortTroughVo);
 	
 	public List<SortTroughVo> getSortTroughSummaryByCond(StorageAreaInOutVo storageAreaInOutVo,
-			SortTroughVo sortTroughVo);
+			SortTroughVo sortTroughVo,String orderdate);
 	
 	public int updateMantissaByCond(SortTroughVo sortTroughVo);
 }
