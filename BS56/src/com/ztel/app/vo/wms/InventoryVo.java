@@ -42,8 +42,19 @@ public class InventoryVo {
     
     private BigDecimal createid;
     private String createname;
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date orderdate;
 
-    public BigDecimal getCreateid() {
+    public Date getOrderdate() {
+		return orderdate;
+	}
+
+	public void setOrderdate(Date orderdate) {
+		this.orderdate = orderdate;
+	}
+
+	public BigDecimal getCreateid() {
 		return createid;
 	}
 
