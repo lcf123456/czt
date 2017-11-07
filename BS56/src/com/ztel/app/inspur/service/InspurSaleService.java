@@ -3,6 +3,8 @@ package com.ztel.app.inspur.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ztel.app.inspur.vo.InspurSalecustomerVo;
 import com.ztel.app.vo.sys.UserVo;
 
@@ -31,5 +33,10 @@ public interface InspurSaleService {
 	 * @return
 	 */
 	public Map<String, Object> doSyncItem(UserVo userVo);
+	
+	/**
+	 * 营销扣款同步
+	 */
+	public Map<String, Object> doSyncsettlementflag(UserVo userVo,String orderdate);
 
 }

@@ -22,7 +22,7 @@ public class InspurCtrl extends BaseCtrl{
 	@Autowired
 	private InspurSaleService inspurSaleService = null;
 	/**
-	 * 同步零售户
+	 * 同步零售户(已改为：同步营销基础数据)
 	 * @param request
 	 * @return
 	 */
@@ -44,15 +44,15 @@ public class InspurCtrl extends BaseCtrl{
 		 return result;
 	 }
 	
-	/**
-	 * 同步订单
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("toSyncorder")
-	public String toSyncorder(HttpServletRequest request) {
-		return "/inspur/v_syncorder";
-	}
+//	/**
+//	 * 同步订单
+//	 * @param request
+//	 * @return
+//	 */
+//	@RequestMapping("toSyncorder")
+//	public String toSyncorder(HttpServletRequest request) {
+//		return "/inspur/v_syncorder";
+//	}
 	
 	@RequestMapping("doSyncOrder")
 	 @ResponseBody
@@ -70,15 +70,7 @@ public class InspurCtrl extends BaseCtrl{
 		 return result;
 	 }
 	
-	/**
-	 * 同步商品信息
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("toSyncitem")
-	public String toSyncitem(HttpServletRequest request) {
-		return "/inspur/v_syncitem";
-	}
+
 	
 	@RequestMapping("doSyncItem")
 	 @ResponseBody
@@ -92,4 +84,31 @@ public class InspurCtrl extends BaseCtrl{
 		 
 		 return result;
 	 }
+	
+	/**
+	 * 扣款同步
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("toSyncsettlementflag")
+	public String toSyncitem(HttpServletRequest request) {
+		return "/inspur/v_syncinspursmtflag";
+	}
+	
+	@RequestMapping("doSyncsettlementflag")
+	 @ResponseBody
+	 public  Map<String, Object> doSyncsettlementflag(HttpServletRequest request) throws Exception {
+
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 String orderdate = request.getParameter("orderdate");
+		 if(orderdate==null||orderdate.equals(""))orderdate = DateUtil.getyyyy_mm_dd();
+		 
+		 orderdate = orderdate.replaceAll("-", "");//日期格式需要yyyymmdd
+		 result = inspurSaleService.doSyncsettlementflag(userVo, orderdate);
+		 
+		 return result;
+	 }
+	
 }

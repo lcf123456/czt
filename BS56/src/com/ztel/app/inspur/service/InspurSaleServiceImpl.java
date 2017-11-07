@@ -1,6 +1,7 @@
 package com.ztel.app.inspur.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import com.ztel.app.inspur.vo.InspurSaleorderheaddetailVo;
 import com.ztel.app.service.sale.SaleAllService;
 import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.sale.SaleitemVo;
+import com.ztel.app.vo.sale.SaleorderheadVo;
 import com.ztel.app.vo.sys.UserVo;
 
 @Service
@@ -74,12 +76,12 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				InspurSalecustomerVo SalecustomerVo = customerList.get(i);
 				
 				String topsql = "insert into T_SALE_CUSTOMER(id,code,shortname,name,industry,contactaddress,contactphone,bakphone,"+
-						"contact,account,routecode,licensecode,markettype,orderbatch,orderWay,delstatus,shipper_id)";
+						"contact,account,routecode,licensecode,markettype,orderbatch,orderWay,delstatus,shipper_id,createtime)";
 				
 				tempsql += "union  select "+ SalecustomerVo.getCustId() + ",'"+SalecustomerVo.getCustShortId()+"','"+SalecustomerVo.getCustName()+"','"+SalecustomerVo.getCustName()+"','" 
 				+ SalecustomerVo.getBaseType()+"','" + SalecustomerVo.getBusiAddr() + "','" + SalecustomerVo.getOrderTel() + "','" + SalecustomerVo.getReceiveTel2() + "','" +
 				SalecustomerVo.getManager()+"','" + SalecustomerVo.getAccount() + "','" + SalecustomerVo.getCarId() + "','" + SalecustomerVo.getCustId() + "','" + 
-				SalecustomerVo.getWorkPort()+"','" + SalecustomerVo.getPeriodsId() +"','" + SalecustomerVo.getOrderWay()+ "',10,11430101 from dual ";
+				SalecustomerVo.getWorkPort()+"','" + SalecustomerVo.getPeriodsId() +"','" + SalecustomerVo.getOrderWay()+ "',10,11430101,sysdate from dual ";
 
 	            if (((rsRowNum % 1000) == 0 && rsRowNum!=0) || rsRowNum==custCount-1)
 	            {
@@ -232,7 +234,8 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 		List<InspurSaleitemVo> inspurSaleitemList = nspurSaleitemVoMapper.selectInspursaleitemList(sqlstr);
 		if(inspurSaleitemList!=null&&inspurSaleitemList.size()>0){
 			custCount=inspurSaleitemList.size();
-			saleAllService.updateitemAllrowstatus();//更新全部商品为删除状态
+			//saleAllService.updateitemAllrowstatus();//更新全部商品为删除状态
+			saleAllService.deleteitemAll("delete from T_SALE_ITEM");//删除商品
 			for(int i=0;i<inspurSaleitemList.size();i++){
 				InspurSaleitemVo inspurSaleitemVo = inspurSaleitemList.get(i);
 				String itemid = inspurSaleitemVo.getItemId();//t_sale_item:商品id/code
@@ -259,6 +262,8 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 				saleitemVo2.setBaseuomName(umName);
 				saleitemVo2.setItemno(itemid);
 				saleitemVo2.setShipperId(new BigDecimal("11430101"));
+				saleitemVo2.setRowstatus(new BigDecimal("10"));
+				saleitemVo2.setCreatetime(new Date());
 				if(saleitemVo!=null&&saleitemVo.getId()!=null&&!saleitemVo.getId().equals("")){
 					saleAllService.updateItembyPrimaryKey(saleitemVo2);
 					//saleitemVo2.seti
@@ -279,6 +284,59 @@ public class InspurSaleServiceImpl implements InspurSaleService {
 			e.printStackTrace();
 		}
 		result.put("custCount", custCount+"");
+		result.put("resultmsg", resultmsg);
+		return result;
+	}
+	
+	/**
+	 * 营销扣款同步
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public Map<String, Object> doSyncsettlementflag(UserVo userVo,String orderdate){
+		Map<String, Object> result=new HashMap<String, Object>();  
+		int rsRowNum = 0;
+		String tempsql="";     
+		int Count_head= 0;
+		int Count_line= 0;
+		String resultmsg = "";//提示消息
+		try{
+			if(userVo==null){
+				userVo = new UserVo();
+				userVo.setId(1L);
+				userVo.setUsername("系统管理员");
+			}
+		operationlogService.insertLog(userVo, "BS56/inspur/toSyncsettlementflag", "营销接口接收扣款同步数据", "1、开始接收", "");
+		String db2sql="select co_num,pmt_status,decode(pmt_status,'2','0','3','0',null,'0',pmt_status) as pmtstatusname "+
+				"from db2inst2.V_SALE_ORDER_HEAD where  born_date='"+orderdate+"'";
+		List<InspurSaleorderheadVo> orderheadList = inspurSaleorderheadVoMapper.selectInspursaleorderheadList(db2sql);
+		if(orderheadList!=null&&orderheadList.size()>0){
+			//Count_head=orderheadList.size();
+			//saleAllService.deletesaleorderhead("delete from T_SALE_ORDER_HEAD where shipdate=to_date('"+orderdate+"','YYYYMMDD')");//插入之前先删除订单日期的数据
+			for(int i=0;i<orderheadList.size();i++){
+				InspurSaleorderheadVo InspurSaleorderheadVo = orderheadList.get(i);
+				String colNum = InspurSaleorderheadVo.getCoNum();
+				String flag = InspurSaleorderheadVo.getPmtstatusname();
+				SaleorderheadVo saleorderheadVo1 = saleAllService.selectsaleorderheadBypriKey(colNum);
+				if(saleorderheadVo1!=null&&saleorderheadVo1.getOrderno()!=null&&flag!=null&&flag.equals("1")){
+					Count_head++;
+					SaleorderheadVo saleorderheadVo = new SaleorderheadVo();
+					saleorderheadVo.setOrderno(colNum);
+					saleorderheadVo.setSettlementflag(new Short(flag));
+					saleAllService.updateorderheadBypriKey(saleorderheadVo);
+				}
+			}
+			resultmsg=Count_head+"条扣款信息同步成功！ ";
+
+			operationlogService.insertLog(userVo, "BS56/inspur/toSyncsettlementflag", "营销接口接收扣款同步数据", "2、成功更新"+Count_head+"条扣款信息！", "");
+		}else{
+			operationlogService.insertLog(userVo, "BS56/inspur/toSyncsettlementflag", "营销接口接收扣款同步数据", "2、没有查询到商品数据！", "");
+		}
+		}catch(Exception e){
+			resultmsg="同步失败";
+			operationlogService.insertLog(userVo, "BS56/inspur/toSyncsettlementflag", "营销接口接收扣款同步数据", "接收数据出现异常！", "");
+			e.printStackTrace();
+		}
+		//result.put("custCount", Count_head);
 		result.put("resultmsg", resultmsg);
 		return result;
 	}

@@ -41,7 +41,7 @@
     SETTLEMODE_ID, INVOICE, ISRUSH, WAREHOUSE_ID, INPUTTYPE, EMP_ID, REMARK, STATUS, 
     TOTALAMOUNT, TOTALQTY, ORDERLINES, CREATEUSER, CREATETIME, MODIFYUSER, MODIFYTIME, 
     RTOTALAMOUNT, RTOTALQTY, INVOICEPRINTFLAG, DELIVERFLAG, SETTLEMENTFLAG, PRIVILEGEFLAG, 
-    WHETHERPRINT, BEEPPAGER, OTHERKEY
+    WHETHERPRINT, BEEPPAGER
   </sql>
   
   <!-- 取所有订单信息，在同步到本地的页面需要统计订单数量等信息,此处id用作户数 -->
@@ -65,7 +65,7 @@
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Object" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from T_SALE_ORDER_HEAD
     where ORDERNO = #{orderno,jdbcType=OTHER}
   </select>

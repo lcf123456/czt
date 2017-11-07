@@ -15,7 +15,7 @@
 	<form id="queryForm">
 		<div style="margin:auto;text-align:center">
 		订单日期：<input name="orderdate" id="orderdate" class="easyui-datebox"  style="width:120px"  >&nbsp;&nbsp;
-			<a href="#" onclick="sync();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">订单数据同步</a>
+			<a href="#" onclick="syncOrder();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">订单数据同步</a>
 		</div>
 		</form>
 	</div>
@@ -43,7 +43,7 @@
 	//document.getElementById('showMsg').innerHTML="";
 	
 	//清空查询条件
-	function sync(){
+	function syncOrder(){
 		$.messager.confirm('提示','确定要执行订单数据同步吗?',function(result){
 	        if (result){
 		$.ajax({ 

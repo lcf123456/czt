@@ -47,6 +47,11 @@ public interface SaleAllService {
 	public void insertsaleorderline(String sqlstr);
 	
 	/**
+	 * 营销接口商品信息同步之前先全部删除
+	 * @param sqlstr
+	 */
+	public void deleteitemAll(String sqlstr);
+	/**
 	 *  营销接口商品信息同步之前先全部置为删除状态
 	 */
 	public void updateitemAllrowstatus();
@@ -104,4 +109,16 @@ public interface SaleAllService {
 	 * @return
 	 */
 	public int selectAllOrderlineCount(String orderdate);
+	
+	/**
+	 * 取订单头信息的数量，扣款同步时判断是否存在该订单数据，然后更新扣款信息
+	 * @param orderno
+	 */
+	public SaleorderheadVo selectsaleorderheadBypriKey(String orderno);
+	
+	/**
+	 * 更新扣款信息
+	 * @param orderno
+	 */
+	public int updateorderheadBypriKey(SaleorderheadVo saleorderheadVo);
 }

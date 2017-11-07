@@ -18,7 +18,8 @@
 	<div id="toolbar" style="margin:0 auto; width:400px; height:100px; ">
 	<form id="queryForm">
 		<div style="margin:auto;text-align:center">
-			<a href="#" onclick="syncItem();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">商品信息同步</a>
+		订单日期：<input name="orderdate" id="orderdate" class="easyui-datebox"  style="width:120px"  >&nbsp;&nbsp;
+			<a href="#" onclick="syncSmtflag();" class="easyui-linkbutton" iconCls="icon-search" style="height:44px;width:120px;">扣款同步</a>
 		</div>
 		</form>
 	</div>
@@ -34,8 +35,8 @@
      * 页面列表datagrid初始化
      */
     jQuery(function($){
-    	//alert("aa");
-    	//$("#resultarea" ).css("display", "none");
+    	var nowTime = getDateYMD();
+    	$('#orderdate').datebox("setValue",nowTime);
     	document.getElementById('showMsg').innerHTML="";
     });
     
@@ -43,12 +44,33 @@
 	//$("#resultarea" ).css("display", "none");
 	//document.getElementById('showMsg').innerHTML="";
 	
+	function syncSmtflag(){
+		//先判断指定日期订单是否已经同步到中间表
+		$.ajax({ 
+		    url: baseURL+'/sale/saletolocal/doGetOrderCount.json?orderdate='+$('#orderdate').val(), 
+		    type: 'POST',
+		    success: function(data){
+		    	console.log("--"+data)
+		    	var msg = data.msg;
+		    	console.log("msg--"+msg)
+		    	if(parseFloat(msg)==0 || isNaN(parseFloat(msg))) {
+		    		$.messager.alert('提示',"您"+$('#orderdate').val()+"的订单还没有同步，请先同步！",'info');
+		    		return;
+		    	}else{
+		    		doSync();
+		    	}
+			}
+		   }); 
+
+	}
+	
 	//清空查询条件
-	function syncItem(){
+	function doSync(){
+		//先判断指定日期订单是否已经同步到中间表
 		$.messager.confirm('提示','确定要执行同步吗?',function(result){
 	        if (result){
 		$.ajax({ 
-		    url: baseURL+'/inspur/doSyncItem.json', 
+		    url: baseURL+'/inspur/doSyncsettlementflag.json?orderdate='+$('#orderdate').val(), 
 		    type: 'POST',
 		    beforeSend : function () {
 				$.messager.progress({
@@ -60,7 +82,7 @@
 		        $.messager.progress('close');
 		    },
 		    success: function(data){
-		    	var msg = data.custCount +"条商品记录"+data.resultmsg;
+		    	var msg = data.resultmsg;
 		    	document.getElementById('showMsg').innerHTML=msg;
 		    	$.messager.show({
 					title : '提示',
@@ -68,7 +90,7 @@
 				});
 			}
 		   }); 
-	}
+			}
 		});
 	}
     </script>

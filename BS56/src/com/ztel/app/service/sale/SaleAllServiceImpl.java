@@ -86,6 +86,12 @@ public class SaleAllServiceImpl implements SaleAllService {
 	}
 	
 	/**
+	 * 营销接口商品信息同步之前先全部删除
+	 */
+	public void deleteitemAll(String sqlstr){
+		saleitemVoMapper.deleteitemAll(sqlstr);
+	}
+	/**
 	 *  营销接口商品信息同步之前先全部置为删除状态
 	 */
 	public void updateitemAllrowstatus(){
@@ -230,5 +236,20 @@ public class SaleAllServiceImpl implements SaleAllService {
 	 */
 	public int selectAllOrderlineCount(String orderdate){
 		return saleorderheadVoMapper.selectAllOrderlineCount(orderdate);
+	}
+	/**
+	 * 取订单头信息的数量，扣款同步时判断是否存在该订单数据，然后更新扣款信息
+	 * @param sqlstr
+	 */
+	public SaleorderheadVo selectsaleorderheadBypriKey(String orderno){
+		return saleorderheadVoMapper.selectByPrimaryKey(orderno);
+	}
+	
+	/**
+	 * 更新扣款信息
+	 * @param orderno
+	 */
+	public int updateorderheadBypriKey(SaleorderheadVo saleorderheadVo){
+		return saleorderheadVoMapper.updateByPrimaryKeySelective(saleorderheadVo);
 	}
 }
