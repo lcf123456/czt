@@ -2,6 +2,8 @@ package com.ztel.app.persist.mybatis.sale;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ztel.app.vo.sale.SaleitemVo;
 
 public interface SaleitemVoMapper {
@@ -12,6 +14,11 @@ public interface SaleitemVoMapper {
 	 */
 	int selectAllItemCount();
 	
+	/**
+	 * 营销接口商品信息同步之前先全部删除
+	 * @param sqlstr
+	 */
+	void deleteitemAll(@Param("sqlstr")String sqlstr);
 	/**
 	 * 营销接口商品信息同步之前先全部置为删除状态
 	 */

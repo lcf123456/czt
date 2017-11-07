@@ -35,6 +35,9 @@ jQuery(function($){
 //			{field:'inventoryid',title:'编号id',width:30,
 //				formatter:function(value,row,index){return row.inventoryid;} //需要formatter一下才能显示正确的数据
 //			},
+			{field:'orderdate',title:'订单日期',width:30,sortable:true,
+				formatter:function(value,row,index){return row.orderdate.substring(0,10);}
+			},
 			{field:'createtime',title:'盘点日期',width:30,sortable:true,
 				formatter:function(value,row,index){return row.createtime.substring(0,19);}
 			},
@@ -74,6 +77,9 @@ function openNew(){
 	
 	var createtime=getDateYMDHMS();
 	$('#createtime').datetimebox('setValue', createtime);
+
+	var orderdate=getDateYMD();
+	$('#orderdate').datebox('setValue', orderdate);
 	
 	$('#inventorytype').textbox('setValue',10);
 	$('#inventorytype').textbox('setText','日清日结');
@@ -151,10 +157,12 @@ function openInventory(){
 	}
 	if (row){
 		var date=row.createtime.substring(0,19);
+		var orderdate=getDateYMD();
 		$('#inventory-dlg').dialog('open').dialog('setTitle','盘点信息');
 		$('#subBtn').linkbutton({disabled:false});
 		$('#inventoryid').val(row.inventoryid);
 		$('#createtime1').val(date);
+		$('#orderdate1').val(orderdate);
 		newTableInit(date);
 	}
 }

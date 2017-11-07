@@ -10,6 +10,8 @@ public class InspurSaleorderheadVo {
 	private String amtSum;//金额
 	private String qtySum;//数量
 	private String carId;//送货车辆
+	private String pmtStatus;//扣款标志
+	private String pmtstatusname;//扣款标志转换decode(pmt_status,'2','0','3','0',null,'0',pmt_status) as pmtstatusname
 	
 	public String getCoNum() {
 		return coNum;
@@ -52,6 +54,18 @@ public class InspurSaleorderheadVo {
 	}
 	public void setCarId(String carId) {
 		this.carId = carId;
+	}
+	public String getPmtStatus() {
+		return pmtStatus;
+	}
+	public void setPmtStatus(String pmtStatus) {
+		this.pmtStatus = pmtStatus;
+	}
+	public String getPmtstatusname() {
+		return pmtstatusname;
+	}
+	public void setPmtstatusname(String pmtstatusname) {
+		this.pmtstatusname = pmtstatusname;
 	}
 	
 }

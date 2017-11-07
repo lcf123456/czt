@@ -1,5 +1,6 @@
 package com.ztel.app.web.ctrl.sale;
 
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -129,11 +130,45 @@ public class SaleToLocalCtrl extends BaseCtrl{
 		 result.put("orderheadCount", orderheadCount);
 		 result.put("orderheadQty", orderheadQty);
 		 result.put("orderheadAmt", orderheadAmt);
-		 String resultmsg = "商品信息共"+itemCount+"条。";
-		 resultmsg = resultmsg + "零售户信息共"+customerCount+"条。";
-		 resultmsg = resultmsg + "订单头信息："+orderheadCount+"条，金额："+orderheadAmt+",数量："+orderheadQty+"。";
-		 resultmsg = resultmsg + "订单明细："+orderlineCount+"条。";
-		 result.put("resultmsg", resultmsg);
+		 String itemmsg = "商品信息共"+itemCount+"条。";
+		 String customermsg =  "零售户信息共"+customerCount+"条。";
+		 String ordermsg = "订单头信息："+orderheadCount+"条，金额："+orderheadAmt+",数量："+orderheadQty+"。";
+		 ordermsg = ordermsg + "订单明细："+orderlineCount+"条。";
+		 result.put("itemmsg", itemmsg);
+		 result.put("customermsg", customermsg);
+		 result.put("ordermsg", ordermsg);
 		 return result;
 	 }
+	
+	/**
+	 * 取订单信息的记录数,用于扣款同步时的判断，如果为0：未同步  1：已同步
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("doGetOrderCount")
+	 @ResponseBody
+	 public  Map<String, Object> doGetOrderCount(HttpServletRequest request) throws Exception {
+
+		 Map<String, Object> result=new HashMap<String, Object>();  
+		String msg = "0";
+		 
+		 String orderdate = request.getParameter("orderdate");
+		 if(orderdate==null||orderdate.equals(""))orderdate = DateUtil.getyyyy_mm_dd();
+		 
+
+		 
+		 BigDecimal orderheadCount = new BigDecimal("0");
+		 SaleorderheadVo  saleorderheadVo = saleAllService.selectAllOrderheadVo(orderdate);//订单头
+		 if(saleorderheadVo!=null ){
+			 orderheadCount = saleorderheadVo.getId();//订单记录数
+			 if(orderheadCount.compareTo(new BigDecimal("0"))==1){
+				 msg = "1";
+			 }
+		 }
+		 result.put("msg", msg);
+		 return result;
+	 }
+
+
 }

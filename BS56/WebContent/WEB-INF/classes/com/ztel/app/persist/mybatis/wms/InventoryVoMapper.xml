@@ -12,10 +12,9 @@
     <result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
     <result column="CREATEID" property="createid" jdbcType="DECIMAL" />
     <result column="CREATENAME" property="createname" jdbcType="VARCHAR" />
-    <result column="ORDERDATE" property="orderdate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    INVENTORYID, CREATETIME, INVENTORYTYPE, QTY, CONSIGNSOR, STATUS,CREATENAME,ORDERDATE
+    INVENTORYID, CREATETIME, INVENTORYTYPE, QTY, CONSIGNSOR, STATUS,CREATENAME
   </sql>
   <!-- 取盘点主表信息 -->
   <select id="selectInventoryPageList" resultMap="BaseResultMap" parameterType="Pagination" >
@@ -29,7 +28,6 @@
        <if test="param != null and param.enddate != null " >
         and createtime &lt; to_date(#{param.enddate},'yyyy-MM-dd')+1 
       </if>
-      order by createtime desc
   </select>
   <!-- 取盘点主表信息 -->
   <select id="selectInventoryCount" resultMap="BaseResultMap" parameterType="com.ztel.app.vo.wms.InventoryVo" >
@@ -84,9 +82,6 @@
       <if test="createname != null" >
         CREATENAME,
       </if>
-      <if test="orderdate != null" >
-        ORDERDATE,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       S_WMS_INVENTORY.nextval,
@@ -110,9 +105,6 @@
       </if>
       <if test="createname != null" >
         #{createname,jdbcType=VARCHAR},
-      </if>
-      <if test="orderdate != null" >
-        #{orderdate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
