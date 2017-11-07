@@ -43,8 +43,9 @@
     	//alert("aa");
     	//$("#resultarea" ).css("display", "none");
     	var nowTime = getDateYMD();
-    	$('#orderdate').datebox("setValue",nowTime);
+    	//$('#orderdate').datebox("setValue",nowTime);
     	initOrderDatebox();
+    	$('#orderdate').datebox("setValue",nowTime);
     	document.getElementById('showMsg').innerHTML="";
     	var orderdate = $('#orderdate').val();
     	getOrderdata(orderdate);
