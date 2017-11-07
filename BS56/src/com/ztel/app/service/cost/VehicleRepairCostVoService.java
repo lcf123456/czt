@@ -11,14 +11,12 @@ import com.ztel.app.vo.cost.VehicleRepairCostVo;
  */
 public interface VehicleRepairCostVoService {
 	
+    /**
+     * 维修申报信息修改  可用于申报
+     * @param vehicleRepairApplyVo
+     */
     public void doVehicleRepairCostUpdate(VehicleRepairCostVo vehicleRepairCostVo);
     
     public void doVehicleRepairCostAdd(VehicleRepairCostVo vehicleRepairCostVo);
-    
-    /**
-     * 维修费用信息修改  根据申报id修改
-     * @param vehicleRepairApplyVo
-     */
-    public void doVehicleRepairCostUpdateByDid(VehicleRepairCostVo vehicleRepairCostVo);
     
 }

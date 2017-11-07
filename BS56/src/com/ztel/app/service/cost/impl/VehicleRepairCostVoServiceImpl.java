@@ -24,12 +24,6 @@ public class VehicleRepairCostVoServiceImpl implements VehicleRepairCostVoServic
 		// TODO Auto-generated method stub
 		vehicleRepairCostVoMapper.insertSelective(vehicleRepairCostVo);
 	}
-
-	@Override
-	public void doVehicleRepairCostUpdateByDid(VehicleRepairCostVo vehicleRepairCostVo) {
-		// TODO Auto-generated method stub
-		vehicleRepairCostVoMapper.updateByPrimaryKeySelectiveByDid(vehicleRepairCostVo);
-	}
 		 
 }
 	
