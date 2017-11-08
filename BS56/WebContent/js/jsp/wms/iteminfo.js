@@ -33,9 +33,7 @@ jQuery(function($){
 			{field:'itemname',title:'商品名称',width:40,
 				formatter:function(value,row,index){return row.itemname;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'shortname',title:'商品简称',width:35,
-				formatter:function(value,row,index){return row.shortname;} //需要formatter一下才能显示正确的数据
-			},
+			
 			{field:'spec',title:'规格',width:20,
 				formatter:function(value,row,index){return row.spec;} //需要formatter一下才能显示正确的数据
 			},
@@ -113,16 +111,7 @@ jQuery(function($){
 				}
 			 }
 			},
-			{field:'rowstatus',title:'状态',width:10,
-				formatter:function(value,row,index){
-					if( row.rowstatus == '10'){
-						return '正常';
-					}
-					else if( row.rowstatus == '0'){
-						return '删除';
-					}
-				} //需要formatter一下才能显示正确的数据
-			},
+			
 		]],
 		toolbar:'#toolbar',
 		onLoadSuccess:function(){

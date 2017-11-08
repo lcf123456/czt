@@ -78,7 +78,7 @@
   </select>
     <!--获取商品信息 -->
   <select id="selectIteminfoPageList" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
-    select id,itemno,itemname,shortname,decode(spec,'NULL','',spec)as spec,abccode,shiptype,producearea,rowstatus,weight,iscanscancode,
+    select id,itemno,itemname,decode(shortname,'NULL','',shortname)as shortname,decode(spec,'NULL','',spec)as spec,abccode,shiptype,producearea,rowstatus,weight,iscanscancode,
     dxtype,jt_size,wz_size, outtype, fullcount, cdtype,createtime,decode(createuser,'NULL','',createuser)as createuser
     from T_WMS_ITEM  where rowstatus=10
    <if test="param != null and param.itemname != null and param.itemname!= ''">
@@ -292,8 +292,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      S_WMS_ITEM.nextval,
-      
+     <!--  S_WMS_ITEM.nextval,
+       -->
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="dcno != null">
         #{dcno,jdbcType=VARCHAR},
       </if>

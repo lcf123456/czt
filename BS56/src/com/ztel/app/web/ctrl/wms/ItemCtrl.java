@@ -154,11 +154,14 @@ public class ItemCtrl extends BaseCtrl {
 	 @RequestMapping(value="doIteminfoNew",method=RequestMethod.POST)
 	@ResponseBody
 	 public   Map<String, Object> doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=1;
-        
-		 try { itemVo.setRowstatus("10");
-		 //itemVo.setCreatetime(DateUtil.getDateyyyy_mm_dd());
+		 itemVo.setId(itemVo.getItemno());
+		 itemVo.setShortname(itemVo.getItemname());
+		 try { //itemVo.setRowstatus("10");
+			 itemVo.setModifyuser(String.valueOf(userVo.getId())); //修改人
+		 itemVo.setModifytime(DateUtil.getDateyyyy_mm_dd());//修改时间
 		     itemService.insertIteminfo(itemVo);
 		     UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoNew", "商品信息", "新增", "");
