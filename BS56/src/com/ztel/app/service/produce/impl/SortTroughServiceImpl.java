@@ -1,9 +1,9 @@
 package com.ztel.app.service.produce.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import com.ztel.app.service.produce.SortTroughService;
 import com.ztel.app.service.wms.MantissaService;
 import com.ztel.app.service.wms.StorageAreaInOutService;
 import com.ztel.app.vo.produce.SortTroughVo;
-import com.ztel.app.vo.wms.InventoryLineVo;
 import com.ztel.app.vo.wms.MantissaVo;
 import com.ztel.app.vo.wms.StorageAreaInOutVo;
 import com.ztel.framework.vo.Pagination;
@@ -49,8 +48,10 @@ public class SortTroughServiceImpl implements SortTroughService {
 	}
 	@Override
 	public List<SortTroughVo> getSortTroughSummaryByCond(StorageAreaInOutVo storageAreaInOutVo,
-			SortTroughVo sorttroughVo) {
+			SortTroughVo sorttroughVo,String orderdate) {
 				// TODO Auto-generated method stub
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				
 				//取调拨数据
 				List<StorageAreaInOutVo> inOutList=storageAreaInOutService.getLastCellInOutInfoByCond(storageAreaInOutVo);
 				//取通道尾数
@@ -79,7 +80,16 @@ public class SortTroughServiceImpl implements SortTroughService {
 						mVo.setAreaid(storageAreaInOutVo.getAreaid());
 						//mVo.setCigarettename(vo.getCigarettename());
 						mVo.setCigarettecode(temp.getCigarettecode());
-						mVo.setCreatedate(new Date());
+						//mVo.setCreatedate(new Date());
+						
+							try {
+								if(orderdate==null||"".equals(orderdate))mVo.setOrderdate(sdf.parse(sdf.format(new Date())));
+								else mVo.setOrderdate(sdf.parse(orderdate));
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						
 						mVo=	mantissaService.getMantissa(mVo);
 						if(mVo!=null)
 						{
