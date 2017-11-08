@@ -70,7 +70,7 @@
   
    <!--获取品牌信息 -->
   <select id="selectBrandinfoPageList" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
-    select id,bigbox_bar, itemno,itemname,shortname,fullcount, cdtype,spec
+    select id,bigbox_bar, itemno,itemname,shortname,fullcount, cdtype,decode(spec,'NULL','',spec)as spec
     from T_WMS_ITEM  where 1=1
    <if test="param != null and param.itemname != null and param.itemname!= ''">
         AND  (bigbox_bar like '%'||#{param.itemname}||'%' or itemname like '%'||#{param.itemname}||'%'or itemno like '%'||#{param.itemname}||'%')
@@ -155,7 +155,7 @@
       #{dxtype,jdbcType=VARCHAR}, #{jtSize,jdbcType=DECIMAL}, #{wzSize,jdbcType=DECIMAL}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ItemVo">
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.ItemVo" useGeneratedKeys="false">
     insert into T_WMS_ITEM
     <trim prefix="(" suffix=")" suffixOverrides=",">
       
