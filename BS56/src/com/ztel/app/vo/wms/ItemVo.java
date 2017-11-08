@@ -130,6 +130,7 @@ public class ItemVo {
     /**
      * 修改时间
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date modifytime;
 
     /**
@@ -959,6 +960,8 @@ public void setOuttype(String outtype) {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
+
+	
     
 	
 }

@@ -77,14 +77,24 @@ public class ItemServiceImpl implements ItemService {
 	 * 删除商品信息
 	 */
 	@Override
-	public int delIteminfo(List<Integer> ids) {
+	public void delIteminfo(List<String> ids) {
 		// TODO Auto-generated method stub
 		if(ids != null && ids.size() > 0) {
-			for (Integer id : ids) {
+			for (String id : ids) {
 				this.itemVoMapper.deleteByPrimaryKey(id);
 			}
-			return ids.size();
+			return;
 		}
-		return 0;
+		return;
+	}
+	@Override
+	public ItemVo checkItemName(String itemname) {
+		// TODO Auto-generated method stub
+		return itemVoMapper.checkItemName(itemname);
+	}
+	@Override
+	public ItemVo checkItemNo(String itemno) {
+		// TODO Auto-generated method stub
+		return itemVoMapper.checkItemNo(itemno);
 	}
 }

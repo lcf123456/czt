@@ -22,40 +22,62 @@
 	<form id="queryForm" style="margin:10;">
 		<div style="margin-bottom:5px">
 			<a href="#"id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEdit()">修改</a>
-			<input class="easyui-textbox"  name="cdtype"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchbrandinfo();},prompt:'件码...'" style="width:180px;height:24px;">
+			<input class="easyui-textbox"  name="itemname"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchbrandinfo();},prompt:'件码/商品名称/商品编码...'" style="width:250px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>
 	
 	
 			<!-- 修改对话框 -->
-	<div id="edit-dlg" class="easyui-dialog" style="width:800px;height:400px;padding:10px 20px;align:center;"  data-options="modal:true,draggable:false"
+	<div id="edit-dlg" class="easyui-dialog" style="width:600px;height:300px;padding:10px 20px;align:center;"  data-options="modal:true,draggable:false"
 			 closed="true" buttons="#edit-dlg-buttons">
 		<div class="ftitle"></div>
 		
 		<form  id="edit-fm" method="post" action="" novalidate  >
 			<div class="fitem"><input type=hidden name=id id=id>
-				<table width="100%" border="0" cellpadding="0" cellspacing="6">
-                 <div class="fitem">
-				<label>件码：</label>
-				<input name="bigboxBar"id="bigboxBar" class="easyui-validatebox" style="width:373px;" >
-			</div>
-			<br>
-			<div class="fitem">
-				<label>满盘数量：</label>
-				<input name="fullcount"id="fullcount" class="easyui-validatebox" style="width:373px;">
-			</div>
-			<br>
-			<div class="fitem">
-				<label>拆垛类型：</label>
-                <select name="cdtype" id="cdtype" class="easyui-combobox " style="width:100px;"data-options="" >
-                <option value="0" selected>人工拆垛</option>
-						<option value="10" >自动拆垛</option>
-						</select>
-			</div>
-			<br>      
-    
-      
+				<table width="100%" border="0" cellpadding="0" cellspacing="6" class="">
+                  <tr align="center" >
+            
+            <td width="5%" height="20" align="left" nowrap>商品名称：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <input name="itemname" id="itemname"  class="easyui-validatebox tb "style="width:150px" >
+            </td>
+           <td width="5%" height="20" align="left" nowrap>商品简称：</td>
+           <td  width="14%"height="20" align="left" nowrap>
+            <input name="shortname" id="shortname"   class="easyui-validatebox tb" style="width:150px"data-options="" >
+           </td>
+           </tr>
+             <tr align="center" >
+            
+            <td width="5%" height="20" align="left" nowrap>商品编号：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <input name="itemno" id="itemno"  class="easyui-validatebox tb "style="width:150px"  >
+            </td>
+           <td width="5%" height="20" align="left" nowrap>件码：</td>
+           <td  width="14%"height="20" align="left" nowrap>
+            <input name="bigboxBar" id="bigboxBar"   class="easyui-validatebox tb" style="width:150px" >
+           </td>
+           </tr>
+            <tr align="center" >
+            
+            <td width="5%" height="20" align="left" nowrap>满盘数量：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <input name="fullcount" id="fullcount"  class="easyui-validatebox tb "style="width:150px" >
+            </td>
+            <td width="5%" height="20" align="left" nowrap>规格：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <input name="spec" id="spec"  class="easyui-validatebox tb "style="width:150px" >
+            </td>
+            </tr>
+            <tr align="center" >
+           <td width="5%" height="20" align="left" nowrap>拆垛类型：</td>
+            <td width="14%" height="20" align="left" nowrap>
+                <select name="cdtype" id="cdtype" class="easyui-combobox tb" style="width:100px" data-options="" >
+            <option value="10" selected>自动拆垛</option>
+				<option value="0" >人工拆垛</option>
+				</select>
+            </td>
+           </tr>
   </table>
 			</div>	
 		</form>

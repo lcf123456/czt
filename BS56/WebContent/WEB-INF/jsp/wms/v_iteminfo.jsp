@@ -27,17 +27,19 @@
 		<div style="margin-bottom:5px">
 			<a href="#"id="newBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newadd()">新增</a>
 			<a href="#"id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
-			<input class="easyui-textbox"  name="cdtype"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchiteminfo();},prompt:'商品名称/商品编码...'" style="width:180px;height:24px;">
+			<input class="easyui-textbox"  name="itemname"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchiteminfo();},prompt:'商品名称/商品编码...'" style="width:220px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>
 	
 	
 			<!-- 新增对话框 -->
-	<div id="add-dlg" class="easyui-dialog" style="width:800px;height:400px;padding:5px 10px;align:center;"
+	<div id="add-dlg" class="easyui-dialog" style="width:750px;height:350px;padding:5px 10px;align:center;"
 			 closed="true" buttons="#dlg-buttons"  data-options="modal:true,draggable:false">
+		<div class="ftitle"></div>
 		<form  id="add-fm" method="post" action="" novalidate  >
 			<div class="fitem">
+			<table width="100%" border="0" cellpadding="0" cellspacing="6">
 			<tr>
               <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
                <tr><td colspan="6"  class="style2"><font color="blue">新增商品信息</font></td></tr>
@@ -52,9 +54,9 @@
             <td width="14%" height="20" align="left" nowrap>
                 <input name="itemname" id="itemname"  class="easyui-validatebox tb "style="width:150px" data-options="required:true,validType:'myvalidate'"><strong><font color="red" >*</font></strong>
             </td>
-           <td width="5%" height="20" align="left" nowrap>商品简称：</td>
-           <td  width="14%"height="20" align="left" nowrap>
-            <input name="shortname" id="shortname"   class="easyui-validatebox tb" style="width:150px"data-options="" ><strong><font color="red" >*</font></strong>
+           <td width="5%"  height="20" align="left" nowrap>规格：</td>
+           <td width="14%"  height="20" align="left" nowrap>
+               <input name="spec" id="spec"   class="easyui-validatebox tb"style="width:150px" data-options="" >
            </td>
            <td width="5%" height="20" align="left" nowrap>ABC编码：</td>
             <td width="14%" height="20" align="left" nowrap>
@@ -87,7 +89,7 @@
              
              <td width="5%" height="20" align="left" nowrap>扫码识别类型：</td>
             <td width="14%" height="20" align="left" nowrap>
-                <select name="iscanscancode" id="iscanscancode" class="easyui-combobox tb" style="width:100px" data-options="" >
+                <select name="iscanscancode" id="iscanscancode" class="easyui-combobox tb" style="width:150px" data-options="" >
             <option value="10" selected>能扫码识别</option>
 				<option value="0" >无法扫码识别</option>
 				</select>
@@ -95,8 +97,8 @@
              <td width="5%" height="20" align="left" nowrap>出库类型：</td>
             <td width="14%" height="20" align="left" nowrap>
                 <select name="outtype" id="outtype" class="easyui-combobox tb" style="width:100px" data-options="" >
-            <option value="1" selected>一楼出</option>
-				<option value="2" >二楼出</option>
+            <option value="1" >一楼出</option>
+				<option value="2" selected >二楼出</option>
 				</select>
             </td> 
             </tr>
@@ -120,7 +122,7 @@
              <tr align="center">
             <td width="5%" height="20" align="left" nowrap>件条：</td>
             <td width="14%" height="20" align="left" nowrap>
-                <input name="jt_size" id="jt_size" class="easyui-validatebox tb" style="width:150px" data-options="" >
+                <input name="jt_size" id="jt_size" class="easyui-validatebox tb" value="50" style="width:150px" data-options="" >
             </td> 
             <td width="5%" height="20" align="left" nowrap>万条：</td>
             <td width="14%" height="20" align="left" nowrap>
@@ -134,13 +136,7 @@
 				</select>
            </td>
            </tr>
-             <tr align="center">
-            <td width="5%"  height="20" align="left" nowrap>规格：</td>
-           <td width="14%"  height="20" align="left" nowrap>
-               <input name="spec" id="spec"   class="easyui-validatebox tb"style="width:150px" data-options="" >
-           </td>  
-            
-            </tr>
+           
   	 </table>
 		     </td>
 	  	   </tr>

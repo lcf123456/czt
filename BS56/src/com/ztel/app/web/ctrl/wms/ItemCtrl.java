@@ -32,6 +32,7 @@ import com.ztel.app.vo.sys.VehicleVo;
 import com.ztel.app.vo.wms.ConsignorVo;
 import com.ztel.app.vo.wms.ItemVo;
 import com.ztel.app.vo.wms.LanewayVo;
+import com.ztel.framework.util.DateUtil;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
 
@@ -153,10 +154,14 @@ public class ItemCtrl extends BaseCtrl {
 	 @RequestMapping(value="doIteminfoNew",method=RequestMethod.POST)
 	@ResponseBody
 	 public   Map<String, Object> doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
 		 Map<String, Object> map=new HashMap<String, Object>();  
-		 int total=0;
-        
-		 try { 
+		 int total=1;
+		 itemVo.setId(itemVo.getItemno());
+		 itemVo.setShortname(itemVo.getItemname());
+		 try { //itemVo.setRowstatus("10");
+			 itemVo.setModifyuser(String.valueOf(userVo.getId())); //修改人
+		 itemVo.setModifytime(DateUtil.getDateyyyy_mm_dd());//修改时间
 		     itemService.insertIteminfo(itemVo);
 		     UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoNew", "商品信息", "新增", "");
@@ -184,14 +189,13 @@ public class ItemCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doIteminfoDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doIteminfoDel(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
+	 public   Map<String, Object> doIteminfoDel(@RequestParam("id") List<String> ids,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
 		 if (ids!=null&&ids.size()>0) {
 			 total = ids.size();
 		}
 		 try {
-		
 			 itemService.delIteminfo(ids);
 			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoDel", "商品信息", "删除", "");
@@ -205,6 +209,41 @@ public class ItemCtrl extends BaseCtrl {
 		 
 		 return map;
 	 }
+	 /**
+	  * 商品名称校验
+	  * @return
+	  * @throws Exception
+	  */
+	 @ResponseBody
+	 @RequestMapping(value = "doItemnameCheck", method = RequestMethod.POST)
+	 public String doItemnameCheck(HttpServletRequest request,String itemname) {
+		 ItemVo itemVo = null;
+	     String isOk = "false";
+	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
+	     itemVo = itemService.checkItemName(itemname);
+	     if(null!=itemVo){
+	    	 isOk = "true";
+	     }
+	     return isOk; 
+	 }
+	 /**
+	  * 商品编号校验
+	  * @return
+	  * @throws Exception
+	  */
+	 @ResponseBody
+	 @RequestMapping(value = "doItemnoCheck", method = RequestMethod.POST)
+	 public String doItemnoCheck(HttpServletRequest request,String itemno) {
+		 ItemVo itemVo = null;
+	     String isOk = "false";
+	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
+	     itemVo = itemService.checkItemNo(itemno);
+	     if(null!=itemVo){
+	    	 isOk = "true";
+	     }
+	     return isOk; 
+	 }
+		
 }
 	
     
