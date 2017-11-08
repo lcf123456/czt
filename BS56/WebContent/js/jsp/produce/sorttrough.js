@@ -106,7 +106,7 @@ jQuery(function($){
 	
 		onBeforeEdit:function(index,row){
 			row.editing = true;
-			updateActions(index);
+			//updateActions(index);
 			//$('#dataTabel').datagrid('refreshRow', index);
 		},
 		onAfterEdit:function(index,row){

@@ -80,6 +80,7 @@ public class SortTroughServiceImpl implements SortTroughService {
 						mVo.setAreaid(storageAreaInOutVo.getAreaid());
 						//mVo.setCigarettename(vo.getCigarettename());
 						mVo.setCigarettecode(temp.getCigarettecode());
+						mVo.setTroughnum(new BigDecimal(temp.getTroughnum()));
 						//mVo.setCreatedate(new Date());
 						
 							try {

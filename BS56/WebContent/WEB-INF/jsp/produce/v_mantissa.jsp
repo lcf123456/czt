@@ -24,9 +24,9 @@
     data-options="fitColumns:true,singleSelect:true">
 	    <thead>
 			<tr>
-				<th data-options="field:'sortid'">序号</th>
-				<th data-options="field:'sortname'">区域</th>
-				<th data-options="field:'handle'">操作</th>
+				<th data-options="field:'sortid',width:20">序号</th>
+				<th data-options="field:'sortname',width:30">区域</th>
+				<th data-options="field:'handle',width:30">操作</th>
 			</tr>
 	    </thead>
 	    <tbody>
