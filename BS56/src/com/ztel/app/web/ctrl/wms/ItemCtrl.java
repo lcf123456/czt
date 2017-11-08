@@ -209,6 +209,41 @@ public class ItemCtrl extends BaseCtrl {
 		 
 		 return map;
 	 }
+	 /**
+	  * 商品名称校验
+	  * @return
+	  * @throws Exception
+	  */
+	 @ResponseBody
+	 @RequestMapping(value = "doItemnameCheck", method = RequestMethod.POST)
+	 public String doItemnameCheck(HttpServletRequest request,String itemname) {
+		 ItemVo itemVo = null;
+	     String isOk = "false";
+	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
+	     itemVo = itemService.checkItemName(itemname);
+	     if(null!=itemVo){
+	    	 isOk = "true";
+	     }
+	     return isOk; 
+	 }
+	 /**
+	  * 商品编号校验
+	  * @return
+	  * @throws Exception
+	  */
+	 @ResponseBody
+	 @RequestMapping(value = "doItemnoCheck", method = RequestMethod.POST)
+	 public String doItemnoCheck(HttpServletRequest request,String itemno) {
+		 ItemVo itemVo = null;
+	     String isOk = "false";
+	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
+	     itemVo = itemService.checkItemNo(itemno);
+	     if(null!=itemVo){
+	    	 isOk = "true";
+	     }
+	     return isOk; 
+	 }
+		
 }
 	
     

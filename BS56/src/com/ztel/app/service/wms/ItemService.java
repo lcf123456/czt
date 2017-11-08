@@ -20,4 +20,7 @@ public interface ItemService {
 	public List<ItemVo> getIteminfoList(Pagination<?> page);
 	public int insertIteminfo(ItemVo itemVo);
 	public void delIteminfo(List<String> ids);
+	ItemVo checkItemName(String itemname);
+	ItemVo checkItemNo(String itemno);
+	
 }

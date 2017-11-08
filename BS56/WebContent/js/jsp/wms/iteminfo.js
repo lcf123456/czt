@@ -121,6 +121,9 @@ jQuery(function($){
 		}
 	});
 	
+	
+	
+	
 });
 
 /**
@@ -133,43 +136,57 @@ function newadd(){
 	 $('#createtime').datebox('setValue',nowTime );
 }
 
+function checkName(){
+	var itemname = $("#itemname").val().trim();
+	$.ajax({
+        type : 'post',
+        async : false,
+        url : baseURL+"/wms/item/doItemnameCheck.json",
+       data : {
+            "itemname" : itemname
+         },
+        success : function(data) {
+              haha = data;
+          }
+     });
+}
+
 
 /**
  * 保存新增商品信息
  */
 function saveNew(){
-	
-	//$.extend($.fn.validatebox.defaults.rules, {
-	 //   myvalidate : {
-	    //    validator : function(value, param) {
-	     //       var itemname = $("#itemname").val().trim();
-	       //     console.log(itemname);
-	        //    var haha = " ";
-	        //    $.ajax({
-	           //     type : 'post',
-	           //     async : false,
-	             //   url : baseURL+"/wms/item/doItemnameCheck.json",
-	             //   data : {
-	              //      "itemname" : itemname
-	              //  },
-	              //  success : function(data) {
-	                 //   haha = data;
-	               // }
-	           // });
+	/*$.extend($.fn.validatebox.defaults.rules, {
+	    myvalidate : {
+	        validator : function(value, param) {
+	          var itemname = $("#itemname").val().trim();
+	          //console.log(itemname);
+	        var haha = " ";
+	        $.ajax({
+	              type : 'post',
+	              async : false,
+	              url : baseURL+"/wms/item/doItemnameCheck.json",
+	             data : {
+	                  "itemname" : itemname
+	               },
+	              success : function(data) {
+	                    haha = data;
+	                }
+	           });
 	           // console.log(haha);
-	           // return haha.indexOf("true");
-	       // },
-	       // message : '商品名称已存在，请重新输入！'
-	   // }
-	//});
-	//var bdate=$('#buydate_string').val();
-	//alert("---");
+	           return haha.indexOf("true");
+	        },
+	        message : '商品名称已存在，请重新输入！'
+	    }
+	});*/
 	$('#add-fm').form('submit',{
 		onSubmit: function(){
 			var isValidate = $(this).form('validate');
 			if(isValidate){
 				
 			}
+			//这里直接调用ajax的方法
+			checkName();
 			return isValidate;
 		},
 		

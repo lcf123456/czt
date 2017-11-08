@@ -49,4 +49,10 @@ public interface ItemVoMapper {
 	List<ItemVo> selectBrandinfoPageList(Pagination<?> page);
 
 	List<ItemVo> selectIteminfoPageList(Pagination<?> page);
+
+	ItemVo checkItemName(String itemname);
+
+	ItemVo checkItemNo(String itemno);
+
+
 }

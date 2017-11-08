@@ -87,4 +87,14 @@ public class ItemServiceImpl implements ItemService {
 		}
 		return;
 	}
+	@Override
+	public ItemVo checkItemName(String itemname) {
+		// TODO Auto-generated method stub
+		return itemVoMapper.checkItemName(itemname);
+	}
+	@Override
+	public ItemVo checkItemNo(String itemno) {
+		// TODO Auto-generated method stub
+		return itemVoMapper.checkItemNo(itemno);
+	}
 }
