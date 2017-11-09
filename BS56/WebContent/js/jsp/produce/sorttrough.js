@@ -104,26 +104,29 @@ jQuery(function($){
 			
 		]],
 	
-		onBeforeEdit:function(index,row){
-			row.editing = true;
-			//updateActions(index);
-			//$('#dataTabel').datagrid('refreshRow', index);
-		},
-		onAfterEdit:function(index,row){
-			row.editing = false;
-			submitModify(row);
-			updateActions(index);
-			
-		},
-		onCancelEdit:function(index,row){
-			row.editing = false;
-			updateActions(index);
-		},
+//		onBeforeEdit:function(index,row){
+//			row.editing = true;
+//			//updateActions(index);
+//			//$('#dataTabel').datagrid('refreshRow', index);
+//		},
+//		onAfterEdit:function(index,row){
+//			row.editing = false;
+//			submitModify(row);
+//			updateActions(index);
+//			
+//		},
+//		onCancelEdit:function(index,row){
+//			row.editing = false;
+//			updateActions(index);
+//		},
 		toolbar:"#toolbar",
 		onLoadSuccess:function(){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题		}
 	});
-	
+	$('#dataTabel').datagrid('enableCellEditing').datagrid('gotoCell', {
+		index: 0,
+		field: 'cigarettecode'
+	});
 });
 var i=0;
 function updateActions(index){
