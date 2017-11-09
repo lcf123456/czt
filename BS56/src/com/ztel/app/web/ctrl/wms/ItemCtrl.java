@@ -218,11 +218,11 @@ public class ItemCtrl extends BaseCtrl {
 	 @RequestMapping(value = "doItemnameCheck", method = RequestMethod.POST)
 	 public String doItemnameCheck(HttpServletResponse response,HttpServletRequest request,String itemname) {
 		 ItemVo itemVo = null;
-	     String isOk = "false";
+	     String isOk = "0";
 	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
 	     itemVo = itemService.checkItemName(itemname);
 	     if(null!=itemVo){
-	    	 isOk = "true";
+	    	 isOk = "1";
 	     }
 	     return isOk; 
 	 }

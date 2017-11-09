@@ -136,76 +136,64 @@ function newadd(){
 	 $('#createtime').datebox('setValue',nowTime );
 }
 
-function checkName(){
-	var itemname = $("#itemname").val().trim();
-	var haha = "";
-	$.ajax({
-        type : 'post',
-        async : false,
-        url : baseURL+"/wms/item/doItemnameCheck.json",
-       data : {
-            "itemname" : itemname
-         },
-        success : function(data) {
-              haha = data;
-          }
-     });
-	
-	 return (haha=='true');
-}
 
 
 /**
  * 保存新增商品信息
  */
 function saveNew(){
-	/**$.extend($.fn.validatebox.defaults.rules, {
-	    myvalidate : {
-	        validator : function(value, param) {
-	          var itemname = $("#itemname").val().trim();
-	          //console.log(itemname);
-	        var haha = " ";
-	        $.ajax({
-	              type : 'post',
-	              async : false,
-	              url : baseURL+"/wms/item/doItemnameCheck.json",
-	             data : {
-	                  "itemname" : itemname
-	               },
-	              success : function(data) {
-	                    haha = data;
-	                }
-	           });
-	           // console.log(haha);
-	           return haha.indexOf("true");
-	        },
-	        message : '商品名称已存在，请重新输入！'
-	    }
-	});
-	*/
+	
 	$('#add-fm').form('submit',{
 		onSubmit: function(){
 			var isValidate = $(this).form('validate');
 			if(isValidate){
 				//这里直接调用ajax的方法
-				isValidate = !checkName();
-				if(!isValidate){
-					alert("名称已存在！");
-				}
+				var itemname = $("#itemname").val().trim();
+				//alert(itemname);
+				$.ajax({
+			        type : 'post',
+			        url : baseURL+"/wms/item/doItemnameCheck.json",
+			       data : {
+			            "itemname" : itemname
+			         },
+			        success : function(datavalue) {
+			             if(datavalue=="0"){
+			            	 //alert("11");
+			            	 addItem();
+			             }
+			             else{
+			            	 $.messager.alert('提示',"该商品名称已存在，请重新输入！",'info');
+				        	  return false;
+			             }
+			          },
+			          error:function(){
+			        	  return false;
+			          }
+			     });
 			}
 						
 			return isValidate;
 		},
 		
-		url:baseURL+"/wms/item/doIteminfoNew.json",
+		
+	});
+}
+
+function addItem(){
+	$.ajax({	
+        url:baseURL+"/wms/item/doIteminfoNew.json",
 		data:$("#add-fm").serializeArray(),
 		beforeSend : function () {
 			$.messager.progress({
 				text : '正在新增中...',
 			});
 		},
-		success: function(data){
-			//$('#loading').window('close');
+		complete: function(){  
+	        //AJAX请求完成时隐藏loading提示  
+	        $.messager.progress('close');
+	    },
+	    success: function(data){
+	    	console.log("--"+data)
 			data = eval('('+data+')');
 			$('#add-dlg').dialog('close');
 			$('#dataTable').datagrid('reload'); 
@@ -213,9 +201,8 @@ function saveNew(){
 				title : '提示',
 				msg :  data.total+'个商品信息新增'+data.msg+'！',
 			});
-			//$('#loading').window('close');
 		}
-	});
+        });
 }
 //删除
 function deleterow(){
