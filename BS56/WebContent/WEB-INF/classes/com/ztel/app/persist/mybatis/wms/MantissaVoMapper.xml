@@ -8,6 +8,7 @@
     <result column="QTY" property="qty" jdbcType="DECIMAL" />
     <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
     <result column="AREAID" property="areaid" jdbcType="DECIMAL" />
+     <result column="TROUGHNUM" property="troughnum" jdbcType="DECIMAL" />
     <result column="CREATEUSERID" property="createuserid" jdbcType="DECIMAL" />
     <result column="CREATEUSERNAME" property="createusername" jdbcType="OTHER" />
     <result column="ORDERDATE" property="orderdate" jdbcType="TIMESTAMP" />
@@ -26,7 +27,8 @@
     select 
     <include refid="Base_Column_List" />
     from T_WMS_MANTISSA
-    where cigarettecode=#{cigarettecode} and to_char(createdate,'yyyy-mm-dd')=to_char(#{orderdate},'yyyy-mm-dd') and areaid=#{areaid}
+    where cigarettecode=#{cigarettecode} and to_char(orderdate,'yyyy-mm-dd')=to_char(#{orderdate},'yyyy-mm-dd') and areaid=#{areaid}
+    and troughnum=#{troughnum}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from T_WMS_MANTISSA
@@ -35,12 +37,12 @@
   <insert id="insert" parameterType="com.ztel.app.vo.wms.MantissaVo" >
     insert into T_WMS_MANTISSA (ID, CIGARETTECODE, CIGARETTENAME, 
       QTY, CREATEDATE, AREAID, 
-      CREATEUSERID, CREATEUSERNAME)
+      CREATEUSERID, CREATEUSERNAME,TROUGHNUM)
     values (#{id,jdbcType=DECIMAL}, #{cigarettecode,jdbcType=OTHER}, #{cigarettename,jdbcType=OTHER}, 
       #{qty,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, #{areaid,jdbcType=DECIMAL}, 
-      #{createuserid,jdbcType=DECIMAL}, #{createusername,jdbcType=OTHER})
+      #{createuserid,jdbcType=DECIMAL}, #{createusername,jdbcType=OTHER}, #{troughnum,jdbcType=DECIMAL})
   </insert>
-  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.MantissaVo" >
+  <insert id="insertSelective" parameterType="com.ztel.app.vo.wms.MantissaVo"  useGeneratedKeys="false" >
     insert into T_WMS_MANTISSA
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -66,6 +68,12 @@
       </if>
       <if test="createusername != null" >
         CREATEUSERNAME,
+      </if>
+      <if test="troughnum != null" >
+        TROUGHNUM,
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -93,6 +101,12 @@
       <if test="createusername != null" >
         #{createusername,jdbcType=OTHER},
       </if>
+      <if test="troughnum != null" >
+        #{troughnum,jdbcType=DECIMAL},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.MantissaVo" >
@@ -118,6 +132,9 @@
       </if>
       <if test="createusername != null" >
         CREATEUSERNAME = #{createusername,jdbcType=OTHER},
+      </if>
+      <if test="orderdate != null" >
+        ORDERDATE = #{orderdate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}

@@ -52,7 +52,7 @@
             
             <td width="5%" height="20" align="left" nowrap>商品名称：</td>
             <td width="14%" height="20" align="left" nowrap>
-                <input name="itemname" id="itemname"  class="easyui-validatebox tb "style="width:150px" data-options="required:true,validType:'myvalidate'"><strong><font color="red" >*</font></strong>
+                <input name="itemname" id="itemname"  class="easyui-validatebox tb "style="width:150px" data-options="required:true"><strong><font color="red" >*</font></strong>
             </td>
            <td width="5%"  height="20" align="left" nowrap>规格：</td>
            <td width="14%"  height="20" align="left" nowrap>

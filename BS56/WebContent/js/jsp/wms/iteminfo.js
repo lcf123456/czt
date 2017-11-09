@@ -138,6 +138,7 @@ function newadd(){
 
 function checkName(){
 	var itemname = $("#itemname").val().trim();
+	var haha = "";
 	$.ajax({
         type : 'post',
         async : false,
@@ -149,6 +150,8 @@ function checkName(){
               haha = data;
           }
      });
+	
+	 return (haha=='true');
 }
 
 
@@ -156,7 +159,7 @@ function checkName(){
  * 保存新增商品信息
  */
 function saveNew(){
-	/*$.extend($.fn.validatebox.defaults.rules, {
+	/**$.extend($.fn.validatebox.defaults.rules, {
 	    myvalidate : {
 	        validator : function(value, param) {
 	          var itemname = $("#itemname").val().trim();
@@ -178,15 +181,19 @@ function saveNew(){
 	        },
 	        message : '商品名称已存在，请重新输入！'
 	    }
-	});*/
+	});
+	*/
 	$('#add-fm').form('submit',{
 		onSubmit: function(){
 			var isValidate = $(this).form('validate');
 			if(isValidate){
-				
+				//这里直接调用ajax的方法
+				isValidate = !checkName();
+				if(!isValidate){
+					alert("名称已存在！");
+				}
 			}
-			//这里直接调用ajax的方法
-			checkName();
+						
 			return isValidate;
 		},
 		
