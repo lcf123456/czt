@@ -149,6 +149,7 @@ function saveNew(){
 			if(isValidate){
 				//这里直接调用ajax的方法
 				var itemname = $("#itemname").val().trim();
+				var itemno = $("#itemno").val().trim();
 				//alert(itemname);
 				$.ajax({
 			        type : 'post',
@@ -158,12 +159,32 @@ function saveNew(){
 			         },
 			        success : function(datavalue) {
 			             if(datavalue=="0"){
-			            	 //alert("11");
+			            	//alert("11");
 			            	 addItem();
 			             }
 			             else{
-			            	 $.messager.alert('提示',"该商品名称已存在，请重新输入！",'info');
-				        	  return false;
+			            	$.messager.alert('提示',"该商品名称已存在，请重新输入！",'info');
+				        	 return false;
+			             }
+			          },
+			          error:function(){
+			        	  return false;
+			          }
+			     });
+				$.ajax({
+			        type : 'post',
+			        url : baseURL+"/wms/item/doItemnoCheck.json",
+			       data : {
+			            "itemno" : itemno
+			         },
+			        success : function(datavalue) {
+			             if(datavalue=="0"){
+			            	//alert("11");
+			            	 addItem();
+			             }
+			             else{
+			            	$.messager.alert('提示',"该商品编号已存在，请重新输入！",'info');
+				        	 return false;
 			             }
 			          },
 			          error:function(){
@@ -180,7 +201,8 @@ function saveNew(){
 }
 
 function addItem(){
-	$.ajax({	
+	$.ajax({
+		type : 'post',
         url:baseURL+"/wms/item/doIteminfoNew.json",
 		data:$("#add-fm").serializeArray(),
 		beforeSend : function () {
@@ -188,13 +210,15 @@ function addItem(){
 				text : '正在新增中...',
 			});
 		},
-		complete: function(){  
+		/*complete: function(){  
 	        //AJAX请求完成时隐藏loading提示  
 	        $.messager.progress('close');
-	    },
+	   },*/
 	    success: function(data){
-	    	console.log("--"+data)
-			data = eval('('+data+')');
+	    	$.messager.progress('close');
+	    	//console.log("--"+data)
+			//data = eval('('+data+')');
+			//alert(data.msg);
 			$('#add-dlg').dialog('close');
 			$('#dataTable').datagrid('reload'); 
     		$.messager.show({

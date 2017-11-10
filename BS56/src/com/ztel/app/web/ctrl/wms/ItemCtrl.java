@@ -155,6 +155,7 @@ public class ItemCtrl extends BaseCtrl {
 	@ResponseBody
 	 public   Map<String, Object> doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		// System.out.println(userVo.getUsername());
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=1;
 		 itemVo.setId(itemVo.getItemno());
@@ -220,7 +221,12 @@ public class ItemCtrl extends BaseCtrl {
 		 ItemVo itemVo = null;
 	     String isOk = "0";
 	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
-	     itemVo = itemService.checkItemName(itemname);
+	    try{
+	    	itemVo = itemService.checkItemName(itemname);
+	    }catch(Exception e){
+	    	isOk = "0";
+	    }
+	     
 	     if(null!=itemVo){
 	    	 isOk = "1";
 	     }
@@ -235,11 +241,11 @@ public class ItemCtrl extends BaseCtrl {
 	 @RequestMapping(value = "doItemnoCheck", method = RequestMethod.POST)
 	 public String doItemnoCheck(HttpServletRequest request,String itemno) {
 		 ItemVo itemVo = null;
-	     String isOk = "false";
+	     String isOk = "0";
 	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
 	     itemVo = itemService.checkItemNo(itemno);
 	     if(null!=itemVo){
-	    	 isOk = "true";
+	    	 isOk = "1";
 	     }
 	     return isOk; 
 	 }
