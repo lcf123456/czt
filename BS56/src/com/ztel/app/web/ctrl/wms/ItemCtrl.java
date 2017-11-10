@@ -157,7 +157,7 @@ public class ItemCtrl extends BaseCtrl {
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
 		// System.out.println(userVo.getUsername());
 		 Map<String, Object> map=new HashMap<String, Object>();  
-		 int total=1;
+		 int total=0;
 		 itemVo.setId(itemVo.getItemno());
 		 itemVo.setShortname(itemVo.getItemname());
 		 try { //itemVo.setRowstatus("10");
