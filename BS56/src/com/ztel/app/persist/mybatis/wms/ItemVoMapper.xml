@@ -68,11 +68,9 @@
     order by itemname
   </select>
   <select id="checkItemName" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
-    select id, itemname from T_WMS_ITEM  where itemname = #{param.itemname}
+    select id, itemname from T_WMS_ITEM  where  itemname = #{itemname}  or itemno = #{itemno}
   </select>
-  <select id="checkItemNo" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
-    select id, itemno from T_WMS_ITEM  where itemno = #{param.itemno}
-  </select>
+
    <!--获取品牌信息 -->
   <select id="selectBrandinfoPageList" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
     select id,bigbox_bar, itemno,itemname,shortname,fullcount, cdtype,decode(spec,'NULL','',spec)as spec

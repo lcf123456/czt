@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,15 +15,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.cost.SPLTypeServcie;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.cost.SPLTypeInfoVo;
 import com.ztel.app.vo.sys.MenuInfoVo;
+import com.ztel.app.vo.sys.UserVo;
 
 @Controller
 @RequestMapping("/cost/SPLTypeInfo")
 public class SPLTypeInfoCtrl {
 	@Autowired
 	private SPLTypeServcie sPLTypeServcie = null;
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@RequestMapping("toSPLTypeInfo")
 	public String toSPLTypeInfo(HttpServletRequest request) {
 		
@@ -44,14 +48,16 @@ public class SPLTypeInfoCtrl {
 	 }
 	 
 	 /**
-	  * 新增栏目信息
+	  * 新增物资类别维护信息
 	  * @return
 	  */
 	 @RequestMapping(value="doAddSPLTypeInfo")
 	 @ResponseBody
-	 public  Map<String, Object> doAddSPLTypeInfo(SPLTypeInfoVo sPLTypeInfoVo)
+	 public  Map<String, Object> doAddSPLTypeInfo(SPLTypeInfoVo sPLTypeInfoVo,HttpServletRequest request,HttpServletResponse response)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/cost/SPLTypeInfo/doAddSPLTypeInfo", "物资类别维护", "新增", "");
 		 //System.out.println("--------------"+sPLTypeInfoVo.toString());
 		 try{
 			 sPLTypeServcie.doAddSPLTypeInfo(sPLTypeInfoVo);

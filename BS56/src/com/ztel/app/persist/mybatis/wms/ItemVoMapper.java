@@ -50,9 +50,9 @@ public interface ItemVoMapper {
 
 	List<ItemVo> selectIteminfoPageList(Pagination<?> page);
 
-	ItemVo checkItemName(String itemname);
+	ItemVo checkItemName(ItemVo itemVo);
 
-	ItemVo checkItemNo(String itemno);
+	//ItemVo checkItemNo(String itemno);
 
 
 }

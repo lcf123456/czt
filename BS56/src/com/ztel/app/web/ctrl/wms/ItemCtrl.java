@@ -215,14 +215,22 @@ public class ItemCtrl extends BaseCtrl {
 	  * @return
 	  * @throws Exception
 	  */
-	 @ResponseBody
+	// @SuppressWarnings("null")
+	@ResponseBody
 	 @RequestMapping(value = "doItemnameCheck", method = RequestMethod.POST)
 	 public String doItemnameCheck(HttpServletResponse response,HttpServletRequest request,String itemname) {
 		 ItemVo itemVo = null;
+		 ItemVo  prameterVo = new ItemVo();
 	     String isOk = "0";
 	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
+	    // String itemno=request.getParameter("itemno");
+	     //itemVo.setItemname(itemname);
+	     //itemVo.setItemno(itemno);
+	     String itemno = request.getParameter("itemno");
+	     prameterVo.setItemname(itemname);
+	     prameterVo.setItemno(itemno);
 	    try{
-	    	itemVo = itemService.checkItemName(itemname);
+	    	itemVo = itemService.checkItemName(prameterVo);
 	    }catch(Exception e){
 	    	isOk = "0";
 	    }
@@ -236,7 +244,7 @@ public class ItemCtrl extends BaseCtrl {
 	  * 商品编号校验
 	  * @return
 	  * @throws Exception
-	  */
+	  
 	 @ResponseBody
 	 @RequestMapping(value = "doItemnoCheck", method = RequestMethod.POST)
 	 public String doItemnoCheck(HttpServletRequest request,String itemno) {
@@ -248,7 +256,7 @@ public class ItemCtrl extends BaseCtrl {
 	    	 isOk = "1";
 	     }
 	     return isOk; 
-	 }
+	 }*/
 		
 }
 	

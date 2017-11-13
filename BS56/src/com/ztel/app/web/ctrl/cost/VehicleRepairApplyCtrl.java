@@ -167,7 +167,7 @@ public class VehicleRepairApplyCtrl extends BaseCtrl {
 //     }
 //	 	
 	 /**
-	  * 维修申报新增
+	  * 车辆维修申报新增
 	  * @param request
 	  * @return
 	  */
@@ -178,7 +178,7 @@ public class VehicleRepairApplyCtrl extends BaseCtrl {
 		 int total=0;
 		 
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		 operationlogService.insertLog(userVo, "/cost/vehiclerepairapply/doVehicleRepairApplyAdd", "车辆维修申报", "新增", "");
+		 operationlogService.insertLog(userVo, "/cost/vehiclerepairapply/doVehicleRepairApplyAdd", "车辆维修申报", "申报", "");
 		 
 		 try {
 			 //申报vo

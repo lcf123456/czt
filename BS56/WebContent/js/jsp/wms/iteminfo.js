@@ -150,20 +150,22 @@ function saveNew(){
 				//这里直接调用ajax的方法
 				var itemname = $("#itemname").val().trim();
 				var itemno = $("#itemno").val().trim();
-				//alert(itemname);
+				alert(itemname);
+				alert(itemno);
 				$.ajax({
 			        type : 'post',
 			        url : baseURL+"/wms/item/doItemnameCheck.json",
 			       data : {
-			            "itemname" : itemname
+			            "itemname" : itemname,
+			            "itemno" : itemno
 			         },
 			        success : function(datavalue) {
 			             if(datavalue=="0"){
-			            	//alert("11");
+			            	alert("11");
 			            	 addItem();
 			             }
 			             else{
-			            	$.messager.alert('提示',"该商品名称已存在，请重新输入！",'info');
+			            	$.messager.alert('提示',"该商品名称或商品编号已存在，请重新输入！",'info');
 				        	 return false;
 			             }
 			          },
@@ -171,7 +173,7 @@ function saveNew(){
 			        	  return false;
 			          }
 			     });
-				$.ajax({
+				/*$.ajax({
 			        type : 'post',
 			        url : baseURL+"/wms/item/doItemnoCheck.json",
 			       data : {
@@ -190,7 +192,7 @@ function saveNew(){
 			          error:function(){
 			        	  return false;
 			          }
-			     });
+			     });*/
 			}
 						
 			return isValidate;
