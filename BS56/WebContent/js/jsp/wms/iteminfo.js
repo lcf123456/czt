@@ -2,6 +2,11 @@
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+	$('#itemname').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchiteminfo();
+		}
+	})
 	$('#dataTable').datagrid({
 		//title:'品牌信息维护', //标题
 		method:'post',
@@ -150,8 +155,8 @@ function saveNew(){
 				//这里直接调用ajax的方法
 				var itemname = $("#itemname").val().trim();
 				var itemno = $("#itemno").val().trim();
-				alert(itemname);
-				alert(itemno);
+				//alert(itemname);
+				//alert(itemno);
 				$.ajax({
 			        type : 'post',
 			        url : baseURL+"/wms/item/doItemnameCheck.json",
@@ -161,7 +166,7 @@ function saveNew(){
 			         },
 			        success : function(datavalue) {
 			             if(datavalue=="0"){
-			            	alert("11");
+			            	//alert("11");
 			            	 addItem();
 			             }
 			             else{
