@@ -23,6 +23,11 @@ jQuery(function($){
 	var begdate=$('#begdate').val();	 
 	var enddate=$('#enddate').val();
 	var settlementflagval=$("#settlementflag").val();
+	//$('#param').textbox('textbox').keydown(function(e){
+	//	if(e.keyCode==13){
+		//	searchStoragelist();
+		//}
+	//})
 	$('#dataTable').datagrid({
 		title:'入库单', //标题
 		method:'post',

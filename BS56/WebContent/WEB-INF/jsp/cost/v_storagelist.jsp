@@ -32,7 +32,7 @@
 				<option value="0" >未结算</option>
 				<option value="20" selected >全部</option>
 			</selectg>
-			<input class="easyui-textbox"  name="param"  id=param data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchStoragelist();},prompt:'请输入物品名称/物资类别/供应商'" style="width:250px;height:24px;">
+			<input class="easyui-textbox"  name="param"  id="param" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchStoragelist();},prompt:'请输入物品名称/物资类别/供应商'" style="width:250px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 			<a href="#" id="printBtn" onclick="printpage();" class="easyui-linkbutton" iconCls="icon-myprinter" style="height:24px;">打印</a>
 			<a href="#" id="toexcelBtn" onclick="exportxls();" class="easyui-linkbutton" iconCls="icon-myto_excel" style="width:84px;height:24px;">导出excel</a>
