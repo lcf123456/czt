@@ -6,8 +6,13 @@ var islegal = "0";
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchData();
+		}
+	})
 	$('#dataTabel').datagrid({
-		title:'角色维护', //标题
+		title:'物资出库', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选
@@ -60,6 +65,9 @@ jQuery(function($){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none'); 
 			
+		},
+		onDblClickCell:function(index,field,value){
+			viewD();
 		}
 	});
 	
@@ -370,7 +378,7 @@ function getsplapplylistline()
      			return;
      		}
      		if(rows.length > 1){
-     			$.messager.alert('提示',"只能选择一条信息进行查看",'info');
+     			$.messager.alert('提示',"只能选择一条信息进行删除",'info');
      			return;
      		}
      		
@@ -481,11 +489,9 @@ function formatOper(){
 		getsplapplylistline();
 	}
 
+  
   /**
-   * 审核
-   */
-  /**
-   * 查看窗口
+   * 发料窗口
    */
     function openAudit(){
     //	$('#add-fm').form('clear');
@@ -577,7 +583,7 @@ function formatOper(){
   			}
 		$.messager.confirm('提示','确定要删除吗?',function(result){
         if (result){
-        	$.post(baseURL+'/cost/SPLApplyList/doDel.json?listid='+listid+"&auditflag="+auditflag,function(data){
+        	$.post(baseURL+'/cost/SPLConsume/doDel.json?listid='+listid+"&auditflag="+auditflag,function(data){
 	        	$('#dataTabel').datagrid('reload'); 
 	        	//console.log("del--"+data);
         		$.messager.show({

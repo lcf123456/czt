@@ -45,8 +45,9 @@ jQuery(function($){
 	})
 	var begdate=$('#begdate').val();	 
 	var enddate=$('#enddate').val();
+	
 	$('#dataTable').datagrid({
-		title:'出库单', //标题
+		title:'出库明细表', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选

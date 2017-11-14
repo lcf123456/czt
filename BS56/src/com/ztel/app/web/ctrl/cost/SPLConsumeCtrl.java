@@ -24,9 +24,11 @@ import com.ztel.app.service.cost.SPLApplyListLineService;
 import com.ztel.app.service.cost.SPLApplyListService;
 import com.ztel.app.service.cost.SPLConsumeServcie;
 import com.ztel.app.service.cost.SPLTypeServcie;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.cost.SPLApplyListLineVo;
 import com.ztel.app.vo.cost.SPLApplyListVo;
 import com.ztel.app.vo.cost.SPLConsumeVo;
+import com.ztel.app.vo.sys.UserVo;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
 /**
@@ -53,7 +55,8 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 	
 	@Autowired 
 	private SPLConsumeServcie  splConsumeService = null;
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@Autowired
 	SPLTypeServcie sPLTypeServcie = null;
 	@Autowired
@@ -146,7 +149,7 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 	 }
 	 
 	 /**
-	  * 新增领料申请
+	  * 
 	  * @return
 	  */
 	 @RequestMapping(value="doSave")
@@ -192,7 +195,8 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 		 //先取序列S_COST_SPLAPPLYLIST值
 		 try{
 		 sPLApplyListService.doAddApplyList(sPLApplyListVo, sPLApplyListLineVo,reqType);
-		 
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/cost/SPLConsume/doSave", "", "新增", "");
 		 map.put("listid", listid);
 		 map.put("msg", "新增成功");
 		 }catch(Exception e){
@@ -225,7 +229,7 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 	 }
 	 
 	 /**
-	  * 根据系统模块名称获取栏目信息
+	  * 物资出库发料
 	  * @return
 	  */
 	 @RequestMapping(value="doConsume")
@@ -244,8 +248,10 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 		 sPLApplyListVo.setKeeperid(Long.parseLong(keeperid));
 		 sPLApplyListVo.setKeeperauditdate(keeperauditdate);
 		 
-		 try{
-		 sPLApplyListService.doUpdateApplyList(sPLApplyListVo);
+		 try{		 
+		sPLApplyListService.doUpdateApplyList(sPLApplyListVo);
+		UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/cost/SPLConsume/doConsume", "物资出库", "发料", "");
 		 resultMap.put("msg", "发料成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "发料失败！");
@@ -254,7 +260,7 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 	 }
 	 
 	 /**
-	  * 根据系统模块名称获取栏目信息
+	  * 删除物资出库信息
 	  * @return
 	  */
 	 @RequestMapping(value="doDel")
@@ -272,6 +278,8 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 		 sPLApplyListVo.setAuditflag(auditflag);
 		 try{
 		 sPLApplyListService.doDelApplyList(sPLApplyListVo);
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/cost/SPLConsume/doDel", "物资出库", "删除", "");
 		 resultMap.put("msg", "删除成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "删除失败！");
@@ -285,13 +293,15 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 	  */
 	 @RequestMapping(value="doEditConsume")
 	 @ResponseBody
-	 public  Map<String, Object> doEditConsume(SPLApplyListLineVo sPLApplyListLineVo)
+	 public  Map<String, Object> doEditConsume(SPLApplyListLineVo sPLApplyListLineVo,HttpServletRequest request)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 //System.out.println("id----"+menuinfo.getId()+",name="+menuinfo.getMenuname());
 		// List<Menuinfo> menuList=menuinfoService.searchMenuinfoList(id);
 		 try{
 			 sPLApplyListService.doEditSPLApplyListLineVo(sPLApplyListLineVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/cost/SPLConsume/doEditConsume", "物资出库", "发料数量修改/删除", "");
 			 map.put("total", "1");
 			 map.put("msg", "修改成功");
 		 }
@@ -305,7 +315,7 @@ public class SPLConsumeCtrl extends BaseCtrl  {
 	 }
 	 
 	 /**
-	  * 修改发料的某物资申请数量
+	  * 删除
 	  * @return
 	  */
 	 @RequestMapping(value="doDelConsume")

@@ -170,7 +170,7 @@ public class SPLApplyListCtrl extends BaseCtrl  {
 		 try{
 		 sPLApplyListService.doAddSPLApplyListLineVo(sPLApplyListLineVo);
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		 operationlogService.insertLog(userVo, "/cost/SPLApplyList/doSaveForConsume", "", "新增", "");
+		 operationlogService.insertLog(userVo, "/cost/SPLApplyList/doSaveForConsume", "物资出库", "新增", "");
 		 map.put("listid", listid);
 		 map.put("msg", "新增成功");
 		 }catch(Exception e){
@@ -238,9 +238,9 @@ public class SPLApplyListCtrl extends BaseCtrl  {
 		 sPLApplyListVo.setMngsuggestion(mngsuggestion);
 		 
 		 try{
+			 sPLApplyListService.doUpdateApplyList(sPLApplyListVo);
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(userVo, "/cost/SPLApplyList/doAudit", "生产领料/领料申请", "审核", "");
-		 sPLApplyListService.doUpdateApplyList(sPLApplyListVo);
 		 resultMap.put("msg", "审核成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "审核失败！");
@@ -250,7 +250,7 @@ public class SPLApplyListCtrl extends BaseCtrl  {
 	 }
 	 
 	 /**
-	  * 根据系统模块名称获取栏目信息
+	  * 删除生产领料/领料申请信息
 	  * @return
 	  */
 	 @RequestMapping(value="doDel")

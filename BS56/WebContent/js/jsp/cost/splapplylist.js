@@ -11,7 +11,7 @@ jQuery(function($){
 		}
 	})
 	$('#dataTabel').datagrid({
-		title:'角色维护', //标题
+		title:'领料申请', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选

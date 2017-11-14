@@ -25,11 +25,11 @@
 	<div id="toolbar" style="padding:5px;height:auto">
 	<form id="queryForm" style="margin:10;">
 		<div style="margin-bottom:5px">
-			<a href="#" id= "newBtn"  class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openView();">查看</a>
+			<a href="#" id= "viewBtn"  class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openView();">查看</a>
 			<a href="#" id= "newBtn"  class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openNew();">申报</a>
-			<a href="#" id= "newBtn"  class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openAudit();">审核</a>
+			<a href="#" id= "applyBtn"  class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openAudit();">审核</a>
 			<a href="#"  id="refundBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="openReceiptList();">回单</a>
-			<a href="#"  id="refundBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="openPrint();">打印</a>
+			<a href="#"  id="printBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="openPrint();">打印</a>
 			时间:<input id=begdate name=begdate class="easyui-datebox" style="width:100px;" >到<input id=enddate name=enddate class="easyui-datebox" style="width:100px;" >
 			<input class="easyui-textbox"  name="param"  id=param data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入车牌/车组/记录人...'" style="width:220px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
