@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.PubService;
 import com.ztel.app.service.produce.OrderService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.wms.ItemService;
 import com.ztel.app.service.wms.OutBoundLineService;
 import com.ztel.app.service.wms.OutBoundService;
@@ -60,6 +61,9 @@ public class OutBoundCtrl extends BaseCtrl {
 	@Autowired
 	private OutBoundLineService outBoundLineService = null;
 	 
+	@Autowired
+	private OperationlogService operationlogService = null;
+	
 	@Autowired
 	private OrderService orderService = null;
 	
@@ -206,6 +210,7 @@ public class OutBoundCtrl extends BaseCtrl {
 		    
 		 Long userid = 0L;
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/wms/outbound/doSave", "订单出库", "录入", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 		 }
@@ -271,6 +276,7 @@ public class OutBoundCtrl extends BaseCtrl {
 			 }
 		 BigDecimal userid = new BigDecimal("0");
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/wms/outbound/doSavedb", "调拨出库", "录入", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = new BigDecimal(userVo.getId());
 		 }
@@ -312,7 +318,7 @@ public class OutBoundCtrl extends BaseCtrl {
 		}
 		
 		 /**
-		  * 删除角色
+		  * 删除
 		  * @return
 		  * @throws Exception
 		  */
@@ -326,8 +332,8 @@ public class OutBoundCtrl extends BaseCtrl {
 			}
 			 try {
 				 outBoundService.deleteOubboundById(id);
-				 //UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-				 //operationlogService.insertLog(userVo, "/sys/role/roledelete", "角色管理", "删除", "");
+				 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+				 operationlogService.insertLog(userVo, "/wms/outbound/dodelete", "调拨出库/订单出库", "删除", "");
 				 map.put("msg", "成功");
 			} catch (Exception e) {
 				e.printStackTrace();  
