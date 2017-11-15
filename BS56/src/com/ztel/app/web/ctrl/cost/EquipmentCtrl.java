@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.cost.EquipmentService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.cost.EquipmentRepairVo;
 import com.ztel.app.vo.cost.EquipmentVo;
 import com.ztel.app.vo.sys.BlockcustomerVo;
@@ -45,6 +46,8 @@ public class EquipmentCtrl extends BaseCtrl {
 	
 	@Autowired
 	private EquipmentService equipmentService = null;
+	@Autowired
+	private OperationlogService operationlogService = null;
 	
 	@RequestMapping("toEquipment")
 	public String index(HttpServletRequest request) {
@@ -76,11 +79,13 @@ public class EquipmentCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doupdateEquipment",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doupdateEquipment(EquipmentVo equipmentVo,HttpServletResponse response) throws Exception {
+	 public   Map<String, Object> doupdateEquipment(EquipmentVo equipmentVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
        
 		 try {
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/cost/equipment/doupdateEquipment", "设备管理", "修改", "");
 			 equipmentService.updateEquipment(equipmentVo);
 			 map.put("msg", "成功");
 			 total=1;
@@ -102,14 +107,15 @@ public class EquipmentCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doEquipmentDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> deleteEquipment(@RequestParam("id") List<Integer> ids) throws Exception {
+	 public   Map<String, Object> deleteEquipment(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
 		 if (ids!=null&&ids.size()>0) {
 			 total = ids.size();
 		}
 		 try {
-		
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/cost/equipment/doEquipmentDel", "设备管理", "删除", "");
 			 equipmentService.delEquipment(ids);
 		
 			 map.put("msg", "成功");
@@ -137,6 +143,8 @@ public class EquipmentCtrl extends BaseCtrl {
         
 		 try { equipmentVo.setStatus("10");
 		 equipmentVo.setDelstatus("10");
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/cost/equipment/doEquipmentNew", "设备管理", "新增", "");
 			 equipmentService.insertEquipment(equipmentVo);
 			 map.put("msg", "成功");
 			 total=1;

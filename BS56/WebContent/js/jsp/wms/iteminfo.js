@@ -8,7 +8,7 @@ jQuery(function($){
 		}
 	})
 	$('#dataTable').datagrid({
-		//title:'品牌信息维护', //标题
+		//title:'商品信息维护', //标题
 		method:'post',
 		//iconCls:'icon-edit', //图标
 		singleSelect:false, //多选

@@ -30,7 +30,7 @@
 						    <option value="30">入库完成</option>
 						    <option value="0">失效</option>
 						</select>
-			<input class="easyui-textbox"  name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入准运证、货主、合同号...'" style="width:220px;height:24px;">
+			<input class="easyui-textbox" id="keyword"  name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入准运证、货主、合同号...'" style="width:220px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

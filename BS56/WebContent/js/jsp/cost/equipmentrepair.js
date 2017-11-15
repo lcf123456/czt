@@ -266,8 +266,8 @@ function searchEquipname1(){
 				 $(".gridtable tr").remove(".dynamic-tr");
 				var listTmp = "";
 	             $.each(data, function(i, cust) {
-	            	listTmp = listTmp +"<tr class='dynamic-tr' ><td>"+cust.equipname+"</td><td>"+cust.typename+"</td>"+
-	            	"<td><input name='rad' id=rad"+i+" type='radio' onClick=radClick('"+cust.id+"','"+cust.equipname+"','"+cust.typename+"') value="+cust.id+"></td></tr>";        	
+	            	listTmp = listTmp +"<tr class='dynamic-tr' ><td>"+cust.id+"</td><td>"+cust.equipname+"</td>"+
+	            	"<td><input name='rad' id=rad"+i+" type='radio' onClick=radClick('"+cust.id+"','"+cust.equipname+"') value="+cust.id+"></td></tr>";        	
 	             });
 	           $(".gridtable tbody").append (listTmp);
 	         },
@@ -276,10 +276,7 @@ function searchEquipname1(){
 		})
 		
 }
-function radClick(id,equipname,typename){
-	$('#equipid').val(id);
-    $('#equipname').val(equipname);
-    //s$('#typename').val(typename);
-  
-	
+function radClick(id,equipname){
+    $('#equipid2').val(id);
+    $('#equipname2').val(equipname);
 }

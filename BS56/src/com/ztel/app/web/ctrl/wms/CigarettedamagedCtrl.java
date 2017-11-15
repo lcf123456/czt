@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.PubService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.wms.CigarettedamagedLineService;
 import com.ztel.app.service.wms.CigarettedamagedService;
 import com.ztel.app.vo.sys.UserVo;
@@ -42,7 +43,8 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	
 	@Autowired
 	private CigarettedamagedService cigarettedamagedService = null;
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@Autowired
 	private CigarettedamagedLineService  cigarettedamagedLineService = null;
 	
@@ -148,6 +150,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	        cigarettedamagedVo.setActualqty(new BigDecimal(actualqty));
 	        cigarettedamagedVo.setDamagedtype(new BigDecimal(damagedtype));
 	        UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/cigarettedamaged/doSave", "来烟破损", "新增", "");
 			 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 				 cigarettedamagedVo.setCreateuser(userVo.getId());
 			 }
@@ -158,7 +161,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	        cigarettedamagedLineVo.setActualqty(new BigDecimal(actualqty));
 		 try{
 			 cigarettedamagedService.insertCigarettedamaged(cigarettedamagedLineVo, cigarettedamagedVo);
-		 
+
 		 map.put("msg", "新增成功");
 		 }catch(Exception e){
 			 map.put("msg", "新增失败");
@@ -204,6 +207,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	        cigarettedamagedVo.setActualqty(new BigDecimal(actualqty));
 	        cigarettedamagedVo.setDamagedtype(new BigDecimal(damagedtype));
 	        UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+	        operationlogService.insertLog(userVo, "/wms/cigarettedamaged/doSaveabnormal", "称重异常", "新增", "");
 			 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 				 cigarettedamagedVo.setCreateuser(userVo.getId());
 			 }
@@ -230,7 +234,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 审核
+	  *来烟破损 审核
 	  * @return
 	  */
 	 @RequestMapping(value="doAudit")
@@ -243,7 +247,8 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 		 String checkdescribe = request.getParameter("checkdescribe");
 		 
 		 CigarettedamagedVo cigarettedamagedVo = new CigarettedamagedVo();
-		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		  UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+	        operationlogService.insertLog(userVo, "/wms/cigarettedamaged/doAudit", "来烟破损", "审核", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 cigarettedamagedVo.setCheckuser(userVo.getId());
 			 cigarettedamagedVo.setCheckusername(userVo.getUsername());
@@ -281,6 +286,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 		 
 		 CigarettedamagedVo cigarettedamagedVo = new CigarettedamagedVo();
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+	     operationlogService.insertLog(userVo, "/wms/cigarettedamaged/doAuditabnormal", "称重异常", "审核", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 cigarettedamagedVo.setCheckuser(userVo.getId());
 			 cigarettedamagedVo.setCheckusername(userVo.getUsername());
@@ -318,6 +324,8 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 //		 cigarettedamagedVo.setDelstatus(new Short("0"));
 		 try{
 			 cigarettedamagedService.doDel(new BigDecimal(inboundid));
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		     operationlogService.insertLog(userVo, "/wms/cigarettedamaged/doDel", "来烟破损/称重异常", "删除", "");
 		 resultMap.put("msg", "删除成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "删除失败！");
@@ -327,7 +335,7 @@ public class CigarettedamagedCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 删除
+	  * 查询
 	  * @return
 	  */
 	 @RequestMapping(value="doSelectByInboundid")
