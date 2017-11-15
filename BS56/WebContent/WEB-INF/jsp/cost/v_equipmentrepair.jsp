@@ -27,7 +27,7 @@
 		<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newadd()">新增</a>
 		<a href="#"id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEdit()">修改</a>
 		<a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
-			<input class="easyui-textbox"  name=equipname  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchEquipmentRepair();},prompt:'请输入设备名称/维修内容...'" style="width:300px;height:24px;">
+			<input class="easyui-textbox" id=equipname name=equipname  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchEquipmentRepair();},prompt:'请输入设备名称/维修内容...'" style="width:300px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

@@ -30,7 +30,7 @@
 	<form id="queryForm" style="margin:10;">
 		<div style="margin-bottom:5px">
 			时间:  <input id=begdate name=begdate class="easyui-datebox" style="width:100px;" value="<%=DateUtil.getyyyy_mm()+"-01"%>" > 到    <input id=enddate name=enddate class="easyui-datebox" style="width:100px;" value="<%=DateUtil.getyyyy_mm_dd()%>">
-			<a href="#" onclick="searchSPL();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">查询</a>
+			<a href="#"  onclick="searchSPL();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">查询</a>
 			<a href="#" id="printBtn" onclick="openPagePrint();" class="easyui-linkbutton" iconCls="icon-myprinter" style="height:24px;">打印</a>
 		</div>
 		</form>
