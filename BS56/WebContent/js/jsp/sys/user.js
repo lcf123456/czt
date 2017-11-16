@@ -21,6 +21,12 @@ $(function(){
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+
+	$('#usercode').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchUser();
+			}
+		})
 	$('#dataTable').datagrid({
 		title:'员工信息', //标题
 		method:'post',

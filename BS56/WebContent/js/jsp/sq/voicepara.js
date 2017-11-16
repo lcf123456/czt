@@ -20,6 +20,12 @@ $(function(){
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+
+	$('#paraname').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchVoicepara();
+			}
+		})
 	$('#dataTabel').datagrid({
 		title:'语音参数维护', //标题
 		method:'post',

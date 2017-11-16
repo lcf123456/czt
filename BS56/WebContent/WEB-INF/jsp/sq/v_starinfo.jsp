@@ -36,7 +36,7 @@
 			<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newadd()">增加</a>
 			<a href="#" id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEdit()">修改</a>
 			<a href="#"  id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
-			<input class="easyui-textbox"  name="starname"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchPara();},prompt:'请输入星级名称或分值...'" style="width:450px;height:24px;">
+			<input class="easyui-textbox"  name="starname"id="starname1"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchPara();},prompt:'请输入星级名称或分值...'" style="width:450px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

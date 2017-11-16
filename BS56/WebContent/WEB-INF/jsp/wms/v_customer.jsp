@@ -22,7 +22,7 @@
 			<a href="#" id="viewBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="openView()">查看</a>
 			<input name="routecode" id="routecode" class="easyui-combobox" style="width:90px;" data-options="" >
 			</input>
-			<input class="easyui-textbox"  name="code"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchCustomer();},prompt:'请输入专卖证/联系人/店名/送货地址...'" style="width:350px;height:24px;">
+			<input class="easyui-textbox"  name="code"id="code"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchCustomer();},prompt:'请输入专卖证/联系人/店名/送货地址...'" style="width:350px;height:24px;">
 			
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>

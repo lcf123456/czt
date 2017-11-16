@@ -36,7 +36,7 @@
 		<div style="margin-bottom:5px">
 			<a href="#" id="newBtn"class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newVoicepara()">增加</a>
 			<a href="#"id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEdit()">修改</a>
-			<input class="easyui-textbox"  name="paraname"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchVoicepara();},prompt:'请输入参数名称...'" style="width:450px;height:24px;">
+			<input class="easyui-textbox"  name="paraname"id="paraname"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchVoicepara();},prompt:'请输入参数名称...'" style="width:450px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

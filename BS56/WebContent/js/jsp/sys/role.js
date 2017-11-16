@@ -20,6 +20,12 @@ $(function(){
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+
+	$('#rolenamex').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchUser();
+			}
+		})
 	$('#dataTabel').datagrid({
 		title:'角色维护', //标题
 		method:'post',

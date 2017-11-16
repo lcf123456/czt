@@ -24,7 +24,7 @@
 		<a href="#" id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEdit()">修改</a>
 		<a href="#" id="grantBtn" class="easyui-linkbutton" iconCls="icon-mygroup" plain="true" onclick="openGrant()">授权</a>
 		<a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
-			<input class="easyui-textbox"  name="rolename"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入角色名称...'" style="width:450px;height:24px;">
+			<input class="easyui-textbox"  name="rolename" id="rolenamex" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入角色名称...'" style="width:450px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>
@@ -81,8 +81,13 @@
      * 页面列表datagrid初始化
      */
     jQuery(function($){
+    	$('#rolenamex').textbox('textbox').keydown(function(e){
+    		if(e.keyCode==13){
+    			searchData();
+    		}
+    	})
     	$('#dataTabel').datagrid({
-    		title:'操作日志', //标题
+    		title:'业务角色', //标题
     		method:'post',
     		iconCls:'icon-edit', //图标
     		singleSelect:false, //多选

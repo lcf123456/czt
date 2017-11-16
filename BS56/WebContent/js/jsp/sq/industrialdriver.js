@@ -29,6 +29,12 @@ jQuery(function($){
 		        message: '请输入正确的手机号码。'   
 		    },
 	});
+
+	$('#drivernamex').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchIndustrialdriver();
+			}
+		})
 	$('#dataTabel').datagrid({
 		title:'工业司机信息', //标题
 		method:'post',
