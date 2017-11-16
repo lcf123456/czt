@@ -47,6 +47,11 @@ jQuery(function(def){
 	        return data;
 	    }   	
 	})
+	$('#code').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchCustomer();
+		}
+	})
 	//alert(baseURL+"/sq/starinfo/getStarinfo.json");
 	$('#dataTable').datagrid({
 		title:'零售户顺序调', //标题

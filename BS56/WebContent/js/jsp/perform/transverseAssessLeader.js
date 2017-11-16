@@ -11,8 +11,13 @@ jQuery(function($){
 	//var obj = $("#consignsorsearch");
 	//initconsignsor(obj);
 	initctype();
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchData();
+		}
+	})
 	$('#dataTabel').datagrid({
-		title:'入库单', //标题
+		title:'领导考核', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选

@@ -167,7 +167,7 @@ function saveNew(){
 			         },
 			        success : function(datavalue) {
 			             if(datavalue=="0"){
-			            	alert("11");
+			            	//alert("11");
 			            	 addItem();
 			             }
 			             else{

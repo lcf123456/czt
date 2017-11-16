@@ -10,7 +10,7 @@ jQuery(function($){
 	//var obj = $("#consignsorsearch");
 	//initconsignsor(obj);
 	$('#dataTabel').datagrid({
-		title:'订单列表', //标题
+		title:'签收统计', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选

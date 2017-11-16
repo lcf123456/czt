@@ -27,7 +27,7 @@
 		考核日期从：<input name="searchtime" id="searchtime" class="easyui-datebox" style="width:120px" >&nbsp;
 		到：<input name="searchtime2" id="searchtime2" class="easyui-datebox" style="width:120px" >&nbsp;&nbsp;&nbsp;
 		类型：<input name="ctypesearch" id="ctypesearch" class="easyui-textbox" style="width:120px" >
-		<input class="easyui-textbox"  name="keyword" id="keyword" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入创建人、检查部门、考核部门'" style="width:300px;height:24px;">
+		<input class="easyui-textbox"  name="keyword" id="keyword" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入检查部门、考核部门'" style="width:300px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 			<input class="easyui-textbox"  id=excelBtn name="toexcel" id="toexcel"  data-options="buttonText:'导出excel',buttonIcon:'icon-myto_excel',onClickButton:function(){exportxls();}," style="width:80px;height:24px;">
 		</div>

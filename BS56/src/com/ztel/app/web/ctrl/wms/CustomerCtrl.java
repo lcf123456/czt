@@ -134,7 +134,8 @@ public class CustomerCtrl extends BaseCtrl {
 			 customerVo.setAddressseq(new BigDecimal(addressseq));
 		 try{
 			 customerService.updatecustomerseqByPrimarykey(customerVo);
-			 
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/customer/doUpdateseq", "顺序调整", "顺序调整", "");
 			 resultMap.put("msg", "成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "失败！");
@@ -357,11 +358,9 @@ public class CustomerCtrl extends BaseCtrl {
 			Map<String, Object> map=new HashMap<String, Object>();
 			
 			try{
-//				UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-//				operationlogService.insertLog(userVo, "/wms/customer/doDelBillCustomer", "发票客户", "删除", "");
-				
 				customerService.doDelBillCustomer(ids);
-				
+				UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+				operationlogService.insertLog(userVo, "/wms/customer/doDelBillCustomer", "发票客户", "删除", "");
 				map.put("msg", "成功");
 			}catch(Exception e){
 				map.put("msg", "失败");
