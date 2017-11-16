@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.perform.KeyworkService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.perform.DeptmonthLineVo;
 import com.ztel.app.vo.perform.KeyworkVo;
 import com.ztel.app.vo.sys.UserVo;
@@ -30,7 +31,7 @@ import com.ztel.framework.web.ctrl.BaseCtrl;
 /**
  * @author lcf
  * @since 2017年2月26日
- * 重点工作
+ * 
  */
 @Controller
 @RequestMapping("/perform/keywork")
@@ -40,9 +41,10 @@ public class KeyworkCtrl extends BaseCtrl {
 	
 	@Autowired
 	private KeyworkService keyworkService = null;
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	/**
-	 * 重点工作
+	 * 重点工作计划
 	 * @param request
 	 * @return
 	 */
@@ -221,6 +223,7 @@ public class KeyworkCtrl extends BaseCtrl {
 		 int checkdeptid = 0;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/keywork/doSave", "月计划调整/重点工作计划", "新增", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 checkdeptid = userVo.getDeptid();
@@ -271,6 +274,8 @@ public class KeyworkCtrl extends BaseCtrl {
 
 		 try{
 			 keyworkService.doDel(new Integer(id));
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/keywork/doDel", "月计划调整/重点工作计划", "删除", "");
 		 resultMap.put("msg", "删除成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "删除失败！");

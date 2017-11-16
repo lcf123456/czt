@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.perform.UserlevelService;
 import com.ztel.app.service.perform.UserperformlevelService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.perform.DeptmonthLineVo;
 import com.ztel.app.vo.perform.DeptmonthLineVoTmp;
 import com.ztel.app.vo.perform.DeptmonthsumVo;
@@ -45,7 +46,9 @@ public class UserperformlevelCtrl  extends BaseCtrl  {
 	
 	@Autowired
 	private UserlevelService userlevelService = null;
-	
+
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@RequestMapping("touserperformlevel")
 	public String index(HttpServletRequest request) {
 		//String damagedtype = request.getParameter("damagedtype");//破损类别(10：来烟破损，20：称重异常)
@@ -153,6 +156,7 @@ public class UserperformlevelCtrl  extends BaseCtrl  {
 		 int deptid = 0;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/userperformlevel/doSave", "员工考核", "新增", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 deptid = userVo.getDeptid();
@@ -227,6 +231,8 @@ public class UserperformlevelCtrl  extends BaseCtrl  {
 
 		 try{
 			 userperformlevelService.doDel(new BigDecimal(id));
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/userperformlevel/doDel", "员工考核", "删除", "");
 		 resultMap.put("msg", "删除成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "删除失败！");

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.perform.UserlevelService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.cost.SPLTypeInfoVo;
 import com.ztel.app.vo.perform.UserlevelVo;
 import com.ztel.app.vo.perform.WorkcontentVo;
@@ -40,9 +41,11 @@ public class UserlevelCtrl extends BaseCtrl {
 	
 	@Autowired
 	private UserlevelService userlevelService = null;
-	
+
+	@Autowired
+	private OperationlogService operationlogService = null;
 	/**
-	 * 日常工作
+	 * 考核授权
 	 * @param request
 	 * @return
 	 */
@@ -84,6 +87,9 @@ public class UserlevelCtrl extends BaseCtrl {
 		 //System.out.println("--------------"+sPLTypeInfoVo.toString());
 		 try{
 			 userlevelService.doAddUserlevel(userstr,userid,userlevel);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/userlevel/doAddUserlevel", "考核授权", "授权", "");
+
 			 map.put("msg", "新增成功");
 		 }
 		 catch(Exception e){
@@ -100,12 +106,14 @@ public class UserlevelCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doEditUserlevel")
 	 @ResponseBody
-	 public  Map<String, Object> doEditUserlevel(UserlevelVo userlevelVo)
+	 public  Map<String, Object> doEditUserlevel(UserlevelVo userlevelVo,HttpServletRequest request)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 //System.out.println("id----"+menuinfo.getId()+",name="+menuinfo.getMenuname());
 		// List<Menuinfo> menuList=menuinfoService.searchMenuinfoList(id);
 		 int resutl =  userlevelService.doEditUserlevel(userlevelVo);
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/userlevel/doEditUserlevel", "考核授权", "修改", "");
 		 if(resutl>0)
 		 {
 			 map.put("total", "1");
@@ -125,13 +133,15 @@ public class UserlevelCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doDelUserlevel")
 	 @ResponseBody
-	 public  Map<String, Object> doDelUserlevel(Long userid)
+	 public  Map<String, Object> doDelUserlevel(Long userid,HttpServletRequest request)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 			
 		// List<Menuinfo> menuList=menuinfoService.searchMenuinfoList(id);
 		 if(userid==null)userid=0L;
 		 int result =  userlevelService.doDelUserlevel(userid);
+		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/userlevel/doDelUserlevel", "考核授权", "删除", "");
 		 if(result==1)
 		 {
 			 map.put("total", "1");

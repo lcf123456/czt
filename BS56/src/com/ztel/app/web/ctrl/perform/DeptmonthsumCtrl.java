@@ -25,6 +25,7 @@ import com.ztel.app.service.PubService;
 import com.ztel.app.service.perform.DeptmonthLineService;
 import com.ztel.app.service.perform.DeptmonthsumService;
 import com.ztel.app.service.perform.UserlevelService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.perform.DeptmonthLineVo;
 import com.ztel.app.vo.perform.DeptmonthLineVoTmp;
 import com.ztel.app.vo.perform.DeptmonthsumVo;
@@ -56,6 +57,10 @@ public class DeptmonthsumCtrl extends BaseCtrl {
 	
 	@Autowired
 	private PubService pubService = null;
+
+
+	@Autowired
+	private OperationlogService operationlogService = null;
 	
 	/**
 	 * 绩效考核
@@ -259,6 +264,7 @@ public class DeptmonthsumCtrl extends BaseCtrl {
 		 int deptid = 0;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/deptmonthsum/doSave", "经理考核/部长考核", "新增", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 deptid = userVo.getDeptid();
@@ -464,10 +470,12 @@ public class DeptmonthsumCtrl extends BaseCtrl {
 		 try{
 			// transverseAssessService.insertTransverseAssess(transverseAssessVo);
 			 deptmonthsumService.updateDeptmonthsum(deptmonthsumVo, deptmonthLineVoList);
-		 map.put("msg", "新增成功");
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/deptmonthsum/doEdit", "经理考核/部长考核", "修改", "");
+		 map.put("msg", "修改成功");
 		 map.put("obid", id+"");
 		 }catch(Exception e){
-			 map.put("msg", "新增失败");
+			 map.put("msg", "修改失败");
 			 map.put("obid", "0");
 			 e.printStackTrace();
 		 }
@@ -493,6 +501,8 @@ public class DeptmonthsumCtrl extends BaseCtrl {
 		 deptmonthsumVo.setStatus(new Short("20"));
 		 try{
 			 deptmonthsumService.updateDeptmonthsumByCond(deptmonthsumVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/deptmonthsum/doPost", "经理考核/部长考核", "提交", "");
 		 map.put("msg", "提交成功");
 		 }catch(Exception e){
 			 map.put("msg", "提交失败");
@@ -525,6 +535,7 @@ public class DeptmonthsumCtrl extends BaseCtrl {
 		 int deptid = 0;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/deptmonthsum/doAuditOne", "经理考核", "它评", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 deptid = userVo.getDeptid();
@@ -591,6 +602,7 @@ public class DeptmonthsumCtrl extends BaseCtrl {
 		 try{
 			// transverseAssessService.insertTransverseAssess(transverseAssessVo);
 			 deptmonthsumService.updateDeptmonthsum(deptmonthsumVo, deptmonthLineVoList);
+			 
 		 map.put("msg", "新增成功");
 		 map.put("obid", id+"");
 		 }catch(Exception e){
@@ -622,6 +634,7 @@ public class DeptmonthsumCtrl extends BaseCtrl {
 		 int deptid = 0;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/deptmonthsum/doAuditTwo", "经理考核/部长考核", "总评", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 deptid = userVo.getDeptid();
@@ -669,6 +682,8 @@ public class DeptmonthsumCtrl extends BaseCtrl {
 		 Long id =new Long(obid);
 		 try{
 			 deptmonthsumService.doDel(id);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/deptmonthsum/doDel", "经理考核/部长考核", "删除", "");
 		 resultMap.put("msg", "删除成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "删除失败！");
