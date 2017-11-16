@@ -2,7 +2,7 @@
  * 页面列表datagrid初始化
  */
 jQuery(function($){
-	$('#itemname').textbox('textbox').keydown(function(e){
+	$('#itemname1').textbox('textbox').keydown(function(e){
 		if(e.keyCode==13){
 			searchiteminfo();
 		}
@@ -123,11 +123,7 @@ jQuery(function($){
 		onLoadSuccess:function(){
 			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv.panel-header').css('display','none'); 
-			$('#itemname1').textbox('textbox').keydown(function(e){
-				if(e.keyCode==13){
-					searchiteminfo();
-				}
-			})
+			
 		}
 	});
 	
@@ -171,7 +167,7 @@ function saveNew(){
 			         },
 			        success : function(datavalue) {
 			             if(datavalue=="0"){
-			            	//alert("11");
+			            	alert("11");
 			            	 addItem();
 			             }
 			             else{

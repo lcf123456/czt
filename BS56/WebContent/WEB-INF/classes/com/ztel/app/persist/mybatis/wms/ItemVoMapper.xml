@@ -68,7 +68,7 @@
     order by itemname
   </select>
   <select id="checkItemName" parameterType="com.ztel.app.vo.wms.ItemVo" resultType="com.ztel.app.vo.wms.ItemVo">
-    select id, itemname from T_WMS_ITEM  where  itemname = #{itemname}  or itemno = #{itemno}
+    select id, itemname,itemno from T_WMS_ITEM  where  itemname = #{itemname}  or itemno = #{itemno}
   </select>
 
    <!--获取品牌信息 -->

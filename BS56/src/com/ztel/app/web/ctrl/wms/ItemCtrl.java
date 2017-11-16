@@ -238,7 +238,7 @@ public class ItemCtrl extends BaseCtrl {
 	    	isOk = "0";
 	    }
 	     
-	     if(null!=itemVo){
+	     if(null!=prameterVo){
 	    	 isOk = "1";
 	     }
 	     return isOk; 
