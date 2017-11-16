@@ -11,7 +11,7 @@ jQuery(function($){
 	//initconsignsor(obj);
 
 	$('#dataTabel').datagrid({
-		title:'入库单', //标题
+		title:'散烟区至立库', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选
@@ -66,6 +66,9 @@ jQuery(function($){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none'); 
 			
+		},
+		onDblClickCell:function(index,field,value){
+			viewD();
 		}
 	});
 	

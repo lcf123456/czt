@@ -22,7 +22,7 @@
 	<form id="queryForm" style="margin:10;">
 		<div style="margin-bottom:5px">
 			<a href="#"id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEdit()">修改</a>
-			<input class="easyui-textbox"  name="itemname"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchbrandinfo();},prompt:'件码/商品名称/商品编码...'" style="width:250px;height:24px;">
+			<input class="easyui-textbox"  name="itemname" id="itemname1" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchbrandinfo();},prompt:'件码/商品名称/商品编码...'" style="width:250px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

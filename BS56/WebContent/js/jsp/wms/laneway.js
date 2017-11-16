@@ -2,6 +2,11 @@
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+	$('#lanewayname1').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchLaneway();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'巷道表', //标题
 		method:'post',

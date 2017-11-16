@@ -2,6 +2,12 @@
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+
+	$('#areaname1').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchStoragearea();
+			}
+		})
 	$('#dataTable').datagrid({
 		title:'区域表', //标题
 		method:'post',

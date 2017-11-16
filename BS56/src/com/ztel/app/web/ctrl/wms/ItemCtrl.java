@@ -112,12 +112,15 @@ public class ItemCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doEditBrandinfo",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doEditBrandinfo(ItemVo itemVo,HttpServletResponse response) throws Exception {
+	 public   Map<String, Object> doEditBrandinfo(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
 		 try {
 			 itemService.updateBrandinfo(itemVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/item/doEditBrandinfo", "品牌信息", "修改", "");
+
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
