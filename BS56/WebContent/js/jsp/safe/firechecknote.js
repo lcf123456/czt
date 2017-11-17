@@ -21,6 +21,12 @@ $(function(){
  * 页面列表datagrid初始化 */
 
 jQuery(function($){
+
+	$('#createnames').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchChecknote();
+			}
+		})
 	$('#dataTable').datagrid({
 		title:'消防检查', //标题
 		method:'post',

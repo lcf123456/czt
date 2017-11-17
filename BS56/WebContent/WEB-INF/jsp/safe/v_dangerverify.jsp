@@ -36,7 +36,7 @@
 			<option value="30">整改完成</option> 
 			</select>  
 			   隐患类别：<input class="easyui-combobox" name="ctype" id="ctype" style="width:150px;" data-options="">
-			<input class="easyui-textbox"  name="dangercontent"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchDangerverify();},prompt:'请输入隐患内容...'" style="width:350px;height:24px;">
+			<input class="easyui-textbox"  name="dangercontent" id="dangercontents" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchDangerverify();},prompt:'请输入隐患内容...'" style="width:350px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 			<a href="#" id="printBtn" onclick="printpage();" class="easyui-linkbutton" iconCls="icon-myprinter" style="height:24px;">打印</a>
 		</div>

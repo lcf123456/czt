@@ -47,6 +47,11 @@ jQuery(function($){
 	        return data;
 	    }   
 	})
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchHazards();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'危险源清单', //标题
 		method:'post',

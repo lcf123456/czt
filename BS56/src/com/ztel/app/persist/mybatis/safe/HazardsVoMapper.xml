@@ -52,7 +52,7 @@
     from T_SAFE_HAZARDS
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-   <!-- 风险源清单-->
+   <!-- 危险源清单-->
   <select id="getHazardsPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select a.id,a.hazards,c.ctype as hazardstype,a.effect,d.deptname as deptname,b.username as createname,a.controllerid,a.auditid
 from T_SAFE_HAZARDS a,t_sys_user b,t_safe_typeinfo c ,t_sys_dept d
@@ -69,7 +69,7 @@ where  a.createid=b.id(+) and c.id=a.typeid and d.id(+)=a.deptid
        </if> 
       order by id desc
   </select>
-   <!-- 风险源评估 -->
+   <!-- 危险源评估 -->
    <select id="getHazardsAuditPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
    select a.id,a.hazards,c.ctype as hazardstype,d.deptname as deptname,b.username as auditname,e.lvalue as lvalue,
     f.evalue as evalue,g.cvalue as cvalue,dvalue,x.clevel as clevel
@@ -78,7 +78,7 @@ t_safe_hazardsinfo g,t_safe_hazardslevel x
 where  a.auditid=b.id(+) and c.id=a.typeid and d.id(+)=a.deptid and e.id(+)=a.lid and f.id(+)=a.eid and g.id(+)=a.cid
    and x.id(+)=a.levelid
     <if test="param != null and param.hazards != null and param.hazards!= ''">
-        AND (b.username like '%'||#{param.hazards}||'%' or effect like '%'||#{param.hazards}||'%' )
+        AND (b.username like '%'||#{param.hazards}||'%' or hazards like '%'||#{param.hazards}||'%' )
     </if>
       <if test="param.hazardstype!= null and param.hazardstype != ''" >
            and typeid= #{param.hazardstype,jdbcType=VARCHAR}
@@ -91,7 +91,7 @@ where  a.auditid=b.id(+) and c.id=a.typeid and d.id(+)=a.deptid and e.id(+)=a.li
        </if> 
       order by id desc
   </select>
-   <!-- 风险源统计 -->
+   <!-- 危险源统计 -->
    <select id="getHazardsStatPageList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
    select a.id,a.hazards,c.ctype as hazardstype,d.deptname as deptname,
     dvalue,x.clevel as clevel, a.createtime

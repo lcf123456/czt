@@ -21,7 +21,7 @@
 		<div style="margin-bottom:5px">
 		    相关部门：<input  name="deptid" id="deptid" class="easyui-combobox" style="width:100px;" data-option='' >
 			危险源类别：<input class="easyui-combobox" name="hazardstype" id="hazardstype" style="width:150px;" data-options="">
-			<input class="easyui-textbox"  name="hazards"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchHazards();},prompt:'请输入记录人/影响后果...'" style="width:350px;height:24px;">
+			<input class="easyui-textbox"  name="hazards"id="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchHazards();},prompt:'请输入记录人/影响后果...'" style="width:350px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

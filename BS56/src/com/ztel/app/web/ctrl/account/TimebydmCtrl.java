@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.account.TimebydmVoService;
 import com.ztel.app.service.produce.OrderService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.account.TimebydmVo;
 import com.ztel.app.vo.cost.SPLConsumeVo;
 import com.ztel.app.vo.sys.BlockcustomerVo;
+import com.ztel.app.vo.sys.UserVo;
 import com.ztel.app.vo.wms.ItemVo;
 import com.ztel.app.vo.wms.ShipOrderVo;
 import com.ztel.app.web.ctrl.sys.BlockcustomerCtrl;
@@ -47,7 +49,9 @@ public class TimebydmCtrl extends BaseCtrl {
 	
 	@Autowired
 	private OrderService orderService = null;
-	
+
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@RequestMapping("toPrepayvehicle")
 	public String toPrepayvehicle(HttpServletRequest request) {
 		return "/account/v_prepayvehicle";
@@ -110,11 +114,13 @@ public class TimebydmCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doupdateOrderdate",method=RequestMethod.POST)
 	 @ResponseBody
-		 public Map<String, Object>  doupdateOrderdate(TimebydmVo timebydmVo,HttpServletResponse response) throws Exception {
+		 public Map<String, Object>  doupdateOrderdate(TimebydmVo timebydmVo,HttpServletResponse response, HttpServletRequest request) throws Exception {
 			 Map<String, Object> map=new HashMap<String, Object>();  
 			 int total=0;
 		 try {  
 			 timebydmVoService.updateTimebydmdate(timebydmVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/account/timebydm/doupdateOrderdate", "订单配送日期", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {

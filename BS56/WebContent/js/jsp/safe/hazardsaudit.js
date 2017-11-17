@@ -66,6 +66,11 @@ jQuery(function($){
 		searchHazardsAudit();
 	}
 	})
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchHazardsAudit();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'危险源评估', //标题
 		method:'post',

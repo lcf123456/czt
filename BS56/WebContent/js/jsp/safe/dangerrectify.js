@@ -38,6 +38,12 @@ jQuery(function($){
         	searchDangerrectify();
 		}
 	})
+	
+$('#dangercontents').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchDangerrectify();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'隐患整改', //标题
 		method:'post',
@@ -84,6 +90,9 @@ jQuery(function($){
 		onLoadSuccess:function(){
 			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none');
+		},
+		onDblClickCell:function(index,field,value){
+			openView();
 		}
 	});
 });

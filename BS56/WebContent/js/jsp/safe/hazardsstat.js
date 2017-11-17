@@ -35,7 +35,6 @@ jQuery(function($){
         	searchHazardsStat();
 		}
 	})
-
 	$("#hazardstype").combobox({
 		url : baseURL+"/safe/hazards/getHazardstypeCombobox.json",//返回json数据的url
     	valueField : "id",//这个id和你返回json里面的id对应
@@ -66,8 +65,13 @@ jQuery(function($){
 		searchHazardsStat();
 	}
 	})
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchHazardsStat();
+		}
+	})
 	$('#dataTable').datagrid({
-		title:'危险源控制', //标题
+		title:'危险源统计', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选

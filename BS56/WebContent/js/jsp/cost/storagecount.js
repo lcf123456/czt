@@ -24,11 +24,6 @@ jQuery(function($){
 	var enddate=$('#enddate').val();
 	var settlementflagval=$("#settlementflag").val();
 
-	$('#param').textbox('textbox').keydown(function(e){
-			if(e.keyCode==13){
-				searchStoragecount();
-			}
-		})
 	$('#dataTable').datagrid({
 		title:'低耗品入库统计', //标题
 		method:'post',

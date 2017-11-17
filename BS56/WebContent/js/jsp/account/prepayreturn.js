@@ -7,8 +7,14 @@ jQuery(function($){
 	
 		//$('#orderdate').datebox("setValue",nowTime);
 		initTextbox();
+		$('#keywd').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchData();
+			}
+		})
+
 	$('#dataTabel').datagrid({
-		title:'车辆入园', //标题
+		title:'预付退货', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选

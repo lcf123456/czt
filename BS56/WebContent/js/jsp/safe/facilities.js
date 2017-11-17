@@ -28,6 +28,12 @@ jQuery(function($){
         	searchFacilities();
 		}
 	})
+	
+$('#devices').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchFacilities();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'设施台账', //标题
 		method:'post',

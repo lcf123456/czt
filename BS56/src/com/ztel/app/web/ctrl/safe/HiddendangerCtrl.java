@@ -24,6 +24,7 @@ import com.ztel.app.service.safe.HiddendangerService;
 import com.ztel.app.service.safe.TypeinfoService;
 import com.ztel.app.service.sq.CigfactoryService;
 import com.ztel.app.service.sys.BusinessRoleService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.util.Constant;
 import com.ztel.app.vo.safe.FireFacilitiesVo;
 import com.ztel.app.vo.safe.HiddendangerVo;
@@ -46,6 +47,9 @@ public class HiddendangerCtrl extends BaseCtrl {
 	
 	@Autowired
 	private HiddendangerService hiddendangerService = null;
+
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@Autowired
 	private TypeinfoService typeinfoService = null;
 	
@@ -144,7 +148,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doHangerrectifyDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doHangerrectifyDel(@RequestParam("id") List<Integer> ids) throws Exception {
+	 public   Map<String, Object> doHangerrectifyDel(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
 		 if (ids!=null&&ids.size()>0) {
@@ -153,7 +157,8 @@ public class HiddendangerCtrl extends BaseCtrl {
 		 try {
 		
 			 hiddendangerService.delHangerrectify(ids);
-		
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/safe/hiddendanger/doHangerrectifyDel", "隐患整改", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -171,7 +176,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doHangerrectifyUpdate",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doHangerrectifyUpdate(HiddendangerVo hiddendangerVo,HttpServletResponse response) throws Exception {
+	 public   Map<String, Object> doHangerrectifyUpdate(HiddendangerVo hiddendangerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
@@ -193,6 +198,8 @@ public class HiddendangerCtrl extends BaseCtrl {
 				 hiddendangerVo.setDangerstatus("10"); 
 			 }
 			 hiddendangerService.updateHangerrectify(hiddendangerVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/safe/hiddendanger/doHangerrectifyUpdate", "隐患整改", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -213,12 +220,14 @@ public class HiddendangerCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doDangerCreateUpdate",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doDangerCreateUpdate(HiddendangerVo hiddendangerVo,HttpServletResponse response) throws Exception {
+	 public   Map<String, Object> doDangerCreateUpdate(HiddendangerVo hiddendangerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
 		 try { 
 			 hiddendangerService.updateHangercreate(hiddendangerVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/safe/hiddendanger/doDangerCreateUpdate", "隐患记录", "修改", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -241,6 +250,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 	 //@ResponseBody
 	 public   void doDangerVerify(HiddendangerVo hiddendangerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		// operationlogService.insertLog(userVo, "/safe/hiddendanger/doDangerVerify", "隐患核实", "审核", "");
 		//DeptVo deptVo = (DeptVo)request.getSession().getAttribute("deptVo");
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 
@@ -256,6 +266,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 		 hiddendangerVo.setHandlestatus("20");//处理标识
 			
 		 hiddendangerService.verifyDanger(hiddendangerVo);
+	
 			 map.put("msg", "成功");
 			 total=1; 
 		} catch (Exception e) {
@@ -278,6 +289,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 	 //@ResponseBody
 	 public   void doDangerRectify(HiddendangerVo hiddendangerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/safe/hiddendanger/doDangerRectify", "隐患整改", "处理", "");
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 
 		 int total=0;
@@ -305,7 +317,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 		 //return map;
 	 }
 	 /**
-	  * 新增信息
+	  * 隐患记录新增信息
 	  * @return
 	  * @throws Exception
 	  */
@@ -313,6 +325,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 	// @ResponseBody
 	 public   void doHangercreateNew(HiddendangerVo hiddendangerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/safe/hiddendanger/doHangercreateNew", "隐患记录", "新增", "");
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         

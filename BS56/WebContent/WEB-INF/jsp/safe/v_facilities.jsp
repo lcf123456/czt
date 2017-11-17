@@ -25,7 +25,7 @@
 			<option value="20">一般</option> 
 			<option value="30">差</option>
 			</select>
-			<input class="easyui-textbox"  name="device"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchFacilities();},prompt:'请输入设施名称/型号...'" style="width:350px;height:24px;">
+			<input class="easyui-textbox"  name="device" id="devices" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchFacilities();},prompt:'请输入设施名称/型号...'" style="width:350px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>
