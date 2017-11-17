@@ -13,7 +13,13 @@ $("#routecode").combobox({
 	        return data;
 	    }   	
 	})
+	$('#param').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			search();
+		}
+	})
 	$('#dataTable').datagrid({
+		//title:'发票客户', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选

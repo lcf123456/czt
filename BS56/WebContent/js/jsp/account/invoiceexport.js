@@ -7,7 +7,13 @@ jQuery(function($){
 	$('#begdate').datebox('setValue', begdate);
 	$('#enddate').datebox('setValue', enddate);
 	$('#billtype1').combobox('setValue', "10");
+	$('#param').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchCust();
+		}
+	})
 	$('#dataTable').datagrid({
+		//title:'发票打印', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选
@@ -59,8 +65,12 @@ jQuery(function($){
 		onLoadSuccess:function(){
 			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			//$('#tabdiv .panel-header').css('display','none'); 
+		},
+		onDblClickCell:function(index,field,value){
+			openView();
 		}
 	});
+	
 	
 });
 

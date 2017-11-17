@@ -275,8 +275,8 @@ public class CustomerCtrl extends BaseCtrl {
 		Map<String, Object> map=new HashMap<String, Object>();
 		
 		try{
-//			UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-//			operationlogService.insertLog(userVo, "/wms/customer/doBillCustomerPLAdd", "发票客户", "新增", "");
+			UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			operationlogService.insertLog(userVo, "/wms/customer/doBillCustomerPLAdd", "发票客户", "新增", "");
 			
 			customerService.doBillCustomerPLAdd(billtype, ids);
 			
@@ -290,7 +290,7 @@ public class CustomerCtrl extends BaseCtrl {
 	}
 	
 	/**
-	 * 添加预付款客户
+	 * 预付款客户删除
 	 * @param request
 	 * @param 
 	 * @return
