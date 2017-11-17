@@ -20,7 +20,7 @@
 	<form id="queryForm" style="margin:10;">
 		<div style="margin-bottom:5px">
 		故障日期:<input id=begdate name=begdate class="easyui-datebox" style="width:100px;" >到<input id=enddate name=enddate class="easyui-datebox" style="width:100px;" >
-		<input class="easyui-textbox"  name="param"  id=param data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入设备信息/故障信息/解决办法...'" style="width:280px;height:24px;">
+		<input class="easyui-textbox"  name="param"  id=param data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入设备编号/故障信息/解决办法...'" style="width:280px;height:24px;">
 		<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

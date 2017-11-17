@@ -125,6 +125,8 @@ public class GroupinfoCtrl extends BaseCtrl {
 			 groupcodes=codelist;
 			 System.out.print(groupcodes);
 			 groupinfoVoService.delGroupinfoVo(groupcodes);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/gis/groupinfo/dodelGroupinfoVo", "装卸组信息", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -153,6 +155,8 @@ public class GroupinfoCtrl extends BaseCtrl {
 		}
 		 try {
 			 groupinfoVoService.delGroupuserVo(ids);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/gis/groupinfo/dodelGroupuserVo", "装卸组人员", "删除", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -179,6 +183,7 @@ public class GroupinfoCtrl extends BaseCtrl {
 		  //groupinfoVo.setMembername(membername);
 		 try {
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/gis/groupinfo/doinsertGroupinfoVo", "装卸组信息", "新增", "");
 			 //System.out.println(userVo);
 			 //groupinfoVo.setMember(userVo.getId());//对比姓名取相应ID
 			 groupinfoVoService.insertGroupinfoVo(groupinfoVo);
@@ -209,6 +214,7 @@ public class GroupinfoCtrl extends BaseCtrl {
 		 int total=0;
 		 try {
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/gis/groupinfo/doupdateGroupinfoVo", "装卸组信息", "修改", "");
 			 groupinfoVo.setMember(userVo.getId());//取session中用户ID
 			 groupinfoVoService.delGroupinfoVo(groupcodes);
 			 groupinfoVoService.insertGroupinfoVo(groupinfoVo);

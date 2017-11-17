@@ -25,6 +25,11 @@ jQuery(function($){
 	var enddate=getDateYMD();
 	$('#begdate').datebox('setValue', begdate);
 	$('#enddate').datebox('setValue', enddate);
+	 $('#param').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchData();
+			}
+		})
 	$('#dataTable').datagrid({
 		method:'post',
 		iconCls:'icon-edit', //图标

@@ -5,10 +5,14 @@
 	var editRow = undefined; //定义全局变量：当前编辑的行
 	
 jQuery(function($){
-
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchData();
+		}
+	})
 	initstatus();
 	$('#dataTabel').datagrid({
-		title:'车辆入园', //标题
+		title:'车辆入园/入单/排队/出园', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选
@@ -86,6 +90,9 @@ jQuery(function($){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none'); 
 			
+		},
+		onDblClickCell:function(index,field,value){
+			viewD();
 		}
 	});
 });

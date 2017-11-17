@@ -25,7 +25,15 @@ jQuery(function($){
 	var enddate=getDateYMD();
 	$('#begdate').datebox('setValue', begdate);
 	$('#enddate').datebox('setValue', enddate);
+
+	$('#param').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchData();
+			}
+		})
 	$('#dataTable').datagrid({
+		
+		title:'分拣效率', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //多选,当true时只允许当前选择一行。

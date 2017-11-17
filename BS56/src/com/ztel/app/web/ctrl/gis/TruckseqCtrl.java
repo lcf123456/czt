@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.gis.GroupinfoVoService;
 import com.ztel.app.service.gis.TruckseqVoService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.gis.TruckseqVo;
+import com.ztel.app.vo.sys.UserVo;
 import com.ztel.framework.util.DateUtil;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
@@ -39,7 +41,8 @@ public class TruckseqCtrl  extends BaseCtrl{
 	
 	@Autowired
 	private GroupinfoVoService groupinfoVoService = null;
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	/**
 	 * 来烟排队
 	 * @param request
@@ -73,7 +76,7 @@ public class TruckseqCtrl  extends BaseCtrl{
 	}
 	
 	/**
-	 * 装卸效率
+	 * 组装卸效率
 	 * @param request
 	 * @return
 	 */
@@ -138,7 +141,7 @@ public class TruckseqCtrl  extends BaseCtrl{
 	}
 	 
 	 /**
-		 * 今日装卸
+		 * 装卸效率
 		 * @param request
 		 * @return
 		 * @throws Exception
@@ -223,7 +226,8 @@ public class TruckseqCtrl  extends BaseCtrl{
 
 		 try{
 			 truckseqVoService.updateTruckseqByPrimarykey(truckseqVo);
-			 
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/gis/truckseq/doUpdate", "来烟排队", "入园/入单/出园审核/出园/排队调整", "");
 			 resultMap.put("msg", "成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "失败！");

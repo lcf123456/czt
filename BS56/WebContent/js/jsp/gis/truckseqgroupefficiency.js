@@ -8,7 +8,6 @@ jQuery(function($){
 	var nowTime = getDateYMD();
 		$('#searchtime').datebox("setValue",nowTime01);
 		$('#searchtime2').datebox("setValue",nowTime);
-		
 	   $('#dataTabel').datagrid({
 		title:'组装卸效率', //标题
 		method:'post',

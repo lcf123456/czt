@@ -53,7 +53,7 @@ jQuery(function(def){
 		}   	
 	})
 	$('#dataTable').datagrid({
-		//title:'退货入库', //标题
+		//title:'资金流', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //多选,当true时只允许当前选择一行。		height:420, //高度

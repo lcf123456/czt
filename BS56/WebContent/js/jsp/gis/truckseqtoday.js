@@ -5,9 +5,9 @@
 	var editRow = undefined; //定义全局变量：当前编辑的行
 	
 jQuery(function($){
-
+	
 	$('#dataTabel').datagrid({
-		title:'车辆入园', //标题
+		title:'今日装卸', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选

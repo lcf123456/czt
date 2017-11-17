@@ -87,7 +87,7 @@ jQuery(function($){
 	})
 	
  $('#dataTable').datagrid({
-		title:'车组星级统计', //标题
+		title:'车组星级统计/服务满意度', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //多选

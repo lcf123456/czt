@@ -8,9 +8,9 @@ jQuery(function($){
 	var nowTime = getDateYMD();
 		$('#searchtime').datebox("setValue",nowTime01);
 		$('#searchtime2').datebox("setValue",nowTime);
-		
+	
 	$('#dataTabel').datagrid({
-		title:'车辆入园', //标题
+		title:'装卸效率', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选

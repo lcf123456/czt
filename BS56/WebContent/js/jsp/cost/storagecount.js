@@ -23,8 +23,14 @@ jQuery(function($){
 	var begdate=$('#begdate').val();	 
 	var enddate=$('#enddate').val();
 	var settlementflagval=$("#settlementflag").val();
+
+	$('#param').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchStoragecount();
+			}
+		})
 	$('#dataTable').datagrid({
-		title:'入库查询统计', //标题
+		title:'低耗品入库统计', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选		height:420, //高度
