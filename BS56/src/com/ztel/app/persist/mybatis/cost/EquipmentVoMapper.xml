@@ -48,10 +48,9 @@ select a.id, equipname,b.typename as typename,brand,model,qty,manufacturer,purch
     </select> 
      <!-- 根据条件取设备名称 -->
     <select id="selectListEquipment" parameterType="EquipmentVo" resultMap="BaseResultMap">
-    select a.id, equipname,b.typename as typename
-    from t_cost_equipment a ,t_cost_spltypeinfo b where a.typeid=b.id  and a.delstatus = 10
+     select id ,equipname from t_cost_equipment  where  delstatus = 10
    <if test="param != null and param != ''">
-        AND (a.id like '%'||#{param}||'%' or equipname like '%'||#{param}||'%' )
+        AND (id like '%'||#{param}||'%' or equipname like '%'||#{param}||'%' )
     </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

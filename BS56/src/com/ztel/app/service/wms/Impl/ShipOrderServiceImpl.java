@@ -273,13 +273,4 @@ public class ShipOrderServiceImpl implements ShipOrderService {
 		// TODO Auto-generated method stub
 		return shipOrderVoMapper.selectShiporderByCondition(shipOrderVo);
 	}
-	
-	/**
-	 * 取指定日期订单数量
-	 * @param orderdate
-	 * @return
-	 */
-	public int selectShiporderCount(String orderdate){
-		return shipOrderVoMapper.selectShiporderCount(orderdate);
-	}
 }

@@ -9,9 +9,13 @@ jQuery(function($){
 	initdatetype();
 	var obj = $("#consignsorsearch");
 	initconsignsor(obj);
-	
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchData();
+		}
+	})
 	$('#dataTabel').datagrid({
-		title:'入库单', //标题
+		title:'订单出库', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选
@@ -56,6 +60,9 @@ jQuery(function($){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none'); 
 			
+		},
+		onDblClickCell:function(index,field,value){
+			viewD();
 		}
 	});
 	

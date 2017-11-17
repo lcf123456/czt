@@ -20,6 +20,7 @@ $(function(){
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+	
 	$('#dataTabel').datagrid({
 		title:'系统参数维护', //标题
 		method:'post',
@@ -62,6 +63,11 @@ jQuery(function($){
 		toolbar:'#toolbar',
 		onLoadSuccess:function(){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题			$('#tabdiv .panel-header').css('display','none');
+			$('#keyword').textbox('textbox').keydown(function(e){
+				if(e.keyCode==13){
+					searchData();
+				}
+			})
 		}
 	});
 });

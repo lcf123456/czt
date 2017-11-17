@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.perform.TransverseAssessService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.perform.TransverseAssessVo;
 import com.ztel.app.vo.sys.UserVo;
 import com.ztel.app.vo.wms.CigarettedamagedLineVo;
@@ -47,7 +48,8 @@ public class TransverseAssessCtrl extends BaseCtrl {
 	
 	@Autowired
 	private TransverseAssessService transverseAssessService = null;
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	/**
 	 * 横向考核
 	 * @param request
@@ -173,6 +175,7 @@ public class TransverseAssessCtrl extends BaseCtrl {
 		 int checkdeptid = 0;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/transverseAssess/doSave", "横向考核", "新增", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 checkdeptid = userVo.getDeptid();
@@ -224,6 +227,7 @@ public class TransverseAssessCtrl extends BaseCtrl {
 		 
 		 TransverseAssessVo transverseAssessVo = new TransverseAssessVo();
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/transverseAssess/doAudit", "领导考核", "考核", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 transverseAssessVo.setAssessid(userVo.getId());
 			 transverseAssessVo.setAssessname(userVo.getUsername());
@@ -262,6 +266,8 @@ public class TransverseAssessCtrl extends BaseCtrl {
 
 		 try{
 			 transverseAssessService.doDel(new BigDecimal(id));
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/transverseAssess/doDel", "横向考核", "删除", "");
 		 resultMap.put("msg", "删除成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "删除失败！");

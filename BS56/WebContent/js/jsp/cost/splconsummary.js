@@ -32,6 +32,11 @@ jQuery(function($){
 	})
 	var begdate=$('#begdate').val();	 
 	var enddate=$('#enddate').val();
+	$('#typename').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchSPLConsummarylist();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'出库汇总表', //标题
 		method:'post',

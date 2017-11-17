@@ -21,6 +21,11 @@ $(function(){
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+	$('#routecode').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchRoutes();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'车组信息', //标题
 		method:'post',

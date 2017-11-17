@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.PubService;
 import com.ztel.app.service.produce.SortTroughService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.wms.MachinedamagedLineService;
 import com.ztel.app.service.wms.Impl.MachinedamagedService;
 import com.ztel.app.vo.produce.SortTroughVo;
@@ -41,6 +42,8 @@ public class MachinedamagedCtrl extends BaseCtrl{
 	
 	@Autowired
 	private  SortTroughService sortTroughService = null;
+	@Autowired
+	private OperationlogService operationlogService = null;
 	
 	@Autowired
 	PubService pubService = null;
@@ -112,7 +115,7 @@ public class MachinedamagedCtrl extends BaseCtrl{
 	}
 	
 	 /**
-	  * 新增领料申请
+	  * 新增机损烟
 	  * @return
 	  */
 	 @RequestMapping(value="doSave")
@@ -133,12 +136,12 @@ public class MachinedamagedCtrl extends BaseCtrl{
 			 }
 		 Long userid = 0L;
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/wms/machinedamaged/doSave", "机损烟", "新增", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 		 }
 		 try{
 			 machinedamagedService.insertMachinedamaged(sortTroughVo, new BigDecimal(qty),new BigDecimal(id),userid,mdid);
-		 
 		 map.put("msg", "新增成功");
 		 map.put("mdid", id+"");
 		 }catch(Exception e){
@@ -150,7 +153,7 @@ public class MachinedamagedCtrl extends BaseCtrl{
 	 }
 	 
 	 /**
-	  * 新增领料申请
+	  * 机损烟审核
 	  * @return
 	  */
 	 @RequestMapping(value="doAudit")
@@ -164,6 +167,7 @@ public class MachinedamagedCtrl extends BaseCtrl{
 		 
 		 MachinedamagedVo machinedamagedVo = new MachinedamagedVo();
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/wms/machinedamaged/doAudit", "机损烟", "审核", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 machinedamagedVo.setCheckuser(userVo.getId());
 			 machinedamagedVo.setCheckusername(userVo.getUsername());
@@ -200,6 +204,8 @@ public class MachinedamagedCtrl extends BaseCtrl{
 		 machinedamagedVo.setDelstatus("0");
 		 try{
 			 machinedamagedService.doUpdate(machinedamagedVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/machinedamaged/doDel", "机损烟", "删除", "");
 		 resultMap.put("msg", "删除成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "删除失败！");

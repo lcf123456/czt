@@ -21,7 +21,7 @@
 	<div id="toolbar" style="padding:5px;height:auto;border-top:1px solid #95B8E7">
 	<form id="queryForm" style="margin:10;">
 		<div style="margin-bottom:5px">
-			<input class="easyui-textbox"  name="areaname"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchStoragearea();},prompt:'请输入名称/编码'" style="width:180px;height:24px;">
+			<input class="easyui-textbox"  name="areaname" id="areaname1" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchStoragearea();},prompt:'请输入名称/编码'" style="width:180px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

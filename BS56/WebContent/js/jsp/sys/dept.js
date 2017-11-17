@@ -21,7 +21,12 @@ $(function(){
  */
 jQuery(function($){
 	//alert(baseURL+"/sys/dept/getDeptinfoList.json?keywd="+$('#keywd').val());
-	
+
+	$('#keywd').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchPara();
+			}
+		})
 	$('#dataTabel').datagrid({
 		title:'部门参数维护', //标题
 		method:'post',

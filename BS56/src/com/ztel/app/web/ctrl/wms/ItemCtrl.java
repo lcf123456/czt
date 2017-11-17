@@ -32,6 +32,7 @@ import com.ztel.app.vo.sys.VehicleVo;
 import com.ztel.app.vo.wms.ConsignorVo;
 import com.ztel.app.vo.wms.ItemVo;
 import com.ztel.app.vo.wms.LanewayVo;
+import com.ztel.framework.util.DateUtil;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
 
@@ -111,12 +112,15 @@ public class ItemCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doEditBrandinfo",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doEditBrandinfo(ItemVo itemVo,HttpServletResponse response) throws Exception {
+	 public   Map<String, Object> doEditBrandinfo(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
         
 		 try {
 			 itemService.updateBrandinfo(itemVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/item/doEditBrandinfo", "品牌信息", "修改", "");
+
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -151,15 +155,19 @@ public class ItemCtrl extends BaseCtrl {
 	  * @throws Exception
 	  */
 	 @RequestMapping(value="doIteminfoNew",method=RequestMethod.POST)
-	// @ResponseBody
-	 public   void doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
+	@ResponseBody
+	 public   Map<String, Object> doIteminfoNew(ItemVo itemVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		// System.out.println(userVo.getUsername());
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
-        
-		 try { 
+		 itemVo.setId(itemVo.getItemno());
+		 itemVo.setShortname(itemVo.getItemname());
+		 try { //itemVo.setRowstatus("10");
+			 itemVo.setModifyuser(String.valueOf(userVo.getId())); //修改人
+		 itemVo.setModifytime(DateUtil.getDateyyyy_mm_dd());//修改时间
 		     itemService.insertIteminfo(itemVo);
-			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
+		     UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoNew", "商品信息", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
@@ -172,9 +180,10 @@ public class ItemCtrl extends BaseCtrl {
 		 
 		 //直接使用注解@ResponseBody，框架自动返回json串，但是form形式提交的返回json在IE在会出现下载json的提示，所以修改成设置response的形式
 
-		 String result = JSON.toJSONString(map);
-		 response.setContentType("text/html;charset=UTF-8");
-		 response.getWriter().write(result);  
+		// String result = JSON.toJSONString(map);
+		// response.setContentType("text/html;charset=UTF-8");
+		 //response.getWriter().write(result);  
+		 return map;
 	 } 	
 	
 	 /**
@@ -184,14 +193,13 @@ public class ItemCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doIteminfoDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> doIteminfoDel(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
+	 public   Map<String, Object> doIteminfoDel(@RequestParam("id") List<String> ids,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
 		 if (ids!=null&&ids.size()>0) {
 			 total = ids.size();
 		}
 		 try {
-		
 			 itemService.delIteminfo(ids);
 			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
 			 operationlogService.insertLog(sessionUserVo, "/wms/item/doIteminfoDel", "商品信息", "删除", "");
@@ -205,6 +213,54 @@ public class ItemCtrl extends BaseCtrl {
 		 
 		 return map;
 	 }
+	 /**
+	  * 商品名称校验
+	  * @return
+	  * @throws Exception
+	  */
+	// @SuppressWarnings("null")
+	@ResponseBody
+	 @RequestMapping(value = "doItemnameCheck", method = RequestMethod.POST)
+	 public String doItemnameCheck(HttpServletResponse response,HttpServletRequest request,String itemname) {
+		 ItemVo itemVo = null;
+		 ItemVo  prameterVo = new ItemVo();
+	     String isOk = "0";
+	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
+	    // String itemno=request.getParameter("itemno");
+	     //itemVo.setItemname(itemname);
+	     //itemVo.setItemno(itemno);
+	     String itemno = request.getParameter("itemno");
+	     prameterVo.setItemname(itemname);
+	     prameterVo.setItemno(itemno);
+	    try{
+	    	itemVo = itemService.checkItemName(prameterVo);
+	    }catch(Exception e){
+	    	isOk = "0";
+	    }
+	     
+	     if(null!=prameterVo){
+	    	 isOk = "1";
+	     }
+	     return isOk; 
+	 }
+	 /**
+	  * 商品编号校验
+	  * @return
+	  * @throws Exception
+	  
+	 @ResponseBody
+	 @RequestMapping(value = "doItemnoCheck", method = RequestMethod.POST)
+	 public String doItemnoCheck(HttpServletRequest request,String itemno) {
+		 ItemVo itemVo = null;
+	     String isOk = "0";
+	     //实现一个根据itemname查询ItemVo的方法   比如findItemVoByItemName
+	     itemVo = itemService.checkItemNo(itemno);
+	     if(null!=itemVo){
+	    	 isOk = "1";
+	     }
+	     return isOk; 
+	 }*/
+		
 }
 	
     

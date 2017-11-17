@@ -80,7 +80,11 @@ jQuery(function($){
  var time=$('#assesstime').datebox('getValue');
  //var time='201702';
  
-
+ $('#drivername').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchRouteMonthstar();
+		}
+	})
 	
  $('#dataTable').datagrid({
 		title:'车组星级统计', //标题

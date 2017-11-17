@@ -40,7 +40,7 @@
 			<a href="#" id="grantBtn" class="easyui-linkbutton" iconCls="icon-mygroup" plain="true" onclick="openGrant()">授权</a>
 			<a href="#" id="opBtn" class="easyui-linkbutton" iconCls="icon-mygroup" plain="true" onclick="openOperation()">功能点授权</a>
 			<a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
-			<input class="easyui-textbox"  name="rolename"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchUser();},prompt:'请输入角色名称...'" style="width:450px;height:24px;">
+			<input class="easyui-textbox"  name="rolename"id="rolenamex"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchUser();},prompt:'请输入角色名称...'" style="width:450px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

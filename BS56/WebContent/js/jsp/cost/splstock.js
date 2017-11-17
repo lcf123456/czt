@@ -42,6 +42,11 @@ jQuery(function($){
     })
 	//当前库存
 	if(showFlag=='currStock'){
+		$('#param').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchSPL();
+			}
+		})
 		$('#dataTable').datagrid({
 			title:'当前库存', //标题
 			method:'post',
@@ -117,6 +122,11 @@ jQuery(function($){
             }
 		});
 	}else{
+		$('#param').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchSPL();
+			}
+		})
 		var begdate=getDateYM01();
 		var enddate=getDateYMD();
 		$('#begdate').datebox('setValue', begdate);

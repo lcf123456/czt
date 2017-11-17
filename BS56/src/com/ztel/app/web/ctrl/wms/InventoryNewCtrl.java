@@ -154,7 +154,7 @@ public class InventoryNewCtrl extends BaseCtrl {
 		 //System.out.println(idLst.size());
 		 try {
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/wms/inventorynew/doInventoryAdd", "盘点信息主表新增", "新增", "");
+			 operationlogService.insertLog(userVo, "/wms/inventorynew/doInventoryAdd", "日清日结", "新增", "");
 			 
 			 inventoryVo.setCreatename(userVo.getUsername());
 			 inventoryVo.setCreateid(new BigDecimal(userVo.getId()));
@@ -245,7 +245,7 @@ public class InventoryNewCtrl extends BaseCtrl {
 		 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		 try{
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/wms/inventorynew/doInventoryInfoComplete", "盘点明细信息", "新增", "");
+			 operationlogService.insertLog(userVo, "/wms/inventorynew/doInventoryInfoComplete", "日清日结", "日清日结", "");
 			 //ATSCellInfoDetailVo[]ATSCellObjs=(ATSCellInfoDetailVo[]) getDTOArray(request,"atscell",ATSCellInfoDetailVo.class);
 			 //TFoodJhtzMainVO    tFoodJhtzMainVO=JSON.parseObject(models.get("main").toString(),TFoodJhtzMainVO.class); //获取出来的json字符串转换成相对应的对象
 			 

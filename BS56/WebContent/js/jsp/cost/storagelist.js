@@ -23,6 +23,11 @@ jQuery(function($){
 	var begdate=$('#begdate').val();	 
 	var enddate=$('#enddate').val();
 	var settlementflagval=$("#settlementflag").val();
+	//$('#param').textbox('textbox').keydown(function(e){
+	//	if(e.keyCode==13){
+		//	searchStoragelist();
+		//}
+	//})
 	$('#dataTable').datagrid({
 		title:'入库单', //标题
 		method:'post',
@@ -87,7 +92,11 @@ jQuery(function($){
 		onLoadSuccess:function(){
 			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			compute();//调用计算函数			$('#tabdiv .panel-header').css('display','none');
-			
+			$('#param').textbox('textbox').keydown(function(e){
+				if(e.keyCode==13){
+					searchStoragelist();
+				}
+			})
 		}
 	});
 });

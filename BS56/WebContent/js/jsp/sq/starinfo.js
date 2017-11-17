@@ -20,6 +20,12 @@ $(function(){
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+
+	$('#starname1').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchPara();
+			}
+		})
 	//alert(baseURL+"/sq/starinfo/getStarinfo.json");
 	$('#dataTabel').datagrid({
 		title:'星级信息维护', //标题

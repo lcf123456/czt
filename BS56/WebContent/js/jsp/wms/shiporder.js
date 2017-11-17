@@ -2,6 +2,12 @@
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+
+	$('#keywd').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchData();
+			}
+		})
 	//var nowTime01 = getDateYM01();
 	var nowTime = getDateYMD();
 	$('#searchtime').datebox("setValue",nowTime);
@@ -11,7 +17,7 @@ jQuery(function($){
 	//var obj = $("#consignsorsearch");
 	//initconsignsor(obj);
 	$('#dataTabel').datagrid({
-		title:'订单列表', //标题
+		title:'订单查询', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选
@@ -51,6 +57,9 @@ jQuery(function($){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none'); 
 			
+		},
+		onDblClickCell:function(index,field,value){
+			viewD();
 		}
 	});
 });

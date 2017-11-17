@@ -21,6 +21,11 @@ $(function(){
  * 页面列表datagrid初始化
  */
 jQuery(function(def){
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchAccident();
+		}
+	})
 	$("#routecode").combobox({
 	    url : baseURL+"/comm/combobox/getRoutesComboboxByDeptid.json?deptid=",//返回json数据的url
 	    valueField : "routecode",//这个id和你返回json里面的id对应
@@ -85,6 +90,9 @@ jQuery(function(def){
 		toolbar:'#toolbar',
 		onLoadSuccess:function(){
 			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题			$('#tabdiv .panel-header').css('display','none');
+		},
+		onDblClickCell:function(index,field,value){
+			openView();
 		}
 	});
 });

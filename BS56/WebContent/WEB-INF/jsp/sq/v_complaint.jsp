@@ -45,7 +45,7 @@
 			<a href="#" id="grantBtn" class="easyui-linkbutton" iconCls="icon-myuser" plain="true" onclick="openEdit(40)">处理</a>
 			<a href="#" id="opBtn" class="easyui-linkbutton" iconCls="icon-mytelephone" plain="true" onclick="openEdit(50)">回访</a>
 			<a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleterow()">删除</a>
-			<input class="easyui-textbox"  name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入专卖证、零售户、车组...'" style="width:450px;height:24px;">
+			<input class="easyui-textbox"  name="keyword" id="keyword" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入专卖证、零售户、车组...'" style="width:450px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,15 +15,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.cost.SPLTypeServcie;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.cost.SPLTypeInfoVo;
 import com.ztel.app.vo.sys.MenuInfoVo;
+import com.ztel.app.vo.sys.UserVo;
 
 @Controller
 @RequestMapping("/cost/SPLTypeInfo")
 public class SPLTypeInfoCtrl {
 	@Autowired
 	private SPLTypeServcie sPLTypeServcie = null;
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@RequestMapping("toSPLTypeInfo")
 	public String toSPLTypeInfo(HttpServletRequest request) {
 		
@@ -44,16 +48,19 @@ public class SPLTypeInfoCtrl {
 	 }
 	 
 	 /**
-	  * 新增栏目信息
+	  * 新增物资类别维护信息
 	  * @return
 	  */
 	 @RequestMapping(value="doAddSPLTypeInfo")
 	 @ResponseBody
-	 public  Map<String, Object> doAddSPLTypeInfo(SPLTypeInfoVo sPLTypeInfoVo)
+	 public  Map<String, Object> doAddSPLTypeInfo(SPLTypeInfoVo sPLTypeInfoVo,HttpServletRequest request,HttpServletResponse response)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();
+		// UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 //operationlogService.insertLog(userVo, "/cost/SPLTypeInfo/doAddSPLTypeInfo", "物资类别维护", "新增", "");
 		 //System.out.println("--------------"+sPLTypeInfoVo.toString());
-		 try{
+		 try{UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/cost/SPLTypeInfo/doAddSPLTypeInfo", "物资类别维护", "新增", "");
 			 sPLTypeServcie.doAddSPLTypeInfo(sPLTypeInfoVo);
 			 map.put("msg", "新增成功");
 		 }
@@ -66,19 +73,21 @@ public class SPLTypeInfoCtrl {
 	 }
 	 
 	 /**
-	  * 修改栏目信息
+	  * 修改物资类别维护信息
 	  * @return
 	  */
 	 @RequestMapping(value="doEditSPLTypeInfo")
 	 @ResponseBody
-	 public  Map<String, Object> doEditSPLTypeInfo(SPLTypeInfoVo sPLTypeInfoVo)
+	 public  Map<String, Object> doEditSPLTypeInfo(SPLTypeInfoVo sPLTypeInfoVo,HttpServletRequest request)
 	 {
 		 Map<String, Object> map=new HashMap<String, Object>();  
+		
 		 //System.out.println("id----"+menuinfo.getId()+",name="+menuinfo.getMenuname());
 		// List<Menuinfo> menuList=menuinfoService.searchMenuinfoList(id);
 		 int resutl =  sPLTypeServcie.doEditSPLTypeInfo(sPLTypeInfoVo);
 		 if(resutl==1)
-		 {
+		 { UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/cost/SPLTypeInfo/doEditSPLTypeInfo", "物资类别维护", "修改", "");
 			 map.put("total", "1");
 			 map.put("msg", "修改成功");
 		 }
@@ -91,20 +100,22 @@ public class SPLTypeInfoCtrl {
 	 }
 	 
 	 /**
-	  * 修改栏目信息
+	  * 删除物资类别维护信息
 	  * @return
 	  */
 	 @RequestMapping(value="doDelSPLTypeInfo")
 	 @ResponseBody
-	 public  Map<String, Object> doDelSPLTypeInfo(Integer id)
+	 public  Map<String, Object> doDelSPLTypeInfo(Integer id,HttpServletRequest request)
 	 {
-		 Map<String, Object> map=new HashMap<String, Object>();  
+		 Map<String, Object> map=new HashMap<String, Object>(); 
+		
 			
 		// List<Menuinfo> menuList=menuinfoService.searchMenuinfoList(id);
 		 if(id==null)id=0;
 		 int result =  sPLTypeServcie.doDelSPLTypeInfo(id);
 		 if(result==1)
-		 {
+		 { UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/cost/SPLTypeInfo/doDelSPLTypeInfo", "物资类别维护", "删除", "");
 			 map.put("total", "1");
 			 map.put("msg", "删除成功");
 		 }

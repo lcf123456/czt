@@ -40,6 +40,11 @@ jQuery(function(def){
 			 search();
 		}   	
 	})
+	$('#keywd').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			search();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'退货入库', //标题
 		method:'post',

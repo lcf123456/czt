@@ -37,7 +37,7 @@
 			<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newIndustrialdriver()">增加</a>
 			<a href="#" id="editBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEdit()">修改</a>
 			<a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="industrialdriverDel()">删除</a>
-			<input class="easyui-textbox"  name="drivername"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchIndustrialdriver();},prompt:'请输入司机姓名...'" style="width:450px;height:24px;">
+			<input class="easyui-textbox"  name="drivername" id="drivernamex" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchIndustrialdriver();},prompt:'请输入司机姓名...'" style="width:450px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

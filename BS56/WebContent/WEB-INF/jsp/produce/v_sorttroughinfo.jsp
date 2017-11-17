@@ -30,7 +30,7 @@
 			<option value="30">异形</option>
 			<option value="40">异形混合</option>
 			</select>
-			<input class="easyui-textbox"  name="param"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchSorttrough();},prompt:'请输入品牌名称/品牌代码...'" style="width:350px;height:24px;">
+			<input class="easyui-textbox"  name="param" id="param" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchSorttrough();},prompt:'请输入品牌名称/品牌代码...'" style="width:350px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

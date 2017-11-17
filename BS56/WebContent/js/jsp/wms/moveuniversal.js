@@ -10,7 +10,7 @@ jQuery(function($){
 
 
 	$('#dataTabel').datagrid({
-		title:'入库单', //标题
+		title:'通用移库', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:true, //单选
@@ -65,6 +65,9 @@ jQuery(function($){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none'); 
 			
+		},
+		onDblClickCell:function(index,field,value){
+			viewD();
 		}
 	});
 	
@@ -195,7 +198,7 @@ function clearForm(){
 //区域表id 1：立库 2：重力式货架 3：分拣 4：散烟区 
 function openCreate(){
 	$('#add-fm').form('clear');
-	$('#add-dlg').dialog('open').dialog('setTitle','散烟区至立库移库');
+	$('#add-dlg').dialog('open').dialog('setTitle','通用移库');
 	
 	//初始化订单日期
 	$('#username_new').textbox("setValue",username);

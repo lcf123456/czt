@@ -32,6 +32,12 @@ jQuery(function(def){
 	        return data;
 	    }   	
 	})
+	$('#code').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchCustomer();
+		}
+	})
+
 	//alert(baseURL+"/sq/starinfo/getStarinfo.json");
 	$('#dataTable').datagrid({
 		title:'零售户信息', //标题
@@ -77,6 +83,9 @@ jQuery(function(def){
 		toolbar:'#toolbar',
 		onLoadSuccess:function(){
 			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题			$('#tabdiv .panel-header').css('display','none');
+		},
+		onDblClickCell:function(index,field,value){
+			openView();
 		}
 	});
 });

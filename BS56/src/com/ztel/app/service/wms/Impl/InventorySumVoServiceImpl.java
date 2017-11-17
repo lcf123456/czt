@@ -107,7 +107,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 		 storageAreaInOutVo_fj.setSearchdate(searchDate);
 		 storageAreaInOutVo_fj.setAreaid(new BigDecimal(Constant.storagearea_fj));
 		 List<SortTroughVo>  troughList=new ArrayList<SortTroughVo>();
-		 troughList=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_fj, sortTroughVo);
+		 troughList=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_fj, sortTroughVo,orderdate);
 		 //由于分拣区卷烟品牌会有重复,将重复品牌组成List放入Map
 		 Map<String, List<SortTroughVo>>sortMap=new TreeMap<>();
 		 int len=troughList.size();String cigarettecode="";
@@ -135,7 +135,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 		 storageAreaInOutVo_zlshj.setSearchdate(searchDate);
 		 storageAreaInOutVo_zlshj.setAreaid(new BigDecimal(Constant.storagearea_zlshj));
 		 List<SortTroughVo>  zlshjList=new ArrayList<SortTroughVo>();
-		 zlshjList=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_zlshj, sortTroughVo1);
+		 zlshjList=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_zlshj, sortTroughVo1,orderdate);
 		 //由于重力式货架区卷烟品牌会有重复,将重复品牌组成List放入Map
 		 Map<String, List<SortTroughVo>>shelfMap=new TreeMap<>();
 		 len=zlshjList.size();
@@ -164,7 +164,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 		 //storageAreaInOutVo_fj.setSearchdate(searchDate);
 		 //storageAreaInOutVo_fj.setAreaid(new BigDecimal(Constant.storagearea_fj));
 		 List<SortTroughVo>  untroughList1=new ArrayList<SortTroughVo>();
-		 untroughList1=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_fj, sortTroughVo_yx1);
+		 untroughList1=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_fj, sortTroughVo_yx1,orderdate);
 			 
 		 //异型烟二区
 		//通道尾数查询条件
@@ -177,7 +177,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 		 //storageAreaInOutVo_fj.setSearchdate(searchDate);
 		 //storageAreaInOutVo_fj.setAreaid(new BigDecimal(Constant.storagearea_fj));
 		 List<SortTroughVo>  untroughList2=new ArrayList<SortTroughVo>();
-		 untroughList2=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_fj, sortTroughVo_yx2);
+		 untroughList2=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_fj, sortTroughVo_yx2,orderdate);
 		 
 		 //公共区
 		//通道尾数查询条件
@@ -190,7 +190,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 		 //storageAreaInOutVo_fj.setSearchdate(searchDate);
 		 //storageAreaInOutVo_fj.setAreaid(new BigDecimal(Constant.storagearea_fj));
 		 List<SortTroughVo>  untroughList3=new ArrayList<SortTroughVo>();
-		 untroughList3=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_fj, sortTroughVo_yx3);
+		 untroughList3=sortTroughService.getSortTroughSummaryByCond(storageAreaInOutVo_fj, sortTroughVo_yx3,orderdate);
 		 
 		 //组装数据
 		 List<InventorySumVo>  resultList=new ArrayList<InventorySumVo>();

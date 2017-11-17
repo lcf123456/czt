@@ -173,7 +173,7 @@ public class SuppliesImpCtrl extends BaseCtrl {
      }
 	 	
 	 /**
-	  * 物资入库信息新增
+	  * 物资管理信息新增
 	  * @param request
 	  * @return
 	  */
@@ -271,7 +271,7 @@ public class SuppliesImpCtrl extends BaseCtrl {
 		 try {
 			 suppliesImpVoService.doSuppliesSettle(ids);
 			 UserVo sessionUserVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(sessionUserVo, "/cost/suppliesimp/doSettleSupplies", "物资管理", "结算", "");
+			 operationlogService.insertLog(sessionUserVo, "/cost/suppliesimp/doSettleSupplies", "入库结算与查询", "结算", "");
 			 map.put("msg", "成功");
 		} catch (Exception e) {
 			// TODO: handle exception

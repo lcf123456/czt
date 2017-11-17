@@ -54,7 +54,7 @@
 		    	var msg = data.msg;
 		    	console.log("msg--"+msg)
 		    	if(parseFloat(msg)==0 || isNaN(parseFloat(msg))) {
-		    		$.messager.alert('提示',"您"+$('#orderdate').val()+"的订单还没有从营销接口同步到中间表，请先同步！",'info');
+		    		$.messager.alert('提示',"您"+$('#orderdate').val()+"的订单还没有同步，请先同步！",'info');
 		    		return;
 		    	}else{
 		    		doSync();

@@ -2,7 +2,6 @@
 <%@include file="/WEB-INF/jsp/include/taglib.jsp" %>
 <%@ page import="com.ztel.framework.util.DateUtil" %>
 <!DOCTYPE html >
-<!-- 基础数据同步 -->
 <html>
 <%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
   <head>
@@ -43,11 +42,11 @@
     	//alert("aa");
     	//$("#resultarea" ).css("display", "none");
     	var nowTime = getDateYMD();
-    	//$('#orderdate').datebox("setValue",nowTime);
-    	initOrderDatebox();
     	$('#orderdate').datebox("setValue",nowTime);
+    	initOrderDatebox();
     	document.getElementById('showMsg').innerHTML="";
     	var orderdate = $('#orderdate').val();
+    	alert(orderdate);
     	getOrderdata(orderdate);
     });
     
@@ -55,6 +54,7 @@
         $('#orderdate').datebox({
         	onSelect: function(date){
         		var orderdate = $("#orderdate").val();
+        		alert(orderdate);
         		getOrderdata(orderdate);
         	}
         });
@@ -65,7 +65,15 @@
     	$.ajax({ 
 		    url: baseURL+'/sale/saletolocal/doGetDataCount.json?orderdate='+orderdate, 
 		    type: 'POST',
-		    
+		    beforeSend : function () {
+				$.messager.progress({
+					text : '正在加载中...',
+				});
+			},
+			complete: function(){  
+		        //AJAX请求完成时隐藏loading提示  
+		        $.messager.progress('close');
+		    },
 		    success: function(data){
 		    	//var msg = data.resultmsg;
 		    	document.getElementById("datainfoitem").innerHTML=data.itemmsg;

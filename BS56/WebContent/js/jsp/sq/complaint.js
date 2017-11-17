@@ -20,6 +20,11 @@ $(function(){
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchData();
+		}
+	})
 	$('#dataTabel').datagrid({
 		title:'投诉维护', //标题
 		method:'post',
@@ -67,9 +72,9 @@ jQuery(function($){
 			$('#tabdiv .panel-header').css('display','none'); 
 			$("#source").combobox('select','10');
 		},
-		 	onDblClickCell:function(index,field,value){
-			 		viewD();
-			  		}
+		onDblClickCell:function(index,field,value){
+			viewD();
+		}
 	});
 });
 

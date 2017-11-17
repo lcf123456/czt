@@ -35,7 +35,11 @@ jQuery(function($){
         	searchSorttrough();
 		}
 	})
-
+$('#param').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchSorttrough();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'通道信息', //标题
 		method:'post',

@@ -1,6 +1,7 @@
 package com.ztel.app.web.ctrl.produce;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,14 +22,10 @@ import com.ztel.app.service.produce.SortTroughService;
 import com.ztel.app.service.wms.MantissaService;
 import com.ztel.app.util.Constant;
 import com.ztel.app.vo.produce.SortTroughVo;
-import com.ztel.app.vo.wms.ATSCellInfoDetailVo;
-import com.ztel.app.vo.wms.InventoryLineVo;
 import com.ztel.app.vo.wms.MantissaVo;
 import com.ztel.app.vo.wms.StorageAreaInOutVo;
 import com.ztel.framework.vo.Pagination;
 import com.ztel.framework.web.ctrl.BaseCtrl;
-
-import oracle.sql.DATE;
 @Controller
 @RequestMapping("/produce/sorttrough")
 public class SortTroughCtrl extends BaseCtrl {
@@ -56,6 +53,12 @@ public class SortTroughCtrl extends BaseCtrl {
 	public String index1(HttpServletRequest request) {
 			
 		return "/produce/v_sorttroughinfo";
+	}
+	
+	@RequestMapping("toMantissa")
+	public String toMantissa(HttpServletRequest request) {
+		
+		return "/produce/v_mantissa";
 	}
 	@RequestMapping("getSortTroughinfo")
 	 @ResponseBody
@@ -85,8 +88,10 @@ public class SortTroughCtrl extends BaseCtrl {
 			 vo.setGroupno(null);
 		 }
 		 
+		 String orderdate=request.getParameter("orderdate");
+		 
 		 List<SortTroughVo>  troughList=new ArrayList<SortTroughVo>();
-		 troughList=sortTroughVoService.getSortTroughSummaryByCond(storageAreaInOutVo, vo);
+		 troughList=sortTroughVoService.getSortTroughSummaryByCond(storageAreaInOutVo, vo,orderdate);
 		 
 		// List<SortTroughVo> paras = sortTroughVoService.getSortTroughPageList(page);
 		 result.put("rows",troughList);  
@@ -97,9 +102,10 @@ public class SortTroughCtrl extends BaseCtrl {
 	
 	@RequestMapping("UpdateMainssa")
 	 @ResponseBody
-	public String UpdateMainssa(SortTroughVo vo)
+	public String UpdateMainssa(HttpServletRequest request,SortTroughVo vo)
 	{
 		MantissaVo mVo=new MantissaVo();
+		
 		if(vo.getTroughtype().toString().equals("10"))
 		{
 		mVo.setAreaid(new BigDecimal(Constant.storagearea_fj));
@@ -113,8 +119,17 @@ public class SortTroughCtrl extends BaseCtrl {
 		mVo.setCigarettecode(vo.getCigarettecode());
 		mVo.setTroughnum(new BigDecimal(vo.getTroughnum()));
 		mVo.setQty(vo.getFillqty());
-		//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String orderdate=request.getParameter("orderdate");
+		try {
+			mVo.setOrderdate(df.parse(orderdate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		mVo.setCreatedate(new Date());
+		
 		mVo.setId( new BigDecimal(pservide.getSequence("S_wms_mantissa").toString()));
 		mantissaService.insertRecord(mVo);
 		//vo.setLastmantissa(vo.getMantissa());
@@ -147,8 +162,10 @@ public class SortTroughCtrl extends BaseCtrl {
 			 storageAreaInOutVo.setAreaid(new BigDecimal(Constant.storagearea_zlshj)); 
 		 }
 		 
+		 String orderdate=request.getParameter("orderdate");
+		 
 		 List<SortTroughVo>  troughList=new ArrayList<SortTroughVo>();
-		 troughList=sortTroughVoService.getSortTroughSummaryByCond(storageAreaInOutVo, sorttroughVo);
+		 troughList=sortTroughVoService.getSortTroughSummaryByCond(storageAreaInOutVo, sorttroughVo,orderdate);
 		
 		 System.out.println(paras.size());
 		 result.put("rows",paras);  
@@ -182,8 +199,10 @@ public class SortTroughCtrl extends BaseCtrl {
 			 //StorageAreaInOutVo storageAreaInOutVo=new StorageAreaInOutVo();
 			 storageAreaInOutVo.setAreaid(new BigDecimal(Constant.storagearea_fj));
 			 
+			 String orderdate=request.getParameter("orderdate");
+			 
 			 List<SortTroughVo>  troughList=new ArrayList<SortTroughVo>();
-			 troughList=sortTroughVoService.getSortTroughSummaryByCond(storageAreaInOutVo, sortTroughVo);
+			 troughList=sortTroughVoService.getSortTroughSummaryByCond(storageAreaInOutVo, sortTroughVo,orderdate);
 			
 			 result.put("rows",troughList);  
 			 result.put("total",troughList.size());  
@@ -217,8 +236,10 @@ public class SortTroughCtrl extends BaseCtrl {
 			//StorageAreaInOutVo storageAreaInOutVo=new StorageAreaInOutVo();
 			storageAreaInOutVo.setAreaid(new BigDecimal(Constant.storagearea_zlshj));
 			
+			String orderdate=request.getParameter("orderdate");
+			
 			List<SortTroughVo>  troughList=new ArrayList<SortTroughVo>();
-			troughList=sortTroughVoService.getSortTroughSummaryByCond(storageAreaInOutVo, sortTroughVo);
+			troughList=sortTroughVoService.getSortTroughSummaryByCond(storageAreaInOutVo, sortTroughVo,orderdate);
 			
 			result.put("rows",troughList);  
 			result.put("total",troughList.size());  

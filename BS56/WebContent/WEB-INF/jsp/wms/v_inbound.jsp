@@ -23,14 +23,14 @@
 		<div style="margin-bottom:5px">
 		<a href="#" id="newBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="viewD()">查看</a>
 		<a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openNew()">新增</a>
-		<a href="#" id="impBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="destroyInbound()">作废</a>
+		<a href="#" id="impBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyInbound()">作废</a>
 		入库状态：<select id="status2" class="easyui-combobox" name="status" style="width:120px;" >
 						    <option value="10">新增</option>
 						    <option value="20">入库中</option>
 						    <option value="30">入库完成</option>
 						    <option value="0">失效</option>
 						</select>
-			<input class="easyui-textbox"  name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入准运证、货主、合同号...'" style="width:220px;height:24px;">
+			<input class="easyui-textbox" id="keyword"  name="keyword"  data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchData();},prompt:'请输入准运证、货主、合同号...'" style="width:220px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 		</div>
 		</form>

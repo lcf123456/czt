@@ -19,5 +19,8 @@ public interface ItemService {
 	public List<HashMap<String, String>> getItemComboboxByCond(ItemVo itemVo);
 	public List<ItemVo> getIteminfoList(Pagination<?> page);
 	public int insertIteminfo(ItemVo itemVo);
-	public int delIteminfo(List<Integer> ids);
+	public void delIteminfo(List<String> ids);
+	ItemVo checkItemName(ItemVo itemVo);
+	//ItemVo checkItemNo(String itemno);
+	
 }

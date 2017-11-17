@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSON;
 import com.ztel.app.service.cost.EquipmentRepairService;
 import com.ztel.app.service.cost.EquipmentService;
 import com.ztel.app.service.sq.CigfactoryService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.cost.EquipmentRepairVo;
 import com.ztel.app.vo.sys.BlockcustomerVo;
 import com.ztel.app.vo.sys.UserVo;
@@ -46,6 +47,8 @@ public class EquipmentRepairCtrl extends BaseCtrl {
 	private EquipmentRepairService equipmentrepairService = null;
 	@Autowired
 	private EquipmentService equipmentService = null;
+	@Autowired
+	private OperationlogService operationlogService = null;
 	
 	@RequestMapping("toEquipmentRepair")
 	public String index(HttpServletRequest request) {
@@ -78,14 +81,15 @@ public class EquipmentRepairCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doEquipmentRepairDel",method=RequestMethod.POST)
 	 @ResponseBody
-	 public   Map<String, Object> deleteEquipmentRepair(@RequestParam("id") List<Integer> ids) throws Exception {
+	 public   Map<String, Object> deleteEquipmentRepair(@RequestParam("id") List<Integer> ids,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=1;
 		 if (ids!=null&&ids.size()>0) {
 			 total = ids.size();
 		}
 		 try {
-		
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/cost/equipmentrepair/doEquipmentRepairDel", "设备维修", "删除", "");
 			 equipmentrepairService.delEquipmentRepair(ids);
 		
 			 map.put("msg", "成功");
@@ -113,6 +117,8 @@ public class EquipmentRepairCtrl extends BaseCtrl {
        
 		 try {   equipmentrepairVo.setDelstatus("10");//状态
 			 equipmentrepairService.insertEquipmentRepair(equipmentrepairVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/cost/equipmentrepair/doEquipmentRepairNew", "设备维修", "新增", "");
 			 map.put("msg", "成功");
 			 total=1;
 		} catch (Exception e) {
@@ -136,12 +142,13 @@ public class EquipmentRepairCtrl extends BaseCtrl {
 	  */
 	 @RequestMapping(value="doEquipmentRepairUpdate",method=RequestMethod.POST)
 	 //@ResponseBody
-	 public   void EquipmentRepairUpdate(EquipmentRepairVo equipmentrepairVo,HttpServletResponse response) throws Exception {
+	 public   void EquipmentRepairUpdate(EquipmentRepairVo equipmentrepairVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 int total=0;
        
 		 try {
-			 
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/cost/equipmentrepair/doEquipmentRepairUpdate", "设备维修", "修改", "");
 			 equipmentrepairService.updateEquipmentRepair(equipmentrepairVo);
 			 map.put("msg", "成功");
 			 total=1;

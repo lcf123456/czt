@@ -14,7 +14,11 @@ jQuery(function($){
 	//初始化类型 1:选中默认值  0：不选择
 	var propobj = $("#searchproperty");
 	initproperty(propobj,"0");
-	
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchData();
+		}
+	})
 	//initctype();
 	$('#dataTabel').datagrid({
 		title:'日常工作', //标题
@@ -62,7 +66,7 @@ jQuery(function($){
 		onAfterEdit: function (rowIndex, rowData, changes) {
             //endEdit该方法触发此事件
             var amount = rowData.weight;
-            alert(amount);
+            //alert(amount);
             var bz=0;
             if (amount=="" || parseFloat(amount)==0 || isNaN(parseFloat(amount))){
             	$.messager.alert('提示',"请输入合法的数字！",'info');
@@ -84,6 +88,9 @@ jQuery(function($){
 		onLoadSuccess:function(){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none'); 
+		},
+		onDblClickCell:function(index,field,value){
+			viewD();
 		}
 	});
 	

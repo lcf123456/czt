@@ -23,6 +23,11 @@ $(function(){
 jQuery(function($){
 var begdate=$('#begdate').val();	 
 var enddate=$('#enddate').val();
+$('#keywd').textbox('textbox').keydown(function(e){
+	if(e.keyCode==13){
+		searchRoutescore();
+	}
+})
 //alert(begdate+"--"+enddate);
 	$('#dataTable').datagrid({
 		title:'市场督查', //标题
@@ -75,6 +80,9 @@ var enddate=$('#enddate').val();
 		toolbar:'#toolbar',
 		onLoadSuccess:function(){
 			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题			$('#tabdiv .panel-header').css('display','none');
+		},
+		onDblClickCell:function(index,field,value){//alert(11);
+			openView();
 		}
 	});
 });

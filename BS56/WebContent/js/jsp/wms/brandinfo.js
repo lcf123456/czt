@@ -2,6 +2,11 @@
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+	$('#itemname1').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchbrandinfo();
+		}
+	})
 	$('#dataTable').datagrid({
 		//title:'品牌信息维护', //标题
 		method:'post',
@@ -26,10 +31,23 @@ jQuery(function($){
 		rownumbers:true, //显示行号
 		columns:[[
 			{field:'id',checkbox:true,width:2}, //显示复选框
-			{field:'bigbox_bar',title:'件码',width:10,
+			{field:'bigbox_bar',title:'件码',width:20,
 				formatter:function(value,row,index){return row.bigboxBar;} //需要formatter一下才能显示正确的数据
 			},
-			{field:'fullcount',title:'满盘数量',width:30,
+			{field:'itemno',title:'商品编号',width:20,
+				formatter:function(value,row,index){return row.itemno;} //需要formatter一下才能显示正确的数据
+			},
+			
+			{field:'itemname',title:'商品名称',width:30,
+				formatter:function(value,row,index){return row.itemname;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'shortname',title:'商品简称',width:25,
+				formatter:function(value,row,index){return row.shortname;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'spec',title:'规格',width:20,
+				formatter:function(value,row,index){return row.spec;} //需要formatter一下才能显示正确的数据
+			},
+			{field:'fullcount',title:'满盘数量',width:20,
 				formatter:function(value,row,index){return row.fullcount;}
 			},
 			{field:'cdtype',title:'拆垛类型',width:10,

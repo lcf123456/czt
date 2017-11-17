@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.PubService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.service.wms.ItemService;
 import com.ztel.app.service.wms.MoveareastockLineService;
 import com.ztel.app.service.wms.MoveareastockService;
@@ -46,7 +47,8 @@ public class MoveareastockCtrl extends BaseCtrl {
 	
 	@Autowired
 	private MoveareastockService moveareastockService = null;
-	
+	@Autowired
+	private OperationlogService operationlogService = null;
 	@Autowired
 	private MoveareastockLineService MoveareastockLineService = null;
 	
@@ -88,7 +90,7 @@ public class MoveareastockCtrl extends BaseCtrl {
 	}
 	
 	/**
-	 * 散烟区至立库
+	 * 通用移库
 	 * @param request
 	 * @return
 	 */
@@ -102,7 +104,7 @@ public class MoveareastockCtrl extends BaseCtrl {
 	}
 	
 	/**
-	 * 获取移库列表
+	 * 获取移库列表-通用移库
 	 * @param outBoundVo 
 	 * @param request
 	 * @return
@@ -163,8 +165,8 @@ public class MoveareastockCtrl extends BaseCtrl {
 
 		 try {
 			 BigDecimal actualqty = moveareastockService.doCheckqty(cigarettecode,areaid,cellno);//对应区域实际库存数量（=日清日结尾数+调拨数）
-			 //UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 //operationlogService.insertLog(userVo, "/sys/role/roledelete", "角色管理", "删除", "");
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/moveareastock/doCheckqty", "通用移库", "录入", "");
 			 map.put("msg", "成功");
 			 map.put("actualqty", actualqty+"");
 		} catch (Exception e) {
@@ -177,7 +179,7 @@ public class MoveareastockCtrl extends BaseCtrl {
 	 }
 	
 	 /**
-	  * 移库保存
+	  * 移库保存-散烟区至分拣区录入
 	  * @return
 	  */
 	 @RequestMapping(value="doSave")
@@ -213,6 +215,7 @@ public class MoveareastockCtrl extends BaseCtrl {
 		 Long userid = 0L;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/wms/moveareastock/doSave", "散烟区至分拣区/至立库", "录入", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 username = userVo.getUsername();
@@ -247,7 +250,7 @@ public class MoveareastockCtrl extends BaseCtrl {
 		 
 
 		 moveareastockService.insertMoveareastock(moveareastockVo,moveareastockLineVo,obid);
-		 
+	
 		 map.put("msg", "新增成功");
 		 map.put("obid", id+"");
 		 }catch(Exception e){
@@ -306,6 +309,7 @@ public class MoveareastockCtrl extends BaseCtrl {
 		 Long userid = 0L;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/wms/moveareastock/doSaveUniversal", "通用移库", "录入", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 username = userVo.getUsername();
@@ -399,6 +403,7 @@ public class MoveareastockCtrl extends BaseCtrl {
 			 
 			 MoveareastockVo moveareastockVo = new MoveareastockVo();
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/moveareastock/doAudit", "移库", "收货/出库", "");
 			 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 				 if(checkflag.equals("20"))
 				 {
@@ -446,6 +451,8 @@ public class MoveareastockCtrl extends BaseCtrl {
 			 String id = request.getParameter("id");
 			 try{
 				 moveareastockService.doDel(new BigDecimal(id));
+				 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+				 operationlogService.insertLog(userVo, "/wms/moveareastock/doDel", "移库", "删除", "");
 			 resultMap.put("msg", "删除成功！");
 			 }catch(Exception e){
 				 resultMap.put("msg", "删除失败！");

@@ -31,7 +31,7 @@
 		<div style="margin-bottom:5px">
 		    <input  name="deptid" id="deptid" class="easyui-combobox" style="width:auto;" data-option='' >
 			        从       <input id=begdate name=begdate class="easyui-datebox" editable="false" style="width:100px;" value="<%=DateUtil.getyyyy_mm()+"-01"%>" >至 <input id=enddate name=enddate class="easyui-datebox" editable="false" style="width:100px;" value="<%=DateUtil.getyyyy_mm_dd()%>">
-			<a href="#" onclick="searchSplconsumelist();" class="easyui-linkbutton" IconCls="icon-search">查询</a>
+			<a href="#"id="keyword" onclick="searchSplconsumelist();" class="easyui-linkbutton" IconCls="icon-search">查询</a>
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 			<a href="#" id="printBtn" onclick="printpage();" class="easyui-linkbutton" iconCls="icon-myprinter" style="height:24px;">打印</a>
 		</div>

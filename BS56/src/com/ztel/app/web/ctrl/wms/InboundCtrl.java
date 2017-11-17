@@ -74,7 +74,7 @@ public class InboundCtrl extends BaseCtrl {
 	}
 	
 	/**
-	 * 获取入库单列表 带翻页信息
+	 * 获取罚没烟入库列表
 	 * @param inBoundVo
 	 * @param request
 	 * @return
@@ -150,11 +150,10 @@ public class InboundCtrl extends BaseCtrl {
 		 int total=0;
 		 //System.out.println(idLst.size());
 		 try {
-			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/wms/inbound/doConfiscationImp", "罚没烟入库", "入库", "");
 			 
 			 inBoundService.doConfiscationImp(idLst);
-			 
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/wms/inbound/doConfiscationImp", "罚没烟入库", "入库", "");
 			 map.put("msg", "成功");
 			 total=idLst.size();
 		 } catch (Exception e) {
@@ -184,10 +183,9 @@ public class InboundCtrl extends BaseCtrl {
 		int total=0;
 		//System.out.println(idLst.size());
 		try {
-			UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			operationlogService.insertLog(userVo, "/wms/inbound/doConfiscationImp", "入库明细删除", "删除", "");
-			
 			inBoundLineService.doInboundLineDel(idLst,inboundid,totalnum);
+			UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			operationlogService.insertLog(userVo, "/wms/inbound/doInboundLineDel", "入库明细", "删除", "");
 			
 			map.put("msg", "成功");
 			total=idLst.size();
@@ -239,7 +237,7 @@ public class InboundCtrl extends BaseCtrl {
 	}
 	
 	/**
-	 * 保存入库单以及入库明细
+	 * 保存入库单以及入库明细(罚没烟入库等）
 	 * @param request
 	 * @return
 	 */

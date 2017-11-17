@@ -2,6 +2,11 @@
  * 页面列表datagrid初始化
  */
 jQuery(function($){
+	$('#equipname').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchEquipment();
+		}
+	})
 	$('#dataTable').datagrid({
 		title:'设备管理', //标题
 		method:'post',

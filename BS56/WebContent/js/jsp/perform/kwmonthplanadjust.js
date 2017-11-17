@@ -9,6 +9,11 @@ jQuery(function($){
 	
 	var deptobj = $("#searchdept");
 	initDept(deptobj);
+	$('#keyword').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchData();
+		}
+	})
 	//initctype();
 	$('#dataTabel').datagrid({
 		title:'月计划调整', //标题
@@ -70,6 +75,9 @@ jQuery(function($){
 			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			$('#tabdiv .panel-header').css('display','none'); 
 			
+		},
+		onDblClickCell:function(index,field,value){
+			viewD();
 		}
 	});
 	

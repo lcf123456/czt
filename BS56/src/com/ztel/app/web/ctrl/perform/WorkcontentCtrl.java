@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.service.perform.WorkcontentService;
+import com.ztel.app.service.sys.OperationlogService;
 import com.ztel.app.vo.perform.KeyworkVo;
 import com.ztel.app.vo.perform.TransverseAssessVo;
 import com.ztel.app.vo.perform.WorkcontentVo;
@@ -41,6 +42,8 @@ public class WorkcontentCtrl extends BaseCtrl {
 	
 	@Autowired
 	private WorkcontentService workcontentService = null;
+	@Autowired
+	private OperationlogService operationlogService = null;
 	
 	/**
 	 * 日常工作
@@ -108,7 +111,7 @@ public class WorkcontentCtrl extends BaseCtrl {
 	}
 	
 	 /**
-	  * 新增
+	  * 重点工作-新增
 	  * @return
 	  */
 	 @RequestMapping(value="doSave")
@@ -133,6 +136,7 @@ public class WorkcontentCtrl extends BaseCtrl {
 		 int checkdeptid = 0;
 		 String username = "";
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+		 operationlogService.insertLog(userVo, "/perform/workcontent/doSave", "重点工作", "新增", "");
 		 if(userVo!=null&&userVo.getUsername().trim().length()>0){
 			 userid = userVo.getId();
 			 checkdeptid = userVo.getDeptid();
@@ -166,7 +170,7 @@ public class WorkcontentCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 审核
+	  * 重点工作-修改
 	  * @return
 	  */
 	 @RequestMapping(value="doUpdate")
@@ -186,6 +190,8 @@ public class WorkcontentCtrl extends BaseCtrl {
 		 workcontentVo.setWeight(new BigDecimal(weight));
 		 try{
 			 workcontentService.doUpdate(workcontentVo);
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/workcontent/doUpdate", "重点工作", "修改", "");
 			// cigarettedamagedService.doAudit(cigarettedamagedVo);
 		 
 		 map.put("msg", "成功");
@@ -198,7 +204,7 @@ public class WorkcontentCtrl extends BaseCtrl {
 	 }
 	 
 	 /**
-	  * 删除
+	  * 重点工作-删除
 	  * @return
 	  */
 	 @RequestMapping(value="doDel")
@@ -212,6 +218,8 @@ public class WorkcontentCtrl extends BaseCtrl {
 
 		 try{
 			 workcontentService.doDel(new Integer(id));
+			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
+			 operationlogService.insertLog(userVo, "/perform/workcontent/doDel", "重点工作", "删除", "");
 		 resultMap.put("msg", "删除成功！");
 		 }catch(Exception e){
 			 resultMap.put("msg", "删除失败！");

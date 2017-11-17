@@ -3,6 +3,8 @@ package com.ztel.app.vo.wms;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ItemVo {
     /**
      * 主键
@@ -117,6 +119,7 @@ public class ItemVo {
     /**
      * 创建日期
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createtime;
 
     /**
@@ -127,6 +130,7 @@ public class ItemVo {
     /**
      * 修改时间
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date modifytime;
 
     /**
@@ -228,8 +232,16 @@ public class ItemVo {
      * 搜索关键字
      */
     private String keyword;
+  private String outtype;
+    public String getOuttype() {
+	return outtype;
+}
 
-    /**
+public void setOuttype(String outtype) {
+	this.outtype = outtype;
+}
+
+	/**
      * 主键
      * @return ID 主键
      */
@@ -948,6 +960,8 @@ public class ItemVo {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
+
+	
     
 	
 }

@@ -23,6 +23,7 @@ function initSettleDatagrid(){
 	var settleflag=$('#settlementflag').val();
 	var param=$('#param').val();
 	//定义表头
+	
 	var columnarr=[[
 		{field:'id',checkbox:true,width:2}, //显示复选框
 		{field:'typename',title:'物资类别',width:20,sortable:true,
@@ -60,7 +61,7 @@ function initSettleDatagrid(){
 	if(settleflag=='0'){
 		$("#settleBtn").linkbutton("enable");
 	}else{
-		$("#settleBtn").linkbutton("disable");
+				$("#settleBtn").linkbutton("disable");
 		columnarr=[[
 			{field:'id',checkbox:true,width:2}, //显示复选框
 			{field:'typename',title:'物资类别',width:20,sortable:true,
@@ -98,8 +99,13 @@ function initSettleDatagrid(){
 			}
 		]];
 	}
+	$('#param').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchSPL();
+		}
+	})
 		$('#dataTable').datagrid({
-			title:'物资结算', //标题
+			title:'入库结算与查询', //标题
 			method:'post',
 			iconCls:'icon-edit', //图标
 			singleSelect:false, //多选
@@ -157,6 +163,11 @@ jQuery(function($){
     //alert(showFlag);
 	//退货界面
 	if(showFlag=='refund'){
+		$('#param').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchSPL();
+			}
+		})
 		$('#dataTable').datagrid({
 			title:'已退库物资', //标题
 			method:'post',
@@ -221,8 +232,13 @@ jQuery(function($){
 	else if(showFlag=='settle'){
 		initSettleDatagrid();
 	}else if(showFlag=='summary'){
+		/**$('#param').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchSPL();
+			}
+		})*/
 		$('#dataTable').datagrid({
-			title:'入库清单', //标题
+			title:'入库汇总表', //标题
 			method:'post',
 			iconCls:'icon-edit', //图标
 			singleSelect:true, //多选
@@ -305,6 +321,11 @@ jQuery(function($){
 			}
 		});
 	}else{//物资管理界面
+		$('#param').textbox('textbox').keydown(function(e){
+			if(e.keyCode==13){
+				searchSPL();
+			}
+		})
 		$('#dataTable').datagrid({
 			title:'物资管理', //标题
 			method:'post',
@@ -473,7 +494,7 @@ function openNew(){
 			},
 			success: function(data){
 				data = eval('('+data+')');
-				//$('#add-dlg').dialog('close');
+				$('#add-dlg').dialog('close');
 				$('#dataTable').datagrid('reload'); 
 				$('#price').numberbox('setValue', '');
 				$('#totalamount').numberbox('setValue', '');

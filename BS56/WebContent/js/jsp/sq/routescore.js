@@ -24,6 +24,11 @@ jQuery(function($){
 	//var datetime=getDateYMDHMS().substring(0,10);
 	//$('#time').datebox('setValue', datetime);     
 	//alert(baseURL+"/sq/starinfo/getStarinfo.json");
+	$('#keywd').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			searchRoutescore();
+		}
+	})
 	$('#time').datebox("setValue","DateUtil.getyyyy_mm_dd()");
 	$('#dataTable').datagrid({
 		title:'自动语音', //标题
@@ -64,6 +69,9 @@ jQuery(function($){
 		toolbar:'#toolbar',
 		onLoadSuccess:function(){
 			$('#dataTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题			$('#tabdiv .panel-header').css('display','none');
+		},
+		onDblClickCell:function(index,field,value){
+			openView();
 		}
 	});
 });
