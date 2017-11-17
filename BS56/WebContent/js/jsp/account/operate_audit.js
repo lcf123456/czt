@@ -40,8 +40,13 @@ jQuery(function(def){
 			 search();
 		}   	
 	})
+	$('#keywd').textbox('textbox').keydown(function(e){
+		if(e.keyCode==13){
+			search();
+		}
+	})
 	$('#dataTable').datagrid({
-		//title:'退货入库', //标题
+		//title:'审核定性', //标题
 		method:'post',
 		iconCls:'icon-edit', //图标
 		singleSelect:false, //多选,当true时只允许当前选择一行。		height:420, //高度

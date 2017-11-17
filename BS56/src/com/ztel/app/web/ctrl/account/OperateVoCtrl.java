@@ -121,7 +121,7 @@ public class OperateVoCtrl extends BaseCtrl {
 		 //System.out.println(idLst.size()+"===="+ordernoLst.size());
 		 try {
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/account/operate/doDelOperate", "车组退货", "删除", "");
+			 operationlogService.insertLog(userVo, "/account/operate/doDelOperate", "车组退货/暂存", "删除", "");
 			 
 			 operateVoService.doOperateDelete(idLst);
 			 
@@ -173,7 +173,7 @@ public class OperateVoCtrl extends BaseCtrl {
 	 }
 	
 	 /**
-	  * 信息确认
+	  * 信息确认（确认为退货或还是暂存）
 	  * @return
 	  * @throws Exception
 	  */                                    
@@ -247,7 +247,7 @@ public class OperateVoCtrl extends BaseCtrl {
 		 
 		 try{
 			 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-			 operationlogService.insertLog(userVo, "/account/operate/doOperateAdd", "车组退货", "新增", "");
+			 operationlogService.insertLog(userVo, "/account/operate/doOperateAdd", "车组退货/暂存", "新增", "");
 			 operateVo.setCreateid(userVo.getId());
 			 operateVo.setCreatename(userVo.getUsername());
 			 operateVoService.doOperateAdd(operateVo);
