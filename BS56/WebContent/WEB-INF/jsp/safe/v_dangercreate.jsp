@@ -114,7 +114,7 @@
              <tr align="center" >
             <td width="5%" height="20" align="left" nowrap>记录人：</td>
             <td width="14%" height="20" align="left" nowrap>
-                   <input name="createname" id="createname" class="easyui-validatebox tb" value="${userVo.username}" style="width:150px" data-options="" readonly>
+                   <input name="createname" id="createname" class="easyui-validatebox tb" style="width:150px" data-options="" readonly>
             </td>
              </tr>
                 <tr align="center" >
@@ -245,7 +245,7 @@
 		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#view-dlg').dialog('close')">关闭</a>
 	</div>
 	
-	
+	<c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=DangerCreate"></c:import>
 
 
   </body>

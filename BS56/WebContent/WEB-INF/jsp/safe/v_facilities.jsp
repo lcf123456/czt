@@ -32,7 +32,7 @@
 	</div>
 	
 	
-	
+	<c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=Facilities"></c:import>
 
 
   </body>

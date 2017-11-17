@@ -206,7 +206,7 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	    	
 	    	var nowTime = getDateYMD();
 	  	 $('#verifydate').datebox('setValue',nowTime );
-	  	   // $('#handle-fm').form('clear');
+	  	   //$('#handle-fm').form('clear');
 	  		var rows = $('#dataTable').datagrid('getSelections');
 	  		if(rows.length==0){
 	  			$.messager.alert('提示',"请选择你要核实的信息",'info');
@@ -217,6 +217,7 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	  			return;
 	  		}
 	  		var row = $('#dataTable').datagrid('getSelected');
+	  		//alert('row');
 		  	if (row) {
 				if (row.handlestatus == '10' || row.handlestatus == null) {
 					$('#handle-dlg').dialog('open').dialog('setTitle', '隐患核实信息');
@@ -294,10 +295,9 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	    
 	    /**
 	     * 保存审核的信息
-
-
 	     */
 	    function handleEdit(){
+	    	//alert('--');
 			$('#handle-fm').form('submit',{
 				onSubmit: function(){
 					var isValidate = $(this).form('validate');

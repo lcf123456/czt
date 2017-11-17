@@ -250,7 +250,7 @@ public class HiddendangerCtrl extends BaseCtrl {
 	 //@ResponseBody
 	 public   void doDangerVerify(HiddendangerVo hiddendangerVo,HttpServletResponse response,HttpServletRequest request) throws Exception {
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		// operationlogService.insertLog(userVo, "/safe/hiddendanger/doDangerVerify", "隐患核实", "审核", "");
+		 operationlogService.insertLog(userVo, "/safe/hiddendanger/doDangerVerify", "隐患核实", "审核", "");
 		//DeptVo deptVo = (DeptVo)request.getSession().getAttribute("deptVo");
 		 Map<String, Object> map=new HashMap<String, Object>();  
 		 

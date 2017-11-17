@@ -28,7 +28,7 @@
 	</div>
 	
 	
-	
+	<c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=Hazards"></c:import>
 
 
   </body>

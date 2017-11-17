@@ -102,7 +102,7 @@
 						<td width="14%" height="20" align="left"nowrap><select
 							name="dangerstatus" id="dangerstatus" class="easyui-combobox "
 							style="width: 150px;" data-options="">
-								<option value="30">--请选择--</option>
+								<option value="30"selected>--请选择--</option>
 								<option value="10">有效隐患</option>
 								<option value="20">无效隐患</option>
 						</select>
@@ -153,10 +153,8 @@
 		</form>
 	</div>
 	<div id="handle-dlg-buttons">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-			onclick="handleEdit()">保存</a> <a href="#" class="easyui-linkbutton"
-			iconCls="icon-cancel"
-			onclick="javascript:$('#handle-dlg').dialog('close')">取消</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"onclick="handleEdit()">保存</a> 
+		<a href="#" class="easyui-linkbutton"iconCls="icon-cancel"onclick="javascript:$('#handle-dlg').dialog('close')">取消</a>
 	</div>
 
 	<!-- 查看对话框 -->
@@ -235,12 +233,21 @@
            </td>
             </tr>
               <tr align="center">
-       <td width="5%" height="20" align="left" nowrap="">整改内容：</td>
+       <td width="5%" height="20" align="left" nowrap>整改内容：</td>
              <td id="v-rectifynote" class="formtd" font style="color:darkblue;"   width="14%" height="20" colspan=5 align="left" >
            </td>
              </tr>
-	
-
-
+	 </table>
+	</td>
+  </tr>
+  </table>
+			</div>
+			<br>
+		</form>
+	</div>
+<div id="view-dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#view-dlg').dialog('close')">关闭</a>
+	</div>
+<c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=DangerVerify"></c:import>
   </body>
 </html>

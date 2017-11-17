@@ -347,6 +347,6 @@
 		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#view-dlg').dialog('close')">关闭</a>
 	</div>
 
-
+<c:import url="/WEB-INF/jsp/pub/sessionPage.jsp?paramPage=DangerRectify"></c:import>
   </body>
 </html>
