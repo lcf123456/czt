@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ztel.app.inspur.service.InspurSaleService;
 import com.ztel.app.service.sale.SaleAllService;
-import com.ztel.app.service.wms.ShipOrderService;
 import com.ztel.app.vo.sale.SaleorderheadVo;
 import com.ztel.app.vo.sys.UserVo;
 import com.ztel.framework.util.DateUtil;
@@ -29,10 +28,6 @@ public class SaleToLocalCtrl extends BaseCtrl{
 	
 	@Autowired
 	private SaleAllService saleAllService = null;
-	
-	@Autowired
-	private ShipOrderService shipOrderService = null;
-
 	/**
 	 * 基础数据同步
 	 * @param request
@@ -41,16 +36,6 @@ public class SaleToLocalCtrl extends BaseCtrl{
 	@RequestMapping("toSyncbase")
 	public String toSynccustomer(HttpServletRequest request) {
 		return "/sale/v_syncbase";
-	}
-	
-	/**
-	 * 银行结算同步
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("toSyncsettlementflag")
-	public String toSyncsettlementflag(HttpServletRequest request) {
-		return "/sale/v_syncsmtflag";
 	}
 	
 	@RequestMapping("doSyncCustomer")
@@ -99,27 +84,6 @@ public class SaleToLocalCtrl extends BaseCtrl{
 		
 		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
 		 String msg = saleAllService.doSyncItem();
-		 result.put("resultmsg", msg);
-		 
-		 return result;
-	 }
-	
-	/**
-	 * 银行结算同步
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("doSyncOrderStmtflag")
-	 @ResponseBody
-	 public  Map<String, Object> doSyncOrderStmtflag(HttpServletRequest request) throws Exception {
-
-		 Map<String, Object> result=new HashMap<String, Object>();  
-		
-		 UserVo userVo = (UserVo)request.getSession().getAttribute("userVo");
-		 String orderdate = request.getParameter("orderdate");
-		 if(orderdate==null||orderdate.equals(""))orderdate = DateUtil.getyyyy_mm_dd();
-		 
-		 String msg = saleAllService.doSyncOrderStmtflag(orderdate);
 		 result.put("resultmsg", msg);
 		 
 		 return result;
@@ -177,7 +141,7 @@ public class SaleToLocalCtrl extends BaseCtrl{
 	 }
 	
 	/**
-	 * 取中间表订单信息的记录数,用于扣款同步时的判断，如果为0：未同步  1：已同步
+	 * 取订单信息的记录数,用于扣款同步时的判断，如果为0：未同步  1：已同步
 	 * @param request
 	 * @return
 	 * @throws Exception
@@ -201,31 +165,6 @@ public class SaleToLocalCtrl extends BaseCtrl{
 			 if(orderheadCount.compareTo(new BigDecimal("0"))==1){
 				 msg = "1";
 			 }
-		 }
-		 result.put("msg", msg);
-		 return result;
-	 }
-	
-	/**
-	 * 取本地表订单信息的记录数,用于银行结算同步时的判断，如果为0：未同步  1：已同步
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("doGetShiporderCount")
-	 @ResponseBody
-	 public  Map<String, Object> doGetShiporderCount(HttpServletRequest request) throws Exception {
-
-		 Map<String, Object> result=new HashMap<String, Object>();  
-		String msg = "0";
-		 
-		 String orderdate = request.getParameter("orderdate");
-		 if(orderdate==null||orderdate.equals(""))orderdate = DateUtil.getyyyy_mm_dd();
-		 
-		 BigDecimal orderheadCount = new BigDecimal("0");
-		 int  count = shipOrderService.selectShiporderCount(orderdate);//订单头
-		 if(count>0 ){
-				 msg = "1";
 		 }
 		 result.put("msg", msg);
 		 return result;

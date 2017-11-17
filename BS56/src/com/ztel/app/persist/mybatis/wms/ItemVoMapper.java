@@ -50,5 +50,9 @@ public interface ItemVoMapper {
 
 	List<ItemVo> selectIteminfoPageList(Pagination<?> page);
 
-	int deleteByPrimaryKey(Integer id);
+	ItemVo checkItemName(ItemVo itemVo);
+
+	//ItemVo checkItemNo(String itemno);
+
+
 }
