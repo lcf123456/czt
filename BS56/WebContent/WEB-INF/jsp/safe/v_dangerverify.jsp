@@ -5,7 +5,7 @@
 
 <%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
 <script type="text/javascript" src="<spring:url value="/js/jsp/safe/dangerverify.js"/>"></script>
-<script type="text/javascript" src="<spring:url value="/js/jquery.PrintArea.js"/>"></script>
+<!--  <script type="text/javascript" src="<spring:url value="/js/jquery.PrintArea.js"/>"></script>-->
 <script type="text/javascript" src="<spring:url value="/js/jquery.jqprint-0.3.js"/>"></script>
 <script type="text/javascript" src="<spring:url value="/js/jquery-migrate-1.2.1.min.js"/>"></script>
   <script type="text/javascript">
@@ -54,19 +54,14 @@
 	</div>
 	</div>
 	<!-- 审核对话框 -->
-	<div id="handle-dlg" class="easyui-dialog"
-		style="width: 700px; height: 400px; padding: 10px 20px; align: center;"
-		data-options="modal:true,draggable:false" closed="true"
-		buttons="#handle-dlg-buttons">
+	<div id="handle-dlg" class="easyui-dialog" style="width:680px;height:480px;padding:10px 20px;align:center;"  data-options="modal:true,draggable:false"
+			 closed="true" buttons="#handle-dlg-buttons">
 		<div class="ftitle"></div>
-		<form id="handle-fm" method="post" action="" novalidate>
-			<div class="fitem">
-				<input type=hidden name=id id=id>
+		<form id="handle-fm" method="post" action="" novalidate  >
+			<div class="fitem"><input type=hidden name=id id=id>
 				<table width="100%" border="0" cellpadding="0" cellspacing="6">
-					<tr>
-						<td>
-							<table width="100%" border="0" cellpadding="0" cellspacing="0"
-								class="">
+            <tr>
+              <td> <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="">
 								<tr>
 									<td colspan="4" class="style2"><font color="blue">审核隐患核实信息</font></td>
 								</tr>
@@ -78,13 +73,12 @@
 				<table width="100%" border="0" cellpadding="2" cellspacing="2"	>
 					<tr align="center">
 						<td width="5%" height="20" align="left" nowrap>记录人：</td>
-						<td width="14%" height="20" align="left" nowrap><input
-							name="createname" id="createname" class="easyui-validatebox tb"
-							style="width: 150px" data-options="" readonly></td>
+						<td width="14%" height="20" align="left" nowrap>
+                   <input name="createname" id="createname" class="easyui-validatebox tb" style="width:150px" data-options="" readonly>
+            </td>
 							<td width="5%" height="20" align="left" nowrap>隐患日期：</td>
-						<td width="14%" height="20" align="left" nowrap><input
-							name="dangerdate" id="dangerdate" class="easyui-datebox"
-							style="width: 150px" data-options="" readonly></td>
+						<td width="14%" height="20" align="left" nowrap>
+                   <input  name="dangerdate" id="dangerdate" class="easyui-datebox " style="width:150px" data-options=""readonly>
 						
 					<!--  	<td width="5%" height="20" align="left" nowrap>核实人员：</td>
 						<td width="14%" height="20" align="left" nowrap><input
@@ -102,7 +96,7 @@
 						<td width="14%" height="20" align="left"nowrap><select
 							name="dangerstatus" id="dangerstatus" class="easyui-combobox "
 							style="width: 150px;" data-options="">
-								<option value="30"selected>--请选择--</option>
+								<!--<option value="30"selected>--请选择--</option>-->
 								<option value="10">有效隐患</option>
 								<option value="20">无效隐患</option>
 						</select>

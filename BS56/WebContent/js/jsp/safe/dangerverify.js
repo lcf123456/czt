@@ -191,7 +191,8 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	  /**
 	   * 打开审核窗口
 	   */
-	    function openhandle(){  
+	    function openhandle(){ 
+	    	
 	    	$("#deptid").combobox({
 	    		url : baseURL+"/comm/combobox/getDeptCombobox.json",//返回json数据的url
 	        	valueField : "id",//这个id和你返回json里面的id对应
@@ -206,7 +207,11 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	    	
 	    	var nowTime = getDateYMD();
 	  	 $('#verifydate').datebox('setValue',nowTime );
-	  	   //$('#handle-fm').form('clear');
+	  	//$('#handle-fm').form('clear');
+  	    //$('#handle-fm').form('reset');
+  	    $(".formtd").each(function(){
+  		 	   $(this).html("");
+  		 	 });
 	  		var rows = $('#dataTable').datagrid('getSelections');
 	  		if(rows.length==0){
 	  			$.messager.alert('提示',"请选择你要核实的信息",'info');
@@ -217,36 +222,20 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	  			return;
 	  		}
 	  		var row = $('#dataTable').datagrid('getSelected');
-	  		//alert('row');
+	  
 		  	if (row) {
 				if (row.handlestatus == '10' || row.handlestatus == null) {
 					$('#handle-dlg').dialog('open').dialog('setTitle', '隐患核实信息');
+					//alert(row.handlestatus);
 					if('有效隐患'==row.dangerstatus){
 						row.dangerstatus = 10;
 		    		}else if('无效隐患'==row.dangerstatus){
 		    			row.dangerstatus = 20;
-		    		}else{
-		    			row.dangerstatus = 30;
-		    		}
+		    		}//else{
+		    		//	row.dangerstatus = 30;
+		    		//}
 					$('#handle-fm').form('load', row);
-					//$('#verifyname').textbox('setValue', verifymen);
-					//$('#verifyname').textbox('setText', verifyname);
-					/*var div = document.getElementById("testTr");
-		    		 var tro = document.getElementById("testTro");
-		    		 var trt = document.getElementById("testTrt");
-		    		if(10==row.dangerstatus){
-		    			div.style.display='block';
-		    		    tro.style.display='block';
-		    		    trt.style.display='block';
-		    		}else if(20==row.dangerstatus){
-		    			div.style.display='none';
-		    			tro.style.display='none';
-		    		    trt.style.display='none';
-		    		}else{
-		    			div.style.display='none';
-		    			tro.style.display='none';
-		    		    trt.style.display='none';
-		    		}*/
+					
 				} else {
 					$.messager.alert('提示', "此隐患整改信息已下发或已整改完成", 'info');
 					return;
@@ -263,29 +252,17 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 
 	    	onChange: function (n,o) {
 	    		 var table1 = document.getElementById("table1");
-	    		 //var div = document.getElementById("testTr");
-	    		 //var tro = document.getElementById("testTro");
-	    		// var trt = document.getElementById("testTrt");
-	    		// var trx = document.getElementById("testTrx");
+	    		
 	    		if(10==n){//alert(n+"--"+1);
 	    			table1.style.display='block';
-	    			//div.style.display='block';
-	    		   // tro.style.display='block';
-	    		   // trt.style.display='block';
-	    		   // trx.style.display='block';
+	    	
 	    		}else if(20==n){//alert(n+"--"+2);
 	    			table1.style.display='none';
-	    			//div.style.display='none';
-	    			//tro.style.display='none';
-	    		   // trt.style.display='none';
-	    		   // trx.style.display='none';
-	    		}else if(30==n){//alert(n+"--"+3);
-	    			table1.style.display='none';
-	    			//div.style.display='none';
-	    			//tro.style.display='none';
-	    		   // trt.style.display='none';
-	    		   // trx.style.display='none';
-	    		}
+	    		
+	    		}//else if(30==n){//alert(n+"--"+3);
+	    			//table1.style.display='none';
+	    			
+	    		//}
 
 	    	}
 
@@ -343,7 +320,7 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 				contentstr+='<h2  style="text-align:center;">隐患整改通知单</h2>';
 				contentstr+='<tr><td align=left><strong>'+getDateYMD()+'</strong></td><td align="right"><strong style="margin-left:150px">(存根)</strong></td><td align=right ><strong style="margin-left:190px" >签发人：</strong></td></tr></table>';
 				//contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+n.deptname+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+n.verifydate+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center">检查人员</td></tr>';
-				var totalamount=0;
+				//var totalamount=0;
 				$.each(rows,function(i,n){
 					contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+n.deptname+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+n.verifydate.substring(0,10)+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center" colspan="2"></td><td align="center">检查人员</td><td align="center" colspan="2">'+n.checkid+'</td></tr><tr><td align="center">隐患内容</td><td align="center" colspan="5">'+n.dangercontent+'</td></tr><tr><td align="center">整改项目要求及期限</td><td align="center" colspan="5">'+n.demands+'</td></tr><tr><td align="center">安全管理部签字</td><td align="center" colspan="2"></td><td align="center">领导审核签字</td><td align="center" colspan="2"></td></tr><tr><td align="center">整改验收情况</td><td align="center" colspan="5">'+n.rectifynote+'</td></tr>';
 	        		
@@ -354,7 +331,7 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 				contentstr+='<h2  style="text-align:center;">隐患整改通知单</h2>';
 				contentstr+='<tr><td align=left><strong>'+getDateYMD()+'</strong></td><td align=right><strong style="margin-left:200px">(整改部门)</strong></td><td align=right ><strong style="margin-left:200px">签发人：</strong></td></tr></table>';
 				//contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+n.deptname+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+n.verifydate+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center">检查人员</td></tr>';
-				var totalamount=0;
+				//var totalamount=0;
 				$.each(rows,function(i,n){
 					contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+n.deptname+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+n.verifydate.substring(0,10)+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center" colspan="2"></td><td align="center">检查人员</td><td align="center" colspan="2">'+n.checkid+'</td></tr><tr><td align="center">隐患内容</td><td align="center" colspan="5">'+n.dangercontent+'</td></tr><tr><td align="center">整改项目要求及期限</td><td align="center" colspan="5">'+n.demands+'</td></tr><tr><td align="center">安全管理部签字</td><td align="center" colspan="2"></td><td align="center">领导审核签字</td><td align="center" colspan="2"></td></tr><tr><td align="center">整改验收情况</td><td align="center" colspan="5">'+n.rectifynote+'</td></tr>';
 	        		
