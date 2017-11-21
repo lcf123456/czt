@@ -188,6 +188,7 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 				
 			}
 }
+	 
 	  /**
 	   * 打开审核窗口
 	   */
@@ -207,8 +208,8 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	    	
 	    	var nowTime = getDateYMD();
 	  	 $('#verifydate').datebox('setValue',nowTime );
-	  	//$('#handle-fm').form('clear');
-  	    //$('#handle-fm').form('reset');
+	  	$('#handle-fm').form('clear');
+  	    $('#handle-fm').form('reset');
   	    $(".formtd").each(function(){
   		 	   $(this).html("");
   		 	 });
@@ -222,7 +223,11 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	  			return;
 	  		}
 	  		var row = $('#dataTable').datagrid('getSelected');
-	  
+	  		$('#createname').val(row.createname);
+	  		$('#dangerdate').val(row.dangerdate);
+	  		$('#ctype').val(row.ctype);
+	  		$('#dangercontent').val(row.dangercontent);
+	  		//alert(row.createname);
 		  	if (row) {
 				if (row.handlestatus == '10' || row.handlestatus == null) {
 					$('#handle-dlg').dialog('open').dialog('setTitle', '隐患核实信息');
@@ -274,7 +279,7 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	     * 保存审核的信息
 	     */
 	    function handleEdit(){
-	    	//alert('--');
+	    	alert('--');
 			$('#handle-fm').form('submit',{
 				onSubmit: function(){
 					var isValidate = $(this).form('validate');
@@ -303,6 +308,24 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 				}
 			});
 		}
+	    
+	    
+	    function checkundefined(s){
+			   if(typeof(s)=="undefined"){
+			     return '';
+			   }else{
+			     return s.substring(0,10);
+			   }
+			}
+	    
+	    function check(n){
+			   if(typeof(n)=="undefined"){
+			     return '';
+			   }else{
+			     return n;
+			   }
+			}
+	    
 	    /**
 		 * 打开打印窗口
 		 */
@@ -322,18 +345,19 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 				//contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+n.deptname+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+n.verifydate+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center">检查人员</td></tr>';
 				//var totalamount=0;
 				$.each(rows,function(i,n){
-					contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+n.deptname+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+n.verifydate.substring(0,10)+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center" colspan="2"></td><td align="center">检查人员</td><td align="center" colspan="2">'+n.checkid+'</td></tr><tr><td align="center">隐患内容</td><td align="center" colspan="5">'+n.dangercontent+'</td></tr><tr><td align="center">整改项目要求及期限</td><td align="center" colspan="5">'+n.demands+'</td></tr><tr><td align="center">安全管理部签字</td><td align="center" colspan="2"></td><td align="center">领导审核签字</td><td align="center" colspan="2"></td></tr><tr><td align="center">整改验收情况</td><td align="center" colspan="5">'+n.rectifynote+'</td></tr>';
+					contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+check(n.deptname)+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+checkundefined(n.verifydate)+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center" colspan="2"></td><td align="center">检查人员</td><td align="center" colspan="2">'+check(n.checkid)+'</td></tr><tr><td align="center">隐患内容</td><td align="center" colspan="5">'+check(n.dangercontent)+'</td></tr><tr><td align="center">整改项目要求及期限</td><td align="center" colspan="5">'+check(n.demands)+'</td></tr><tr><td align="center">安全管理部签字</td><td align="center" colspan="2"></td><td align="center">领导审核签字</td><td align="center" colspan="2"></td></tr><tr><td align="center">整改验收情况</td><td align="center" colspan="5">'+check(n.rectifynote)+'</td></tr>';
 	        		
 	        	});
 				
 				contentstr +="</table>";
+				
 				contentstr+='<tr><td align="center" colspan="2"></td></tr>';
 				contentstr+='<h2  style="text-align:center;">隐患整改通知单</h2>';
 				contentstr+='<tr><td align=left><strong>'+getDateYMD()+'</strong></td><td align=right><strong style="margin-left:200px">(整改部门)</strong></td><td align=right ><strong style="margin-left:200px">签发人：</strong></td></tr></table>';
 				//contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+n.deptname+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+n.verifydate+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center">检查人员</td></tr>';
 				//var totalamount=0;
 				$.each(rows,function(i,n){
-					contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+n.deptname+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+n.verifydate.substring(0,10)+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center" colspan="2"></td><td align="center">检查人员</td><td align="center" colspan="2">'+n.checkid+'</td></tr><tr><td align="center">隐患内容</td><td align="center" colspan="5">'+n.dangercontent+'</td></tr><tr><td align="center">整改项目要求及期限</td><td align="center" colspan="5">'+n.demands+'</td></tr><tr><td align="center">安全管理部签字</td><td align="center" colspan="2"></td><td align="center">领导审核签字</td><td align="center" colspan="2"></td></tr><tr><td align="center">整改验收情况</td><td align="center" colspan="5">'+n.rectifynote+'</td></tr>';
+					contentstr +='<table width="100%" border="1" cellpadding="0" cellspacing="0"<tr><td align="center">部门</td><td align="center" colspan="2">'+check(n.deptname)+'</td><td align="center">检查时间</td><td align="center" colspan="2">'+checkundefined(n.verifydate)+'</td> </tr><tr><td align="center">部门负责人签字</td><td align="center" colspan="2"></td><td align="center">检查人员</td><td align="center" colspan="2">'+check(n.checkid)+'</td></tr><tr><td align="center">隐患内容</td><td align="center" colspan="5">'+check(n.dangercontent)+'</td></tr><tr><td align="center">整改项目要求及期限</td><td align="center" colspan="5">'+check(n.demands)+'</td></tr><tr><td align="center">安全管理部签字</td><td align="center" colspan="2"></td><td align="center">领导审核签字</td><td align="center" colspan="2"></td></tr><tr><td align="center">整改验收情况</td><td align="center" colspan="5">'+check(n.rectifynote)+'</td></tr>';
 	        		
 	        	});
 				contentstr +="</table>";
