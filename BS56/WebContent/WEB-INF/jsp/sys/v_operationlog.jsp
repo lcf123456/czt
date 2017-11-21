@@ -143,7 +143,6 @@
     			
     		},
     		onDblClickCell: function(index,field,value){
-    			alert("a");
     	       viewD();
     	    }
     	});
