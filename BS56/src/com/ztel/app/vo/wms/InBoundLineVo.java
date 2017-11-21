@@ -96,6 +96,11 @@ public class InBoundLineVo {
     private String status;
     
     /**
+     * 一号工程标准件烟卷烟代码
+     */
+    private String bdpcigcode;
+    
+    /**
      * 入库状态  10  新增 20 入库中 30 完成入库
      */
     private String statusname;
@@ -365,5 +370,14 @@ public class InBoundLineVo {
 	public void setJtsize(BigDecimal jtsize) {
 		this.jtsize = jtsize;
 	}
+
+	public String getBdpcigcode() {
+		return bdpcigcode;
+	}
+
+	public void setBdpcigcode(String bdpcigcode) {
+		this.bdpcigcode = bdpcigcode;
+	}
+	
     
 }

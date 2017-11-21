@@ -161,13 +161,13 @@ function openInventory(){
 	}
 	if (row){
 		var date=row.createtime.substring(0,19);
-		var orderdate=getDateYMD();
+		var orderdate=row.orderdate.substring(0,10);
 		$('#inventory-dlg').dialog('open').dialog('setTitle','盘点信息');
 		$('#subBtn').linkbutton({disabled:false});
 		$('#inventoryid').val(row.inventoryid);
 		$('#createtime1').val(date);
 		$('#orderdate1').val(orderdate);
-		newTableInit(date);
+		newTableInit(date,orderdate);
 	}
 }
 
@@ -176,7 +176,7 @@ function openInventory(){
  * 盘点数据初始化
  * @returns
  */
-function newTableInit(date){
+function newTableInit(date,orderdate){
 		$('#newTable').datagrid({
 			//title:'区域表', //标题
 			method:'post',
@@ -194,14 +194,15 @@ function newTableInit(date){
 			//pageSize : 10,
 			//pageList: [10,30,50],
 			queryParams:{
-				searchdate:date
+				searchdate:date,
+				orderdate:orderdate
 			}, //查询条件
 			//pagination:true, //显示分页
 			//pageSize : 1,
 			rownumbers:true, //显示行号
 			showFooter:true,
 			onLoadSuccess:function(){
-				mergeCellsByField("newTable", "cigarettecode,cigarettename,paperqty,atscellqty,scatteredqty,unnormalno1,unnormalqty1,unnormalno2,unnormalqty2,commonno,commonqty,diffqty", 0);
+				mergeCellsByField("newTable", "cigarettecode,cigarettename,paperqty,atscellqty,scatteredqty,unnormalno1,unnormalqty1,unnormalno2,unnormalqty2,commonno,commonqty,virtualqty,diffqty", 0);
 				$('#newTable').datagrid('reloadFooter',[{
 					cigarettename: '<B>合计</B>',
 					paperqty: '<B>'+compute("paperqty")+'</B>',
@@ -212,6 +213,7 @@ function newTableInit(date){
 					unnormalqty1: '<B>'+compute("unnormalqty1")+'</B>',
 					unnormalqty2: '<B>'+compute("unnormalqty2")+'</B>',
 					commonqty: '<B>'+compute("commonqty")+'</B>',
+					virtualqty: '<B>'+compute("virtualqty")+'</B>',
 					diffqty: '<B>'+compute("diffqty")+'</B>'
 				}]);
 			},
@@ -268,7 +270,11 @@ function compute(colName) {
     	 itemno=data=rows[i]["cigarettecode"];
     	 var data=rows[i][colName];
     	 if(data==null||data=="")data=0;
-    	 if(itemno!=tmpno)total=Math.round((total+parseFloat(data))*10000)/10000;
+    	 if(colName=="scatteredqty"||colName=="paperqty"||colName=="atscellqty"||colName=="diffqty"||colName=="virtualqty"){
+    		 if(itemno!=tmpno)total=Math.round((total+parseFloat(data))*10000)/10000;
+    	 }else{
+    		 total=Math.round((total+parseFloat(data))*10000)/10000; 
+    	 }
     	 tmpno=itemno;
      }
      return total;
@@ -279,39 +285,45 @@ function compute(colName) {
  * @returns
  */
 function saveInventory(){
-        $.messager.confirm('确认', '是否已完成所有区域的盘点信息确认?', function(r){  
-            if (r){  
-                $.ajax({  
-                    type: "post",  
-                    contentType: "application/json", //必须有  
-                    url: baseURL+'/wms/inventorynew/doInventoryInfoComplete.json?inventoryid='+$('#inventoryid').val()+'&createtime='+$('#createtime1').val()
-                    //?atscellJson=JSON.stringify($('#ATSCellTable').datagrid("getRows"))
-                    						//+'&sortJson='+JSON.stringify($('#ATSCellTable').datagrid("getRows"))
-                    						,  
-                    dataType: 'json',  
-                    //data:JSON.stringify($('#ATSCellTable').datagrid("getRows")),
-                    //data:JSON.stringify({"atscell":JSON.stringify($('#ATSCellTable').datagrid("getRows"),"sort":JSON.stringify($('#ATSCellTable').datagrid("getRows")}),
-                    data:
-                    	JSON.stringify({
-	                    	"newdata":JSON.stringify($('#newTable').datagrid("getRows"))
-                        }),	
-                        beforeSend : function () {
-                			$.messager.progress({
-                				text : '正在更新中...',
-                			});
-                		},
-                    success: function (data) {  
-            			$('#inventory-dlg').dialog('close');
-            			$.messager.progress('close');
-            			$('#dataTable').datagrid('reload'); 
-                		$.messager.show({
-            				title : '提示',
-            				msg :  '盘点信息表更新'+data.msg+'！',
-            			});
-                    } 
-                });  
-            }  
-        });  
+		var totaldiff=compute("diffqty");
+		if(totaldiff!=0){
+			alert("当前盘点数量与账面量不符，您可要通过调整虚拟区数量将账面做平再继续保存！");
+			return false;
+		}else{
+	        $.messager.confirm('确认', '是否已完成所有区域的盘点信息确认?', function(r){  
+	            if (r){  
+	                $.ajax({  
+	                    type: "post",  
+	                    contentType: "application/json", //必须有  
+	                    url: baseURL+'/wms/inventorynew/doInventoryInfoComplete.json?inventoryid='+$('#inventoryid').val()+'&createtime='+$('#createtime1').val()
+	                    //?atscellJson=JSON.stringify($('#ATSCellTable').datagrid("getRows"))
+	                    						//+'&sortJson='+JSON.stringify($('#ATSCellTable').datagrid("getRows"))
+	                    						,  
+	                    dataType: 'json',  
+	                    //data:JSON.stringify($('#ATSCellTable').datagrid("getRows")),
+	                    //data:JSON.stringify({"atscell":JSON.stringify($('#ATSCellTable').datagrid("getRows"),"sort":JSON.stringify($('#ATSCellTable').datagrid("getRows")}),
+	                    data:
+	                    	JSON.stringify({
+		                    	"newdata":JSON.stringify($('#newTable').datagrid("getRows"))
+	                        }),	
+	                        beforeSend : function () {
+	                			$.messager.progress({
+	                				text : '正在更新中...',
+	                			});
+	                		},
+	                    success: function (data) {  
+	            			$('#inventory-dlg').dialog('close');
+	            			$.messager.progress('close');
+	            			$('#dataTable').datagrid('reload'); 
+	                		$.messager.show({
+	            				title : '提示',
+	            				msg :  '盘点信息表更新'+data.msg+'！',
+	            			});
+	                    } 
+	                });  
+	            }  
+	        });  
+		}
 }
 
 //查询

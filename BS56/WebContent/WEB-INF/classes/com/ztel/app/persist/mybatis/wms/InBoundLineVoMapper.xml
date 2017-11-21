@@ -15,18 +15,19 @@
     <result column="OTHERQTY" property="otherqty" jdbcType="DECIMAL" />
     <result column="STATUSNAME" property="statusname" jdbcType="VARCHAR" />
     <result column="BARCODE" property="barcode" jdbcType="VARCHAR" />
-    <result column="JTSIZE" property="jtsize" jdbcType="DECIMAL" />
+    <result column="JTSIZE" property="jtsize" jdbcType="DECIMAL" /> 
+    <result column="BDPCIGCODE" property="bdpcigcode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     INBOUNDDETAILID, INBOUNDID, CIGARETTENAME, CIGARETTECODE, BOXQTY, ITEMQTY, CONSIGNSOR, 
-    STATUS, ABOXQTY, LOCKQTY, OTHERQTY,BARCODE
+    STATUS, ABOXQTY, LOCKQTY, OTHERQTY,BARCODE,BDPCIGCODE
   </sql>
   
   <!-- 根据输入条件获取列表 -->
   <select id="selectListByCond" resultType="InBoundLineVo" parameterType="InBoundLineVo" >
     select 
     INBOUNDDETAILID, INBOUNDID, CIGARETTENAME, CIGARETTECODE, BOXQTY, ITEMQTY, CONSIGNSOR, BARCODE,
-    STATUS, ABOXQTY, LOCKQTY, OTHERQTY,decode(STATUS,'10','新增','20','入库中','30','入库完成','新增') as STATUSNAME 
+    STATUS, ABOXQTY, LOCKQTY, OTHERQTY,decode(STATUS,'10','新增','20','入库中','30','入库完成','新增') as STATUSNAME,BDPCIGCODE  
     from T_WMS_INBOUND_LINE
     where 1=1
     <if test="inboundid != null and inboundid != ''">
@@ -125,6 +126,9 @@
       <if test="barcode != null" >
         BARCODE,
       </if>
+      <if test="bdpcigcode != null" >
+        BDPCIGCODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
        S_WMS_INOUTBOUND_LINE.nextval,
@@ -161,6 +165,9 @@
       <if test="barcode != null" >
         #{barcode,jdbcType=VARCHAR},
       </if>
+      <if test="bdpcigcode != null" >
+        #{bdpcigcode,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ztel.app.vo.wms.InBoundLineVo" >
@@ -196,6 +203,9 @@
       <if test="otherqty != null" >
         OTHERQTY = OTHERQTY + #{otherqty,jdbcType=DECIMAL},
       </if>
+      <if test="bdpcigcode != null" >
+        bdpcigcode = #{bdpcigcode,jdbcType=VARCHAR},
+      </if>
     </set>
     where INBOUNDDETAILID = #{inbounddetailid,jdbcType=DECIMAL}
   </update>
@@ -228,6 +238,9 @@
       </if>
       <if test="otherqty != null" >
         OTHERQTY = OTHERQTY + #{otherqty,jdbcType=DECIMAL},
+      </if>
+      <if test="bdpcigcode != null" >
+        bdpcigcode = #{bdpcigcode,jdbcType=VARCHAR},
       </if>
     </set>
     where INBOUNDID = #{inboundid,jdbcType=DECIMAL}

@@ -28,7 +28,7 @@ $(function(){
 jQuery(function($){
 	//alert(baseURL+"/sq/starinfo/getStarinfo.json");
 	var orderdate=getDateYMD();
-	//alert(orderdate);
+	//alert(orderdate); 
 	$('#orderdate').datebox("setValue",orderdate);
 	$('#dataTabel').datagrid({
 		title:title, //标题
@@ -82,23 +82,24 @@ jQuery(function($){
 						}
 					},
 			editor:{
-				type:'numberbox'
+				type:'numberbox',
+				options:{min:0}
 				
 			}
 					},
-																																																																																																																																																																											{field:'action',title:'操作',align:'center',width:$(this).width()*0.1,
-																																																																																																																																																																												formatter:function(value, row, index){
-				
-					if (row.editing){
-					var str = '<a href="#"  class="easyui-linkbutton" onclick="saverow('+index+')">保存</a>';
-					return str;
-					}
-					else
-						{
-						var str = '<a href="#"  class="easyui-linkbutton" onclick="editmainssa('+index+')">修改</a>';
-						return str;
-						}
-			}}
+//					{field:'action',title:'操作',align:'center',width:$(this).width()*0.1,
+//						formatter:function(value, row, index){
+//				
+//					if (row.editing){
+//					var str = '<a href="#"  class="easyui-linkbutton" onclick="saverow('+index+')">保存</a>';
+//					return str;
+//					}
+//					else
+//						{
+//						var str = '<a href="#"  class="easyui-linkbutton" onclick="editmainssa('+index+')">修改</a>';
+//						return str;
+//						}
+//			}}
 				
 			
 			
@@ -106,51 +107,62 @@ jQuery(function($){
 	
 //		onBeforeEdit:function(index,row){
 //			row.editing = true;
-//			//updateActions(index);
-//			//$('#dataTabel').datagrid('refreshRow', index);
-//		},
-//		onAfterEdit:function(index,row){
-//			row.editing = false;
-//			submitModify(row);
 //			updateActions(index);
-//			
+//			$('#dataTabel').datagrid('refreshRow', index);
 //		},
+		onAfterEdit:function(index,row){
+			var bz=0;
+			row.editing = false;
+			var fillqty=row.fillqty;
+			if(fillqty==null||fillqty==""){
+				//row.fillqty=0;
+				fillqty=0;
+				alert("填报数量不能为空值，请填写具体数字！");
+				//bz=1;
+				updateActions(fillqty,index);
+			}else{
+				submitModify(row);
+				updateActions(fillqty,index);
+			}
+		},
 //		onCancelEdit:function(index,row){
 //			row.editing = false;
 //			updateActions(index);
 //		},
 		toolbar:"#toolbar",
 		onLoadSuccess:function(){
-			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题		}
-	});
-	$('#dataTabel').datagrid('enableCellEditing').datagrid('gotoCell', {
-		index: 0,
-		field: 'cigarettecode'
+			$('#dataTabel').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
+			$('#dataTabel').datagrid('enableCellEditing').datagrid('gotoCell', {
+				index: 0,
+				field: 'cigarettecode'
+			});		}
 	});
 });
-var i=0;
-function updateActions(index){
 
+var i=0;
+function updateActions(fillqty,index){
+	var actcount=999;
+	if(fillqty==0)actcount='';
 	$('#dataTabel').datagrid('updateRow',{
 		index: index,
-		row:{boxcount:i++,actcount:999}
-	});
+		row:{boxcount:i++,actcount:actcount,fillqty:fillqty}
 	
+	});
 }
 
 function submitModify(row)
 {
-	$.ajax({
-		  type: 'POST',
-		  url:baseURL+"/produce/sorttrough/UpdateMainssa.json", //数据来源
-		  //data:{row},
-		  data:{ fillqty:row.fillqty, troughnum:row.troughnum, groupno:row.groupno,cigarettecode:row.cigarettecode,cigarettename:row.cigarettename,troughtype:ty,cigarettetype:cty,id:row.id,mantissa:row.mantissa,orderdate:$("#orderdate").datebox("getValue")} ,
-		  dataType: 'json',
-		  success:function(data){if(data==10){$.messager.show({
-				title : '提示',
-				msg :  '修改成功！',
-			});}},
-		});
+		$.ajax({
+			  type: 'POST',
+			  url:baseURL+"/produce/sorttrough/UpdateMainssa.json", //数据来源
+			  //data:{row},
+			  data:{ fillqty:row.fillqty, troughnum:row.troughnum, groupno:row.groupno,cigarettecode:row.cigarettecode,cigarettename:row.cigarettename,troughtype:ty,cigarettetype:cty,id:row.id,mantissa:row.mantissa,orderdate:$("#orderdate").datebox("getValue")} ,
+			  dataType: 'json',
+			  success:function(data){if(data==10){$.messager.show({
+					title : '提示',
+					msg :  '修改成功！',
+				});}},
+			});
 }
 function saverow(index){
 	$('#dataTabel').datagrid('endEdit', index);

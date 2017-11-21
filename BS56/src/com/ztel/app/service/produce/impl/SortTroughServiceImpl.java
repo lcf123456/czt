@@ -56,6 +56,11 @@ public class SortTroughServiceImpl implements SortTroughService {
 				List<StorageAreaInOutVo> inOutList=storageAreaInOutService.getLastCellInOutInfoByCond(storageAreaInOutVo);
 				//取通道尾数
 				List<SortTroughVo> inventoryLineList=getSorttroughList(sorttroughVo);
+				for(int i=0;i<inventoryLineList.size();i++)
+				 {
+					SortTroughVo temp=inventoryLineList.get(i);
+					temp.setLastmantissa(temp.getMantissa());
+				 }
 				for(int i=0;i<inOutList.size();i++)
 				{
 					StorageAreaInOutVo v=inOutList.get(i);
@@ -95,7 +100,10 @@ public class SortTroughServiceImpl implements SortTroughService {
 						if(mVo!=null)
 						{
 							temp.setFillqty(mVo.getQty());
-							temp.setActcount(new BigDecimal(999));
+							if(!"0".equals(mVo.getQty().toString())){
+								temp.setActcount(new BigDecimal(999));
+							}
+							
 						}
 						else
 						{

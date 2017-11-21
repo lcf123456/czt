@@ -278,6 +278,7 @@ public class InBoundServiceImpl implements InBoundService {
 					inBoundLineVo.setBoxqty(new BigDecimal(boxqty));
 					inBoundLineVo.setInboundid(new BigDecimal(id));
 					inBoundLineVo.setConsignsor(mainVo.getHeadcommercecode());
+					inBoundLineVo.setBdpcigcode(bdpcigcode);
 					inBoundLineVoMapper.insertSelective(inBoundLineVo);
 				}
 			}

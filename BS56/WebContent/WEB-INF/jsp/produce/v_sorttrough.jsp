@@ -6,6 +6,7 @@
 
 <%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
 <script type="text/javascript" src="<spring:url value="/js/jsp/produce/sorttrough.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="/js/datagrid-cellediting.js"/>"></script>
   </head>
   <style>
   .datagrid-row {

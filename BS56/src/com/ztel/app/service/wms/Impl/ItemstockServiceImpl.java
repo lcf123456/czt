@@ -1,6 +1,7 @@
 package com.ztel.app.service.wms.Impl;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,13 +107,26 @@ public class ItemstockServiceImpl implements ItemstockService {
 	public List<ItemstockLineVo> getStock(Date inventortime,String consignsor) {
 		List<ItemstockLineVo> resultList = new ArrayList<ItemstockLineVo>();
 		ItemstockVo itemstockVo=itemstockVoMapper.selectItemstockVoLast();
-		Date begintime = itemstockVo.getCreatetime();//查询出入库账面量的开始时间，已上次库存账面量的尾数为准
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date begintime =null;
+		BigDecimal parentId=null;
+		if(itemstockVo==null){
+			try {
+				begintime=sdf.parse("1900-01-01");
+				parentId=new BigDecimal(0);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			begintime = itemstockVo.getCreatetime();//查询出入库账面量的开始时间，已上次库存账面量的尾数为准
+			parentId=itemstockVo.getId();
+		}
 		Date endtime = inventortime;//查询出入库账面量的截止时间
 		
 		//1.取上次盘点后库存账面量的尾数
 		ItemstockLineVo itemstockLineVoCond = new ItemstockLineVo();
-		itemstockLineVoCond.setParentid(itemstockVo.getId());
+		itemstockLineVoCond.setParentid(parentId);
 		if(consignsor!=null && !consignsor.equals(""))itemstockLineVoCond.setConsignsor(consignsor);
 		List<ItemstockLineVo> itemstockLineVoList=itemstockLineVoMapper.selectSumListByParentid(itemstockLineVoCond);
 		
