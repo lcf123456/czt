@@ -71,7 +71,7 @@ public class InventorySumVoServiceImpl implements InventorySumVoService {
 		atsCellInfoDetailVo.setSearchdate(searchDate);
 		List<ATSCellInfoDetailVo> ATSCellInfoDetailVoVoList = new ArrayList<ATSCellInfoDetailVo>();
 		ATSCellInfoDetailVoVoList = atsCellInfoDetailVoService.getATSCellInfoSummary(atsCellInfoDetailVo);
-		ATSCellInfoDetailVoVoList.remove(ATSCellInfoDetailVoVoList.size()-1);
+		//ATSCellInfoDetailVoVoList.remove(ATSCellInfoDetailVoVoList.size()-1);
 		
 		//散烟区信息
 		//最近一次盘点信息查询条件

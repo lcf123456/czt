@@ -205,12 +205,12 @@ public class InventoryLineVoServiceImpl implements InventoryLineVoService {
 					doInventoryLineAdd(shelfVo);
 					
 					//更新尾数
-//					sortTroughVo=new SortTroughVo();
-//					sortTroughVo.setMantissa(sumVo.getShelfqty());
-//					sortTroughVo.setTroughnum(sumVo.getShelfno());
-//					sortTroughVo.setCigarettetype(new BigDecimal(20));
-//					sortTroughVo.setTroughtype(new BigDecimal(20));
-//					sortTroughService.updateMantissaByCond(sortTroughVo);
+					sortTroughVo=new SortTroughVo();
+					sortTroughVo.setMantissa(sumVo.getShelfqty());
+					sortTroughVo.setTroughnum(sumVo.getShelfno());
+					sortTroughVo.setCigarettetype(new BigDecimal(20));
+					sortTroughVo.setTroughtype(new BigDecimal(20));
+					sortTroughService.updateMantissaByCond(sortTroughVo);
 				}
 				//插入分拣区数据
 				flagnum=sumVo.getSortingqty();
@@ -226,12 +226,12 @@ public class InventoryLineVoServiceImpl implements InventoryLineVoService {
 					doInventoryLineAdd(sortingVo);
 					
 					//更新尾数
-//					sortTroughVo=new SortTroughVo();
-//					sortTroughVo.setMantissa(sumVo.getSortingqty());
-//					sortTroughVo.setTroughnum(sumVo.getSortingno());
-//					sortTroughVo.setCigarettetype(new BigDecimal(20));
-//					sortTroughVo.setTroughtype(new BigDecimal(10));
-//					sortTroughService.updateMantissaByCond(sortTroughVo);
+					sortTroughVo=new SortTroughVo();
+					sortTroughVo.setMantissa(sumVo.getSortingqty());
+					sortTroughVo.setTroughnum(sumVo.getSortingno());
+					sortTroughVo.setCigarettetype(new BigDecimal(20));
+					sortTroughVo.setTroughtype(new BigDecimal(10));
+					sortTroughService.updateMantissaByCond(sortTroughVo);
 				}
 				//异型烟分拣一区
 				flagnum=sumVo.getUnnormalqty1();
@@ -247,13 +247,13 @@ public class InventoryLineVoServiceImpl implements InventoryLineVoService {
 					doInventoryLineAdd(un1Vo);
 					
 					//更新尾数
-//					sortTroughVo=new SortTroughVo();
-//					sortTroughVo.setMantissa(sumVo.getUnnormalqty1());
-//					sortTroughVo.setTroughnum(sumVo.getUnnormalno1());
-//					sortTroughVo.setUncigarettetype(new BigDecimal(20));
-//					sortTroughVo.setTroughtype(new BigDecimal(10));
-//					sortTroughVo.setGroupno(new BigDecimal(1));
-//					sortTroughService.updateMantissaByCond(sortTroughVo);
+					sortTroughVo=new SortTroughVo();
+					sortTroughVo.setMantissa(sumVo.getUnnormalqty1());
+					sortTroughVo.setTroughnum(sumVo.getUnnormalno1());
+					sortTroughVo.setUncigarettetype(new BigDecimal(20));
+					sortTroughVo.setTroughtype(new BigDecimal(10));
+					sortTroughVo.setGroupno(new BigDecimal(1));
+					sortTroughService.updateMantissaByCond(sortTroughVo);
 				}
 				//异型烟分拣二区
 				flagnum=sumVo.getUnnormalqty2();
@@ -269,13 +269,13 @@ public class InventoryLineVoServiceImpl implements InventoryLineVoService {
 					doInventoryLineAdd(un2Vo);
 					
 					//更新尾数
-//					sortTroughVo=new SortTroughVo();
-//					sortTroughVo.setMantissa(sumVo.getUnnormalqty2());
-//					sortTroughVo.setTroughnum(sumVo.getUnnormalno2());
-//					sortTroughVo.setUncigarettetype(new BigDecimal(20));
-//					sortTroughVo.setTroughtype(new BigDecimal(10));
-//					sortTroughVo.setGroupno(new BigDecimal(2));
-//					sortTroughService.updateMantissaByCond(sortTroughVo);
+					sortTroughVo=new SortTroughVo();
+					sortTroughVo.setMantissa(sumVo.getUnnormalqty2());
+					sortTroughVo.setTroughnum(sumVo.getUnnormalno2());
+					sortTroughVo.setUncigarettetype(new BigDecimal(20));
+					sortTroughVo.setTroughtype(new BigDecimal(10));
+					sortTroughVo.setGroupno(new BigDecimal(2));
+					sortTroughService.updateMantissaByCond(sortTroughVo);
 				}
 				//异型烟分拣公共区
 				flagnum=sumVo.getCommonqty();
@@ -291,13 +291,13 @@ public class InventoryLineVoServiceImpl implements InventoryLineVoService {
 					doInventoryLineAdd(commonVo);
 					
 					//更新尾数
-//					sortTroughVo=new SortTroughVo();
-//					sortTroughVo.setMantissa(sumVo.getCommonqty());
-//					sortTroughVo.setTroughnum(sumVo.getCommonno());
-//					sortTroughVo.setUncigarettetype(new BigDecimal(20));
-//					sortTroughVo.setTroughtype(new BigDecimal(10));
-//					sortTroughVo.setGroupno(new BigDecimal(3));
-//					sortTroughService.updateMantissaByCond(sortTroughVo);
+					sortTroughVo=new SortTroughVo();
+					sortTroughVo.setMantissa(sumVo.getCommonqty());
+					sortTroughVo.setTroughnum(sumVo.getCommonno());
+					sortTroughVo.setUncigarettetype(new BigDecimal(20));
+					sortTroughVo.setTroughtype(new BigDecimal(10));
+					sortTroughVo.setGroupno(new BigDecimal(3));
+					sortTroughService.updateMantissaByCond(sortTroughVo);
 				}
 			}
 			//更新盘点主表状态
@@ -307,8 +307,8 @@ public class InventoryLineVoServiceImpl implements InventoryLineVoService {
 			inventoryVoService.doInventoryUpdate(inventoryVo);
 			
 			//searchtime来自主表记录的产生时间
-//			InventoryVo inventoryVo1=inventoryVoService.getInventoryInfo(fid);
-//			storageAreaInOutHisService.insertToInOutHis(sdf.format(inventoryVo1.getCreatetime()));
+			InventoryVo inventoryVo1=inventoryVoService.getInventoryInfo(fid);
+			storageAreaInOutHisService.insertToInOutHis(sdf.format(inventoryVo1.getCreatetime()));
 		}
 	}
 
