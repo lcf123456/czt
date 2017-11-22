@@ -12,8 +12,117 @@
   <link rel="stylesheet" type="text/css"  href="<spring:url value="/css/index/top_style.css"/>">
 
 <%@include file="/WEB-INF/jsp/pub/commonJsCss.jsp" %>
+<script type="text/javascript" src="<spring:url value="/js/jsp/main/header.js"/>"></script>
 <script type="text/javascript" src="<spring:url value="/js/jsp/main/main.js"/>"></script>
 
+<style>
+			*{
+				margin: 0;
+				padding: 0;
+				font-family: "Microsoft YaHei";
+			}
+			li{list-style: none;}
+			.hd_header{
+				width: 100%;
+				height: 70px;
+				background: url(<spring:url value="/img/index/xin.jpg"/>) center center;
+				min-width: 1200px;
+			}
+			.hd_header .hd_wrap{
+				width: 1200px;
+				height: 70px;
+				margin: auto;
+				position: relative;
+			}
+			.hd_left{float: left;}
+			.hd_right{float: right;}
+			.hd_left img{
+				vertical-align: middle;
+			}
+			.hd_left .hd-logo{
+				height: 50px;    
+				margin-top: 3px;
+			}
+			.hd_left .hd-tit{
+				height: 22px;
+			    margin-top: 15px;
+			    margin-left: 9px;
+			}
+			.hr_menu li{
+				display: inline-block;
+			}
+			.hr_menu li a{
+				height: 67px;
+				display: inline-block;
+			}
+			.hs_fixed li a,.hr_menu li a{
+				text-decoration: none;
+				color: inherit;
+			}
+			.hr_menu li.hu_act{color: #0AB4E6!important;background: white;}
+			.hr_menu li a:hover{
+				color: #C0C0C0;
+				border-bottom: 3px solid #fff;
+			}
+			.hd_right .hr_menu{
+				height: 100%;
+				line-height: 70px;
+			}
+			.hd_right .hr_menu li,.hr_uers>span{
+				font-size: 15px;
+				color: white;
+				font-weight: 700;
+			}
+			.hd_right .hr_menu li{padding: 0 12px;}
+			.hr_menu,.hr_uers{
+				display: inline-block;
+			}
+			.hr_uers{padding-left: 20px;}
+			.hr_uers{
+				line-height: 70px;
+				cursor: pointer;
+			}
+			.hr_uers>i{
+				display: inline-block;
+			    width: 0;
+			    height: 0;
+			    vertical-align: middle;
+			    border-top: 6px solid white;
+			    border-right: 6px solid transparent;
+			    border-left: 6px solid transparent;
+			    content: "";
+			}
+			.hs_fixed{
+				position: absolute;
+				top: 75px;
+				right: 20px;
+				width: 180px;
+				background: white;
+				border: 1px solid #c1d3de;
+				z-index: 100000000000000000000;
+				box-shadow: 0 3px 7px #C1D3DE;
+				display: none;
+			}
+			.hs_fixed li{
+				height: 44px;
+				line-height: 44px;
+				border-bottom: 1px solid #c1d3de;
+				padding-left: 22px;
+			}
+			.hs_fixed li img{
+				vertical-align: middle;
+				margin-right: 10px;
+			}
+			.hr_rt{
+				float: right;
+				padding-right: 20px;
+				height: 70px;
+			}
+			.panel-title{height:40px!important}
+			.accordion .accordion-header{height:40px!important}
+			.panel-title{padding-left:32px!important;padding-top:6px!important}
+			.panel-icon{padding-left:32px!important;padding-top:6px!important}
+		</style>
 	
     <script type="text/javascript">
     var _menus;
@@ -30,6 +139,8 @@
 			$(data).each(function(i,val) {
 			  _menus=data;
 			  InitLeftMenu();
+			 // $('.panel-header panel-header-noborder accordion-header').style.height="40px";
+			// alert(a);
 				tabClose();
 				tabCloseEven();
 				}); 
@@ -119,7 +230,8 @@
     <img src="<spring:url value="/css/main/images/loading.gif"/>" align="absmiddle" /> 正在加载中,请稍候...</div>
 </div>
 
-    <div region="north" style="overflow:hidden;height: 80px;width:100%;background-color:#0AB4E6">
+    <div region="north" style="overflow:hidden;height: 70px;width:100%;background-image:url(<spring:url value="/img/index/map.jpg"/>);display:block;background-repeat:none;">
+       <!--  
          <div class="am-container-1">
 		<div class="left hw-logo">
 		    <img class="logo" src="<spring:url value="/img/index/top_CZT.png"/>"></img>
@@ -134,7 +246,7 @@
 		      <li <c:choose> <c:when test="${sysid== '4'}">  class="hw-menu-active"  </c:when>  <c:otherwise>  class="hw-menu-nonactive"   </c:otherwise> </c:choose>><a href="${contextPath}/main/toMain?sysid=4">绩效管理</a></li>
 		      <li <c:choose> <c:when test="${sysid== '5'}">  class="hw-menu-active"  </c:when>  <c:otherwise>  class="hw-menu-nonactive"   </c:otherwise> </c:choose>><a href="${contextPath}/main/toMain?sysid=5">综合管理</a></li>
 		      <!--li class="hw-menu-nonactive"><a href="#">绩效管理 </a></li>
-		      <li class="hw-menu-nonactive"><a href="#">综合管理</a></li-->
+		      <li class="hw-menu-nonactive"><a href="#">综合管理</a></li
 		    </ul>
 		    </div>
 		  </div>
@@ -146,6 +258,61 @@
 		  </ul>
 		  </div>
 		  </div>
+		  -->
+		  
+		  <div class="hd_header">
+			<div class="hd_wrap">
+				<div class="hd_left">
+					<img class="hd-logo" src="<spring:url value="/img/index/top_CZT.png"/>" />
+					<img class="hd-tit" src="<spring:url value="/img/index/top_czt-word.png"/>" />
+				</div>
+				<div class="hd_right">
+					<ul class="hr_menu">
+						<li class="hu_act"><a href="#">服务考评</a></li>
+						<li><a href="#">成本管理</a></li>
+						<li><a href="#">生产管理</a></li>
+						<li><a href="#">绩效管理</a></li>
+						<li><a href="#">综合管理</a></li>
+					</ul>
+					<div class="hr_uers">
+						<span>管理员</span>
+						<i class=""></i>
+					</div>
+					<div class="hr_rt"></div>
+				</div>
+				<div style="clear: both;"></div>
+				
+				<ul class="hs_fixed">
+					<li><a href="#"><img src="<spring:url value="/easyui/themes/icons/my_user.png"/>">欢迎  管理员</a></li>
+					<li><a href="#"><img src="<spring:url value="/easyui/themes/icons/my_user_edit.png"/>">修改密码</a></li>
+					<li style="border: none;"><a href="#"><img src="<spring:url value="/easyui/themes/icons/my_user_go.png"/>">退出登录</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<script type="">
+			$('.hr_uers').mouseenter(function() {
+	$('.hs_fixed').show();
+})
+$('.hr_uers').mouseleave(function() {
+	$('.hs_fixed').mouseenter(function() {
+		$('.hs_fixed').show();
+	})
+})
+$('.hr_menu').mouseenter(function() {
+	$('.hs_fixed').hide();
+})
+$('.hr_rt').mouseenter(function() {
+	$('.hs_fixed').hide();
+})
+
+$('.hs_fixed').mouseleave(function() {
+	$('.hs_fixed').hide();
+})
+$('.hr_menu li').click(function() {
+	$(this).addClass('hu_act').siblings().removeClass('hu_act');
+})
+		</script>
     </div>
     
     <!-- 
