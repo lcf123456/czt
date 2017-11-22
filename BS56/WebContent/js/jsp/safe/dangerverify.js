@@ -21,7 +21,7 @@ $(function(){
  * 页面列表datagrid初始化 */
 
 jQuery(function($){
-	$("#ctype").combobox({
+	$("#ctype1").combobox({
 		url : baseURL+"/safe/hiddendanger/getCtypeCombobox.json",//返回json数据的url
     	valueField : "id",//这个id和你返回json里面的id对应
     	textField : "ctype", //这个text和你返回json里面的text对应
@@ -208,11 +208,11 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	    	
 	    	var nowTime = getDateYMD();
 	  	 $('#verifydate').datebox('setValue',nowTime );
-	  	$('#handle-fm').form('clear');
-  	    $('#handle-fm').form('reset');
-  	    $(".formtd").each(function(){
-  		 	   $(this).html("");
-  		 	 });
+	  	//$('#handle-fm').form('clear');
+  	   // $('#handle-fm').form('reset');
+  	   // $(".formtd").each(function(){
+  		 	//   $(this).html("");
+  		 	// });
 	  		var rows = $('#dataTable').datagrid('getSelections');
 	  		if(rows.length==0){
 	  			$.messager.alert('提示',"请选择你要核实的信息",'info');
@@ -223,23 +223,29 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	  			return;
 	  		}
 	  		var row = $('#dataTable').datagrid('getSelected');
-	  		$('#createname').val(row.createname);
-	  		$('#dangerdate').val(row.dangerdate);
-	  		$('#ctype').val(row.ctype);
-	  		$('#dangercontent').val(row.dangercontent);
-	  		//alert(row.createname);
+	  		
+	  		//alert(row.dangerdate.substring(0,10));
 		  	if (row) {
 				if (row.handlestatus == '10' || row.handlestatus == null) {
 					$('#handle-dlg').dialog('open').dialog('setTitle', '隐患核实信息');
 					//alert(row.handlestatus);
-					if('有效隐患'==row.dangerstatus){
-						row.dangerstatus = 10;
-		    		}else if('无效隐患'==row.dangerstatus){
-		    			row.dangerstatus = 20;
-		    		}//else{
+					//if('有效隐患'==row.dangerstatus){
+						//row.dangerstatus = 10;
+		    		//}else if('无效隐患'==row.dangerstatus){
+		    			//row.dangerstatus = 20;
+		    		//}else{
 		    		//	row.dangerstatus = 30;
 		    		//}
 					$('#handle-fm').form('load', row);
+					$('#handle-dlg').form('load',row);
+					/*$("#dangerdate").datebox("setValue", row.dangerdate.substring(0,10));
+					$("#ctype").textbox("setValue", row.ctype);
+					$("#createname").textbox("setValue", row.createname);
+					$("#dangercontent").textbox("setValue", row.dangercontent);
+			  		/*$('#dangerdate').val(row.dangerdate.substring(0,10));
+			  		$('#ctype').val(row.ctype);alert($('#ctype').val());
+			  		$('#createname').val(row.createname);
+			  		$('#dangercontent').val(row.dangercontent);*/
 					
 				} else {
 					$.messager.alert('提示', "此隐患整改信息已下发或已整改完成", 'info');
@@ -279,7 +285,7 @@ $('#dangercontents').textbox('textbox').keydown(function(e){
 	     * 保存审核的信息
 	     */
 	    function handleEdit(){
-	    	alert('--');
+	    	
 			$('#handle-fm').form('submit',{
 				onSubmit: function(){
 					var isValidate = $(this).form('validate');

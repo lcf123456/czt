@@ -29,13 +29,13 @@
 		<div style="margin-bottom:5px">
 		<a href="#" id="grantBtn" class="easyui-linkbutton" iconCls="icon-myuser" plain="true" onclick="openhandle()">审核</a>
 		    <a href="#" id="viewBtn" class="easyui-linkbutton" iconCls="icon-view" plain="true" onclick="openView()">查看</a>
-		    处理状态：<select name="handlestatus" id="handlestatus" class="easyui-combobox" style="width:100px;" data-option='selected:true;'>
+		    处理状态：<select name="handlestatus" id="handlestatus1" class="easyui-combobox" style="width:100px;" data-option='selected:true;'>
 			<option value="40" selected>全部</option>
 			<option value="10" >提交</option>
 			<option value="20">整改下发</option> 
 			<option value="30">整改完成</option> 
 			</select>  
-			   隐患类别：<input class="easyui-combobox" name="ctype" id="ctype" style="width:150px;" data-options="">
+			   隐患类别：<input class="easyui-combobox" name="ctype" id="ctype1" style="width:150px;" data-options="">
 			<input class="easyui-textbox"  name="dangercontent" id="dangercontents" data-options="buttonText:'查询',buttonIcon:'icon-search',onClickButton:function(){searchDangerverify();},prompt:'请输入隐患内容...'" style="width:350px;height:24px;">
 			<a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search" style="height:24px;">清空</a>
 			<a href="#" id="printBtn" onclick="printpage();" class="easyui-linkbutton" iconCls="icon-myprinter" style="height:24px;">打印</a>
@@ -74,12 +74,12 @@
 					<tr align="center">
 						<td width="5%" height="20" align="left" nowrap>记录人：</td>
 						<td width="14%" height="20" align="left" nowrap>
-                   <input name="createname" id="createname" class="easyui-validatebox tb" style="width:150px" data-options="" readonly>
+                   <input name="createname" id="createname" class="easyui-textbox" style="width:150px" data-options="" readonly>
             </td>
 							<td width="5%" height="20" align="left" nowrap>隐患日期：</td>
 						<td width="14%" height="20" align="left" nowrap>
                    <input  name="dangerdate" id="dangerdate" class="easyui-datebox " style="width:150px" data-options=""readonly>
-						
+					</td>	
 					<!--  	<td width="5%" height="20" align="left" nowrap>核实人员：</td>
 						<td width="14%" height="20" align="left" nowrap><input
 							name="verifyname" id="verifyname" class="easyui-validatebox tb"
@@ -89,8 +89,9 @@
 					<tr align="center">
 
 						<td width="5%" height="20" align="left" nowrap>隐患类别：</td>
-						<td width="14%" height="20" align="left" nowrap><input
-							name="ctype" id="ctype" class="easyui-validatebox tb"
+						<td width="14%" height="20" align="left" nowrap>
+						<input
+							name="ctype" id="ctype" class="easyui-textbox "
 							style="width: 150px" data-options="" readonly></td>
 						<td width="5%" height="20" align="left" nowrap>隐患核实：</td>
 						<td width="14%" height="20" align="left"nowrap><select
